@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.csproj", "{9B496118-36AC-4736-A87B-6DE1D850C0A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{78180375-CD03-454B-A703-5C867B61A39C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADA4AF6A-04AB-4221-B8F6-C8B5267FDC0E}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
