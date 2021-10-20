@@ -13,19 +13,32 @@ namespace DAL
             DroneStatuses Status;
             double Battery;
         }
+        public struct Customer
 
         public struct Station
         {
             int Id;
+            string Name;
+            String Phone;
             int Name;
             double Longitude;
             double Lattitude;
             int ChargeSlots;
         }
+        public struct parcel
 
         public struct DroneCharge
         {
+            int Id;
+            int Senderld;
+            int Targetld;
+            WeightCategories Weight;
+            Priorities Priority;
+            datetime Requested;
             int Droneld;
+            datetime Scheduled;
+            datetime PickedUp;
+            datetime Delivered;
             int Stationld;
         }
     }
