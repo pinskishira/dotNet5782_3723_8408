@@ -1,13 +1,6 @@
 ﻿using System;
 using IDAL.DO;
 Random rand = new Random(DateTime.Now.Millisecond);
-
-//namespace DAL
-//{
-//    public class Class1
-//    {
-//    }
-//}
 namespace DalObject
 {
     public class DataSource
@@ -16,17 +9,16 @@ namespace DalObject
         static internal Station[] Stations = new Station[5];//defining an array of size 5 for the stations
         static internal Customer[] Customers = new Customer[100];//defining an array of size 100 for the customers
         static internal Parcel[] Parcels = new Parcel[1000];//defining an array of size 10000 for the parcels
-        static internal DroneCharge[] DroneCharges = new DroneCharge[100];//defining an array of size 1000 for the DroneCharges
-        internal class Config
+        static internal DroneCharge[] DroneCharges = new DroneCharge[100];//defining an array of size 100 for the drone charges
+        internal class Config//has all my static indexes
         {
             static internal int IndexDrone = 0, IndexStation = 0, IndexCustomer = 0, IndexParcel = 0, IndexDroneCharge = 0;
             static public int ParcelCounter = 0;
         }
         public static Random rand = new Random(DateTime.Now.Millisecond);
         public static void Initialize()
-        {
-            //updating 2 base stations
-            for (int i = 0; i < 2; i++)
+        { 
+            for (int i = 0; i < 2; i++)//updating 2 base stations
             {
                 Stations[i].Id = rand.Next(1000, 10000);//name with 4 digits
                 for (int j = 0; j < i; j++)
@@ -42,13 +34,9 @@ namespace DalObject
                 Stations[i].ChargeSlots = rand.Next(0, 30);
                 DataSource.Config.IndexStation++;
             }
-            //עדכון השמות
-            Stations[0].Name = "Bayit Vegan";
+            Stations[0].Name = "Bayit Vegan";//updating names
             Stations[1].Name = "Givat Shaul";
-
-
-            //עדכון 5 רחפנים
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)//updating 5 drones
             {
                 //עדכון המספר המזהה
                 Drones[i].Id = rand.Next(10000, 100000);//name with 5 digits
