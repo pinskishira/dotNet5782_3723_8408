@@ -6,8 +6,7 @@ Random rand = new Random(DateTime.Now.Millisecond);
 /// and drone charges. 
 /// </summary>
 namespace ConsoleUI
-{
-
+{ 
     class Program
     {
         static void Main(string[] args)

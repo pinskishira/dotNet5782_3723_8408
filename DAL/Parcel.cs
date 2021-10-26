@@ -20,7 +20,7 @@ namespace IDAL
             public DateTime Scheduled { get; set; }
             public DateTime Delivered { get; set; }
             public DateTime PickedUp { get; set; }
-            public override string ToString()
+            public override string ToString()//Override function
             {
                 String result = " ";
                 result += $"ID is {Id}, \n";

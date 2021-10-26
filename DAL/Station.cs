@@ -15,7 +15,7 @@ namespace IDAL
             public double Longitude { get; set; }//Longitude
             public double Latitude { get; set; }//Latitude
             public int ChargeSlots { get; set; }//Number of charging stations
-            public override string ToString()
+            public override string ToString()//Override function
             {
                 String result = " ";
                 result += $"ID is {Id}, \n";
