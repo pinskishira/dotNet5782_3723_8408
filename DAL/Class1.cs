@@ -19,8 +19,7 @@ namespace DalObject
         /// </summary>
         internal class Config
         {
-            static internal int IndexDrone = 0, IndexStation = 0, IndexCustomer = 0, IndexParcel = 0, IndexDroneCharge = 0;
-            static public int ParcelCounter = 0;
+            static internal int IndexDrone = 0, IndexStation = 0, IndexCustomer = 0, IndexParcel = 0, IndexDroneCharge = 0, ParcelCounter = 0;
         }
         public static Random rand = new Random(DateTime.Now.Millisecond);
         /// <summary>
@@ -28,17 +27,17 @@ namespace DalObject
         /// </summary>
         public static void Initialize()
         { 
-            for (int i = 0; i < 2; i++)//Updating 2 base stations
+            for (int loopStation = 0; loopStation < 2; loopStation++)//Updating 2 base stations
             {
-                Stations[i].Id = rand.Next(1000, 10000);//Updating 4-digit ID name 
-                for (int j = 0; j < i; j++)//Checking if it already appears in array
+                Stations[loopStation].Id = rand.Next(1000, 10000);//Updating 4-digit ID name 
+                for (int help = 0; help < loopStation; help++)//Checking if it already appears in array
                 {
-                    while (Stations[i].Id == Stations[j].Id)
-                        Stations[i].Id = rand.Next(1000, 10000);
+                    while (Stations[loopStation].Id == Stations[help].Id)
+                        Stations[loopStation].Id = rand.Next(1000, 10000);
                 }
-                Stations[i].Longitude = rand.Next(100, 1000);//Updating longitude                                     
-                Stations[i].Latitude = rand.Next(100, 1000);//Updating latitude    
-                Stations[i].ChargeSlots = rand.Next(0, 30);//Updating charging slots
+                Stations[loopStation].Longitude = rand.Next(100, 1000);//Updating longitude                                     
+                Stations[loopStation].Latitude = rand.Next(100, 1000);//Updating latitude    
+                Stations[loopStation].ChargeSlots = rand.Next(0, 30);//Updating charging slots
                 DataSource.Config.IndexStation++;//Promoting the index
             }
             Stations[0].Name = "Bayit Vegan";//Updating names
@@ -431,8 +430,7 @@ namespace DalObject
                 if (DataSource.Stations[i].ChargeSlots > 0)
                     ViewStation[i] = DataSource.Stations[i];
             }
-            return ViewStation;
-           
+            return ViewStation;           
         }
     }
 }
