@@ -56,9 +56,8 @@ namespace ConsoleUI
                                 DalObject.DalObject.AddCustomer(NewCustomer);
                                 break;
                             case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels array
-                                DalObject.DalObject.UpdateParcelCounter("Increase");
                                 Parcel NewParcel = new();
-                                NewParcel.Id = 23;//////
+                                NewParcel.Id = 0;
                                 Console.WriteLine("Enter sender ID of 3 digits:\n");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.SenderId = AnsFromUserInt;
@@ -71,10 +70,12 @@ namespace ConsoleUI
                                 Console.WriteLine("Enter the urgency of your parcel:\n 1)normal\n 2) Fast\n 3) Emergency\n");
                                 int.TryParse(Console.ReadLine(), out Input);
                                 NewParcel.Priority = (Priorities)Input;
-                                NewParcel.Requested = DateTime.Now;
-                                NewParcel.Scheduled = DateTime.Now;
-                                NewParcel.Delivered = DateTime.Now;
-                                NewParcel.PickedUp = DateTime.Now;
+                                NewParcel.Droneld = 0;
+                                NewParcel.Requested = new(0);
+                                NewParcel.Scheduled = new(0);
+                                NewParcel.Delivered = new(0);
+                                NewParcel.PickedUp = new(0);
+                                DalObject.DalObject.AddParcel(NewParcel);
                                 break;
                         }
                         break;
@@ -104,7 +105,6 @@ namespace ConsoleUI
                                 TheParcel.PickedUp = DateTime.Now;
                                 DalObject.DalObject.UpdateParcelCounter("Decrease");
                                 AvailableDrone.Status = DroneStatuses.Available;
-                                AvailableDrone.Battery -= 25;
                                 break;
                             case UpdateingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
                                 Drone LowBatteryDrone = new();//drone with low battery

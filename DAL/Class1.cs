@@ -151,7 +151,16 @@ namespace DalObject
         /// <param name="NewParcel"></param>
         public static void AddParcel(Parcel NewParcel)
         {
-            DataSource.Parcels[DataSource.Config.IndexParcel] = NewParcel;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Id = DataSource.Config.ParcelCounter++;
+            DataSource.Parcels[DataSource.Config.IndexParcel].SenderId = NewParcel.SenderId;
+            DataSource.Parcels[DataSource.Config.IndexParcel].TargetId = NewParcel.TargetId;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Weight = NewParcel.Weight;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Priority = NewParcel.Priority;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Requested = NewParcel.Requested;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Scheduled = NewParcel.Scheduled;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Delivered = NewParcel.Delivered;
+            DataSource.Parcels[DataSource.Config.IndexParcel].PickedUp = NewParcel.PickedUp;
+            DataSource.Parcels[DataSource.Config.IndexParcel].Droneld = NewParcel.Droneld;
             DataSource.Config.IndexParcel++;//Promoting the index
         }
         /// <summary>
@@ -304,10 +313,8 @@ namespace DalObject
         /// Increasing or decreasing index according to the flag 
         /// </summary>
         /// <param name="flag"></param>
-        public static void UpdateParcelCounter(string flag)
+        public static void UpdateParcelCounter(string flag)////////////////////////////////
         {
-            if (flag == "Increase")
-                DataSource.Config.ParcelCounter++;
             if (flag == "Decrease")
                 DataSource.Config.ParcelCounter--;
         }
