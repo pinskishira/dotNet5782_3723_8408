@@ -158,7 +158,7 @@ namespace DalObject
         /// Adding a new drone charge to the array of drone charges
         /// </summary>
         /// <param name="NewDroneCharge"></param>
-        public static void AddDroneCharge(DroneCharge NewDroneCharge)
+        public static void AddDroneCharge (DroneCharge NewDroneCharge)
         {
             DataSource.DroneCharges[DataSource.Config.IndexDroneCharge] = NewDroneCharge;
             DataSource.Config.IndexDroneCharge++;//Promoting the index
