@@ -163,6 +163,18 @@ namespace DalObject
             DataSource.DroneCharges[DataSource.Config.IndexDroneCharge] = NewDroneCharge;
             DataSource.Config.IndexDroneCharge++;//Promoting the index
         }
+        public static void DeleteDroneCharge(DroneCharge DeleteDroneCharge)
+        {
+            for (int i = 0; i < DataSource.Config.IndexDroneCharge; i++)
+            {
+                if(DataSource.DroneCharges[i].DroneId== DeleteDroneCharge.DroneId)
+                {
+                    DataSource.DroneCharges[i].DroneId = 0;
+                    DataSource.DroneCharges[i].StationId = 0;
+                }
+                DataSource.Config.IndexDroneCharge--;//Decreasing the index
+            }
+        }
         /// <summary>
         /// Finding a drone available for delivery
         /// </summary>
