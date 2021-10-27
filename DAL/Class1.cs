@@ -210,7 +210,7 @@ namespace DalObject
             {
                 if (DataSource.Drones[i].Status == DroneStatuses.Available)//Checking status whether its available
                 {
-                    tempDrone = DataSource.Drones[i];//placing in a temporary array
+                    tempDrone = DataSource.Drones[i];
                     break;
                 }
             }
