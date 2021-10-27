@@ -11,7 +11,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("What would you like to perform?\n You can choose to: \n 1) Add \n 2) Update \n 3) Display \n 4) ListView \n 5) Exit");
+            Console.WriteLine("What would you like to perform?\n You can choose to: \n 1) Add \n 2) Update \n 3) Display \n 4) ListView \n 5) Exit \n");
             int AnsFromUserInt, Input;
             double AnsFromUserDouble;
             AddingFunction AnswerAdd;

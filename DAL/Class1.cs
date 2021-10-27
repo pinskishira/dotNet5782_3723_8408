@@ -124,7 +124,10 @@ namespace DalObject
         /// <param name="NewStation"></param>
         public static void AddStation(Station NewStation)
         {
-            DataSource.Stations[DataSource.Config.IndexStation] = NewStation;
+            DataSource.Stations[DataSource.Config.IndexStation].Id = NewStation.Id;
+            DataSource.Stations[DataSource.Config.IndexStation].Name = NewStation.Name;
+            DataSource.Stations[DataSource.Config.IndexStation].Longitude = NewStation.Longitude;
+            DataSource.Stations[DataSource.Config.IndexStation].Latitude = NewStation.Latitude;
             DataSource.Config.IndexStation++;//Promoting the index
         }
         /// <summary>
@@ -133,7 +136,10 @@ namespace DalObject
         /// <param name="NewDrone"></param>
         public static void AddDrone(Drone NewDrone)
         {
-            DataSource.Drones[DataSource.Config.IndexDrone] = NewDrone;
+            DataSource.Drones[DataSource.Config.IndexDrone].Id = NewDrone.Id;
+            DataSource.Drones[DataSource.Config.IndexDrone].Model = NewDrone.Model;
+            DataSource.Drones[DataSource.Config.IndexDrone].Status = NewDrone.Status;
+            DataSource.Drones[DataSource.Config.IndexDrone].MaxWeight = NewDrone.MaxWeight;
             DataSource.Config.IndexDrone++;//Promoting the index
         }
         /// <summary>
@@ -142,7 +148,11 @@ namespace DalObject
         /// <param name="NewCustomer"></param>
         public static void AddCustomer(Customer NewCustomer)
         {
-            DataSource.Customers[DataSource.Config.IndexCustomer] = NewCustomer;
+            DataSource.Customers[DataSource.Config.IndexCustomer].Id = NewCustomer.Id;
+            DataSource.Customers[DataSource.Config.IndexCustomer].Name = NewCustomer.Name;
+            DataSource.Customers[DataSource.Config.IndexCustomer].Phone = NewCustomer.Phone;
+            DataSource.Customers[DataSource.Config.IndexCustomer].Longitude = NewCustomer.Longitude;
+            DataSource.Customers[DataSource.Config.IndexCustomer].Latitude = NewCustomer.Latitude;
             DataSource.Config.IndexCustomer++;//Promoting the index
         }
         /// <summary>
@@ -167,11 +177,16 @@ namespace DalObject
         /// Adding a new drone charge to the array of drone charges
         /// </summary>
         /// <param name="NewDroneCharge"></param>
-        public static void AddDroneCharge(DroneCharge NewDroneCharge)
+        public static void AddDroneCharge (DroneCharge NewDroneCharge)
         {
-            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge] = NewDroneCharge;
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].DroneId = NewDroneCharge.DroneId;
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = NewDroneCharge.StationId;
             DataSource.Config.IndexDroneCharge++;//Promoting the index
         }
+        /// <summary>
+        /// If a drone is fully charges and leaves charging station we delete it from array by making drone ID and sender ID equal zero
+        /// </summary>
+        /// <param name="DeleteDroneCharge"></param>
         public static void DeleteDroneCharge(DroneCharge DeleteDroneCharge)
         {
             for (int i = 0; i < DataSource.Config.IndexDroneCharge; i++)
