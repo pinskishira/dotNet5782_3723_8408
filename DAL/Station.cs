@@ -21,8 +21,8 @@ namespace IDAL
                 String result = "";
                 result += $"ID is {Id} \n";
                 result += $"Name is {Name} \n";
+                result += $"Longitude is {string.Format("{0:0.00}", Longitude)} \n";
                 result += $"Latitude is {string.Format("{0:0.00}",Latitude)}\n";
-                result += $"Longitude is {string.Format("{0:0.00}",Longitude)} \n";
                 result += $"ChargeSlots is {ChargeSlots} \n";
                 return result;
             }

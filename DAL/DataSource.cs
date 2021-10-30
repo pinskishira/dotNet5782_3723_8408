@@ -63,7 +63,7 @@ namespace DalObject
                     while (Drones[i].Id == Drones[j].Id)
                         Drones[i].Id = rand.Next(10000, 100000);
                 }
-                Drones[i].MaxWeight = (WeightCategories)rand.Next(0, 3);//Updating the weight category
+                Drones[i].MaxWeight = (WeightCategories)rand.Next(1, 4);//Updating the weight category
                 Drones[i].Battery = rand.Next(1, 101);//Updating battery status
                 // Updating drone status
                 if (Drones[i].Battery < 20)
@@ -129,8 +129,8 @@ namespace DalObject
                 }
                 while (Parcels[index].SenderId == Parcels[index].TargetId);
 
-                Parcels[index].Weight = (WeightCategories)rand.Next(3);//Updating the weight
-                Parcels[index].Priority = (Priorities)rand.Next(0, 3);//Updating the urgency of the shipment
+                Parcels[index].Weight = (WeightCategories)rand.Next(1,4);//Updating the weight
+                Parcels[index].Priority = (Priorities)rand.Next(1,4);//Updating the urgency of the shipment
 
                 //Putting a random date and time
                 Parcels[index].Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
@@ -177,9 +177,9 @@ namespace DalObject
             DataSource.Config.IndexParcel = 10;//Promoting the index
         }
 
-        private static double Round(double v1, int v2)
-        {
-            throw new NotImplementedException();
-        }
+        //private static double Round(double v1, int v2)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -8,8 +8,8 @@ namespace IDAL
 {
     namespace DO
     {
-        public enum WeightCategories { Easy, Medium, Heavy };
-        public enum Priorities { Normal, Fast, Emergency };
-        public enum DroneStatuses { Available, Maintenance, Delivery };
+        public enum WeightCategories { Easy=1, Medium, Heavy };
+        public enum Priorities { Normal=1, Fast, Emergency };
+        public enum DroneStatuses { Available=1, Maintenance, Delivery };
     }
 }

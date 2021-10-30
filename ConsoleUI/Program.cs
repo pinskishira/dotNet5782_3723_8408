@@ -48,9 +48,10 @@ namespace ConsoleUI
                                 newStation.Id = input;
                                 Console.Write("Enter new station name: ");
                                 newStation.Name = Console.ReadLine();
-                                Console.Write("Enter new station location (longitude and latitude): ");
+                                Console.Write("Please enter longitude: ");
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
                                 newStation.Longitude = AnsFromUserDouble;
+                                Console.Write("Please enter Latitude: ");
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
                                 newStation.Latitude = AnsFromUserDouble;
                                 Console.Write("Enter amount of charge slots in new station : ");
@@ -66,7 +67,7 @@ namespace ConsoleUI
                                 Console.Write("Enter drone model: ");
                                 newDrone.Model = Console.ReadLine();
                                 Console.WriteLine("Enter drones' maximum weight:\n1 - Easy\n2 - Medium\n3 - Heavy");
-                                int.TryParse(Console.ReadLine(), out input);
+                                int.TryParse(Console.ReadLine(),out input);
                                 newDrone.MaxWeight = (WeightCategories)input;
                                 Console.WriteLine("Enter drones' status:\n1 - Available\n2 - Maintanance\n3 - Delivery");
                                 int.TryParse(Console.ReadLine(), out input);
@@ -85,9 +86,10 @@ namespace ConsoleUI
                                 NewCustomer.Name = Console.ReadLine();
                                 Console.Write("Please enter phone: ");
                                 NewCustomer.Phone = Console.ReadLine();
-                                Console.Write("Please enter longitude and latitude points: ");
+                                Console.Write("Please enter longitude: ");
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
                                 NewCustomer.Longitude = AnsFromUserDouble;
+                                Console.Write("Please enter latitude: ");
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
                                 NewCustomer.Latitude = AnsFromUserDouble;
                                 DalObject.DalObject.AddCustomer(NewCustomer);
@@ -98,13 +100,13 @@ namespace ConsoleUI
                                 Console.Write("Enter sender ID of 3 digits: ");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.SenderId = AnsFromUserInt;
-                                Console.WriteLine("Enter target ID of 9 digits: ");
+                                Console.Write("Enter target ID of 9 digits: ");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.TargetId = AnsFromUserInt;
                                 Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                 int.TryParse(Console.ReadLine(), out input);
                                 NewParcel.Weight = (WeightCategories)input;
-                                Console.WriteLine("Enter the urgency of your parcel:\n 1 - normal\n 2 - Fast\n 3 - Emergency");
+                                Console.WriteLine("Enter the urgency of your parcel:\n1 - normal\n2 - Fast\n3 - Emergency");
                                 int.TryParse(Console.ReadLine(), out input);
                                 NewParcel.Priority = (Priorities)input;
                                 NewParcel.DroneId = 0;

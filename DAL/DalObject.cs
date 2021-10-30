@@ -29,6 +29,7 @@ namespace DalObject
         {
             DataSource.Drones[DataSource.Config.IndexDrone++] = newDrone;
         }
+
         /// <summary>
         /// Adding a new customer to the array of customers
         /// </summary>
@@ -37,6 +38,7 @@ namespace DalObject
         {
             DataSource.Customers[DataSource.Config.IndexCustomer++] = NewCustomer;
         }
+
         /// <summary>
         /// Adding a new parcel to the array of parcels
         /// </summary>
@@ -47,29 +49,17 @@ namespace DalObject
             DataSource.Parcels[DataSource.Config.IndexParcel].Id = DataSource.Config.NextParcelNumber++;
             DataSource.Config.IndexParcel++;//Promoting the index
         }
+
         public static void UpdateAssignParcelToDrone(int IdParcel, int IdDrone)
         {
-            Drone AvailableDrone = new();
-            Parcel NewParcel = new();
-            for (int i = 0; i < DataSource.Config.IndexParcel; i++)
-            {
-                if (DataSource.Drones[i].Id == IdParcel)
-                {
-                    NewParcel = DataSource.Parcels[i];
-                    break;
-                }
-            }
-            for (int i = 0; i < DataSource.Config.IndexDrone; i++)
-            {
-                if (DataSource.Drones[i].Id == IdDrone)
-                {
-                    AvailableDrone = DataSource.Drones[i];
-                    break;
-                }
-            }
-            AvailableDrone.Status = DroneStatuses.Delivery;
-            NewParcel.Scheduled = DateTime.Now;
-            NewParcel.DroneId = AvailableDrone.Id;
+            int indexAssign = 0;
+            while (DataSource.Parcels[indexAssign].Id != IdParcel)
+                indexAssign++;
+            DataSource.Parcels[indexAssign].DroneId = IdDrone;
+            DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;
+            while (DataSource.Drones[indexAssign].Id != IdDrone)
+                indexAssign++;
+            DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;
         }
 
         public static void UpdateParcelCollectionByDrone(int IdParcel)
@@ -94,6 +84,7 @@ namespace DalObject
             DataSource.Drones[index].Status = DroneStatuses.Available;
             DataSource.Parcels[index].DroneId = 0;
         }
+
         public static void UpdateSendDroneToChargingStation(int IdDrone, string nameStation)
         {
             DroneCharge NewDroneCharge = new();//drone with low battery will go be charged here
@@ -120,6 +111,7 @@ namespace DalObject
             DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = NewDroneCharge.StationId;
             DataSource.Config.IndexDroneCharge++;//Promoting the index
         }
+
         public static void DroneReleaseFromChargingStation(int IdDrone)
         {
             int indexDC = 0;
@@ -138,19 +130,14 @@ namespace DalObject
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static Customer FindCustomer(int ID)
+        public static Customer FindCustomer(int id)
         {
-            Customer tempCustomer = new();
-            for (int i = 0; i < DataSource.Config.IndexCustomer; i++)
-            {
-                if (DataSource.Customers[i].Id == ID)
-                {
-                    tempCustomer = DataSource.Customers[i];
-                    break;
-                }
-            }
-            return tempCustomer;
+            int indexFindCustomer = 0;
+            while (DataSource.Customers[indexFindCustomer].Id != id)
+                indexFindCustomer++;
+            return DataSource.Customers[indexFindCustomer];
         }
+
         /// <summary>
         /// Finding requested station according to its ID name
         /// </summary>
@@ -158,52 +145,39 @@ namespace DalObject
         /// <returns></returns>
         public static Station FindStation(int id)
         {
-            Station tempStation = new();
-            for (int i = 0; i < DataSource.Config.IndexStation; i++)//Going through stations array
-            {
-                if (DataSource.Stations[i].Id == id)//finding requested station 
-                {
-                    return DataSource.Stations[i];//placing in a temporary array
-                }
-            }
-            return tempStation;
+            int indexFindStation = 0;
+            while (DataSource.Stations[indexFindStation].Id != id)//Going through stations array
+                indexFindStation++;
+            return DataSource.Stations[indexFindStation];
         }
+
         /// <summary>
         /// Finding requested drone according to its ID name
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static Drone FindDrone(int ID)
+        public static Drone FindDrone(int id)
         {
-            Drone tempDrone = new();
-            for (int i = 0; i < DataSource.Config.IndexDrone; i++)
-            {
-                if (DataSource.Drones[i].Id == ID)
-                {
-                    tempDrone = DataSource.Drones[i];
-                    break;
-                }
-            }
-            return tempDrone;
+
+            int indexFindDrone = 0;
+            while (DataSource.Drones[indexFindDrone].Id != id)//Going through stations array
+                indexFindDrone++;
+            return DataSource.Drones[indexFindDrone];
         }
+
         /// <summary>
         /// Finding requested parcel according to its ID name
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static Parcel FindParcel(int ID)
+        public static Parcel FindParcel(int id)
         {
-            Parcel tempParcel = new();
-            for (int i = 0; i < DataSource.Config.IndexParcel; i++)
-            {
-                if (DataSource.Parcels[i].Id == ID)
-                {
-                    tempParcel = DataSource.Parcels[i];
-                    break;
-                }
-            }
-            return tempParcel;
+            int indexFindParcel = 0;
+            while (DataSource.Parcels[indexFindParcel].Id != id)//Going through stations array
+                indexFindParcel++;
+            return DataSource.Parcels[indexFindParcel];
         }
+
         /// <summary>
         /// A function that returns an array of stationswhose load position is greater than 0
         /// </summary>
@@ -222,9 +196,6 @@ namespace DalObject
             return StationChargingSlot;
         }
 
-
-
-
         /// <summary>
         /// Returns place of index in station array
         /// </summary>
@@ -233,10 +204,6 @@ namespace DalObject
         {
             return DataSource.Config.IndexStation;
         }
-
-
-
-
 
         /// <summary>
         /// Gives a view of the array of stations
@@ -251,6 +218,7 @@ namespace DalObject
             }
             return list;
         }
+
         /// <summary>
         /// Gives a view of the array of parcels
         /// </summary>
@@ -264,6 +232,7 @@ namespace DalObject
             }
             return ViewParcel;
         }
+
         /// <summary>
         /// Gives a view of the array of drones
         /// </summary>
@@ -277,6 +246,7 @@ namespace DalObject
             }
             return ViewDrone;
         }
+
         /// <summary>
         /// Gives a view of the array of customers
         /// </summary>
@@ -290,6 +260,7 @@ namespace DalObject
             }
             return ViewCustomer;
         }
+
         /// <summary>
         /// Gives a view of the an array of parcels with no assigned drones
         /// </summary>
@@ -311,6 +282,7 @@ namespace DalObject
             }
             return ViewParcel;
         }
+
         /// <summary>
         /// Gives a view of the an array stations with available charging slots
         /// </summary>
