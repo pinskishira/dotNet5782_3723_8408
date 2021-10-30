@@ -27,11 +27,7 @@ namespace DalObject
         /// <param name="newDrone">The new drone</param>
         public static void AddDrone(Drone newDrone)
         {
-            DataSource.Drones[DataSource.Config.IndexDrone].Id = newDrone.Id;
-            DataSource.Drones[DataSource.Config.IndexDrone].Model = newDrone.Model;
-            DataSource.Drones[DataSource.Config.IndexDrone].Status = newDrone.Status;
-            DataSource.Drones[DataSource.Config.IndexDrone].MaxWeight = newDrone.MaxWeight;
-            DataSource.Config.IndexDrone++;//Promoting the index
+            DataSource.Drones[DataSource.Config.IndexDrone++] = newDrone;
         }
         /// <summary>
         /// Adding a new customer to the array of customers
@@ -39,12 +35,7 @@ namespace DalObject
         /// <param name="NewCustomer"></param>
         public static void AddCustomer(Customer NewCustomer)
         {
-            DataSource.Customers[DataSource.Config.IndexCustomer].Id = NewCustomer.Id;
-            DataSource.Customers[DataSource.Config.IndexCustomer].Name = NewCustomer.Name;
-            DataSource.Customers[DataSource.Config.IndexCustomer].Phone = NewCustomer.Phone;
-            DataSource.Customers[DataSource.Config.IndexCustomer].Longitude = NewCustomer.Longitude;
-            DataSource.Customers[DataSource.Config.IndexCustomer].Latitude = NewCustomer.Latitude;
-            DataSource.Config.IndexCustomer++;//Promoting the index
+            DataSource.Customers[DataSource.Config.IndexCustomer++] = NewCustomer;
         }
         /// <summary>
         /// Adding a new parcel to the array of parcels
@@ -52,16 +43,8 @@ namespace DalObject
         /// <param name="NewParcel"></param>
         public static void AddParcel(Parcel NewParcel)
         {
+            DataSource.Parcels[DataSource.Config.IndexParcel]= NewParcel;
             DataSource.Parcels[DataSource.Config.IndexParcel].Id = DataSource.Config.NextParcelNumber++;
-            DataSource.Parcels[DataSource.Config.IndexParcel].SenderId = NewParcel.SenderId;
-            DataSource.Parcels[DataSource.Config.IndexParcel].TargetId = NewParcel.TargetId;
-            DataSource.Parcels[DataSource.Config.IndexParcel].Weight = NewParcel.Weight;
-            DataSource.Parcels[DataSource.Config.IndexParcel].Priority = NewParcel.Priority;
-            DataSource.Parcels[DataSource.Config.IndexParcel].Requested = NewParcel.Requested;
-            DataSource.Parcels[DataSource.Config.IndexParcel].Scheduled = NewParcel.Scheduled;
-            DataSource.Parcels[DataSource.Config.IndexParcel].Delivered = NewParcel.Delivered;
-            DataSource.Parcels[DataSource.Config.IndexParcel].PickedUp = NewParcel.PickedUp;
-            DataSource.Parcels[DataSource.Config.IndexParcel].DroneId = NewParcel.DroneId;
             DataSource.Config.IndexParcel++;//Promoting the index
         }
         public static void UpdateAssignParcelToDrone(int IdParcel, int IdDrone)
@@ -213,7 +196,7 @@ namespace DalObject
             Parcel tempParcel = new();
             for (int i = 0; i < DataSource.Config.IndexParcel; i++)
             {
-                if (DataSource.Drones[i].Id == ID)
+                if (DataSource.Parcels[i].Id == ID)
                 {
                     tempParcel = DataSource.Parcels[i];
                     break;
@@ -316,14 +299,15 @@ namespace DalObject
             int count = 0;
             for (int i = 0; i < DataSource.Config.IndexParcel; i++)//counts how many parcels dont have an assigned drone
             {
-                if (DataSource.Parcels[i].DroneId != 0)//if the drone ID doesnt equal 0
+                if (DataSource.Parcels[i].DroneId == 0)//if the drone ID doesnt equal 0
                     count++;
             }
             Parcel[] ViewParcel = new Parcel[count];
-            for (int i = 0; i < count; i++)//places the parcels that dont have an assigned drone into an array
+            count = 0;
+            for (int i = 0; i < DataSource.Config.IndexParcel; i++)//places the parcels that dont have an assigned drone into an array
             {
-                if (DataSource.Parcels[i].DroneId != 0)
-                    ViewParcel[i] = DataSource.Parcels[i];
+                if (DataSource.Parcels[i].DroneId == 0)
+                    ViewParcel[count++] = DataSource.Parcels[i];
             }
             return ViewParcel;
         }
@@ -340,10 +324,11 @@ namespace DalObject
                     count++;
             }
             Station[] ViewStation = new Station[count];
-            for (int i = 0; i < count; i++)
+            count = 0;
+            for (int i = 0; i < DataSource.Config.IndexStation; i++)
             {
                 if (DataSource.Stations[i].ChargeSlots > 0)
-                    ViewStation[i] = DataSource.Stations[i];
+                    ViewStation[count++] = DataSource.Stations[i];
             }
             return ViewStation;
         }

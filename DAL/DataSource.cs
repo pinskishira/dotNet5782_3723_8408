@@ -75,11 +75,13 @@ namespace DalObject
                 }
                 else
                     Drones[i].Status = DroneStatuses.Available;
-
-                Drones[i].Model = "";//Updating model
             }
+            Drones[0].Model = "123EST";//Updating model
+            Drones[1].Model = "234EST";
+            Drones[2].Model = "345EST";
+            Drones[3].Model = "456EST";
+            Drones[4].Model = "567EST";
             DataSource.Config.IndexDrone = 5;//Promoting the index
-
             for (int i = 0; i < 10; i++)//Updating 10 customers
             {
                 Customers[i].Id = rand.Next(100000000, 1000000000);//Updating ID name randomly
@@ -88,8 +90,8 @@ namespace DalObject
                     while (Customers[i].Id == Customers[j].Id)
                         Customers[i].Id = rand.Next(100, 1000);
                 }
-                Customers[i].Longitude = rand.Next(100, 1000);//Updating longitude   
-                Customers[i].Latitude = rand.Next(100, 1000);//Updating latitude    
+                Customers[i].Longitude = 32 + rand.NextDouble() * 1.5;//U//Updating longitude   
+                Customers[i].Latitude = 37.1 + rand.NextDouble() * 4.5;//Updating latitude    
                 DataSource.Config.IndexCustomer++;//Promoting the index
             }
             //Updating customer names
@@ -104,16 +106,16 @@ namespace DalObject
             Customers[8].Name = "Yosef";
             Customers[9].Name = "John";
             //Updating customers phone numbers
-            Customers[0].Phone = "058-6322431";
-            Customers[1].Phone = "052-2230982";
-            Customers[2].Phone = "050-6876398";
-            Customers[3].Phone = "050-6561043";
-            Customers[4].Phone = "050-2350982";
-            Customers[5].Phone = "053-4456021";
-            Customers[6].Phone = "055-2356731";
-            Customers[7].Phone = "050-3782099";
-            Customers[8].Phone = "050-4310431";
-            Customers[9].Phone = "050-6929115";
+            Customers[0].Phone = "0586322431";
+            Customers[1].Phone = "0522230982";
+            Customers[2].Phone = "0506876398";
+            Customers[3].Phone = "0506561043";
+            Customers[4].Phone = "0502350982";
+            Customers[5].Phone = "0534456021";
+            Customers[6].Phone = "0552356731";
+            Customers[7].Phone = "0503782099";
+            Customers[8].Phone = "0504310431";
+            Customers[9].Phone = "0506929115";
 
             ref int parcelNum = ref Config.NextParcelNumber;
             for (int index = 0; index < 10; index++)//Updating 10 parcels
@@ -173,6 +175,11 @@ namespace DalObject
                 }
             }
             DataSource.Config.IndexParcel = 10;//Promoting the index
+        }
+
+        private static double Round(double v1, int v2)
+        {
+            throw new NotImplementedException();
         }
     }
 }

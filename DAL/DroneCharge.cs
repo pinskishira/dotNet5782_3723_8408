@@ -14,9 +14,9 @@ namespace IDAL
             public int StationId { get; set; }//Base Station ID
             public override string ToString()
             {
-                String result = " ";
-                result += $"DroneId is {DroneId}, \n";
-                result += $"StationId is {StationId}, \n";
+                String result = "";
+                result += $"DroneId is {DroneId} \n";
+                result += $"StationId is {StationId} \n";
                 return result;
             }
         }

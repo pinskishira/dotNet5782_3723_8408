@@ -22,17 +22,17 @@ namespace IDAL
             public DateTime PickedUp { get; set; }
             public override string ToString()//Override function
             {
-                String result = " ";
-                result += $"ID is {Id}, \n";
-                result += $"SenderId is {SenderId}, \n";
-                result += $"TargetId is {TargetId}, \n";
-                result += $"Weight is {Weight}, \n";
-                result += $"Priority is {Priority}, \n";
-                result += $"Requested is {Requested}, \n";
-                result += $"Droneld is {DroneId}, \n";
-                result += $"Scheduled is {Scheduled}, \n";
-                result += $"PickedUp is {PickedUp}, \n";
-                result += $"Delivered is {Delivered}, \n";
+                String result = "";
+                result += $"ID is {Id} \n";
+                result += $"SenderId is {SenderId} \n";
+                result += $"TargetId is {TargetId} \n";
+                result += $"Weight is {Weight} \n";
+                result += $"Priority is {Priority} \n";
+                result += $"Droneld is {DroneId} \n";
+                result += $"Requested is {Requested} \n";
+                result += $"Scheduled is {Scheduled} \n";
+                result += $"PickedUp is {PickedUp} \n";
+                result += $"Delivered is {Delivered} \n";
                 return result;
             }
         }

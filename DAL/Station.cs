@@ -8,6 +8,7 @@ namespace IDAL
 {
     namespace DO
     {
+
         public struct Station
         {
             public int Id { get; set; }//ID
@@ -17,12 +18,12 @@ namespace IDAL
             public int ChargeSlots { get; set; }//Number of charging stations
             public override string ToString()//Override function
             {
-                String result = " ";
-                result += $"ID is {Id}, \n";
-                result += $"Name is {Name}, \n";
-                result += $"Latitude is {Latitude}, \n";
-                result += $"longitude is {Longitude}, \n";
-                result += $"ChargeSlots is {ChargeSlots}, \n";
+                String result = "";
+                result += $"ID is {Id} \n";
+                result += $"Name is {Name} \n";
+                result += $"Latitude is {string.Format("{0:0.00}",Latitude)}\n";
+                result += $"longitude is {string.Format("{0:0.00}",Longitude)} \n";
+                result += $"ChargeSlots is {ChargeSlots} \n";
                 return result;
             }
         }
