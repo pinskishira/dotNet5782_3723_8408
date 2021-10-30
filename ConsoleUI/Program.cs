@@ -1,39 +1,60 @@
 ﻿using System;
 using IDAL.DO;
-Random rand = new Random(DateTime.Now.Millisecond);
+
 /// <summary>
 /// Program main which gives us 4 main options: To add, update, display and view the: drones, stations, parcels, customers,
 /// and drone charges. 
 /// </summary>
 namespace ConsoleUI
-{ 
+{
+    public enum MainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
+    public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel };
+    public enum UpdateingFunction { AssignParcelToDrone = 1, ParcelCollectionByDrone, ParcelDeliveryToCustomer, SendDroneToChargingStation, DroneReleaseFromChargingStation };
+    public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
+    public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
+
     class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("What would you like to perform?\n You can choose to: \n 1) Add \n 2) Update \n 3) Display \n 4) ListView \n 5) Exit \n");
-            int AnsFromUserInt, Input;
+        public static void Main(string[] args)
+        { 
+            int AnsFromUserInt, input;
             double AnsFromUserDouble;
             AddingFunction AnswerAdd;
             MainSwitchFunctions AnswerMain;
             DisplayingFunction AnswerDisplay;
             UpdateingFunction AnswerUpdate;
             ListViewFunction AnswerListView;
-            int.TryParse(Console.ReadLine(), out Input);
-            AnswerMain = (MainSwitchFunctions)Input;
-            while(Input!=5)
+
+            do
             {
+                Console.WriteLine("What would you like to perform?\n You can choose to: \n 1) Add \n 2) Update \n 3) Display \n 4) ListView \n 5) Exit \n");
+                int.TryParse(Console.ReadLine(), out input);
+                AnswerMain = (MainSwitchFunctions)input;
                 switch (AnswerMain)
                 {
                     case MainSwitchFunctions.Add://the user will choose whether he wants to add on a station, drone, customer or parcel
                         Console.WriteLine("What object would you like to add on? \n 1) AddStation \n 2) AddDrone \n 3) AddCustomer \n 4) AddParcel \n");
-                        int.TryParse(Console.ReadLine(), out Input);
-                        AnswerAdd = (AddingFunction)Input;
+                        int.TryParse(Console.ReadLine(), out input);
+                        AnswerAdd = (AddingFunction)input;
                         switch (AnswerAdd)
                         {
                             case AddingFunction.AddStation://case which adds a new station with data into the Stations array
-                                Station NewStation = new() { Id = 1234, Name = "Uziel", Longitude = 35.183695, Latitude = 31.772032, ChargeSlots = 9 };
-                                DalObject.DalObject.AddStation(NewStation);
+                                Station newStation = new();
+                                // Must input data from user!!!
+                                Console.Write("Enter new station Id: ");
+                                int.TryParse(Console.ReadLine(), out input);
+                                newStation.Id = input;
+                                Console.Write("Enter new station name: ");
+                                newStation.Name = Console.ReadLine();
+                                Console.Write("Enter new station location (longitude and latitude): ");
+                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
+                                newStation.Longitude = AnsFromUserDouble;
+                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
+                                newStation.Latitude = AnsFromUserDouble;
+                                Console.Write("Enter amount of charge slots in new station : ");
+                                int.TryParse(Console.ReadLine(), out input);
+                                newStation.ChargeSlots = input;
+                                DalObject.DalObject.AddStation(newStation);
                                 break;
                             case AddingFunction.AddDrone://case which adds a new drone with data into the Drones array
                                 Drone NewDrone = new() { Id = 12345, Model = "", MaxWeight = WeightCategories.Heavy, Status = DroneStatuses.Available, Battery = 100 };
@@ -65,12 +86,12 @@ namespace ConsoleUI
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.TargetId = AnsFromUserInt;
                                 Console.WriteLine("Enter the weight of your parcel:\n 1)Easy\n 2) Medium\n 3) Heavy\n");
-                                int.TryParse(Console.ReadLine(), out Input);
-                                NewParcel.Weight = (WeightCategories)Input;
+                                int.TryParse(Console.ReadLine(), out input);
+                                NewParcel.Weight = (WeightCategories)input;
                                 Console.WriteLine("Enter the urgency of your parcel:\n 1)normal\n 2) Fast\n 3) Emergency\n");
-                                int.TryParse(Console.ReadLine(), out Input);
-                                NewParcel.Priority = (Priorities)Input;
-                                NewParcel.Droneld = 0;
+                                int.TryParse(Console.ReadLine(), out input);
+                                NewParcel.Priority = (Priorities)input;
+                                NewParcel.DroneId = 0;
                                 NewParcel.Requested = new(0);
                                 NewParcel.Scheduled = new(0);
                                 NewParcel.Delivered = new(0);
@@ -81,9 +102,9 @@ namespace ConsoleUI
                         break;
                     case MainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone, parcel delivery to customer, sending drone to charge, and release from charge
                         Console.WriteLine("What object do you want to update?\n 1)AssignParcelToDrone\n 2)ParcelCollectionByDrone\n 3)ParcelDeliveryToCustomer\n 4)SendDroneToChargingStation\n 5)DroneReleaseFromChargingStation");
-                        int.TryParse(Console.ReadLine(), out Input);
-                        AnswerUpdate = (UpdateingFunction)Input;
-                        int IdParcel,IdDrone;
+                        int.TryParse(Console.ReadLine(), out input);
+                        AnswerUpdate = (UpdateingFunction)input;
+                        int IdParcel, IdDrone;
                         switch (AnswerUpdate)
                         {
                             case UpdateingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
@@ -128,8 +149,8 @@ namespace ConsoleUI
                         break;
                     case MainSwitchFunctions.Display://the user will choose whether he wants to display the stations, drones, customers, or parcels
                         Console.WriteLine("What will you like to display?\n 1)Station\n 2)Drone\n 3)Customer\n 4)Parcel\n");
-                        int.TryParse(Console.ReadLine(), out Input);
-                        AnswerDisplay = (DisplayingFunction)Input;
+                        int.TryParse(Console.ReadLine(), out input);
+                        AnswerDisplay = (DisplayingFunction)input;
                         Console.WriteLine("Enter your ID number:");
                         int id;
                         int.TryParse(Console.ReadLine(), out id);
@@ -160,41 +181,34 @@ namespace ConsoleUI
                         break;
                     case MainSwitchFunctions.ListView://the user will choose whether he wants to view the array of stations, customers, parcels, or parcels with no assigned drones, or stations available to charge
                         Console.WriteLine("What do you want to view?\n 1)Station\n 2)Drones\n 3)Customers\n 4)Parcels\n 5)ParcelsWithNoDrone\n 6)StationWithAvailableChargingStation\n ");
-                        int.TryParse(Console.ReadLine(), out Input);
-                        AnswerListView = (ListViewFunction)Input;
+                        int.TryParse(Console.ReadLine(), out input);
+                        AnswerListView = (ListViewFunction)input;
                         switch (AnswerListView)
                         {
                             case ListViewFunction.Stations://case which views the stations array
-                                Station[] viewStations = DalObject.DalObject.ListViewStation();
-                                viewStations.ToString();
+                                Station[] viewStations = DalObject.DalObject.GetAllStations();
+                                foreach(var station in viewStations)
+                                    Console.WriteLine(station);
                                 break;
                             case ListViewFunction.Drones://case which views the drones array
-                                Drone[] viewDrones = DalObject.DalObject.ListViewDrone();
+                                Drone[] viewDrones = DalObject.DalObject.GetAllDrones();
                                 for (int i = 0; i < viewDrones.Length; i++)
-                                {
-                                    Console.WriteLine(viewDrones[i].ToString());
-                                }
+                                    Console.WriteLine(viewDrones[i]);
                                 break;
                             case ListViewFunction.Customers://case which views the customers array
-                                Customer[] viewCustomers = DalObject.DalObject.ListViewCustomer();
+                                Customer[] viewCustomers = DalObject.DalObject.GetAllCustomers();
                                 for (int i = 0; i < viewCustomers.Length; i++)
-                                {
                                     Console.WriteLine(viewCustomers[i].ToString());
-                                }
                                 break;
                             case ListViewFunction.Parcels://case which views the parcels array
-                                Parcel[] viewParcels = DalObject.DalObject.ListViewParcel();
+                                Parcel[] viewParcels = DalObject.DalObject.GetAllParcels();
                                 for (int i = 0; i < viewParcels.Length; i++)
-                                {
                                     Console.WriteLine(viewParcels[i].ToString());
-                                }
                                 break;
                             case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
                                 Parcel[] ViewParcelsWithNoDrone = DalObject.DalObject.ParcelWithNoDrone();
                                 for (int i = 0; i < ViewParcelsWithNoDrone.Length; i++)
-                                {
                                     Console.WriteLine(ViewParcelsWithNoDrone[i].ToString());
-                                }
                                 break;
                             case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
                                 Station[] viewStationWithAvailableChargingStation = DalObject.DalObject.AvailableChargingSlots();
@@ -206,9 +220,8 @@ namespace ConsoleUI
                         }
                         break;
                 }
-                Console.WriteLine("What would you like to perform?\n You can choose to: \n 1) Add \n 2) Update \n 3) Display \n 4) ListView \n 5) Exit");
-                int.TryParse(Console.ReadLine(), out Input);
             }
+            while (AnswerMain != MainSwitchFunctions.Exit);
         }
     }
 }
