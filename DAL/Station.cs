@@ -22,7 +22,7 @@ namespace IDAL
                 result += $"ID is {Id} \n";
                 result += $"Name is {Name} \n";
                 result += $"Latitude is {string.Format("{0:0.00}",Latitude)}\n";
-                result += $"longitude is {string.Format("{0:0.00}",Longitude)} \n";
+                result += $"Longitude is {string.Format("{0:0.00}",Longitude)} \n";
                 result += $"ChargeSlots is {ChargeSlots} \n";
                 return result;
             }

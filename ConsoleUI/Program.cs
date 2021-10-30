@@ -78,14 +78,14 @@ namespace ConsoleUI
                                 break;
                             case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers array
                                 Customer NewCustomer = new();
-                                Console.WriteLine("Please enter ID:");
+                                Console.Write("Please enter ID: ");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewCustomer.Id = AnsFromUserInt;
-                                Console.WriteLine("Please enter name:");
+                                Console.Write("Please enter name: ");
                                 NewCustomer.Name = Console.ReadLine();
-                                Console.WriteLine("Please enter phone:");
+                                Console.Write("Please enter phone: ");
                                 NewCustomer.Phone = Console.ReadLine();
-                                Console.WriteLine("Please enter longitude and latitude points:");
+                                Console.Write("Please enter longitude and latitude points: ");
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
                                 NewCustomer.Longitude = AnsFromUserDouble;
                                 double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
@@ -95,10 +95,10 @@ namespace ConsoleUI
                             case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels array
                                 Parcel NewParcel = new();
                                 NewParcel.Id = 0;
-                                Console.WriteLine("Enter sender ID of 3 digits:\n");
+                                Console.Write("Enter sender ID of 3 digits: ");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.SenderId = AnsFromUserInt;
-                                Console.WriteLine("Enter target ID of 9 digits:\n");
+                                Console.WriteLine("Enter target ID of 9 digits: ");
                                 int.TryParse(Console.ReadLine(), out AnsFromUserInt);
                                 NewParcel.TargetId = AnsFromUserInt;
                                 Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
@@ -126,27 +126,27 @@ namespace ConsoleUI
                         switch (AnswerUpdate)
                         {
                             case UpdateingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
-                                Console.WriteLine("Enter your parcel ID:\n");
+                                Console.Write("Enter your parcel ID: ");
                                 int.TryParse(Console.ReadLine(), out IdParcel);
-                                Console.WriteLine("Enter your drone ID:\n");
+                                Console.Write("Enter your drone ID: ");
                                 int.TryParse(Console.ReadLine(), out IdDrone);
                                 DalObject.DalObject.UpdateAssignParcelToDrone(IdParcel, IdDrone);
                                 break;
                             case UpdateingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
-                                Console.WriteLine("Enter your parcel ID:\n");
+                                Console.Write("Enter your parcel ID: ");
                                 int.TryParse(Console.ReadLine(), out IdParcel);
                                 DalObject.DalObject.UpdateParcelCollectionByDrone(IdParcel);
                                 break;
                             case UpdateingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
-                                Console.WriteLine("Enter your parcel ID:\n");
+                                Console.Write("Enter your parcel ID: ");
                                 int.TryParse(Console.ReadLine(), out IdParcel);
                                 DalObject.DalObject.UpdateParcelDeliveryToCustomer(IdParcel);
                                 break;
                             case UpdateingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
-                                Console.WriteLine("Enter the ID of the Drone with low battery:\n");
+                                Console.Write("Enter the ID of the Drone with low battery: ");
                                 int IdOfLowBatteryDrone;
                                 int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
-                                Console.WriteLine("Please enter your desired station:\n");
+                                Console.Write("Please enter your desired station: ");
                                 Station[] AvailableStation = new Station[DalObject.DalObject.GetIndexStation()];
                                 AvailableStation = DalObject.DalObject.GetStationWithFreeSlots();//finding available station
                                 for (int i = 0; i < DalObject.DalObject.GetIndexStation(); i++)//user will have a few charging stations to choose from 
@@ -158,7 +158,7 @@ namespace ConsoleUI
                                 DalObject.DalObject.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
                                 break;
                             case UpdateingFunction.DroneReleaseFromChargingStation://case which releases a fully charged drone from charging station
-                                Console.WriteLine("Enter the ID of the Drone with charged battery:\n");
+                                Console.Write("Enter the ID of the Drone with charged battery: ");
                                 int IdOfChargedBatteryDrone;
                                 int.TryParse(Console.ReadLine(), out IdOfChargedBatteryDrone);
                                 DalObject.DalObject.DroneReleaseFromChargingStation(IdOfChargedBatteryDrone);
@@ -170,7 +170,7 @@ namespace ConsoleUI
                             "Enter 3 for customer\nEnter 4 for parcel\n");
                         int.TryParse(Console.ReadLine(), out input);
                         AnswerDisplay = (DisplayingFunction)input;
-                        Console.WriteLine("Enter your ID number:");
+                        Console.WriteLine("Enter your ID number: ");
                         int id;
                         int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine("\n");
