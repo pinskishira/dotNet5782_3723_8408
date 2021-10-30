@@ -83,38 +83,30 @@ namespace ConsoleUI
                         Console.WriteLine("What object do you want to update?\n 1)AssignParcelToDrone\n 2)ParcelCollectionByDrone\n 3)ParcelDeliveryToCustomer\n 4)SendDroneToChargingStation\n 5)DroneReleaseFromChargingStation");
                         int.TryParse(Console.ReadLine(), out Input);
                         AnswerUpdate = (UpdateingFunction)Input;
-                        int ID;
-                        Console.WriteLine("Enter your parcel ID:\n");
-                        int.TryParse(Console.ReadLine(), out ID);
-                        Parcel TheParcel = new();
-                        TheParcel = DalObject.DalObject.FindParcel(ID);//finding the parcel in the parcel stock 
-                        Drone AvailableDrone = new();
+                        int IdParcel,IdDrone;
                         switch (AnswerUpdate)
                         {
                             case UpdateingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
-                                AvailableDrone = DalObject.DalObject.FindDroneAvailable();
-                                AvailableDrone.Status = DroneStatuses.Delivery;
-                                TheParcel.Scheduled = DateTime.Now;
-                                TheParcel.Droneld = AvailableDrone.Id;
+                                Console.WriteLine("Enter your parcel ID:\n");
+                                int.TryParse(Console.ReadLine(), out IdParcel);
+                                Console.WriteLine("Enter your drone ID:\n");
+                                int.TryParse(Console.ReadLine(), out IdDrone);
+                                DalObject.DalObject.UpdateAssignParcelToDrone(IdParcel, IdDrone);
                                 break;
                             case UpdateingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
-                                TheParcel.Delivered = DateTime.Now;
-                                TheParcel.Droneld = 0;
+                                Console.WriteLine("Enter your parcel ID:\n");
+                                int.TryParse(Console.ReadLine(), out IdParcel);
+                                DalObject.DalObject.UpdateParcelCollectionByDrone(IdParcel);
                                 break;
                             case UpdateingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
-                                TheParcel.PickedUp = DateTime.Now;
-                                DalObject.DalObject.UpdateParcelCounter("Decrease");
-                                AvailableDrone.Status = DroneStatuses.Available;
+                                Console.WriteLine("Enter your parcel ID:\n");
+                                int.TryParse(Console.ReadLine(), out IdParcel);
+                                DalObject.DalObject.UpdateParcelDeliveryToCustomer(IdParcel);
                                 break;
                             case UpdateingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
-                                Drone LowBatteryDrone = new();//drone with low battery
-                                DroneCharge NewDroneCharge = new();//drone with low battery will go be charged here
                                 Console.WriteLine("Enter the ID of the Drone with low battery:\n");
                                 int IdOfLowBatteryDrone;
                                 int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
-                                LowBatteryDrone = DalObject.DalObject.FindDroneAvailable();//finding the drone id in the drone stock
-                                LowBatteryDrone.Status = DroneStatuses.Maintenance;//saying that the drone is in maintanance and unavailable to deliver
-                                NewDroneCharge.DroneId = IdOfLowBatteryDrone;//putting id of low battery drone into its charging station
                                 Console.WriteLine("Please enter your desired station:\n");
                                 Station[] AvailableStation = new Station[DalObject.DalObject.GetIndexStation()];
                                 AvailableStation = DalObject.DalObject.GetStationWithFreeSlots();//finding available station
@@ -124,20 +116,13 @@ namespace ConsoleUI
                                         Console.WriteLine(i + 1 + ") " + AvailableStation[i].Name + "\n");
                                 }
                                 string ChosenStation = Console.ReadLine();
-                                int IdStation = DalObject.DalObject.FindStationId(ChosenStation);
-                                NewDroneCharge.StationId = IdStation;
-                                DalObject.DalObject.AddDroneCharge(NewDroneCharge);//updating that a drone is charging 
-                                DalObject.DalObject.DecreaseChargeSlots(DalObject.DalObject.FindStation(IdStation));//decreasing amount of places left to charge
-
+                                DalObject.DalObject.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
                                 break;
                             case UpdateingFunction.DroneReleaseFromChargingStation://case which releases a fully charged drone from charging station
                                 Console.WriteLine("Enter the ID of the Drone with charged battery:\n");
                                 int IdOfChargedBatteryDrone;
                                 int.TryParse(Console.ReadLine(), out IdOfChargedBatteryDrone);
-                                DroneCharge ChargedDrone = new();
-                                ChargedDrone = DalObject.DalObject.FindDroneCharge(IdOfChargedBatteryDrone);
-                                DalObject.DalObject.IncreaseChargeSlots(DalObject.DalObject.FindStation(ChargedDrone.StationId));//increasing amount of places left to charge
-                                DalObject.DalObject.DeleteDroneCharge(ChargedDrone);
+                                DalObject.DalObject.DroneReleaseFromChargingStation(IdOfChargedBatteryDrone);
                                 break;
                         }
                         break;
