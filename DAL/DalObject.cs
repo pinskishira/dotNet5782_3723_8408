@@ -8,14 +8,14 @@ using IDAL.DO;
 namespace DalObject
 {
     /// <summary>
-    /// Functions that add and search on the arrays
+    /// Adding, searching and updating
     /// </summary>
     public class DalObject
     {
         /// <summary>
         /// Adding a new station to the array of stations
         /// </summary>
-        /// <param name="newStation"></param>
+        /// <param name="newStation">The new station</param>
         public static void AddStation(Station newStation)
         {
             DataSource.Stations[DataSource.Config.IndexStation++] = newStation;
@@ -33,7 +33,7 @@ namespace DalObject
         /// <summary>
         /// Adding a new customer to the array of customers
         /// </summary>
-        /// <param name="NewCustomer"></param>
+        /// <param name="NewCustomer">The new customer</param>
         public static void AddCustomer(Customer NewCustomer)
         {
             DataSource.Customers[DataSource.Config.IndexCustomer++] = NewCustomer;
@@ -42,7 +42,7 @@ namespace DalObject
         /// <summary>
         /// Adding a new parcel to the array of parcels
         /// </summary>
-        /// <param name="NewParcel"></param>
+        /// <param name="NewParcel">The new parcel</param>
         public static void AddParcel(Parcel NewParcel)
         {
             DataSource.Parcels[DataSource.Config.IndexParcel]= NewParcel;
@@ -50,18 +50,38 @@ namespace DalObject
             DataSource.Config.IndexParcel++;//Promoting the index
         }
 
+        /// <summary>
+        /// Adding a new drone charge to the array of drone charges
+        /// </summary>
+        /// <param name="NewDroneCharge">The new drone charge</param>
+        public static void AddDroneCharge(DroneCharge NewDroneCharge)
+        {
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].DroneId = NewDroneCharge.DroneId;
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = NewDroneCharge.StationId;
+            DataSource.Config.IndexDroneCharge++;//Promoting the index
+        }
+
+        /// <summary>
+        /// Assigning a parcel to a drone
+        /// </summary>
+        /// <param name="IdParcel">Parcel to assign to drone</param>
+        /// <param name="IdDrone">Drone which will be assigned a parcel</param>
         public static void UpdateAssignParcelToDrone(int IdParcel, int IdDrone)
         {
             int indexAssign = 0;
-            while (DataSource.Parcels[indexAssign].Id != IdParcel)
+            while (DataSource.Parcels[indexAssign].Id != IdParcel)//counts how  many parcels need assigning
                 indexAssign++;
-            DataSource.Parcels[indexAssign].DroneId = IdDrone;
+            DataSource.Parcels[indexAssign].DroneId = IdDrone;//giving parcel available drones' id
             DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;
             while (DataSource.Drones[indexAssign].Id != IdDrone)
                 indexAssign++;
             DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;
         }
 
+        /// <summary>
+        /// Updating when parcel is collected by drone
+        /// </summary>
+        /// <param name="IdParcel">Parcel who's collected by drone</param>
         public static void UpdateParcelCollectionByDrone(int IdParcel)
         {
 
@@ -71,6 +91,10 @@ namespace DalObject
             DataSource.Parcels[indexParcel].PickedUp = DateTime.Now;
         }
 
+        /// <summary>
+        /// Updating when parcel is delivered to customer
+        /// </summary>
+        /// <param name="IdParcel">Parcel delivered to customer</param>
         public static void UpdateParcelDeliveryToCustomer(int IdParcel)
         {
             int index = 0;
@@ -85,6 +109,11 @@ namespace DalObject
             DataSource.Parcels[index].DroneId = 0;
         }
 
+        /// <summary>
+        /// Sending drone to be charged in an available charging station
+        /// </summary>
+        /// <param name="IdDrone">Drone that needs charging</param>
+        /// <param name="nameStation">Station with available charging stations</param>
         public static void UpdateSendDroneToChargingStation(int IdDrone, string nameStation)
         {
             DroneCharge NewDroneCharge = new();//drone with low battery will go be charged here
@@ -102,16 +131,9 @@ namespace DalObject
         }
 
         /// <summary>
-        /// Adding a new drone charge to the array of drone charges
+        /// Releasing a Drone from a charging station
         /// </summary>
-        /// <param name="NewDroneCharge"></param>
-        public static void AddDroneCharge(DroneCharge NewDroneCharge)
-        {
-            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].DroneId = NewDroneCharge.DroneId;
-            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = NewDroneCharge.StationId;
-            DataSource.Config.IndexDroneCharge++;//Promoting the index
-        }
-
+        /// <param name="IdDrone">Drone released from charging</param>
         public static void DroneReleaseFromChargingStation(int IdDrone)
         {
             int indexDC = 0;
@@ -128,7 +150,7 @@ namespace DalObject
         /// <summary>
         /// Finding requested custmer according to its ID name
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="id">Wanted customer</param>
         /// <returns></returns>
         public static Customer FindCustomer(int id)
         {
@@ -141,7 +163,7 @@ namespace DalObject
         /// <summary>
         /// Finding requested station according to its ID name
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Wanted station</param>
         /// <returns></returns>
         public static Station FindStation(int id)
         {
@@ -154,7 +176,7 @@ namespace DalObject
         /// <summary>
         /// Finding requested drone according to its ID name
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name=id">Wanted drone</param>
         /// <returns></returns>
         public static Drone FindDrone(int id)
         {
@@ -168,7 +190,7 @@ namespace DalObject
         /// <summary>
         /// Finding requested parcel according to its ID name
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="id">Wanted parcel</param>
         /// <returns></returns>
         public static Parcel FindParcel(int id)
         {
