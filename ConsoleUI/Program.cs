@@ -17,8 +17,8 @@ namespace ConsoleUI
     {
         public static void Main(string[] args)
         { 
-            int AnsFromUserInt, input;
-            double AnsFromUserDouble;
+            int ansFromUserInt, input;
+            double ansFromUserDouble;
             AddingFunction AnswerAdd;
             MainSwitchFunctions AnswerMain;
             DisplayingFunction AnswerDisplay;
@@ -49,11 +49,11 @@ namespace ConsoleUI
                                 Console.Write("Enter new station name: ");
                                 newStation.Name = Console.ReadLine();
                                 Console.Write("Please enter longitude: ");
-                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
-                                newStation.Longitude = AnsFromUserDouble;
+                                double.TryParse(Console.ReadLine(), out ansFromUserDouble);
+                                newStation.Longitude = ansFromUserDouble;
                                 Console.Write("Please enter Latitude: ");
-                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
-                                newStation.Latitude = AnsFromUserDouble;
+                                double.TryParse(Console.ReadLine(), out ansFromUserDouble);
+                                newStation.Latitude = ansFromUserDouble;
                                 Console.Write("Enter amount of charge slots in new station : ");
                                 int.TryParse(Console.ReadLine(), out input);
                                 newStation.ChargeSlots = input;
@@ -80,29 +80,29 @@ namespace ConsoleUI
                             case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers array
                                 Customer NewCustomer = new();
                                 Console.Write("Please enter ID: ");
-                                int.TryParse(Console.ReadLine(), out AnsFromUserInt);
-                                NewCustomer.Id = AnsFromUserInt;
+                                int.TryParse(Console.ReadLine(), out ansFromUserInt);
+                                NewCustomer.Id = ansFromUserInt;
                                 Console.Write("Please enter name: ");
                                 NewCustomer.Name = Console.ReadLine();
                                 Console.Write("Please enter phone: ");
                                 NewCustomer.Phone = Console.ReadLine();
                                 Console.Write("Please enter longitude: ");
-                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
-                                NewCustomer.Longitude = AnsFromUserDouble;
+                                double.TryParse(Console.ReadLine(), out ansFromUserDouble);
+                                NewCustomer.Longitude = ansFromUserDouble;
                                 Console.Write("Please enter latitude: ");
-                                double.TryParse(Console.ReadLine(), out AnsFromUserDouble);
-                                NewCustomer.Latitude = AnsFromUserDouble;
+                                double.TryParse(Console.ReadLine(), out ansFromUserDouble);
+                                NewCustomer.Latitude = ansFromUserDouble;
                                 DalObject.DalObject.AddCustomer(NewCustomer);
                                 break;
                             case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels array
                                 Parcel NewParcel = new();
                                 NewParcel.Id = 0;
                                 Console.Write("Enter sender ID of 3 digits: ");
-                                int.TryParse(Console.ReadLine(), out AnsFromUserInt);
-                                NewParcel.SenderId = AnsFromUserInt;
+                                int.TryParse(Console.ReadLine(), out ansFromUserInt);
+                                NewParcel.SenderId = ansFromUserInt;
                                 Console.Write("Enter target ID of 9 digits: ");
-                                int.TryParse(Console.ReadLine(), out AnsFromUserInt);
-                                NewParcel.TargetId = AnsFromUserInt;
+                                int.TryParse(Console.ReadLine(), out ansFromUserInt);
+                                NewParcel.TargetId = ansFromUserInt;
                                 Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                 int.TryParse(Console.ReadLine(), out input);
                                 NewParcel.Weight = (WeightCategories)input;
