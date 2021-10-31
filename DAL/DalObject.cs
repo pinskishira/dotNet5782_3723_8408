@@ -72,10 +72,10 @@ namespace DalObject
             while (DataSource.Parcels[indexAssign].Id != IdParcel)//counts how  many parcels need assigning
                 indexAssign++;
             DataSource.Parcels[indexAssign].DroneId = IdDrone;//giving parcel available drones' id
-            DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;
+            DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;//updating date and time
             while (DataSource.Drones[indexAssign].Id != IdDrone)
                 indexAssign++;
-            DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;
+            DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;//updating that drone is busy
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace DalObject
         {
 
             int indexParcel = 0;
-            while (DataSource.Parcels[indexParcel].Id != IdParcel)
+            while (DataSource.Parcels[indexParcel].Id != IdParcel)//finding parcel that was collected by drone
                 indexParcel++;
-            DataSource.Parcels[indexParcel].PickedUp = DateTime.Now;
+            DataSource.Parcels[indexParcel].PickedUp = DateTime.Now;//updating date and time
         }
 
         /// <summary>
@@ -100,12 +100,12 @@ namespace DalObject
             int index = 0;
             while (DataSource.Parcels[index].Id != IdParcel)
                 index++;
-            DataSource.Parcels[index].Delivered = DateTime.Now;
-            DataSource.Config.NextParcelNumber--;
+            DataSource.Parcels[index].Delivered = DateTime.Now;//updating date and time
+            DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
             index = 0;
             while (DataSource.Drones[index].Id != DataSource.Parcels[index].DroneId)
                 index++;
-            DataSource.Drones[index].Status = DroneStatuses.Available;
+            DataSource.Drones[index].Status = DroneStatuses.Available;//now drone is availbale
             DataSource.Parcels[index].DroneId = 0;
         }
 
@@ -155,7 +155,7 @@ namespace DalObject
         public static Customer FindCustomer(int id)
         {
             int indexFindCustomer = 0;
-            while (DataSource.Customers[indexFindCustomer].Id != id)
+            while (DataSource.Customers[indexFindCustomer].Id != id)//Going through customers array
                 indexFindCustomer++;
             return DataSource.Customers[indexFindCustomer];
         }
@@ -182,7 +182,7 @@ namespace DalObject
         {
 
             int indexFindDrone = 0;
-            while (DataSource.Drones[indexFindDrone].Id != id)//Going through stations array
+            while (DataSource.Drones[indexFindDrone].Id != id)//Going through drones array
                 indexFindDrone++;
             return DataSource.Drones[indexFindDrone];
         }
@@ -195,13 +195,13 @@ namespace DalObject
         public static Parcel FindParcel(int id)
         {
             int indexFindParcel = 0;
-            while (DataSource.Parcels[indexFindParcel].Id != id)//Going through stations array
+            while (DataSource.Parcels[indexFindParcel].Id != id)//Going through parcels array
                 indexFindParcel++;
             return DataSource.Parcels[indexFindParcel];
         }
 
         /// <summary>
-        /// A function that returns an array of stationswhose load position is greater than 0
+        /// A function that returns an array of stations whose load position is greater than 0
         /// </summary>
         /// <returns></returns>
         public static Station[] GetStationWithFreeSlots()
@@ -247,7 +247,7 @@ namespace DalObject
         /// <returns></returns>
         public static Parcel[] GetAllParcels()
         {
-            Parcel[] ViewParcel = new Parcel[DataSource.Config.IndexParcel];
+            Parcel[] ViewParcel = new Parcel[DataSource.Config.IndexParcel];//placing array in another array which will be sent back to main
             for (int i = 0; i < DataSource.Config.IndexParcel; i++)
             {
                 ViewParcel[i] = DataSource.Parcels[i];

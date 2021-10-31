@@ -3,7 +3,7 @@ using IDAL.DO;
 
 /// <summary>
 /// Program main which gives us 4 main options: To add, update, display and view the: drones, stations, parcels, customers,
-/// and drone charges. 
+/// and drone charges.
 /// </summary>
 namespace ConsoleUI
 {
@@ -118,7 +118,8 @@ namespace ConsoleUI
                                 break;
                         }
                         break;
-                    case MainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone, parcel delivery to customer, sending drone to charge, and release from charge
+                    case MainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone,
+                                                    //parcel delivery to customer, sending drone to charge, and release from charge
                         Console.WriteLine("What object do you want to update?\nEnter 1 to assign a parcel to a drone\n" +
                             "Enter 2 for parcel collection by drone\nEnter 3 for parcel delivery to customer\n" +
                             "Enetr 4 to send drone to charging station\nEnter 5 for drone release from charging station\n");
@@ -180,28 +181,29 @@ namespace ConsoleUI
                         {
                             case DisplayingFunction.Station://case which displays the requested station
                                 Station s = new();
-                                s = DalObject.DalObject.FindStation(id);
+                                s = DalObject.DalObject.FindStation(id);//finds station according to inputted id
                                 Console.WriteLine(s.ToString());
                                 break;
                             case DisplayingFunction.Drone://case which displays the requested drone
                                 Drone d = new();
-                                d = DalObject.DalObject.FindDrone(id);
+                                d = DalObject.DalObject.FindDrone(id);//finds drone according to inputted id
                                 Console.WriteLine(d.ToString());
                                 break;
                             case DisplayingFunction.Customer://case which displays the requested customer
                                 Customer c = new();
-                                c = DalObject.DalObject.FindCustomer(id);
+                                c = DalObject.DalObject.FindCustomer(id);//finds customer according to inputted id
                                 Console.WriteLine(c.ToString());
                                 break;
                             case DisplayingFunction.Parcel://case which displays the requested parcel
                                 Parcel p = new();
-                                p = DalObject.DalObject.FindParcel(id);
+                                p = DalObject.DalObject.FindParcel(id);//finds parcel according to inputted id
                                 Console.WriteLine(p.ToString());
                                 break;
 
                         }
                         break;
-                    case MainSwitchFunctions.ListView://the user will choose whether he wants to view the array of stations, customers, parcels, or parcels with no assigned drones, or stations available to charge
+                    case MainSwitchFunctions.ListView://the user will choose whether he wants to view the array of stations, customers, parcels,
+                                                      //or parcels with no assigned drones, or stations available to charge
                         Console.WriteLine("What do you want to view?\nEnter 1 for stations\nEnter 2 for drones\n" +
                             "Enter 3 for customers\nEnter 4 for parcels\nEnter 5 for parcels with no drone\n" +
                             "Enter 6 for station with available charging stations\n ");
@@ -211,35 +213,33 @@ namespace ConsoleUI
                         {
                             case ListViewFunction.Stations://case which views the stations array
                                 Station[] viewStations = DalObject.DalObject.GetAllStations();
-                                foreach(var station in viewStations)
+                                foreach(var station in viewStations)//prints all stations
                                     Console.WriteLine(station);
                                 break;
                             case ListViewFunction.Drones://case which views the drones array
                                 Drone[] viewDrones = DalObject.DalObject.GetAllDrones();
-                                for (int i = 0; i < viewDrones.Length; i++)
+                                for (int i = 0; i < viewDrones.Length; i++)//prints all drones
                                     Console.WriteLine(viewDrones[i]);
                                 break;
                             case ListViewFunction.Customers://case which views the customers array
                                 Customer[] viewCustomers = DalObject.DalObject.GetAllCustomers();
-                                for (int i = 0; i < viewCustomers.Length; i++)
+                                for (int i = 0; i < viewCustomers.Length; i++)//prints all customers
                                     Console.WriteLine(viewCustomers[i].ToString());
                                 break;
                             case ListViewFunction.Parcels://case which views the parcels array
                                 Parcel[] viewParcels = DalObject.DalObject.GetAllParcels();
-                                for (int i = 0; i < viewParcels.Length; i++)
+                                for (int i = 0; i < viewParcels.Length; i++)//prints all parcels
                                     Console.WriteLine(viewParcels[i].ToString());
                                 break;
                             case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
                                 Parcel[] ViewParcelsWithNoDrone = DalObject.DalObject.ParcelWithNoDrone();
-                                for (int i = 0; i < ViewParcelsWithNoDrone.Length; i++)
+                                for (int i = 0; i < ViewParcelsWithNoDrone.Length; i++)//printing
                                     Console.WriteLine(ViewParcelsWithNoDrone[i].ToString());
                                 break;
                             case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
                                 Station[] viewStationWithAvailableChargingStation = DalObject.DalObject.AvailableChargingSlots();
-                                for (int i = 0; i < viewStationWithAvailableChargingStation.Length; i++)
-                                {
+                                for (int i = 0; i < viewStationWithAvailableChargingStation.Length; i++)//printing
                                     Console.WriteLine(viewStationWithAvailableChargingStation[i].ToString());
-                                }
                                 break;
                         }
                         break;
