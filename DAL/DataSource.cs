@@ -26,10 +26,10 @@ namespace DalObject
             static internal int IndexParcel = 0;
             static internal int IndexDroneCharge = 0;
             static internal int NextParcelNumber = 10000000;
-            static Config()
-            {
-                rand = new Random();
-            }
+            //static Config()
+            //{
+            //    rand = new Random();
+            //}
         }
 
         static DataSource() => Initialize();
@@ -176,10 +176,5 @@ namespace DalObject
             }
             DataSource.Config.IndexParcel = 10;//Promoting the index
         }
-
-        //private static double Round(double v1, int v2)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

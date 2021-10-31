@@ -33,19 +33,19 @@ namespace DalObject
         /// <summary>
         /// Adding a new customer to the array of customers
         /// </summary>
-        /// <param name="NewCustomer">The new customer</param>
-        public static void AddCustomer(Customer NewCustomer)
+        /// <param name="newCustomer">The new customer</param>
+        public static void AddCustomer(Customer newCustomer)
         {
-            DataSource.Customers[DataSource.Config.IndexCustomer++] = NewCustomer;
+            DataSource.Customers[DataSource.Config.IndexCustomer++] = newCustomer;
         }
 
         /// <summary>
         /// Adding a new parcel to the array of parcels
         /// </summary>
-        /// <param name="NewParcel">The new parcel</param>
-        public static void AddParcel(Parcel NewParcel)
+        /// <param name="newParcel">The new parcel</param>
+        public static void AddParcel(Parcel newParcel)
         {
-            DataSource.Parcels[DataSource.Config.IndexParcel]= NewParcel;
+            DataSource.Parcels[DataSource.Config.IndexParcel]= newParcel;
             DataSource.Parcels[DataSource.Config.IndexParcel].Id = DataSource.Config.NextParcelNumber++;
             DataSource.Config.IndexParcel++;//Promoting the index
         }
@@ -53,27 +53,27 @@ namespace DalObject
         /// <summary>
         /// Adding a new drone charge to the array of drone charges
         /// </summary>
-        /// <param name="NewDroneCharge">The new drone charge</param>
-        public static void AddDroneCharge(DroneCharge NewDroneCharge)
+        /// <param name="newDroneCharge">The new drone charge</param>
+        public static void AddDroneCharge(DroneCharge newDroneCharge)
         {
-            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].DroneId = NewDroneCharge.DroneId;
-            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = NewDroneCharge.StationId;
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].DroneId = newDroneCharge.DroneId;
+            DataSource.DroneCharges[DataSource.Config.IndexDroneCharge].StationId = newDroneCharge.StationId;
             DataSource.Config.IndexDroneCharge++;//Promoting the index
         }
 
         /// <summary>
         /// Assigning a parcel to a drone
         /// </summary>
-        /// <param name="IdParcel">Parcel to assign to drone</param>
-        /// <param name="IdDrone">Drone which will be assigned a parcel</param>
-        public static void UpdateAssignParcelToDrone(int IdParcel, int IdDrone)
+        /// <param name="idParcel">Parcel to assign to drone</param>
+        /// <param name="idDrone">Drone which will be assigned a parcel</param>
+        public static void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             int indexAssign = 0;
-            while (DataSource.Parcels[indexAssign].Id != IdParcel)//counts how  many parcels need assigning
+            while (DataSource.Parcels[indexAssign].Id != idParcel)//counts how  many parcels need assigning
                 indexAssign++;
-            DataSource.Parcels[indexAssign].DroneId = IdDrone;//giving parcel available drones' id
+            DataSource.Parcels[indexAssign].DroneId = idDrone;//giving parcel available drones' id
             DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;//updating date and time
-            while (DataSource.Drones[indexAssign].Id != IdDrone)
+            while (DataSource.Drones[indexAssign].Id != idDrone)
                 indexAssign++;
             DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;//updating that drone is busy
         }
@@ -81,12 +81,12 @@ namespace DalObject
         /// <summary>
         /// Updating when parcel is collected by drone
         /// </summary>
-        /// <param name="IdParcel">Parcel who's collected by drone</param>
-        public static void UpdateParcelCollectionByDrone(int IdParcel)
+        /// <param name="idParcel">Parcel who's collected by drone</param>
+        public static void UpdateParcelCollectionByDrone(int idParcel)
         {
 
             int indexParcel = 0;
-            while (DataSource.Parcels[indexParcel].Id != IdParcel)//finding parcel that was collected by drone
+            while (DataSource.Parcels[indexParcel].Id != idParcel)//finding parcel that was collected by drone
                 indexParcel++;
             DataSource.Parcels[indexParcel].PickedUp = DateTime.Now;//updating date and time
         }
@@ -94,57 +94,59 @@ namespace DalObject
         /// <summary>
         /// Updating when parcel is delivered to customer
         /// </summary>
-        /// <param name="IdParcel">Parcel delivered to customer</param>
-        public static void UpdateParcelDeliveryToCustomer(int IdParcel)
+        /// <param name="idParcel">Parcel delivered to customer</param>
+        public static void UpdateParcelDeliveryToCustomer(int idParcel)
         {
-            int index = 0;
-            while (DataSource.Parcels[index].Id != IdParcel)
-                index++;
-            DataSource.Parcels[index].Delivered = DateTime.Now;//updating date and time
+            int indexParcel = 0,indexDrone=0;
+            while (DataSource.Parcels[indexParcel].Id != idParcel)
+                indexParcel++;
+            DataSource.Parcels[indexParcel].Delivered = DateTime.Now;//updating date and time
             DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
-            index = 0;
-            while (DataSource.Drones[index].Id != DataSource.Parcels[index].DroneId)
-                index++;
-            DataSource.Drones[index].Status = DroneStatuses.Available;//now drone is availbale
-            DataSource.Parcels[index].DroneId = 0;
+            while (DataSource.Drones[indexDrone].Id != DataSource.Parcels[indexParcel].DroneId)
+                indexDrone++;
+            DataSource.Drones[indexDrone].Status = DroneStatuses.Available;//now drone is availbale
+            DataSource.Parcels[indexParcel].DroneId = 0;
         }
 
         /// <summary>
         /// Sending drone to be charged in an available charging station
         /// </summary>
-        /// <param name="IdDrone">Drone that needs charging</param>
+        /// <param name="idDrone">Drone that needs charging</param>
         /// <param name="nameStation">Station with available charging stations</param>
-        public static void UpdateSendDroneToChargingStation(int IdDrone, string nameStation)
+        public static void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
-            DroneCharge NewDroneCharge = new();//drone with low battery will go be charged here
+            DroneCharge newDroneCharge = new();//drone with low battery will go be charged here
             int index = 0;
-            while (DataSource.Drones[index].Id != IdDrone)
+            while (DataSource.Drones[index].Id != idDrone)
                 index++;
             DataSource.Drones[index].Status = DroneStatuses.Maintenance;//saying that the drone is in maintanance and unavailable to deliver
-            NewDroneCharge.DroneId = IdDrone;//putting id of low battery drone into its charging station
+            newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
             index = 0;
             while (DataSource.Stations[index].Name != nameStation)
                 index++;
-            NewDroneCharge.StationId = DataSource.Stations[index].Id;
-            AddDroneCharge(NewDroneCharge);//updating that a drone is charging 
+            newDroneCharge.StationId = DataSource.Stations[index].Id;
+            AddDroneCharge(newDroneCharge);//updating that a drone is charging 
             DataSource.Stations[index].ChargeSlots--;
         }
 
         /// <summary>
         /// Releasing a Drone from a charging station
         /// </summary>
-        /// <param name="IdDrone">Drone released from charging</param>
-        public static void DroneReleaseFromChargingStation(int IdDrone)
+        /// <param name="idDrone">Drone released from charging</param>
+        public static void DroneReleaseFromChargingStation(int idDrone)
         {
-            int indexDC = 0;
-            while (DataSource.DroneCharges[indexDC].DroneId != IdDrone)
+            int indexDC = 0, indexS = 0, indexD = 0;
+            while (DataSource.DroneCharges[indexDC].DroneId != idDrone)
                 indexDC++;
-            DataSource.DroneCharges[indexDC].DroneId = 0;
-            DataSource.DroneCharges[indexDC].StationId = 0;
-            int indexS = 0;
-            while (DataSource.Stations[indexS].Id != DataSource.DroneCharges[indexDC].DroneId)
+            while (DataSource.Stations[indexS].Id != DataSource.DroneCharges[indexDC].StationId)
                 indexS++;
             DataSource.Stations[indexS].ChargeSlots++;//increasing amount of places left to charge
+            DataSource.DroneCharges[indexDC].DroneId = 0;
+            DataSource.DroneCharges[indexDC].StationId = 0;
+            while (DataSource.Drones[indexD].Id != idDrone)
+                indexD++;
+            DataSource.Drones[indexD].Battery = 100;
+            DataSource.Drones[indexD].Status = DroneStatuses.Available;
         }
 
         /// <summary>
@@ -206,16 +208,16 @@ namespace DalObject
         /// <returns></returns>
         public static Station[] GetStationWithFreeSlots()
         {
-            Station[] StationChargingSlot = new Station[DataSource.Config.IndexStation];
-            int count = 0, i;
-            for (i = 0; i < DataSource.Config.IndexStation; i++)
+            Station[] stationChargingSlot = new Station[DataSource.Config.IndexStation];
+            int count = 0, indexChargingSlot;
+            for (indexChargingSlot = 0; indexChargingSlot < DataSource.Config.IndexStation; indexChargingSlot++)
             {
-                if (DataSource.Stations[i].ChargeSlots > 0)
-                    StationChargingSlot[count] = DataSource.Stations[i];
+                if (DataSource.Stations[indexChargingSlot].ChargeSlots > 0)
+                    stationChargingSlot[count] = DataSource.Stations[indexChargingSlot];
                 count++;
             }
-            StationChargingSlot[i + 1].Id = -1;//Placing -1 in the last place in the array
-            return StationChargingSlot;
+            //StationChargingSlot[count + 1].Id = -1;//Placing -1 in the last place in the array
+            return stationChargingSlot;
         }
 
         /// <summary>
@@ -247,12 +249,12 @@ namespace DalObject
         /// <returns></returns>
         public static Parcel[] GetAllParcels()
         {
-            Parcel[] ViewParcel = new Parcel[DataSource.Config.IndexParcel];//placing array in another array which will be sent back to main
+            Parcel[] viewParcel = new Parcel[DataSource.Config.IndexParcel];//placing array in another array which will be sent back to main
             for (int i = 0; i < DataSource.Config.IndexParcel; i++)
             {
-                ViewParcel[i] = DataSource.Parcels[i];
+                viewParcel[i] = DataSource.Parcels[i];
             }
-            return ViewParcel;
+            return viewParcel;
         }
 
         /// <summary>
@@ -261,12 +263,12 @@ namespace DalObject
         /// <returns></returns>
         public static Drone[] GetAllDrones()
         {
-            Drone[] ViewDrone = new Drone[DataSource.Config.IndexDrone];
+            Drone[] viewDrone = new Drone[DataSource.Config.IndexDrone];
             for (int i = 0; i < DataSource.Config.IndexDrone; i++)
             {
-                ViewDrone[i] = DataSource.Drones[i];
+                viewDrone[i] = DataSource.Drones[i];
             }
-            return ViewDrone;
+            return viewDrone;
         }
 
         /// <summary>
@@ -275,12 +277,12 @@ namespace DalObject
         /// <returns></returns>
         public static Customer[] GetAllCustomers()
         {
-            Customer[] ViewCustomer = new Customer[DataSource.Config.IndexCustomer];
+            Customer[] viewCustomer = new Customer[DataSource.Config.IndexCustomer];
             for (int i = 0; i < DataSource.Config.IndexCustomer; i++)
             {
-                ViewCustomer[i] = DataSource.Customers[i];
+                viewCustomer[i] = DataSource.Customers[i];
             }
-            return ViewCustomer;
+            return viewCustomer;
         }
 
         /// <summary>
@@ -295,14 +297,14 @@ namespace DalObject
                 if (DataSource.Parcels[i].DroneId == 0)//if the drone ID doesnt equal 0
                     count++;
             }
-            Parcel[] ViewParcel = new Parcel[count];
+            Parcel[] viewParcel = new Parcel[count];
             count = 0;
             for (int i = 0; i < DataSource.Config.IndexParcel; i++)//places the parcels that dont have an assigned drone into an array
             {
                 if (DataSource.Parcels[i].DroneId == 0)
-                    ViewParcel[count++] = DataSource.Parcels[i];
+                    viewParcel[count++] = DataSource.Parcels[i];
             }
-            return ViewParcel;
+            return viewParcel;
         }
 
         /// <summary>
@@ -317,14 +319,14 @@ namespace DalObject
                 if (DataSource.Stations[i].ChargeSlots > 0)//if the charge slots if greather than zero
                     count++;
             }
-            Station[] ViewStation = new Station[count];
+            Station[] viewStation = new Station[count];
             count = 0;
             for (int i = 0; i < DataSource.Config.IndexStation; i++)
             {
                 if (DataSource.Stations[i].ChargeSlots > 0)
-                    ViewStation[count++] = DataSource.Stations[i];
+                    viewStation[count++] = DataSource.Stations[i];
             }
-            return ViewStation;
+            return viewStation;
         }
     }
 }
