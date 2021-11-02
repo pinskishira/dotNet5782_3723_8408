@@ -26,13 +26,7 @@ namespace DalObject
             static internal int IndexParcel = 0;
             static internal int IndexDroneCharge = 0;
             static internal int NextParcelNumber = 10000000;
-            //static Config()
-            //{
-            //    rand = new Random();
-            //}
         }
-
-        static DataSource() => Initialize();
 
         /// <summary>
         /// Functions that updates and fills with data the information in the arrays
@@ -47,8 +41,8 @@ namespace DalObject
                     while (Stations[loopStation].Id == Stations[help].Id)
                         Stations[loopStation].Id = rand.Next(1000, 10000);
                 }
-                Stations[loopStation].Longitude = 32 + rand.NextDouble()* 1.5;//Updating longitude                                     
-                Stations[loopStation].Latitude = 37.1 + rand.NextDouble() * 4.5;//Updating latitude    
+                Stations[loopStation].Longitude = 35 + rand.NextDouble();//Updating longitude                                     
+                Stations[loopStation].Latitude = 31 + rand.NextDouble();//Updating latitude    
                 Stations[loopStation].ChargeSlots = rand.Next(10, 30);//Updating charging slots
             }
             Stations[0].Name = "Bayit Vegan";//Updating names
@@ -89,9 +83,9 @@ namespace DalObject
                 {
                     while (Customers[i].Id == Customers[j].Id)
                         Customers[i].Id = rand.Next(100, 1000);
-                }
-                Customers[i].Longitude = 32 + rand.NextDouble() * 1.5;//U//Updating longitude   
-                Customers[i].Latitude = 37.1 + rand.NextDouble() * 4.5;//Updating latitude    
+                } 
+                Customers[i].Longitude = 35 + rand.NextDouble();//U//Updating longitude   
+                Customers[i].Latitude = 31 + rand.NextDouble();//Updating latitude    
                 DataSource.Config.IndexCustomer++;//Promoting the index
             }
             //Updating customer names
@@ -131,7 +125,6 @@ namespace DalObject
 
                 Parcels[index].Weight = (WeightCategories)rand.Next(1,4);//Updating the weight
                 Parcels[index].Priority = (Priorities)rand.Next(1,4);//Updating the urgency of the shipment
-
                 //Putting a random date and time
                 Parcels[index].Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
                     rand.Next(24), rand.Next(60), rand.Next(60));
@@ -142,7 +135,6 @@ namespace DalObject
                     //Scheduling a time to deliver parcel
                     Parcels[index].Scheduled = Parcels[index].Requested +
                         new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
-
                     if (status >= 15)
                     {
                         //Time drone came to deliver parcel
