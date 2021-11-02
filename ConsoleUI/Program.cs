@@ -42,7 +42,6 @@ namespace ConsoleUI
                         {
                             case AddingFunction.AddStation://case which adds a new station with data into the Stations array
                                 Station newStation = new();
-                                // Must input data from user!!!
                                 Console.Write("Enter new station Id: ");
                                 int.TryParse(Console.ReadLine(), out input);
                                 newStation.Id = input;

@@ -69,7 +69,7 @@ namespace DalObject
         public static void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             int indexAssign = 0;
-            while (DataSource.Parcels[indexAssign].Id != idParcel)//counts how  many parcels need assigning
+            while (DataSource.Parcels[indexAssign].Id != idParcel)//finds the placement of the next parcel
                 indexAssign++;
             DataSource.Parcels[indexAssign].DroneId = idDrone;//giving parcel available drones' id
             DataSource.Parcels[indexAssign].Scheduled = DateTime.Now;//updating date and time
