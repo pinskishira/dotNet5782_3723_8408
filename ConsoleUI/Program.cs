@@ -242,7 +242,7 @@ namespace ConsoleUI
                                     Console.WriteLine(ViewParcelsWithNoDrone[i].ToString());
                                 break;
                             case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                Station[] viewStationWithAvailableChargingStation = dalObj.AvailableChargingSlots();
+                                Station[] viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
                                 for (int i = 0; i < viewStationWithAvailableChargingStation.Length; i++)//printing
                                     Console.WriteLine(viewStationWithAvailableChargingStation[i].ToString());
                                 break;
