@@ -10,11 +10,11 @@ namespace DalObject
     public static class DataSource
     {
         static Random rand = new Random();
-        static List<Drone> Drones = new();//Defining a list for the drones
-        static List<Station> Stations = new();//Defining a list for the stations
-        static List<Customer> Customers = new();//Defining a list for the customers
-        static List<Parcel> Parcels = new();//Defining a list for the parcels
-        static List<DroneCharge> DroneCharges = new();//Defining a list for the drone charges
+        static internal List<Drone> Drones = new();//Defining a list for the drones
+        static internal List<Station> Stations = new();//Defining a list for the stations
+        static internal List<Customer> Customers = new();//Defining a list for the customers
+        static internal List<Parcel> Parcels = new();//Defining a list for the parcels
+        static internal List<DroneCharge> DroneCharges = new();//Defining a list for the drone charges
         /// <summary>
         /// Has all my static indexes
         /// </summary>
