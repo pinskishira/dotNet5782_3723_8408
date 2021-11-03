@@ -76,40 +76,45 @@ namespace DalObject
             Drones[3].Model = "456EST";
             Drones[4].Model = "567EST";
             DataSource.Config.IndexDrone = 5;//Promoting the index
+
+            Customer newCustomer = new();
+            //Updating customer names
+            string[] customerArrayName = new string[10];
+            customerArrayName[0] = "Avital";
+            customerArrayName[1] = "Hadar";
+            customerArrayName[2] = "Ayala";
+            customerArrayName[3] = "Dasi";
+            customerArrayName[4] = "Moshe";
+            customerArrayName[5] = "Ayalet";
+            customerArrayName[6] = "David";
+            customerArrayName[7] = "Shira";
+            customerArrayName[8] = "Yosef";
+            customerArrayName[9] = "John";
+            string[] customerArrayPhone = new string[10];
+            //Updating customers phone numbers
+            customerArrayPhone[0] = "0586322431";
+            customerArrayPhone[1] = "0522230982";
+            customerArrayPhone[2] = "0506876398";
+            customerArrayPhone[3] = "0506561043";
+            customerArrayPhone[4] = "0502350982";
+            customerArrayPhone[5] = "0534456021";
+            customerArrayPhone[6] = "0552356731";
+            customerArrayPhone[7] = "0503782099";
+            customerArrayPhone[8] = "0504310431";
+            customerArrayPhone[9] = "0506929115";
             for (int i = 0; i < 10; i++)//Updating 10 customers
             {
-                Customers[i].Id = rand.Next(100000000, 1000000000);//Updating ID name randomly
+                newCustomer.Id = rand.Next(100000000, 1000000000);//Updating ID name randomly
                 for (int j = 0; j < i; j++)//Checking if it already appears in array
                 {
-                    while (Customers[i].Id == Customers[j].Id)
-                        Customers[i].Id = rand.Next(100, 1000);
-                } 
-                Customers[i].Longitude = 35 + rand.NextDouble();//U//Updating longitude   
-                Customers[i].Latitude = 31 + rand.NextDouble();//Updating latitude    
+                    while (newCustomer.Id == Customers[j].Id)
+                        newCustomer.Id = rand.Next(100, 1000);
+                }
+                newCustomer.Longitude = 35 + rand.NextDouble();//U//Updating longitude   
+                newCustomer.Latitude = 31 + rand.NextDouble();//Updating latitude
                 DataSource.Config.IndexCustomer++;//Promoting the index
+                Customers.Add(newCustomer);
             }
-            //Updating customer names
-            Customers[0].Name = "Avital";
-            Customers[1].Name = "Hadar";
-            Customers[2].Name = "Ayala";
-            Customers[3].Name = "Dasi";
-            Customers[4].Name = "Moshe";
-            Customers[5].Name = "Ayalet";
-            Customers[6].Name = "David";
-            Customers[7].Name = "Shira";
-            Customers[8].Name = "Yosef";
-            Customers[9].Name = "John";
-            //Updating customers phone numbers
-            Customers[0].Phone = "0586322431";
-            Customers[1].Phone = "0522230982";
-            Customers[2].Phone = "0506876398";
-            Customers[3].Phone = "0506561043";
-            Customers[4].Phone = "0502350982";
-            Customers[5].Phone = "0534456021";
-            Customers[6].Phone = "0552356731";
-            Customers[7].Phone = "0503782099";
-            Customers[8].Phone = "0504310431";
-            Customers[9].Phone = "0506929115";
 
             ref int parcelNum = ref Config.NextParcelNumber;
             for (int index = 0; index < 10; index++)//Updating 10 parcels
