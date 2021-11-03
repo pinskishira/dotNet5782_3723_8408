@@ -1,6 +1,6 @@
 ﻿using System;
 using IDAL.DO;
-
+using System.Collections.Generic;
 /// <summary>
 /// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
 /// It also includes adding functions for all arrays as well as searching functions.
@@ -10,11 +10,11 @@ namespace DalObject
     public static class DataSource
     {
         static Random rand = new Random();
-        static internal Drone[] Drones = new Drone[10];//Defining an array of size 10 for the drones
-        static internal Station[] Stations = new Station[5];//Defining an array of size 5 for the stations
-        static internal Customer[] Customers = new Customer[100];//Defining an array of size 100 for the customers
-        static internal Parcel[] Parcels = new Parcel[1000];//Defining an array of size 10000 for the parcels
-        static internal DroneCharge[] DroneCharges = new DroneCharge[100];//Defining an array of size 100 for the drone charges
+        static List<Drone> Drones = new();//Defining an array of size 10 for the drones
+        static List<Station> Stations = new();//Defining an array of size 5 for the stations
+        static List<Customer> Customers = new();//Defining an array of size 100 for the customers
+        static List<Parcel> Parcels = new();//Defining an array of size 10000 for the parcels
+        static List<DroneCharge> DroneCharges = new();//Defining an array of size 100 for the drone charges
         /// <summary>
         /// Has all my static indexes
         /// </summary>
