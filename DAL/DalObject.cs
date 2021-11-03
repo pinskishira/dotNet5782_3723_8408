@@ -228,7 +228,7 @@ namespace DalObject
         /// <returns></returns>
         public Station[] GetStationWithFreeSlots()
         {
-            Station[] stationChargingSlot = new Station[DataSource.Config.IndexStation];
+            Station[] stationChargingSlot = new Station[DataSource.Stations.];
             int count = 0, indexChargingSlot;
             for (indexChargingSlot = 0; indexChargingSlot < DataSource.Config.IndexStation; indexChargingSlot++)
             {
