@@ -20,11 +20,6 @@ namespace DalObject
         /// </summary>
         internal static class Config
         {
-            static internal int IndexDrone = 0;
-            static internal int IndexStation = 0;
-            static internal int IndexCustomer = 0;
-            static internal int IndexParcel = 0;
-            static internal int IndexDroneCharge = 0;
             static internal int NextParcelNumber = 10000000;
         }
 
@@ -51,7 +46,6 @@ namespace DalObject
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
-            Config.IndexStation = 2;
 
             Drone newDrone = new();
             string[] droneArayNames = new string[5];
@@ -82,7 +76,6 @@ namespace DalObject
                 //else
                 //    newDrone.Status = DroneStatuses.Available;
             }
-            DataSource.Config.IndexDrone = 5;//Promoting the index
 
             Customer newCustomer = new();
             //Updating customer names
@@ -119,7 +112,6 @@ namespace DalObject
                 }
                 newCustomer.Longitude = 35 + rand.NextDouble();//U//Updating longitude   
                 newCustomer.Latitude = 31 + rand.NextDouble();//Updating latitude
-                DataSource.Config.IndexCustomer++;//Promoting the index
                 Customers.Add(newCustomer);
             }
 
@@ -180,7 +172,6 @@ namespace DalObject
                 }
                 Parcels.Add(newParcel);
             }
-            DataSource.Config.IndexParcel = 10;//Promoting the index
         }
     }
 }
