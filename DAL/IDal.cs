@@ -25,6 +25,6 @@ namespace DalObject
         void UpdateParcelCollectionByDrone(int idParcel);
         void UpdateParcelDeliveryToCustomer(int idParcel);
         void UpdateSendDroneToChargingStation(int idDrone, string nameStation);
-        //double[] electricityUse();
+        double[] electricityUse();
     }
 }
