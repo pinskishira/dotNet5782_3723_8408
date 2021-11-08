@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using IDAL.DO;
 
-namespace DalObject
+
+namespace IDAL
 {
     public interface IDal
     {
