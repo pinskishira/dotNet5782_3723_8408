@@ -1,11 +1,11 @@
 ﻿using System;
 using IDAL.DO;
+using System.Collections.Generic;
 
 /// <summary>
 /// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
 /// It also includes adding functions for all arrays as well as searching functions.
 /// </summary>
-using System.Collections.Generic;
 namespace DalObject
 {
     /// <summary>
