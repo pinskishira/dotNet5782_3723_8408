@@ -4,6 +4,7 @@
  */
 using System;
 using IDAL.DO;
+using System.Collections.Generic;
 
 /// <summary>
 /// Program main which gives us 4 main options: To add, update, display and view the: drones, stations, parcels, customers,
@@ -19,9 +20,9 @@ namespace ConsoleUI
 
     class Program
     {
-       static DalObject.DalObject dalObj=new DalObject.DalObject();
         public static void Main(string[] args)
-        { 
+        {
+            DalObject.DalObject dalObj = new DalObject.DalObject();
             int ansFromUserInt, input;
             double ansFromUserDouble;
             AddingFunction answerAdd;
@@ -75,10 +76,10 @@ namespace ConsoleUI
                                 newDrone.MaxWeight = (WeightCategories)input;
                                 Console.WriteLine("Enter drones' status:\n1 - Available\n2 - Maintanance\n3 - Delivery");
                                 int.TryParse(Console.ReadLine(), out input);
-                                newDrone.Status = (DroneStatuses)input;
+                                //newDrone.Status = (DroneStatuses)input;
                                 Console.Write("Enter the drones' battery status: ");
                                 int.TryParse(Console.ReadLine(), out input);
-                                newDrone.Battery = input;
+                                //newDrone.Battery = input;
                                 dalObj.AddDrone(newDrone);
                                 break;
                             case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers array
@@ -154,13 +155,13 @@ namespace ConsoleUI
                                 int IdOfLowBatteryDrone;
                                 int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
                                 Console.Write("Please enter your desired station: ");
-                                Station[] AvailableStation = new Station[dalObj.GetIndexStation()];
-                                AvailableStation = dalObj.GetStationWithFreeSlots();//finding available station
+                                IEnumerable<Station> AvailableStation = dalObj.GetStationWithFreeSlots();//finding available station
                                 Console.Write("\n");
-                                for (int i = 0; i < dalObj.GetIndexStation(); i++)//user will have a few charging stations to choose from 
+                                int count = 1;
+                                foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
                                 {
-                                    if (AvailableStation[i].ChargeSlots > 0)
-                                        Console.WriteLine((i + 1) + " - " + AvailableStation[i].Name);
+                                    if (indexStation.ChargeSlots > 0)
+                                        Console.WriteLine((count++) + " - " + indexStation.Name);
                                 }
                                 string ChosenStation = Console.ReadLine();
                                 dalObj.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
@@ -217,34 +218,34 @@ namespace ConsoleUI
                         switch (answerListView)
                         {
                             case ListViewFunction.Stations://case which views the stations array
-                                Station[] viewStations = dalObj.GetAllStations();
+                                IEnumerable<Station> viewStations = dalObj.GetAllStations();
                                 foreach(var station in viewStations)//prints all stations
                                     Console.WriteLine(station);
                                 break;
                             case ListViewFunction.Drones://case which views the drones array
-                                Drone[] viewDrones = dalObj.GetAllDrones();
-                                for (int i = 0; i < viewDrones.Length; i++)//prints all drones
-                                    Console.WriteLine(viewDrones[i]);
+                                IEnumerable<Drone> viewDrones = dalObj.GetAllDrones();
+                                foreach (var drone in viewDrones)//prints all drones
+                                    Console.WriteLine(drone);
                                 break;
                             case ListViewFunction.Customers://case which views the customers array
-                                Customer[] viewCustomers = dalObj.GetAllCustomers();
-                                for (int i = 0; i < viewCustomers.Length; i++)//prints all customers
-                                    Console.WriteLine(viewCustomers[i].ToString());
+                                IEnumerable<Customer> viewCustomers = dalObj.GetAllCustomers();
+                                foreach (var customer in viewCustomers)//prints all customers
+                                    Console.WriteLine(customer);
                                 break;
                             case ListViewFunction.Parcels://case which views the parcels array
-                                Parcel[] viewParcels = dalObj.GetAllParcels();
-                                for (int i = 0; i < viewParcels.Length; i++)//prints all parcels
-                                    Console.WriteLine(viewParcels[i].ToString());
+                                IEnumerable<Parcel> viewParcels = dalObj.GetAllParcels();
+                                foreach (var parcel in viewParcels)//prints all parcels
+                                    Console.WriteLine(parcel);
                                 break;
                             case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                Parcel[] ViewParcelsWithNoDrone = dalObj.ParcelWithNoDrone();
-                                for (int i = 0; i < ViewParcelsWithNoDrone.Length; i++)//printing
-                                    Console.WriteLine(ViewParcelsWithNoDrone[i].ToString());
+                                IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.ParcelWithNoDrone();
+                                foreach (var parcel in ViewParcelsWithNoDrone)//printing
+                                    Console.WriteLine(parcel);
                                 break;
                             case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                Station[] viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
-                                for (int i = 0; i < viewStationWithAvailableChargingStation.Length; i++)//printing
-                                    Console.WriteLine(viewStationWithAvailableChargingStation[i].ToString());
+                                IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
+                                foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
+                                    Console.WriteLine(station);
                                 break;
                         }
                         break;

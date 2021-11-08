@@ -1,7 +1,6 @@
 ﻿using System;
 using IDAL.DO;
 using System.Collections.Generic;
-
 /// <summary>
 /// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
 /// It also includes adding functions for all arrays as well as searching functions.
@@ -11,11 +10,11 @@ namespace DalObject
     /// <summary>
     /// Adding, searching and updating
     /// </summary>
-    public class DalObject
+    public class DalObject : IDal
     {
-        public  DalObject() 
+        public DalObject()
         {
-            DataSource.Initialize(); 
+            DataSource.Initialize();
         }
         /// <summary>
         /// Adding a new station to the list of stations
@@ -227,43 +226,63 @@ namespace DalObject
         /// Gives a view of the array of stations
         /// </summary>
         /// <returns></returns>
-        public List<Station> GetAllStations()
+        public IEnumerable<Station> GetAllStations()
         {
-            return DataSource.Stations;
+            List<Station>tempStations = new List<Station>();
+            foreach (var indexOfStations in DataSource.Stations)
+            {
+                tempStations.Add(indexOfStations);
+            }
+            return (IEnumerable<Station>)tempStations;
         }
 
         /// <summary>
         /// Gives a view of the array of parcels
         /// </summary>
         /// <returns></returns>
-        public List<Parcel> GetAllParcels()
+        public IEnumerable<Parcel> GetAllParcels()
         {
-            return DataSource.Parcels;
+            List<Parcel> tempParcels = new();
+            foreach (var indexOfParcels in DataSource.Parcels)
+            {
+                tempParcels.Add(indexOfParcels);
+            }
+            return tempParcels;
         }
 
         /// <summary>
         /// Gives a view of the array of drones
         /// </summary>
         /// <returns></returns>
-        public List<Drone> GetAllDrones()
+        public IEnumerable<Drone> GetAllDrones()
         {
-            return DataSource.Drones;
+            List<Drone> tempDrones = new();
+            foreach (var indexOfDrones in DataSource.Drones)
+            {
+                tempDrones.Add(indexOfDrones);
+            }
+            return tempDrones;
         }
 
         /// <summary>
         /// Gives a view of the array of customers
         /// </summary>
         /// <returns></returns>
-        public List<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers()
         {
-            return DataSource.Customers;
+            List<Customer> tempCustomers = new();
+            foreach (var indexOfCustomers in DataSource.Customers)
+            {
+                tempCustomers.Add(indexOfCustomers);
+            }
+            return tempCustomers;
         }
 
         /// <summary>
         /// Gives a view of the an array of parcels with no assigned drones
         /// </summary>
         /// <returns></returns>
-        public List<Parcel> ParcelWithNoDrone()
+        public IEnumerable<Parcel> ParcelWithNoDrone()
         {
             List<Parcel> parcelNoDrone = new();
             foreach (var indexNoDrone in DataSource.Parcels)
@@ -278,7 +297,7 @@ namespace DalObject
         /// A function that returns an array of stations whose load position is greater than 0
         /// </summary>
         /// <returns></returns>
-        public List<Station> GetStationWithFreeSlots()
+        public IEnumerable<Station> GetStationWithFreeSlots()
         {
             List<Station> freeSlotsStation = new();
             foreach (var indexSlots in DataSource.Stations)
