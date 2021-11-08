@@ -20,6 +20,11 @@ namespace DalObject
         /// </summary>
         internal static class Config
         {
+            static internal double Available;
+            static internal double MediumWeight;
+            static internal double LightWeight;
+            static internal double HeavyWeight;
+            static internal double DroneLoadingRate;
             static internal int NextParcelNumber = 10000000;
         }
 
@@ -56,7 +61,8 @@ namespace DalObject
             droneArayNames[4] = "567EST";
             for (int loopDrone = 0; loopDrone < 5; loopDrone++)//Updating 5 drones
             {
-                newDrone.Id = rand.Next(10000, 100000);//Updating 5-digit ID name 
+                newDrone.Id = rand.Next(10000, 100000);//Updating 5-digit ID name
+                //int indexDrone = Drones.FindIndex(d => d.Id == newDrone.Id);
                 for (int j = 0; j < loopDrone; j++)//Checking if it already appears in array
                 {
                     while (newDrone.Id == Drones[j].Id)
@@ -75,6 +81,7 @@ namespace DalObject
                 //}
                 //else
                 //    newDrone.Status = DroneStatuses.Available;
+                Drones.Add(newDrone);
             }
 
             Customer newCustomer = new();
@@ -112,6 +119,8 @@ namespace DalObject
                 }
                 newCustomer.Longitude = 35 + rand.NextDouble();//U//Updating longitude   
                 newCustomer.Latitude = 31 + rand.NextDouble();//Updating latitude
+                newCustomer.Name = customerArrayName[i];
+                newCustomer.Phone = customerArrayPhone[i];
                 Customers.Add(newCustomer);
             }
 
@@ -138,35 +147,35 @@ namespace DalObject
                 if (status >= 10)
                 {
                     //Scheduling a time to deliver parcel
-                    newParcel.Scheduled = Parcels[index].Requested +
+                    newParcel.Scheduled = newParcel.Requested +
                         new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
                     if (status >= 15)
                     {
                         //Time drone came to deliver parcel
-                        newParcel.PickedUp = Parcels[index].Scheduled +
+                        newParcel.PickedUp = newParcel.Scheduled +
                             new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
                         if (status >= 20)
                         {
                             //Time customer recieved parcel
-                            newParcel.Delivered = Parcels[index].PickedUp +
+                            newParcel.Delivered = newParcel.PickedUp +
                                 new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
                             do
                             {
-                                drone = rand.Next(10);
+                                drone = rand.Next(5);
                                 newParcel.DroneId = Drones[drone].Id;
                             }
-                            while (Drones[drone].MaxWeight < Parcels[index].Weight);
+                            while (Drones[drone].MaxWeight < newParcel.Weight);
                         }
                     }
                     if (drone == -1)
                     {
                         do
                         {
-                            drone = rand.Next(10);
+                            drone = rand.Next(5);
                             newParcel.DroneId = Drones[drone].Id;
                         }
                         while (/*Drones[drone].Status == DroneStatuses.Available &&*/
-                            Drones[drone].MaxWeight >= Parcels[index].Weight);
+                            Drones[drone].MaxWeight > newParcel.Weight);
                     }
                     //Drones[drone].Status = DroneStatuses.Delivery;
                 }
