@@ -5,6 +5,7 @@ using IDAL.DO;
 /// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
 /// It also includes adding functions for all arrays as well as searching functions.
 /// </summary>
+using System.Collections.Generic;
 namespace DalObject
 {
     /// <summary>
@@ -223,130 +224,69 @@ namespace DalObject
         }
 
         /// <summary>
-        /// A function that returns an array of stations whose load position is greater than 0
-        /// </summary>
-        /// <returns></returns>
-        public Station[] GetStationWithFreeSlots()
-        {
-            Station[] stationChargingSlot = new Station[DataSource.Stations.];
-            int count = 0, indexChargingSlot;
-            for (indexChargingSlot = 0; indexChargingSlot < DataSource.Config.IndexStation; indexChargingSlot++)
-            {
-                if (DataSource.Stations[indexChargingSlot].ChargeSlots > 0)
-                    stationChargingSlot[count] = DataSource.Stations[indexChargingSlot];
-                count++;
-            }
-            //StationChargingSlot[count + 1].Id = -1;//Placing -1 in the last place in the array
-            return stationChargingSlot;
-        }
-
-        /// <summary>
-        /// Returns place of index in station array
-        /// </summary>
-        /// <returns></returns>
-        public int GetIndexStation()
-        {
-            return DataSource.Config.IndexStation;
-        }
-
-        /// <summary>
         /// Gives a view of the array of stations
         /// </summary>
         /// <returns></returns>
-        public Station[] GetAllStations()
+        public List<Station> GetAllStations()
         {
-            Station[] list = new Station[DataSource.Config.IndexStation];//placing array in another array which will be sent back to main
-            for (int i = 0; i < DataSource.Config.IndexStation; i++)
-            {
-                list[i] = DataSource.Stations[i];
-            }
-            return list;
+            return DataSource.Stations;
         }
 
         /// <summary>
         /// Gives a view of the array of parcels
         /// </summary>
         /// <returns></returns>
-        public Parcel[] GetAllParcels()
+        public List<Parcel> GetAllParcels()
         {
-            Parcel[] viewParcel = new Parcel[DataSource.Config.IndexParcel];//placing array in another array which will be sent back to main
-            for (int i = 0; i < DataSource.Config.IndexParcel; i++)
-            {
-                viewParcel[i] = DataSource.Parcels[i];
-            }
-            return viewParcel;
+            return DataSource.Parcels;
         }
 
         /// <summary>
         /// Gives a view of the array of drones
         /// </summary>
         /// <returns></returns>
-        public Drone[] GetAllDrones()
+        public List<Drone> GetAllDrones()
         {
-            Drone[] viewDrone = new Drone[DataSource.Config.IndexDrone];
-            for (int i = 0; i < DataSource.Config.IndexDrone; i++)
-            {
-                viewDrone[i] = DataSource.Drones[i];
-            }
-            return viewDrone;
+            return DataSource.Drones;
         }
 
         /// <summary>
         /// Gives a view of the array of customers
         /// </summary>
         /// <returns></returns>
-        public Customer[] GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
-            Customer[] viewCustomer = new Customer[DataSource.Config.IndexCustomer];
-            for (int i = 0; i < DataSource.Config.IndexCustomer; i++)
-            {
-                viewCustomer[i] = DataSource.Customers[i];
-            }
-            return viewCustomer;
+            return DataSource.Customers;
         }
 
         /// <summary>
         /// Gives a view of the an array of parcels with no assigned drones
         /// </summary>
         /// <returns></returns>
-        public Parcel[] ParcelWithNoDrone()
+        public List<Parcel> ParcelWithNoDrone()
         {
-            int count = 0;
-            for (int i = 0; i < DataSource.Config.IndexParcel; i++)//counts how many parcels dont have an assigned drone
+            List<Parcel> parcelNoDrone = new();
+            foreach (var indexNoDrone in DataSource.Parcels)
             {
-                if (DataSource.Parcels[i].DroneId == 0)//if the drone ID doesnt equal 0
-                    count++;
+                if (indexNoDrone.DroneId == 0)
+                    parcelNoDrone.Add(indexNoDrone);
             }
-            Parcel[] viewParcel = new Parcel[count];
-            count = 0;
-            for (int i = 0; i < DataSource.Config.IndexParcel; i++)//places the parcels that dont have an assigned drone into an array
-            {
-                if (DataSource.Parcels[i].DroneId == 0)
-                    viewParcel[count++] = DataSource.Parcels[i];
-            }
-            return viewParcel;
+            return parcelNoDrone;
         }
 
         /// <summary>
-        /// Gives a view of the an array stations with available charging slots
+        /// A function that returns an array of stations whose load position is greater than 0
         /// </summary>
         /// <returns></returns>
-        public Station[] AvailableChargingSlots()
+        public List<Station> GetStationWithFreeSlots()
         {
-            int count = 0;
-            for (int i = 0; i < DataSource.Config.IndexStation; i++)
+            List<Station> freeSlotsStation = new();
+            foreach (var indexSlots in DataSource.Stations)
             {
-                if (DataSource.Stations[i].ChargeSlots > 0)//if the charge slots if greather than zero
-                    count++;
+                if (indexSlots.ChargeSlots > 0)
+                    freeSlotsStation.Add(indexSlots);
             }
-            Station[] viewStation = new Station[count];
-            count = 0;
-            for (int i = 0; i < DataSource.Config.IndexStation; i++)
-            {
-                if (DataSource.Stations[i].ChargeSlots > 0)
-                    viewStation[count++] = DataSource.Stations[i];
-            }
-            return viewStation;
+            return freeSlotsStation;
         }
     }
 }
