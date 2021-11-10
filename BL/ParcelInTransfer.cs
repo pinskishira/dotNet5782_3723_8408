@@ -12,7 +12,7 @@ namespace BL
     {
         public int Id { get; set; }
         public Priorities Priority { get; set; }
-        public CustomerInDelivery Sender { get; set; }
-        public CustomerInDelivery Reciever { get; set; }
+        public CustomerInParcel Sender { get; set; }
+        public CustomerInParcel Reciever { get; set; }
     }
 }

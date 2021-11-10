@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BL;
+using static IBL.BO.Enum;
+using IBL.BO;
 
 namespace IBL
 {
@@ -14,8 +16,15 @@ namespace IBL
             public string Name { get; set; }
             public string Phone { get; set; }
             public Location CustomerLocation { get; set; }
-            public List<Parcel> FromCustomer { get; set; }
-            public List<Parcel> ToCustomer { get; set; }
+            public override string ToString()
+            {
+                String result = "";
+                result += $"Id is {Id} \n";
+                result += $"Name is {Name} \n";
+                result += $"Phone is {Phone} \n";
+                result += $"CustomerLocation is {CustomerLocation} \n";
+                return result;
+            }
         }
     }
 }
