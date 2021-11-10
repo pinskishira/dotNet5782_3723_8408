@@ -34,12 +34,13 @@ namespace ConsoleUI
 
             do
             {
+                Console.WriteLine("What would you like to perform?\nEnter 1 to Add \nEnter 2 to Update \n" +
+                    "Enter 3 to Display \nEnter 4 to ListView \nEnter 5 to Exit \n");
+                int.TryParse(Console.ReadLine(), out input);
+                answerMain = (MainSwitchFunctions)input;
                 try
                 {
-                    Console.WriteLine("What would you like to perform?\nEnter 1 to Add \nEnter 2 to Update \n" +
-                    "Enter 3 to Display \nEnter 4 to ListView \nEnter 5 to Exit \n");
-                    int.TryParse(Console.ReadLine(), out input);
-                    answerMain = (MainSwitchFunctions)input;
+                    
                     switch (answerMain)
                     {
                         case MainSwitchFunctions.Add://the user will choose whether he wants to add on a station, drone, customer or parcel
