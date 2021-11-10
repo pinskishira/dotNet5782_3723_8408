@@ -16,5 +16,16 @@ namespace BL
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
         public State ParcelState { get; set; }
+        public override string ToString()//Override function
+        {
+            String result = "";
+            result += $"ID is {Id} \n";
+            result += $"Sender Id is {SenderName} \n";
+            result += $"Target Id is {TargetName} \n";
+            result += $"Weight is {Weight} \n";
+            result += $"Priority is {Priority} \n";
+            result += $"Parcel State is {ParcelState} \n";
+            return result;
+        }
     }
 }

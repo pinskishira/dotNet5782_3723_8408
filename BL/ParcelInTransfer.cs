@@ -4,15 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static IBL.BO.Enum;
-using IBL.BO;
 
-namespace BL
+namespace IBL
 {
-    class ParcelInTransfer//חבילה בהעברה
+    namespace BO
     {
-        public int Id { get; set; }
-        public Priorities Priority { get; set; }
-        public CustomerInDelivery Sender { get; set; }
-        public CustomerInDelivery Reciever { get; set; }
+        public class ParcelInTransfer//חבילה בהעברה
+        {
+            public int Id { get; set; }
+            public bool StateOfParcel { get; set; }
+            public WeightCategories Weight { get; set; }
+            public Priorities Priority { get; set; }
+            public CustomerInDelivery Sender { get; set; }
+            public CustomerInDelivery Target { get; set; }
+            public Location CollectionLocation { get; set; }
+            public Location DeliveryDestination { get; set; }
+            public double TransportDistance { get; set; }
+            public override string ToString()//Override function
+            {
+                String result = "";
+                result += $"ID is {Id} \n";
+                result += $"State Of Parcel is {StateOfParcel} \n";
+                result += $"Sender is {Sender} \n";
+                result += $"Weight is {Weight} \n";
+                result += $"Priority is {Priority} \n";
+                result += $"Target is {Target} \n";
+                result += $"Collection Location is {CollectionLocation} \n";
+                result += $"Delivery Destination is {DeliveryDestination} \n";
+                result += $"Transport Distance is {TransportDistance} \n";
+                return result;
+            }
+        }
     }
 }
