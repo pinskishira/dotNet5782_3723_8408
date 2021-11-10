@@ -18,7 +18,7 @@ namespace DalObject
         public void AddStation(Station newStation)
         {
             if (!DataSource.Stations.Exists(item => item.Id == newStation.Id))
-                throw new ItemExistsInList("The station already exists.\n");
+                throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
 
@@ -30,7 +30,7 @@ namespace DalObject
         public Station FindStation(int id)
         {
             if (!DataSource.Stations.Exists(item => item.Id == id))
-                throw new ItemDoesNotExistInList("The station does not exist.\n");
+                throw new ItemDoesNotExistException("The station does not exist.\n");
             int indexFindStation = 0;
             while (DataSource.Stations[indexFindStation].Id != id)//Going through stations array
                 indexFindStation++;

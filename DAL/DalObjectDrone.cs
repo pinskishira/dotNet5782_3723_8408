@@ -18,7 +18,7 @@ namespace DalObject
         public void AddDrone(Drone newDrone)
         {
             if (!DataSource.Drones.Exists(item => item.Id == newDrone.Id))
-                throw new ItemExistsInList("The drone already exists.\n");
+                throw new ItemExistsException("The drone already exists.\n");
             DataSource.Drones.Add(newDrone);
         }
         /// <summary>
@@ -29,7 +29,7 @@ namespace DalObject
         public Drone FindDrone(int id)
         {
             if (!DataSource.Drones.Exists(item => item.Id == id))
-                throw new ItemDoesNotExistInList("The drone does not exist.\n");
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexFindDrone = 0;
             while (DataSource.Drones[indexFindDrone].Id != id)//Going through drones array
                 indexFindDrone++;
@@ -56,9 +56,9 @@ namespace DalObject
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
-                throw new ItemDoesNotExistInList("The parcel does not exist.\n");
+                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))
-                throw new ItemDoesNotExistInList("The drone does not exist.\n");
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexAssign = 0;
             Parcel newParcel = new();
             //Drone newDrone = new();

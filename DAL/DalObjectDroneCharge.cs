@@ -19,7 +19,7 @@ namespace DalObject
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {
             if (DataSource.DroneCharges.Exists(item => item.DroneId == newDroneCharge.DroneId));
-                throw new ItemExistsInList("The parcel already exists.\n");
+                throw new ItemDoesNotExistException("The parcel already exists.\n");
             DataSource.DroneCharges.Add(newDroneCharge);
         }
         /// <summary>
@@ -30,9 +30,9 @@ namespace DalObject
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))
-                throw new ItemDoesNotExistInList("The drone does not exist.\n");
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
             if (!DataSource.Stations.Exists(item => item.Name == nameStation))
-                throw new ItemDoesNotExistInList("The station does not exist.\n");
+                throw new ItemDoesNotExistException("The station does not exist.\n");
             Station newStation = new();
             DroneCharge newDroneCharge = new();//drone with low battery will go be charged here
             int index = 0;
@@ -55,7 +55,7 @@ namespace DalObject
         public void DroneReleaseFromChargingStation(int idDrone)
         {
             if (!DataSource.DroneCharges.Exists(item => item.DroneId == idDrone))
-                throw new ItemDoesNotExistInList("The drone does not exist.\n");
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
             Station newStation = new();
             DroneCharge newDroneCharge = new();
             int indexDC = 0, indexS = 0, indexD = 0;
