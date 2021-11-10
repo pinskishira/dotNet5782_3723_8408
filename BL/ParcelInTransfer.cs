@@ -15,8 +15,8 @@ namespace IBL
             public bool StateOfParcel { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public CustomerInDelivery Sender { get; set; }
-            public CustomerInDelivery Target { get; set; }
+            public CustomerInParcel Sender { get; set; }
+            public CustomerInParcel Target { get; set; }
             public Location CollectionLocation { get; set; }
             public Location DeliveryDestination { get; set; }
             public double TransportDistance { get; set; }
