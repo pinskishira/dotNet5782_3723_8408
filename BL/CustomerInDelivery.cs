@@ -8,8 +8,10 @@ namespace IBL
 {
     namespace BO
     {
-        public class CustomerInDelivery
+        public class CustomerInDelivery//לקוח במשלוח
         {
+            public int Id { get; set; }
+            public int Name { get; set; }
         }
     }
 }
