@@ -9,27 +9,27 @@ namespace DAL
     namespace IDAL.DO
     {
         [Serializable]
-        public class DataExceptions : Exception
+        public class ItemExistsInList : Exception
         {
-            public DataExceptions() : base() { }
-            public DataExceptions(string message) : base(message) { }
-            public DataExceptions(string message, Exception inner) : base(message, inner) { }
+            public ItemExistsInList() : base() { }
+            public ItemExistsInList(string message) : base(message) { }
+            public ItemExistsInList(string message, Exception innerException) : base(message, innerException) { }
             public override string ToString()
             {
                 return Message;
             }
         }
-        //[Serializable]
-        //public class ItemExistsInList : Exception
-        //{
-        //    public ItemExistsInList() : base() { }
-        //    public ItemExistsInList(string message) : base(message){ }
-        //    public ItemExistsInList(string message, Exception innerException) : base(message, innerException){}
-        //    public override string ToString()
-        //    {
-        //        return Message;
-        //    }
-        //}
+        [Serializable]
+        public class ItemDoesNotExistInList : Exception
+        {
+            public ItemDoesNotExistInList() : base() { }
+            public ItemDoesNotExistInList(string message) : base(message) { }
+            public ItemDoesNotExistInList(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
 
     }
 }

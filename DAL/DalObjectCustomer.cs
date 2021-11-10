@@ -18,7 +18,7 @@ namespace DalObject
         public void AddCustomer(Customer newCustomer)
         {
             if (!DataSource.Customers.Exists(item => item.Id == newCustomer.Id))
-                throw new DataExceptions("The customer already exists.\n");
+                throw new ItemExistsInList("The customer already exists.\n");
             DataSource.Customers.Add(newCustomer);
         }
         /// <summary>
@@ -29,7 +29,7 @@ namespace DalObject
         public Customer FindCustomer(int id)
         {
             if (!DataSource.Customers.Exists(item => item.Id == id))
-                throw new DataExceptions("The customer does not exist.\n");
+                throw new ItemDoesNotExistInList("The customer does not exist.\n");
             int indexFindCustomer = 0;
             while (DataSource.Customers[indexFindCustomer].Id != id)//Going through customers array
                 indexFindCustomer++;
