@@ -9,19 +9,18 @@ namespace IBL
 {
     namespace BO
     {
-        class Parcel
+        public class Parcel
         {
             public int Id { get; set; }
             public CustomerInParcel SenderId { get; set; }
             public CustomerInParcel TargetId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public DateTime Requested { get; set; }
+            public DateTime Requested { get; set; }//זמן יצירת חבילה
             public int DroneId { get; set; }
-            public DateTime CreatedParcel { get; set; }
-            public DateTime Scheduled { get; set; }
-            public DateTime Delivered { get; set; }
-            public DateTime PickedUp { get; set; }
+            public DateTime Scheduled { get; set; }//זמן שיוך חבילה
+            public DateTime PickedUp { get; set; }//זמן איסוף
+            public DateTime Delivered { get; set; }//זמן אספקה
             public override string ToString()
             {
                 String result = "";
@@ -32,7 +31,6 @@ namespace IBL
                 result += $"Priority is {Priority} \n";
                 result += $"Requested is {Requested} \n";
                 result += $"DroneId is {DroneId} \n";
-                result += $"CreatedParcel is {CreatedParcel} \n";
                 result += $"Scheduled is {Scheduled} \n";
                 result += $"Delivered is {Delivered} \n";
                 result += $"PickedUp is {PickedUp} \n";
