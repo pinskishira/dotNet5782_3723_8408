@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static IBL.BO.Enum;
-using IBL.BO;
 
 namespace IBL
 {
     namespace BO
     {
-        class DroneInPackage//רחפן בחבילה
+        public class CustomerInParcel//לקוח בחבילה
         {
             public int Id { get; set; }
-            public int Battery { get; set; }
-            public Location CurrentLocation { get; set; }
+            public int Name { get; set; }
             public override string ToString()
             {
                 String result = "";
                 result += $"Id is {Id} \n";
-                result += $"Battery is {Battery} \n";
-                result += $"CurrentLocation is {CurrentLocation} \n";
+                result += $"Name is {Name} \n";
                 return result;
             }
         }

@@ -4,11 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
-    class DroneInCharging//רחפן בטעינה
+    namespace BO
     {
-        public int Id { get; set; }
-        public int Battery { get; set; }
+        class DroneInCharging//רחפן בטעינה
+        {
+            public int Id { get; set; }
+            public int Battery { get; set; }
+            public override string ToString()
+            {
+                String result = "";
+                result += $"Id is {Id} \n";
+                result += $"Battery is {Battery} \n";
+                return result;
+            }
+        }
     }
 }

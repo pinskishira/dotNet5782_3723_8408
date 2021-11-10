@@ -6,16 +6,31 @@ using System.Threading.Tasks;
 using static IBL.BO.Enum;
 using IBL.BO;
 
-namespace BL
+namespace IBL
 {
-    class DroneToList//רחפן לרשימה
+    namespace BO
     {
-        public int Id { get; set; }//ID
-        public string Model { get; set; }//The drone model
-        public WeightCategories MaxWeight { get; set; }
-        public int Battery { get; set; }
-        public State DroneStatus { get; set; }
-        public Location CurrentLocation { get; set; }
-        public int ParcelNumInTransfer { get; set; }
+        class DroneToList//רחפן לרשימה
+        {
+            public int Id { get; set; }//ID
+            public string Model { get; set; }//The drone model
+            public WeightCategories MaxWeight { get; set; }
+            public int Battery { get; set; }
+            public State DroneStatus { get; set; }
+            public Location CurrentLocation { get; set; }
+            public int ParcelNumInTransfer { get; set; }
+            public override string ToString()
+            {
+                String result = "";
+                result += $"Id is {Id} \n";
+                result += $"Model is {Model} \n";
+                result += $"MaxWeight is {MaxWeight} \n";
+                result += $"Battery is {Battery} \n";
+                result += $"DroneStatus is {DroneStatus} \n";
+                result += $"CurrentLocation is {CurrentLocation} \n";
+                result += $"ParcelNumInTransfer is {ParcelNumInTransfer} \n";
+                return result;
+            }
+        }
     }
 }
