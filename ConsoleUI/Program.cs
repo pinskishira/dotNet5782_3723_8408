@@ -255,11 +255,11 @@ namespace ConsoleUI
                             break;
                     }
                 }
-                catch (ItemExistsInList message)
+                catch (ItemExistsException message)
                 {
                     Console.WriteLine(message);
                 }
-                catch (ItemDoesNotExistInList message)
+                catch (ItemDoesNotExistException message)
                 {
                     Console.WriteLine(message);
                 }
