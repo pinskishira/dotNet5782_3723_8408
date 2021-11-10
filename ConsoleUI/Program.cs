@@ -254,7 +254,11 @@ namespace ConsoleUI
                             break;
                     }
                 }
-                catch (DataExceptions message)
+                catch (ItemExistsInList message)
+                {
+                    Console.WriteLine(message);
+                }
+                catch (ItemDoesNotExistInList message)
                 {
                     Console.WriteLine(message);
                 }

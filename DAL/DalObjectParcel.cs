@@ -18,7 +18,7 @@ namespace DalObject
         public void AddParcel(Parcel newParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == newParcel.Id))
-                throw new DataExceptions("The parcel already exists.\n");
+                throw new ItemExistsInList("The parcel already exists.\n");
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);
         }
@@ -29,7 +29,7 @@ namespace DalObject
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
-                throw new DataExceptions("The parcel does not exist.\n");
+                throw new ItemDoesNotExistInList("The parcel does not exist.\n");
             int indexParcel = 0;
             Parcel newParcel = new();
             while (DataSource.Parcels[indexParcel].Id != idParcel)//finding parcel that was collected by drone
@@ -45,7 +45,7 @@ namespace DalObject
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
-                throw new DataExceptions("The parcel does not exist.\n");
+                throw new ItemDoesNotExistInList("The parcel does not exist.\n");
             Parcel newParcel = new();
             int indexParcel = 0/*,indexDrone=0*/;
             while (DataSource.Parcels[indexParcel].Id != idParcel)
@@ -67,7 +67,7 @@ namespace DalObject
         public Parcel FindParcel(int id)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == id))
-                throw new DataExceptions("The parcel does not exist.\n");
+                throw new ItemDoesNotExistInList("The parcel does not exist.\n");
             int indexFindParcel = 0;
             while (DataSource.Parcels[indexFindParcel].Id != id)//Going through parcels array
                 indexFindParcel++;
