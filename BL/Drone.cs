@@ -17,7 +17,7 @@ namespace   IBL
             public WeightCategories MaxWeight { get; set; }
             public int Battery { get; set; }
             public State DroneStatus { get; set; }
-            public PackageInTranser ParcelInTranser { get; set; }
+            public ParcelInTransfer ParcelInTranser { get; set; }
             public Location CurrentLocation { get; set; }
             public override string ToString()
             {

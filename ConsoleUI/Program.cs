@@ -119,10 +119,10 @@ namespace ConsoleUI
                                     int.TryParse(Console.ReadLine(), out input);
                                     NewParcel.Priority = (Priorities)input;
                                     NewParcel.DroneId = 0;
-                                    NewParcel.Requested = new(0);
-                                    NewParcel.Scheduled = new(0);
-                                    NewParcel.Delivered = new(0);
-                                    NewParcel.PickedUp = new(0);
+                                    NewParcel.Requested = DateTime.MinValue;
+                                    NewParcel.Scheduled = DateTime.MinValue;
+                                    NewParcel.Delivered = DateTime.MinValue;
+                                    NewParcel.PickedUp = DateTime.MinValue;
                                     dalObj.AddParcel(NewParcel);
                                     break;
                             }
