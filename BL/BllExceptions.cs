@@ -31,5 +31,16 @@ namespace BL
                 return Message;
             }
         }
+        [Serializable]
+        public class FailedDisplayException : Exception//קלט לא חוקי
+        {
+            public FailedDisplayException() : base() { }
+            public FailedDisplayException(string message) : base(message) { }
+            public FailedDisplayException(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
     }
 }
