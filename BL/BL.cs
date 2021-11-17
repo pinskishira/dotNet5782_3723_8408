@@ -103,6 +103,7 @@ namespace BL
                 IDAL.DO.DroneCharge tempDroneCharge = new();//מעדכן שהרחפן בטעינה
                 tempDroneCharge.DroneId = newDrone.Id;
                 tempDroneCharge.StationId = stationNumber;
+                dalObject.AddDroneCharge(tempDroneCharge);//שולח להוספה את הרחפן בטעינה
                 IDAL.DO.Drone tempDrone = new();
                 newDrone.CopyPropertiesTo(tempDrone);
                 DroneToList newDroneToList = new();
@@ -111,9 +112,10 @@ namespace BL
                 newDroneToList.MaxWeight = newDrone.MaxWeight;
                 newDroneToList.Battery = newDrone.Battery;
                 newDroneToList.DroneStatus = newDrone.DroneStatus;
-
+                newDroneToList.CurrentLocation = newDrone.CurrentLocation;
+                newDroneToList.ParcelNumInTransfer = newDrone.ParcelInTransfer.Id;
+                BlDrones.Add(newDroneToList);
                 dalObject.AddDrone(tempDrone);//שולח להוספה את הרחפן
-                dalObject.AddDroneCharge(tempDroneCharge);//שולח להוספה את הרחפן בטעינה
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
