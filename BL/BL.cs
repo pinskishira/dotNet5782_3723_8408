@@ -70,9 +70,9 @@ namespace BL
                 if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4) 
                     throw new InvalidInputException("The identification number should be 4 digits long\n");
                 if (newStation.StationLocation.Longitude < -180 || newStation.StationLocation.Longitude > 180)
-                    throw new InvalidInputException("The longitude of the station is less than 0\n");
+                    throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 180\n");
                 if (newStation.StationLocation.Latitude < -90 || newStation.StationLocation.Latitude > 90) 
-                    throw new InvalidInputException("The latitude of the station is less than 0\n");
+                    throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between -90 and 90\n");
                 if (newStation.AvailableChargeSlots < 0)
                     throw new InvalidInputException("The number of charging stations of the station is less than 0\n");
                 IDAL.DO.Station tempStation = new();
@@ -132,10 +132,12 @@ namespace BL
                     throw new InvalidInputException("The identification number should be 9 digits long\n");
                 if (newCustomer.Name == "\n")
                     throw new InvalidInputException("You have to enter a valid name, with letters\n");
+                if (newCustomer.Phone.Length != 10)
+                    throw new InvalidInputException("You have to enter a valid phone, with 10 digits\n");
                 if (newCustomer.CustomerLocation.Longitude < -180 || newCustomer.CustomerLocation.Longitude > 180)
-                    throw new InvalidInputException("The longitude of the station is less than 0\n");
+                    throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 1800\n");
                 if (newCustomer.CustomerLocation.Latitude < -90 || newCustomer.CustomerLocation.Latitude > 90)
-                    throw new InvalidInputException("The latitude of the station is less than 0\n");
+                    throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between -90 and 90\n");
                 IDAL.DO.Customer tempCustomer = new();
                 newCustomer.CopyPropertiesTo(tempCustomer);
                 dalObject.AddCustomer(tempCustomer);
@@ -156,6 +158,13 @@ namespace BL
                     throw new InvalidInputException("The identification number of target should be 9 digits long\n");
                 if (newParcel.Weight != (WeightCategories)1 && newParcel.Weight != (WeightCategories)2 && newParcel.Weight != (WeightCategories)3)
                     throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
+                if(newParcel.Priority != (Priorities)1 && newParcel.Priority!= (Priorities)2 && newParcel.Priority != (Priorities)3)
+                    throw new InvalidInputException("You need to select 1- for Normal 2- for Fast 3- for Emergency\n");
+                newParcel.Requested = DateTime.Now;
+                newParcel.Scheduled = new(0);
+                newParcel.PickedUp = new(0);
+                newParcel.Delivered = new DateTime(0);
+                newParcel.DroneId = null;
                 IDAL.DO.Parcel tempParcel = new();
                 newParcel.CopyPropertiesTo(tempParcel);
                 dalObject.AddParcel(tempParcel);

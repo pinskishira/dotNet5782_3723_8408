@@ -17,7 +17,7 @@ namespace IBL
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DateTime Requested { get; set; }//זמן יצירת חבילה
-            public int DroneId { get; set; }
+            public int? DroneId { get; set; }
             public DateTime Scheduled { get; set; }//זמן שיוך חבילה
             public DateTime PickedUp { get; set; }//זמן איסוף
             public DateTime Delivered { get; set; }//זמן אספקה
