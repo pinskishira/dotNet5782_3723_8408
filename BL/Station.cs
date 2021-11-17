@@ -6,24 +6,27 @@ using System.Threading.Tasks;
 using static IBL.BO.Enum;
 using IBL.BO;
 
-namespace BL
+namespace IBL
 {
-    class Station
+    namespace BO
     {
-        public int Id { get; set; }//ID
-        public string NameOfStation { get; set; }//The station name
-        public Location StationLocation { get; set; }//Longitude
-        public int AvailableChargeSlots { get; set; }//Number of charging stations
-        public List<DroneInCharging> DronesInCharging { get; set; }
-        public override string ToString()//Override function
+        public class Station
         {
-            String result = "";
-            result += $"ID is {Id} \n";
-            result += $"Name is {NameOfStation} \n";
-            result += $"Location is {StationLocation} \n";
-            result += $"Available Charge Slots is {AvailableChargeSlots} \n";
-            result += $"Drones In Charging is {DronesInCharging} \n";
-            return result;
+            public int Id { get; set; }//ID
+            public string NameOfStation { get; set; }//The station name
+            public Location StationLocation { get; set; }//Longitude
+            public int AvailableChargeSlots { get; set; }//Number of charging stations
+            internal static List<DroneInCharging> DronesInCharging { get; set; }
+            public override string ToString()//Override function
+            {
+                String result = "";
+                result += $"ID is {Id} \n";
+                result += $"Name is {NameOfStation} \n";
+                result += $"Location is {StationLocation} \n";
+                result += $"Available Charge Slots is {AvailableChargeSlots} \n";
+                result += $"Drones In Charging is {DronesInCharging} \n";
+                return result;
+            }
         }
     }
 }

@@ -10,14 +10,14 @@ namespace   IBL
 {
     namespace BO
     {
-        class Drone
+        public class Drone
         {
             public int Id { get; set; }//ID
             public string Model { get; set; }//The drone model
             public WeightCategories MaxWeight { get; set; }
             public int Battery { get; set; }
-            public State DroneStatus { get; set; }
-            public ParcelInTransfer ParcelInTranser { get; set; }
+            public DroneStatuses DroneStatus { get; set; }
+            public ParcelInTransfer ParcelInTransfer { get; set; }
             public Location CurrentLocation { get; set; }
             public override string ToString()
             {
@@ -27,7 +27,7 @@ namespace   IBL
                 result += $"MaxWeight is {MaxWeight} \n";
                 result += $"Battery is {Battery} \n";
                 result += $"DroneStatus is {DroneStatus} \n";
-                result += $"ParcelInTranser is {ParcelInTranser} \n";
+                result += $"ParcelInTranser is {ParcelInTransfer} \n";
                 result += $"CurrentLocation is {CurrentLocation} \n";
                 return result;
             }

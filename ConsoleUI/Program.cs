@@ -1,6 +1,5 @@
 ﻿/*Yirat Biton 212628408 and Shira Pinski 214103723
  * Mini Project in Windows Systems
- * Exercise 1
  */
 using System;
 using IDAL.DO;
