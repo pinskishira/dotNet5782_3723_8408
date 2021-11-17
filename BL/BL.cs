@@ -25,7 +25,7 @@ namespace BL
             double MediumWeight = elecUse[2];
             double HeavyWeight = elecUse[3];
             double DroneLoadingRate = elecUse[4];
-            dalObject.GetAllParcels().First
+            dalObject.GetAllParcels().First()
             foreach (var indexOfDrones in BlDrones)
             {
                 bool flag = true;
@@ -119,15 +119,44 @@ namespace BL
         }
         public void AddCustomer(Customer newCustomer)
         {
-            IDAL.DO.Customer tempCustomer = new();
-            newCustomer.CopyPropertiesTo(tempCustomer);
-            dalObject.AddCustomer(tempCustomer);
+            try
+            {
+                if ((Math.Round(Math.Floor(Math.Log10(newCustomer.Id))) + 1) != 9)//if name inputted is not 9 digits long
+                    throw new InvalidInputException("The identification number should be 9 digits long\n");
+                if (newCustomer.Name == "\n")
+                    throw new InvalidInputException("You have to enter a valid name, with letters\n");
+                if (newCustomer.CustomerLocation.Longitude < -180 || newCustomer.CustomerLocation.Longitude > 180)
+                    throw new InvalidInputException("The longitude of the station is less than 0\n");
+                if (newCustomer.CustomerLocation.Latitude < -90 || newCustomer.CustomerLocation.Latitude > 90)
+                    throw new InvalidInputException("The latitude of the station is less than 0\n");
+                IDAL.DO.Customer tempCustomer = new();
+                newCustomer.CopyPropertiesTo(tempCustomer);
+                dalObject.AddCustomer(tempCustomer);
+            }
+            catch (IDAL.DO.ItemExistsException ex)
+            {
+                throw new FailedToAddException("The customer already exists.\n", ex);
+            }
         }
+            
         public void AddParcel(Parcel newParcel)
         {
-            IDAL.DO.Parcel tempParcel = new();
-            newParcel.CopyPropertiesTo(tempParcel);
-            dalObject.AddParcel(tempParcel);
+            try
+            {
+                if ((Math.Round(Math.Floor(Math.Log10(newParcel.SenderId.Id))) + 1) != 9)//if name inputted is not 9 digits long
+                    throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
+                if ((Math.Round(Math.Floor(Math.Log10(newParcel.TargetId.Id))) + 1) != 9)//if name inputted is not 9 digits long
+                    throw new InvalidInputException("The identification number of target should be 9 digits long\n");
+                if (newParcel.Weight != (WeightCategories)1 && newParcel.Weight != (WeightCategories)2 && newParcel.Weight != (WeightCategories)3)
+                    throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
+                IDAL.DO.Parcel tempParcel = new();
+                newParcel.CopyPropertiesTo(tempParcel);
+                dalObject.AddParcel(tempParcel);
+            }
+            catch (IDAL.DO.ItemExistsException ex)
+            {
+                throw new FailedToAddException("The parcel already exists.\n", ex);
+            }
         }
     }
 
