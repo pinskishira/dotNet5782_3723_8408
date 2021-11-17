@@ -15,53 +15,53 @@ namespace BL
         static Random rand = new Random();
         IDal dalObject = new DalObject.DalObject();
         List<DroneToList> BlDrones = new();
-        public BL()
-        {
-            dalObject.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
-            Random rand = new Random();
-            double[] elecUse = dalObject.electricityUse();
-            double Available = elecUse[0];
-            double LightWeight = elecUse[1];
-            double MediumWeight = elecUse[2];
-            double HeavyWeight = elecUse[3];
-            double DroneLoadingRate = elecUse[4];
-            dalObject.GetAllParcels().First
-            foreach (var indexOfDrones in BlDrones)
-            {
-                bool flag = true;
-                foreach (var indexOfParcels in dalObject.GetAllParcels())//going over the parcels
-                {
-                    if (indexOfParcels.DroneId == indexOfDrones.Id && indexOfParcels.Delivered == DateTime.MinValue)//if parcel was paired but not delivered
-                    {
-                        indexOfDrones.DroneStatus = (DroneStatuses)3;
-                        if (indexOfParcels.Scheduled != DateTime.MinValue && indexOfParcels.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
-                        {
-                            ///לשנות את זה
-                            indexOfDrones.CurrentLocation.Longitude = 0;
-                            indexOfDrones.CurrentLocation.Latitude = 1;
-                        }
-                        if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
-                        {
-                            ///לשנות את זה
-                            indexOfDrones.CurrentLocation.Longitude = 0;
-                            indexOfDrones.CurrentLocation.Latitude = 1;
-                        }
-                        ///לשנות את זה
-                        indexOfDrones.Battery = 0;
-                        flag = false;
-                        break;
-                    }
-                }
-                if (flag == true)//if drone is not doing a delivery
-                    indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);
-                if (indexOfDrones.DroneStatus == (DroneStatuses)2)
-                {
-                    List<IDAL.DO.Station> tempStations = (List<IDAL.DO.Station>)dalObject.GetAllStations();
+        //public BL()
+        //{
+        //    dalObject.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
+        //    Random rand = new Random();
+        //    double[] elecUse = dalObject.electricityUse();
+        //    double Available = elecUse[0];
+        //    double LightWeight = elecUse[1];
+        //    double MediumWeight = elecUse[2];
+        //    double HeavyWeight = elecUse[3];
+        //    double DroneLoadingRate = elecUse[4];
+        //    dalObject.GetAllParcels().First
+        //    foreach (var indexOfDrones in BlDrones)
+        //    {
+        //        bool flag = true;
+        //        foreach (var indexOfParcels in dalObject.GetAllParcels())//going over the parcels
+        //        {
+        //            if (indexOfParcels.DroneId == indexOfDrones.Id && indexOfParcels.Delivered == DateTime.MinValue)//if parcel was paired but not delivered
+        //            {
+        //                indexOfDrones.DroneStatus = (DroneStatuses)3;
+        //                if (indexOfParcels.Scheduled != DateTime.MinValue && indexOfParcels.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
+        //                {
+        //                    ///לשנות את זה
+        //                    indexOfDrones.CurrentLocation.Longitude = 0;
+        //                    indexOfDrones.CurrentLocation.Latitude = 1;
+        //                }
+        //                if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
+        //                {
+        //                    ///לשנות את זה
+        //                    indexOfDrones.CurrentLocation.Longitude = 0;
+        //                    indexOfDrones.CurrentLocation.Latitude = 1;
+        //                }
+        //                ///לשנות את זה
+        //                indexOfDrones.Battery = 0;
+        //                flag = false;
+        //                break;
+        //            }
+        //        }
+        //        if (flag == true)//if drone is not doing a delivery
+        //            indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);
+        //        if (indexOfDrones.DroneStatus == (DroneStatuses)2)
+        //        {
+        //            List<IDAL.DO.Station> tempStations = (List<IDAL.DO.Station>)dalObject.GetAllStations();
                     
-                }
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         public void AddStation(Station newStation)
         {
@@ -105,6 +105,13 @@ namespace BL
                 tempDroneCharge.StationId = stationNumber;
                 IDAL.DO.Drone tempDrone = new();
                 newDrone.CopyPropertiesTo(tempDrone);
+                DroneToList newDroneToList = new();
+                newDroneToList.Id = newDrone.Id;
+                newDroneToList.Model = newDrone.Model;
+                newDroneToList.MaxWeight = newDrone.MaxWeight;
+                newDroneToList.Battery = newDrone.Battery;
+                newDroneToList.DroneStatus = newDrone.DroneStatus;
+
                 dalObject.AddDrone(tempDrone);//שולח להוספה את הרחפן
                 dalObject.AddDroneCharge(tempDroneCharge);//שולח להוספה את הרחפן בטעינה
             }
