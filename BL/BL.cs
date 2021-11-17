@@ -207,39 +207,34 @@ namespace BL
                     tempParcelInTransfer.ParcelState = true;
                 else
                     tempParcelInTransfer.ParcelState = false;
-                tempParcelInTransfer.TransportDistance= Distance.Haversine
+                tempParcelInTransfer.TransportDistance = Distance.Haversine
                 (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
             }
 
-            return ;
+            return;
         }
-        public Drone DisplayDrone(Drone drone)
-        {
-            return drone;
-        }
-    }
-
-        public Station DisplayStation (int stationId)
+        public Station DisplayStation(int stationId)
         {
             Station blStation = new();
             try
             {
                 IDAL.DO.Station dalStation = dalObject.FindStation(stationId);
                 blStation.CopyPropertiesTo(dalStation);
+                int i = 0;
                 foreach (var indexOfDroneCharges in dalObject.GetAllDroneCharges())
                 {
                     if (indexOfDroneCharges.Id == stationId)
                     {
-                        DroneInCharging tempDroneCharge= new();
-                        tempDroneCharge.Id = indexOfDroneCharges.Id;
-                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == tempDroneCharge.Id);
+                        blStation.DronesInCharging[i].Id = indexOfDroneCharges.Id;
+                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.Id);
                         if (tempDroneToList == default)
-                            throw FailedDisplayException("The Id number does not exist. \n");
-                        tempDroneCharge.Battery = tempDroneToList.Battery;
+                            throw new FailedDisplayException("The Id number does not exist. \n");
+                        blStation.DronesInCharging[i].Battery = tempDroneToList.Battery;
                     }
+                    i++;
                 }
             }
-            catch(IDAL.DO.ItemDoesNotExistException ex)
+            catch (IDAL.DO.ItemDoesNotExistException ex)
             {
                 throw new FailedDisplayException("The Id does not exist.\n", ex);
             }
@@ -252,29 +247,36 @@ namespace BL
             {
                 IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);
                 blCustomer.CopyPropertiesTo(dalCustomer);
+                int i = 0;
                 foreach (var indexOfParcels in dalObject.GetAllParcels())
                 {
-                    if(indexOfParcels.TargetId == customerId)
+                    if (indexOfParcels.TargetId == customerId)
                     {
                         ParcelAtCustomer tempParcelAtCustomer = new();
                         indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
                         tempParcelAtCustomer.Id = indexOfParcels.TargetId;
                         //tempParcelAtCustomer.Weight = (WeightCategories)(IDAL.DO.WeightCategories)indexOfParcels.Weight;
                         //tempParcelAtCustomer.Priority = (Priorities)(IDAL.DO.Priorities)indexOfParcels.Priority;
-                        //tempParcelAtCustomer.StateOfParcel
+                        if (indexOfParcels.Requested == DateTime.Now)
+                            tempParcelAtCustomer.StateOfParcel = (ParcelState)1;
+                        //else???
                         foreach (var indexOfcustomers in dalObject.GetAllCustomers())
                         {
-                            if(indexOfcustomers.Id == customerId)
+                            if (indexOfcustomers.Id == indexOfParcels.TargetId)
+                            {
+                                blCustomer.ParcelsFromCustomers = indexOfcustomers.Id;
+                            }
                         }
                     }
 
+
                 }
             }
-            catch()
+            catch ()
             {
 
             }
-            return drone;
+            return blCustomer;
         }
-
+    }
 }
