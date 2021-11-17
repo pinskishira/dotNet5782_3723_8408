@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class CustomerToList//לקוח לרשימה
+        public class CustomerToList//לקוח לרשימה
         {
             public int Id { get; set; }
             public string Name { get; set; }

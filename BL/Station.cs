@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static IBL.BO.Enum;
 using IBL.BO;
 
+
 namespace IBL
 {
     namespace BO
@@ -16,7 +17,7 @@ namespace IBL
             public string NameOfStation { get; set; }//The station name
             public Location StationLocation { get; set; }//Longitude
             public int AvailableChargeSlots { get; set; }//Number of charging stations
-            internal static List<DroneInCharging> DronesInCharging { get; set; }
+            public List<DroneInCharging> DronesInCharging { get; set; }
             public override string ToString()//Override function
             {
                 String result = "";

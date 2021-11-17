@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    class StationToList//תחתנת בסיס לרשימה
+    public class StationToList//תחתנת בסיס לרשימה
     {
         public int Id { get; set; }
         public string NameOfStation { get; set; }

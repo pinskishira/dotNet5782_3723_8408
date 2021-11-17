@@ -63,7 +63,7 @@ namespace DalObject
             {
                 tempStations.Add(indexOfStations);
             }
-            return (IEnumerable<Station>)tempStations;
+            return tempStations;
         }
     }
 }

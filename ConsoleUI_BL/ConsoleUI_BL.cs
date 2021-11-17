@@ -2,7 +2,9 @@
 using IDAL;
 using System.Collections.Generic;
 using IBL.BO;
+using IBL;
 using static IBL.BO.Enum;
+using BL.IBL.BO;
 
 namespace ConsoleUI_BL
 {
@@ -12,11 +14,11 @@ namespace ConsoleUI_BL
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
 
-    class Class1
+    class ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
-            BL.BL ibl = new BL.BL();
+            BL.BL ibl = new BL.BL();//
             int ansFromUserInt, input;
             double ansFromUserDouble1;
             double ansFromUserDouble2;
@@ -38,7 +40,7 @@ namespace ConsoleUI_BL
                     {
                         case (BlMainSwitchFunctions)AddingFunction.AddStation://case which adds a new station with data into the Stations array
                             Station newStation = new();
-                            Console.Write("Enter new station Id: ");
+                            Console.Write("Enter a four-digit number in a new station ID number: ");
                             int.TryParse(Console.ReadLine(), out input);
                             newStation.Id = input;
                             Console.Write("Enter new station name: ");
@@ -48,10 +50,10 @@ namespace ConsoleUI_BL
                             double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
                             newStation.StationLocation.Latitude = ansFromUserDouble1;
                             newStation.StationLocation.Longitude = ansFromUserDouble1;
-                            Console.Write("Enter amount of charge slots in new station : ");
+                            Console.Write("Enter amount of charge slots in new station: ");
                             int.TryParse(Console.ReadLine(), out input);
                             newStation.AvailableChargeSlots = input;
-                            //newStation.DronesInCharging = 0;
+                            newStation.DronesInCharging = new List<DroneInCharging>();
                             ibl.AddStation(newStation);
                             break;
                         case (BlMainSwitchFunctions)AddingFunction.AddDrone://case which adds a new drone with data into the Drones array
@@ -64,10 +66,10 @@ namespace ConsoleUI_BL
                             Console.WriteLine("Enter drones' maximum weight:\n1 - Easy\n2 - Medium\n3 - Heavy");
                             int.TryParse(Console.ReadLine(), out input);
                             newDrone.MaxWeight = (WeightCategories)input;
-                            Console.Write("Enter the drones' battery status: ");
+                            Console.Write("Enter station number: ");
                             int.TryParse(Console.ReadLine(), out input);
-                            //newDrone.Battery = input;
-                            ibl.AddDrone(newDrone);
+                            int stationNumber = input;
+                            ibl.AddDrone(newDrone, stationNumber);
                             break;
                         case (BlMainSwitchFunctions)AddingFunction.AddCustomer://case which adds a new customer with data into the Customers array
                             Customer NewCustomer = new();
@@ -112,9 +114,13 @@ namespace ConsoleUI_BL
                     }
                     break;
                 }
-                catch ()
+                catch (InvalidEntryException ex)
                 {
-
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ItemExistsException ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
             while (answerMain != BlMainSwitchFunctions.Exit) ;

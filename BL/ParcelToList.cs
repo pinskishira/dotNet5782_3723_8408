@@ -8,7 +8,7 @@ using IBL.BO;
 
 namespace BL
 {
-    class ParcelToList//חבילה לרשימה
+    public class ParcelToList//חבילה לרשימה
     {
         public int Id { get; set; }
         public string SenderName { get; set; }
