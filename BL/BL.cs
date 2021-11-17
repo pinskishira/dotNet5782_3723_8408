@@ -180,6 +180,43 @@ namespace BL
                 throw new FailedToAddException("The parcel already exists.\n", ex);
             }
         }
+        public Drone DisplayDrone(int droneId)
+        {
+            DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);
+            if (tempDroneToList == default)
+                throw new FailedDisplayException("The ID number does not exist\n");
+            Drone dalDrone = new();
+            dalDrone.Id = tempDroneToList.Id;
+            dalDrone.Model = tempDroneToList.Model;
+            dalDrone.MaxWeight = tempDroneToList.MaxWeight;
+            dalDrone.Battery = tempDroneToList.Battery;
+            dalDrone.DroneStatus = tempDroneToList.DroneStatus;
+            dalDrone.CurrentLocation = tempDroneToList.CurrentLocation;
+            if (tempDroneToList.ParcelNumInTransfer == 0)
+                dalDrone.ParcelInTransfer = default;
+            else
+            {
+                Parcel tempParcel = DisplayParcel(tempDroneToList.ParcelNumInTransfer);
+                ParcelInTransfer tempParcelInTransfer = new();
+                tempParcel.CopyPropertiesTo(tempParcelInTransfer);
+                Customer Sender = DisplayCustomer(tempParcelInTransfer.Sender.Id);
+                Customer Target = DisplayCustomer(tempParcelInTransfer.Target.Id);
+                tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
+                tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
+                if (tempParcel.PickedUp == DateTime.MinValue)
+                    tempParcelInTransfer.ParcelState = true;
+                else
+                    tempParcelInTransfer.ParcelState = false;
+                tempParcelInTransfer.TransportDistance= Distance.Haversine
+                (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
+            }
+
+            return ;
+        }
+        public Drone DisplayDrone(Drone drone)
+        {
+            return drone;
+        }
     }
 
 }
