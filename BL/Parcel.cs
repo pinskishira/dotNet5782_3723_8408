@@ -16,8 +16,8 @@ namespace IBL
             public CustomerInParcel TargetId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
+            public DroneInParcel DroneParcel { get; set; }
             public DateTime Requested { get; set; }//זמן יצירת חבילה
-            public int? DroneId { get; set; }
             public DateTime Scheduled { get; set; }//זמן שיוך חבילה
             public DateTime PickedUp { get; set; }//זמן איסוף
             public DateTime Delivered { get; set; }//זמן אספקה
@@ -29,8 +29,8 @@ namespace IBL
                 result += $"TargetId is {TargetId} \n";
                 result += $"Weight is {Weight} \n";
                 result += $"Priority is {Priority} \n";
+                result += $"DroneParcel is {DroneParcel} \n";
                 result += $"Requested is {Requested} \n";
-                result += $"DroneId is {DroneId} \n";
                 result += $"Scheduled is {Scheduled} \n";
                 result += $"Delivered is {Delivered} \n";
                 result += $"PickedUp is {PickedUp} \n";

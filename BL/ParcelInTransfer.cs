@@ -12,9 +12,9 @@ namespace IBL
         public class ParcelInTransfer//חבילה בהעברה
         {
             public int Id { get; set; }
-            public bool StateOfParcel { get; set; }
-            public WeightCategories Weight { get; set; }
+            public bool ParcelState { get; set; }
             public Priorities Priority { get; set; }
+            public WeightCategories Weight { get; set; }
             public CustomerInParcel Sender { get; set; }
             public CustomerInParcel Target { get; set; }
             public Location CollectionLocation { get; set; }
@@ -24,10 +24,10 @@ namespace IBL
             {
                 String result = "";
                 result += $"ID is {Id} \n";
-                result += $"State Of Parcel is {StateOfParcel} \n";
-                result += $"Sender is {Sender} \n";
-                result += $"Weight is {Weight} \n";
+                result += $"State Of Parcel is {ParcelState} \n";
                 result += $"Priority is {Priority} \n";
+                result += $"Weight is {Weight} \n";
+                result += $"Sender is {Sender} \n";
                 result += $"Target is {Target} \n";
                 result += $"Collection Location is {CollectionLocation} \n";
                 result += $"Delivery Destination is {DeliveryDestination} \n";

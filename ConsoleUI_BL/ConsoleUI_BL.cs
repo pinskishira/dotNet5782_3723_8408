@@ -53,7 +53,7 @@ namespace ConsoleUI_BL
                             Console.Write("Enter amount of charge slots in new station: ");
                             int.TryParse(Console.ReadLine(), out input);
                             newStation.AvailableChargeSlots = input;
-                            newStation.DronesInCharging = new List<DroneInCharging>();
+                            newStation.DronesInCharging = null;
                             ibl.AddStation(newStation);
                             break;
                         case (BlMainSwitchFunctions)AddingFunction.AddDrone://case which adds a new drone with data into the Drones array

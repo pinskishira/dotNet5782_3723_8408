@@ -16,6 +16,8 @@ namespace IBL
             public string Name { get; set; }
             public string Phone { get; set; }
             public Location CustomerLocation { get; set; }
+            public IEnumerable<ParcelAtCustomer> ParcelsFromCustomers { get; set; }
+            public IEnumerable<ParcelAtCustomer> ParcelsToCustomers { get; set; }
             public override string ToString()
             {
                 String result = "";
@@ -23,6 +25,8 @@ namespace IBL
                 result += $"Name is {Name} \n";
                 result += $"Phone is {Phone} \n";
                 result += $"CustomerLocation is {CustomerLocation} \n";
+                result += $"ParcelsFromCustomers is {ParcelsFromCustomers} \n";
+                result += $"ParcelsToCustomers is {ParcelsToCustomers} \n";
                 return result;
             }
         }

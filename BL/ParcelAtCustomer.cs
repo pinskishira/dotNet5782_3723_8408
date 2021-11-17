@@ -13,17 +13,17 @@ namespace IBL
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }
-            public DroneStatuses Status { get; set; }
-            public State State { get; set; }
+            public Priorities Priority { get; set; }
+            public ParcelState StateOfParcel { get; set; }
             public CustomerInParcel SourceOrDestination { get; set; }
             public override string ToString()//Override function
             {
                 String result = "";
                 result += $"ID is {Id} \n";
                 result += $"Weight is {Weight} \n";
-                result += $"Status is {Status} \n";
-                result += $"Target Id is {SourceOrDestination} \n";
-                result += $"State is {State} \n";
+                result += $"Priority is {Priority} \n";
+                result += $"State Of Parcel is {StateOfParcel} \n";
+                result += $"Source Or Destination is {SourceOrDestination} \n";
                 return result;
             }
         }
