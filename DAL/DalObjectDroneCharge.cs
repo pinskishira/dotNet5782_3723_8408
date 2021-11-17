@@ -75,5 +75,14 @@ namespace DalObject
             //DataSource.Drones[indexD].Battery = 100;
             //DataSource.Drones[indexD].Status = DroneStatuses.Available;
         }
+        public IEnumerable<DroneCharge> GetAllDroneCharges()
+        {
+            List<DroneCharge> tempDroneCharges = new();
+            foreach (var indexOfDroneCharges in DataSource.DroneCharges)
+            {
+                tempDroneCharges.Add(indexOfDroneCharges);
+            }
+            return tempDroneCharges;
+        }
     }
 }

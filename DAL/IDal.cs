@@ -20,8 +20,10 @@ namespace IDAL
         IEnumerable<Drone> GetAllDrones();
         IEnumerable<Parcel> GetAllParcels();
         IEnumerable<Station> GetAllStations();
+        IEnumerable<Station> GetAllDroneCharges();
         IEnumerable<Station> GetStationWithFreeSlots();
         IEnumerable<Parcel> ParcelWithNoDrone();
+
         void UpdateAssignParcelToDrone(int idParcel, int idDrone);
         void UpdateParcelCollectionByDrone(int idParcel);
         void UpdateParcelDeliveryToCustomer(int idParcel);

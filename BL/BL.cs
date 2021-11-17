@@ -180,6 +180,63 @@ namespace BL
                 throw new FailedToAddException("The parcel already exists.\n", ex);
             }
         }
-    }
+
+        public Station DisplayStation (int stationId)
+        {
+            Station blStation = new();
+            try
+            {
+                IDAL.DO.Station dalStation = dalObject.FindStation(stationId);
+                blStation.CopyPropertiesTo(dalStation);
+                foreach (var indexOfDroneCharges in dalObject.GetAllDroneCharges())
+                {
+                    if (indexOfDroneCharges.Id == stationId)
+                    {
+                        DroneInCharging tempDroneCharge= new();
+                        tempDroneCharge.Id = indexOfDroneCharges.Id;
+                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == tempDroneCharge.Id);
+                        if (tempDroneToList == default)
+                            throw FailedDisplayException("The Id number does not exist. \n");
+                        tempDroneCharge.Battery = tempDroneToList.Battery;
+                    }
+                }
+            }
+            catch(IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedDisplayException("The Id does not exist.\n", ex);
+            }
+            return blStation;
+        }
+        public Customer DisplayCustomer(int customerId)
+        {
+            Customer blCustomer = new();
+            try
+            {
+                IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);
+                blCustomer.CopyPropertiesTo(dalCustomer);
+                foreach (var indexOfParcels in dalObject.GetAllParcels())
+                {
+                    if(indexOfParcels.TargetId == customerId)
+                    {
+                        ParcelAtCustomer tempParcelAtCustomer = new();
+                        indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
+                        tempParcelAtCustomer.Id = indexOfParcels.TargetId;
+                        //tempParcelAtCustomer.Weight = (WeightCategories)(IDAL.DO.WeightCategories)indexOfParcels.Weight;
+                        //tempParcelAtCustomer.Priority = (Priorities)(IDAL.DO.Priorities)indexOfParcels.Priority;
+                        //tempParcelAtCustomer.StateOfParcel
+                        foreach (var indexOfcustomers in dalObject.GetAllCustomers())
+                        {
+                            if(indexOfcustomers.Id == customerId)
+                        }
+                    }
+
+                }
+            }
+            catch()
+            {
+
+            }
+            return drone;
+        }
 
 }
