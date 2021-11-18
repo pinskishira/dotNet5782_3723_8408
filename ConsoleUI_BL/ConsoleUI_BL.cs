@@ -125,24 +125,16 @@ namespace ConsoleUI_BL
                             switch (answerDisplay)
                             {
                                 case DisplayingFunction.Station://case which displays the requested station
-                                    Station s = new();
-                                    s = ibl.DisplayStation(s.Id);//finds station according to inputted id
-                                    Console.WriteLine(s.ToString());
+                                    Console.WriteLine(ibl.DisplayStation(id));//finds station according to inputted id
                                     break;
                                 case DisplayingFunction.Drone://case which displays the requested drone
-                                    Drone d = new();
-                                    d = ibl.DisplayDrone(d.Id);//finds drone according to inputted id
-                                    Console.WriteLine(d.ToString());
+                                    Console.WriteLine(ibl.DisplayDrone(id));//finds drone according to inputted id
                                     break;
                                 case DisplayingFunction.Customer://case which displays the requested customer
-                                    Customer c = new();
-                                    ibl.DisplayCustomer(c.Id);//finds customer according to inputted id
-                                    Console.WriteLine(c.ToString());
+                                    Console.WriteLine(ibl.DisplayCustomer(id));//finds customer according to inputted id
                                     break;
                                 case DisplayingFunction.Parcel://case which displays the requested parcel
-                                    Parcel p = new();
-                                    ibl.DisplayParcel(p.Id);//finds parcel according to inputted id
-                                    Console.WriteLine(p.ToString());
+                                    Console.WriteLine(ibl.DisplayParcel(id));//finds parcel according to inputted id
                                     break;
                             }
                             break;

@@ -235,7 +235,7 @@ namespace BL
             }
             return blStation;
         }
-        public Parcel DisplayParcel(int parcelId)
+        public Parcel DisplayParcel(int parcelId)//תצוגת חבילה
         {
             Parcel blParcel = new();
             try
