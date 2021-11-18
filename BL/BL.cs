@@ -329,7 +329,7 @@ namespace BL
             {
                 tempParcel = DisplayParcel(indexOfParcels.Id);
                 tempParcel.CopyPropertiesTo(tempParcelToList);
-
+                if()
             }
             return parcelToLists;
         }
