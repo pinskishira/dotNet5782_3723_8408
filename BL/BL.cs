@@ -302,6 +302,45 @@ namespace BL
             }
             return blCustomer;
         }
-        
+        public IEnumerable<DroneToList> ListViewDrones()
+        {
+            return BlDrones;
+        }
+        public IEnumerable<CustomerToList> ListViewCustomers()
+        {
+            Customer tempCustomer = new();
+            CustomerToList tempCustomerToList = new();
+            List<CustomerToList> customerToList = new();
+            foreach (var indexCustomer in dalObject.GetAllCustomers())
+            {
+                tempCustomer = DisplayCustomer(indexCustomer.Id);//מביא את הלקוח לפי המספר המזהה
+                tempCustomer.CopyPropertiesTo(tempCustomerToList);//המרה//dal->bll
+                foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//עובר על הרשימה של החבילות מהלקוח
+                {
+                    if (parcelsFromCustomers.StateOfParcel == (ParcelState)4)//אם החבילה סופקה
+                        tempCustomerToList.ParcelsSentAndDelivered++;
+                    else//אם החבילה לא סופקה
+                        tempCustomerToList.ParcelsSentButNotDelivered++;
+                }
+                foreach (var parcelsToCustomers in tempCustomer.ParcelsToCustomers)//עובר על הרשימה של החבילות ללקוח
+                {
+                    if (parcelsToCustomers.StateOfParcel == (ParcelState)4)//אם הוא קיבל את החבילה
+                        tempCustomerToList.RecievedParcels++;
+                    else//אם החבילה בדרך
+                        tempCustomerToList.ParcelsOnTheWayToCustomer++;
+                }
+                customerToList.Add(tempCustomerToList);
+            }
+            return customerToList;
+        }
+        public IEnumerable<ParcelToList> ParcelWithNoDrone()
+        {
+            List<ParcelToList> parcelToList = new();
+            foreach (var indexOfParcels in collection)
+            {
+
+            }
+
+        }
     }
 }

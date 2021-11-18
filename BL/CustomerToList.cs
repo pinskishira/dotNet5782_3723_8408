@@ -12,11 +12,11 @@ namespace IBL
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public long Phone { get; set; }
-            public int ParcelsSentAndDelivered { get; set; }
-            public int ParcelsSentButNotDelivered { get; set; }
-            public int RecievedParcels { get; set; }
-            public int ParcelsOnTheWayToCustomer { get; set; }
+            public string Phone { get; set; }
+            public int ParcelsSentAndDelivered { get; set; }//מספר חבילות ששלח וסופקו
+            public int ParcelsSentButNotDelivered { get; set; }//מספר חבילות ששלח אך עוד לא סופקו
+            public int RecievedParcels { get; set; }//מספר חבילות שקיבל
+            public int ParcelsOnTheWayToCustomer { get; set; }//מספר חבילות שבדרך אל הלקוח
             public override string ToString()
             {
                 String result = "";
