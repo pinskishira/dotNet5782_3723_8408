@@ -247,7 +247,7 @@ namespace BL
             {
                 IDAL.DO.Parcel dalParcel = dalObject.FindParcel(parcelId);
                 dalParcel.CopyPropertiesTo(blParcel);
-                Customer target = 
+                Customer target = GetCustomer(dalParcel.id);
                 //foreach (var indexOfCustomers in dalObject.GetAllCustomers())
                 //{
                 //    if (indexOfCustomers.Id == blParcel.TargetId.Id)
@@ -270,6 +270,13 @@ namespace BL
             }
             return blParcel;
         }
+
+        public Customer GetCustomer(int Id)
+        {
+            
+            return 
+        }
+        
         public Customer DisplayCustomer(int customerId)
         {
             Customer blCustomer = new();
