@@ -367,11 +367,23 @@ namespace BL
         public IEnumerable<ParcelToList> ParcelWithNoDrone()
         {
             List<ParcelToList> parcelToList = new();
-            foreach (var indexOfParcels in collection)
-            {
 
+            foreach (var indexOfParcels in ListViewParcels())
+            {
+                
             }
 
+            return;
+        }
+        public IEnumerable<StationToList> GetStationWithFreeSlots()
+        {
+            List<StationToList> stationToList = new();
+            foreach (var indexOfStation in ListViewStations())
+            {
+                if (indexOfStation.AvailableChargingSlots > 0)
+                    stationToList.Add(indexOfStation);
+            }
+            return stationToList;
         }
     }
 }
