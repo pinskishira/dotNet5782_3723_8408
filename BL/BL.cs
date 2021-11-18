@@ -242,20 +242,21 @@ namespace BL
             {
                 IDAL.DO.Parcel dalParcel = dalObject.FindParcel(parcelId);
                 dalParcel.CopyPropertiesTo(blParcel);
-                foreach (var indexOfCustomers in dalObject.GetAllCustomers())
-                {
-                    if (indexOfCustomers.Id == blParcel.TargetId.Id)
-                        blParcel.TargetId.Name = indexOfCustomers.Name;
-                    //למלאות שם של שולח
-                    DroneInParcel tempDroneInParcel = new();
-                    tempDroneInParcel.Id = dalParcel.DroneId;
-                    DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == tempDroneInParcel.Id);
-                    if (tempDroneToList == default)
-                        throw new FailedDisplayException("The Id number does not exist. \n");
-                    tempDroneInParcel.Battery = tempDroneToList.Battery;
-                    tempDroneInParcel.CurrentLocation = tempDroneToList.CurrentLocation;
-                    blParcel.DroneParcel = tempDroneInParcel;
-                }
+                Customer target = 
+                //foreach (var indexOfCustomers in dalObject.GetAllCustomers())
+                //{
+                //    if (indexOfCustomers.Id == blParcel.TargetId.Id)
+                //        blParcel.TargetId.Name = indexOfCustomers.Name;
+                //    //למלאות שם של שולח
+                //    DroneInParcel tempDroneInParcel = new();
+                //    tempDroneInParcel.Id = dalParcel.DroneId;
+                //    DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == tempDroneInParcel.Id);
+                //    if (tempDroneToList == default)
+                //        throw new FailedDisplayException("The Id number does not exist. \n");
+                //    tempDroneInParcel.Battery = tempDroneToList.Battery;
+                //    tempDroneInParcel.CurrentLocation = tempDroneToList.CurrentLocation;
+                //    blParcel.DroneParcel = tempDroneInParcel;
+                //}
   
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)

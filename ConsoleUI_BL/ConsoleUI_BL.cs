@@ -114,8 +114,38 @@ namespace ConsoleUI_BL
                                     break;
                             }
                             break;
-                    }
-                }
+                            case BlMainSwitchFunctions.Display: //the user will choose whether he wants to display the stations, drones, customers, or parcels
+                            Console.WriteLine("What will you like to display?\nEnter 1 for station\nEnter 2 for drone\n" +
+                             "Enter 3 for customer\nEnter 4 for parcel\n");
+                            int.TryParse(Console.ReadLine(), out input);
+                            answerDisplay = (DisplayingFunction)input;
+                            Console.WriteLine("Enter your ID number: ");
+                            int id;
+                            int.TryParse(Console.ReadLine(), out id);
+                            switch (answerDisplay)
+                            {
+                                case DisplayingFunction.Station://case which displays the requested station
+                                    Station s = new();
+                                    s = ibl.DisplayStation(s.Id);//finds station according to inputted id
+                                    Console.WriteLine(s.ToString());
+                                    break;
+                                case DisplayingFunction.Drone://case which displays the requested drone
+                                    Drone d = new();
+                                    d = ibl.DisplayDrone(d.Id);//finds drone according to inputted id
+                                    Console.WriteLine(d.ToString());
+                                    break;
+                                case DisplayingFunction.Customer://case which displays the requested customer
+                                    Customer c = new();
+                                    ibl.DisplayCustomer(c.Id);//finds customer according to inputted id
+                                    Console.WriteLine(c.ToString());
+                                    break;
+                                case DisplayingFunction.Parcel://case which displays the requested parcel
+                                    Parcel p = new();
+                                    ibl.DisplayParcel(p.Id);//finds parcel according to inputted id
+                                    Console.WriteLine(p.ToString());
+                                    break;
+                            }
+                            break;
                 catch (InvalidInputException ex)
                 {
                     Console.WriteLine(ex.Message);
