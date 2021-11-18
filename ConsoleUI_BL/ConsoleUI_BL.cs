@@ -148,32 +148,33 @@ namespace ConsoleUI_BL
                             switch (answerListView)
                             {
                                 case ListViewFunction.Stations://case which views the stations array
-                                    IEnumerable<Station> viewStations = ibl.ListViewStations(); 
+                                    
+                                    IEnumerable<StationToList> viewStations = ibl.ListViewStations(); 
                                     foreach (var station in viewStations)//prints all stations
                                         Console.WriteLine(station);
                                     break;
                                 case ListViewFunction.Drones://case which views the drones array
-                                    IEnumerable<Drone> viewDrones = ibl.ListViewDrones();
+                                    IEnumerable<DroneToList> viewDrones = ibl.ListViewDrones();
                                     foreach (var drone in viewDrones)//prints all drones
                                         Console.WriteLine(drone);
                                     break;
                                 case ListViewFunction.Customers://case which views the customers array
-                                    IEnumerable<Customer> viewCustomers = ibl.ListViewCustomers();
+                                    IEnumerable<CustomerToList> viewCustomers = ibl.ListViewCustomers();
                                     foreach (var customer in viewCustomers)//prints all customers
                                         Console.WriteLine(customer);
                                     break;
                                 case ListViewFunction.Parcels://case which views the parcels array
-                                    IEnumerable<Parcel> viewParcels = ibl.ListViewParcels();
+                                    IEnumerable<ParcelToList> viewParcels = ibl.ListViewParcels();
                                     foreach (var parcel in viewParcels)//prints all parcels
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.ParcelWithNoDrone();
+                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = ibl.ParcelWithNoDrone();
                                     foreach (var parcel in ViewParcelsWithNoDrone)//printing
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
+                                    IEnumerable<Station> viewStationWithAvailableChargingStation = ibl.GetStationWithFreeSlots();
                                     foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
                                         Console.WriteLine(station);
                                     break;
