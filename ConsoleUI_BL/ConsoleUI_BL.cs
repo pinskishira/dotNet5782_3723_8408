@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
 {
     public enum BlMainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
     public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel };
-    public enum UpdateingFunction { AssignParcelToDrone = 1, ParcelCollectionByDrone, ParcelDeliveryToCustomer, SendDroneToChargingStation, DroneReleaseFromChargingStation };
+    public enum UpdatingFunction { UpdateDrone = 1,UpdateCustomer, UpdateStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer, SendDroneToChargingStation, DroneReleaseFromChargingStation };
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
 
@@ -25,7 +25,7 @@ namespace ConsoleUI_BL
             AddingFunction answerAdd;
             BlMainSwitchFunctions answerMain;
             DisplayingFunction answerDisplay;
-            UpdateingFunction answerUpdate;
+            UpdatingFunction answerUpdate;
             ListViewFunction answerListView;
 
             do
@@ -111,6 +111,81 @@ namespace ConsoleUI_BL
                                     NewParcel.Priority = (Priorities)input;
                                     NewParcel.DroneParcel = null;
                                     ibl.AddParcel(NewParcel);
+                                    break;
+                            }
+                            break;
+                        case BlMainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone,
+                                                        //parcel delivery to customer, sending drone to charge, and release from charge
+                            Console.WriteLine("What object do you want to update?\nEnter 1 to assign a parcel to a drone\n" +
+                                "Enter 2 for parcel collection by drone\nEnter 3 for parcel delivery to customer\n" +
+                                "Enetr 4 to send drone to charging station\nEnter 5 for drone release from charging station\n");
+                            int.TryParse(Console.ReadLine(), out input);
+                            answerUpdate = (UpdatingFunction)input;
+                            int IdParcel, IdDrone, Idcustomer;
+                            string names;
+                            switch (answerUpdate)
+                            {
+                                case UpdatingFunction.UpdateDrone:
+                                    Console.WriteLine("Enter your drone ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdDrone);
+                                    Console.Write("Enter the new model name for the drone ");
+                                    names = Console.ReadLine();
+                                    ibl.UpdateDrone(IdDrone, names);
+                                    break;
+                                case UpdatingFunction.UpdateStation:
+                                    Console.WriteLine("Enter your station ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdDrone);
+                                    Console.Write("Enter your station name: ");
+                                    names = Console.ReadLine();
+                                    break;
+                                case UpdatingFunction.UpdateCustomer:
+                                    Console.WriteLine("Enter your customer ID: ");
+                                    int.TryParse(Console.ReadLine(), out Idcustomer);
+                                    Console.WriteLine("Enter your new customer name: ");
+                                    names = Console.ReadLine();
+                                    Console.WriteLine("Enter your new customer phone: ");
+                                    int.TryParse(Console.ReadLine(), out Idcustomer);
+                                    ibl.UpdateCustomer(Idcustomer, names)
+                                    break;
+                                case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
+                                    Console.Write("Enter your parcel ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdParcel);
+                                    Console.Write("Enter your drone ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdDrone);
+                                    ibl.UpdateAssignParcelToDrone(IdParcel, IdDrone);
+                                    break;
+                                case UpdatingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
+                                    Console.Write("Enter your parcel ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdParcel);
+                                    ibl.UpdateParcelCollectionByDrone(IdParcel);
+                                    break;
+                                case UpdatingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
+                                    Console.Write("Enter your parcel ID: ");
+                                    int.TryParse(Console.ReadLine(), out IdParcel);
+                                    ibl.UpdateParcelDeliveryToCustomer(IdParcel);
+                                    break;
+                                case UpdatingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
+                                    Console.Write("Enter the ID of the Drone with low battery: ");
+                                    int IdOfLowBatteryDrone;
+                                    int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
+                                    Console.Write("Please enter your desired station: ");
+                                    IEnumerable<Station> AvailableStation = ibl.GetStationWithFreeSlots();//finding available station
+                                    Console.Write("\n");
+                                    int count = 1;
+                                    foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
+                                    {
+                                        if (indexStation.ChargeSlots > 0)
+                                            Console.WriteLine((count++) + " - " + indexStation.Name);
+                                    }
+                                    string ChosenStation = Console.ReadLine();
+                                    ibl.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
+                                    break;
+                                case UpdatingFunction.DroneReleaseFromChargingStation://case which releases a fully charged drone from charging station
+                                    Console.Write("Enter the ID of the Drone with charged battery: ");
+                                    int IdOfChargedBatteryDrone;
+                                    int.TryParse(Console.ReadLine(), out input);
+                                    IdOfChargedBatteryDrone = input;
+                                    ibl.DroneReleaseFromChargingStation(IdOfChargedBatteryDrone);
                                     break;
                             }
                             break;
