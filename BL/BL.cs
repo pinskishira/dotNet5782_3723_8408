@@ -269,7 +269,7 @@ namespace BL
                 dalCustomer.CopyPropertiesTo(blCustomer);//המרה-dal->bl
                 foreach (var indexOfParcels in dalObject.GetAllParcels())//עובר על כל הרשימה של החבילות
                 {
-                    if(indexOfParcels.SenderId==blCustomer.Id|| indexOfParcels.TargetId == blCustomer.Id)//אם הלקוח שאנחנו רוצים הוא או המוסר או המקבל את החבילה
+                    if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)//אם הלקוח שאנחנו רוצים הוא או המוסר או המקבל את החבילה
                     {
                         ParcelAtCustomer parcelAtCustomer = new();
                         indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// ממיר את החבילה// dal->bl
@@ -302,6 +302,38 @@ namespace BL
             }
             return blCustomer;
         }
+
+        public IEnumerable<StationToList> ListViewStations()
+        {
+            Station tempStation = new();
+            StationToList tempStationToList = new();
+            List<StationToList> stationToList = new List<StationToList>();
+            foreach (var indexOfStations in dalObject.GetAllStations())
+            {
+                tempStation = DisplayStation(indexOfStations.Id);
+                tempStation.CopyPropertiesTo(tempStationToList);//
+                foreach (var inCharging in tempStation.DronesInCharging)//בודק כמה רחפנים בטעינה וסופר
+                    tempStationToList.UnavaialbleChargingSlots++;
+                stationToList.Add(tempStationToList);
+            }
+            return stationToList;
+        }
+
+
+        public IEnumerable<ParcelToList> ListViewParcels()
+        {
+            Parcel tempParcel = new();
+            ParcelToList tempParcelToList = new();
+            List<ParcelToList> parcelToLists = new List<ParcelToList>();
+            foreach (var indexOfParcels in dalObject.GetAllParcels())
+            {
+                tempParcel = DisplayParcel(indexOfParcels.Id);
+                tempParcel.CopyPropertiesTo(tempParcelToList);
+
+            }
+            return parcelToLists;
+        }
+    }
         public IEnumerable<DroneToList> ListViewDrones()
         {
             return BlDrones;
