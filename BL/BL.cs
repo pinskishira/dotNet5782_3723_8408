@@ -249,45 +249,32 @@ namespace BL
                 dalCustomer.CopyPropertiesTo(blCustomer);
                 foreach (var indexOfParcels in dalObject.GetAllParcels())
                 {
-                    if(indexOfParcels.SenderId==blCustomer.Id)
+                    if(indexOfParcels.SenderId==blCustomer.Id|| indexOfParcels.TargetId == blCustomer.Id)
                     {
-                        ParcelAtCustomer tempParcelAtCustomer = new();
-                        indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
+                        ParcelAtCustomer parcelAtCustomer = new();
+                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);
                         if (indexOfParcels.Requested != DateTime.MinValue)//לעדכן את זה!!
                         {
-                            tempParcelAtCustomer.StateOfParcel = (ParcelState)4;
+                            parcelAtCustomer.StateOfParcel = (ParcelState)4;
                         }
                         else
                         {
-                            tempParcelAtCustomer.StateOfParcel = (ParcelState)4;
+                            parcelAtCustomer.StateOfParcel = (ParcelState)4;
                         }
-
+                        CustomerInParcel tempCustomerInParcel = new();
+                        tempCustomerInParcel.Id = blCustomer.Id;
+                        tempCustomerInParcel.Name = blCustomer.Name;
+                        parcelAtCustomer.SourceOrDestination = tempCustomerInParcel;
+                        if (indexOfParcels.SenderId == blCustomer.Id)
+                            blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
+                        else
+                            blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
                     }
-                    //if (indexOfParcels.TargetId == customerId)
-                    //{
-                    //    ParcelAtCustomer tempParcelAtCustomer = new();
-                    //    indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
-                    //    tempParcelAtCustomer.Id = indexOfParcels.TargetId;
-                    //    //tempParcelAtCustomer.Weight = (WeightCategories)(IDAL.DO.WeightCategories)indexOfParcels.Weight;
-                    //    //tempParcelAtCustomer.Priority = (Priorities)(IDAL.DO.Priorities)indexOfParcels.Priority;
-                    //    if (indexOfParcels.Requested == DateTime.Now)
-                    //        tempParcelAtCustomer.StateOfParcel = (ParcelState)1;
-                    //    //else???
-                    //    foreach (var indexOfcustomers in dalObject.GetAllCustomers())
-                    //    {
-                    //        if (indexOfcustomers.Id == indexOfParcels.TargetId)
-                    //        {
-                    //            blCustomer.ParcelsFromCustomers = indexOfcustomers.Id;
-                    //        }
-                    //    }
-                    //}
-
-
                 }
             }
-            catch ()
+            catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-
+                throw new FailedDisplayException("The Id does not exist.\n", ex);
             }
             return blCustomer;
         }
