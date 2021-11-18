@@ -20,11 +20,11 @@ namespace DalObject
         /// </summary>
         internal static class Config
         {
-            static internal double Available;
-            static internal double MediumWeight;
-            static internal double LightWeight;
-            static internal double HeavyWeight;
-            static internal double DroneLoadingRate;
+            static internal double PowerUsageEmpty = 5;
+            static internal double MediumWeight = 15;
+            static internal double LightWeight = 25;
+            static internal double HeavyWeight = 35;
+            static internal double DroneChargingRatePH = 30;
             static internal int NextParcelNumber = 10000000;
         }
 
