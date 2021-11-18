@@ -71,7 +71,7 @@ namespace BL
         }
 
         /// <summary>
-        /// fFunction that returns the samllest distance between the sender and a station. 
+        /// Function that returns the samllest distance between the sender and a station. 
         /// </summary>
         /// <param name="CustomerId">Id of sender</param>
         /// <returns></returns>
