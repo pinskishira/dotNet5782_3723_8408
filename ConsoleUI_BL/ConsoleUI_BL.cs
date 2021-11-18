@@ -146,6 +146,47 @@ namespace ConsoleUI_BL
                                     break;
                             }
                             break;
+                        case BlMainSwitchFunctions.ListView://the user will choose whether he wants to view the array of stations, customers, parcels,
+                                                          //or parcels with no assigned drones, or stations available to charge
+                            Console.WriteLine("What do you want to view?\nEnter 1 for stations\nEnter 2 for drones\n" +
+                                "Enter 3 for customers\nEnter 4 for parcels\nEnter 5 for parcels with no drone\n" +
+                                "Enter 6 for station with available charging stations\n ");
+                            int.TryParse(Console.ReadLine(), out input);
+                            answerListView = (ListViewFunction)input;
+                            switch (answerListView)
+                            {
+                                case ListViewFunction.Stations://case which views the stations array
+                                    IEnumerable<Station> viewStations = ibl.ListViewStations(); 
+                                    foreach (var station in viewStations)//prints all stations
+                                        Console.WriteLine(station);
+                                    break;
+                                case ListViewFunction.Drones://case which views the drones array
+                                    IEnumerable<Drone> viewDrones = ibl.ListViewDrones();
+                                    foreach (var drone in viewDrones)//prints all drones
+                                        Console.WriteLine(drone);
+                                    break;
+                                case ListViewFunction.Customers://case which views the customers array
+                                    IEnumerable<Customer> viewCustomers = ibl.ListViewCustomers();
+                                    foreach (var customer in viewCustomers)//prints all customers
+                                        Console.WriteLine(customer);
+                                    break;
+                                case ListViewFunction.Parcels://case which views the parcels array
+                                    IEnumerable<Parcel> viewParcels = ibl.ListViewParcels();
+                                    foreach (var parcel in viewParcels)//prints all parcels
+                                        Console.WriteLine(parcel);
+                                    break;
+                                case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
+                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.ParcelWithNoDrone();
+                                    foreach (var parcel in ViewParcelsWithNoDrone)//printing
+                                        Console.WriteLine(parcel);
+                                    break;
+                                case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
+                                    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
+                                    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
+                                        Console.WriteLine(station);
+                                    break;
+                            }
+                            break;
                     }
                 }
                 catch (InvalidInputException ex)
