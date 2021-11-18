@@ -13,55 +13,86 @@ namespace BL
     public class BL
     {
         static Random rand = new Random();
-        IDal dalObject = new DalObject.DalObject();
+        IDal dal = new DalObject.DalObject();
         List<DroneToList> BlDrones = new();
-        //public BL()
-        //{
-        //    dalObject.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
-        //    Random rand = new Random();
-        //    double[] elecUse = dalObject.electricityUse();
-        //    double Available = elecUse[0];
-        //    double LightWeight = elecUse[1];
-        //    double MediumWeight = elecUse[2];
-        //    double HeavyWeight = elecUse[3];
-        //    double DroneLoadingRate = elecUse[4];
-        //    dalObject.GetAllParcels().First
-        //    foreach (var indexOfDrones in BlDrones)
-        //    {
-        //        bool flag = true;
-        //        foreach (var indexOfParcels in dalObject.GetAllParcels())//going over the parcels
-        //        {
-        //            if (indexOfParcels.DroneId == indexOfDrones.Id && indexOfParcels.Delivered == DateTime.MinValue)//if parcel was paired but not delivered
-        //            {
-        //                indexOfDrones.DroneStatus = (DroneStatuses)3;
-        //                if (indexOfParcels.Scheduled != DateTime.MinValue && indexOfParcels.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
-        //                {
-        //                    ///לשנות את זה
-        //                    indexOfDrones.CurrentLocation.Longitude = 0;
-        //                    indexOfDrones.CurrentLocation.Latitude = 1;
-        //                }
-        //                if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
-        //                {
-        //                    ///לשנות את זה
-        //                    indexOfDrones.CurrentLocation.Longitude = 0;
-        //                    indexOfDrones.CurrentLocation.Latitude = 1;
-        //                }
-        //                ///לשנות את זה
-        //                indexOfDrones.Battery = 0;
-        //                flag = false;
-        //                break;
-        //            }
-        //        }
-        //        if (flag == true)//if drone is not doing a delivery
-        //            indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);
-        //        if (indexOfDrones.DroneStatus == (DroneStatuses)2)
-        //        {
-        //            List<IDAL.DO.Station> tempStations = (List<IDAL.DO.Station>)dalObject.GetAllStations();
+        public BL()
+        {
+            dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
+            double[] elecUse = dal.electricityUse();//לשאול את דן
+            foreach (var indexOfDrones in BlDrones)
+            {
+                try
+                {
+                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);//if parcel was paired but not delivered
+                    indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
+                    if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
+                    {
+                        IDAL.DO.Parcel tempParcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id);//finding parcel with same id
+                        IDAL.DO.Station closestStation = smallestDistance(tempParcel.SenderId);//returning samllest distance between the sender of the parcel and the stations 
+                        indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
+                        indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
+                    }
+                    if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
+                    {
+                        IDAL.DO.Parcel tempParcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id);//finding parcel with same id
+                        IDAL.DO.Customer tempCustomer = dal.FindCustomer(tempParcel.SenderId);//finding the sender in customers
+                        indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
+                        indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
+                    }
+                    //לחשב מצב סוללה
+                }
+                catch (Exception ex)
+                {
+                    if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
+                        indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
+                    if (indexOfDrones.DroneStatus == (DroneStatuses)2)//if the drone is in maintanance
+                    {
+                        List<IDAL.DO.Station> tempStations = (List<IDAL.DO.Station>)dal.GetAllStations();//temporary array with all the stations
+                        int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
+                        IDAL.DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
+                        indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
+                        indexOfDrones.CurrentLocation.Latitude = station.Latitude;
+                        indexOfDrones.Battery = rand.Next(0, 21);
+                    }
+                    if (indexOfDrones.DroneStatus == (DroneStatuses)1)//if the drone is available for delivery
+                    {
+                        List<int> deliveredParcels = new();//creating a new list 
+                        foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
+                            if (indexOfParcels.Delivered != DateTime.MinValue)//finding parcels that have been delivered 
+                                deliveredParcels.Add(indexOfParcels.TargetId);//placing their targetId in new list
+                        int idCustomer = rand.Next(0, deliveredParcels.Count());//finding a random index from the new list of deliveredParcels
+                        IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
+                        indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
+                        indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
+                        //לחשב מצב סוללה
+                    }
+                }
+            }
+        }
 
-        //        }
-
-        //    }
-        //}
+        /// <summary>
+        /// fFunction that returns the samllest distance between the sender and a station. 
+        /// </summary>
+        /// <param name="CustomerId">Id of sender</param>
+        /// <returns></returns>
+        public IDAL.DO.Station smallestDistance(int CustomerId)
+        {
+            IDAL.DO.Customer customer = dal.FindCustomer(CustomerId);//finding the customer usind id number
+            double minDistance = double.PositiveInfinity;//starting with an unlimited value
+            IDAL.DO.Station station = new();
+            double tempDistance = -1;
+            foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
+            {
+                //calculating the distance between the sender and the station
+                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, customer.Longitude, customer.Latitude);
+                if (tempDistance < minDistance)//compares which distance is smaller
+                {
+                    minDistance = tempDistance;
+                    station = indexOfStations;
+                } 
+            }
+            return station;//returns closest station to sender
+        }
 
         public void AddStation(Station newStation)
         {
@@ -79,7 +110,7 @@ namespace BL
             {
                 IDAL.DO.Station tempStation = new();
                 newStation.CopyPropertiesTo(tempStation);
-                dalObject.AddStation(tempStation);
+                dal.AddStation(tempStation);
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -99,7 +130,7 @@ namespace BL
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
             newDrone.Battery = rand.Next(20, 41);//מצב סוללה מוגרל בין 20 ל40
             newDrone.DroneStatus = (DroneStatuses)2;//מצב הרחפן יהיה בתחזוקה
-            IDAL.DO.Station newStation = dalObject.FindStation(stationNumber);//מוצא את התחנה לפי המספר מזהה שהמשתמש הכניס
+            IDAL.DO.Station newStation = dal.FindStation(stationNumber);//מוצא את התחנה לפי המספר מזהה שהמשתמש הכניס
             newDrone.CurrentLocation.Longitude = newStation.Longitude;//מעדכן את הקוו אורך לפי הקו אורך של התחנה
             newDrone.CurrentLocation.Latitude = newStation.Latitude;//מעדכן את הקוו רוחב לפי הקו אורך של התחנה
             IDAL.DO.DroneCharge tempDroneCharge = new();//מעדכן שהרחפן בטעינה
@@ -116,10 +147,10 @@ namespace BL
             BlDrones.Add(newDroneToList);
             try
             {
-                dalObject.AddDroneCharge(tempDroneCharge);//שולח להוספה את הרחפן בטעינה
+                dal.AddDroneCharge(tempDroneCharge);//שולח להוספה את הרחפן בטעינה
                 IDAL.DO.Drone tempDrone = new();
                 newDrone.CopyPropertiesTo(tempDrone);
-                dalObject.AddDrone(tempDrone);//שולח להוספה את הרחפן
+                dal.AddDrone(tempDrone);//שולח להוספה את הרחפן
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -146,7 +177,7 @@ namespace BL
             {
                 IDAL.DO.Customer tempCustomer = new();
                 newCustomer.CopyPropertiesTo(tempCustomer);
-                dalObject.AddCustomer(tempCustomer);
+                dal.AddCustomer(tempCustomer);
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -173,7 +204,7 @@ namespace BL
             {
                 IDAL.DO.Parcel tempParcel = new();
                 newParcel.CopyPropertiesTo(tempParcel);
-                dalObject.AddParcel(tempParcel);
+                dal.AddParcel(tempParcel);
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -213,9 +244,9 @@ namespace BL
             Station blStation = new();
             try
             {
-                IDAL.DO.Station dalStation = dalObject.FindStation(stationId);
+                IDAL.DO.Station dalStation = dal.FindStation(stationId);
                 dalStation.CopyPropertiesTo(blStation);
-                foreach (var indexOfDroneCharges in dalObject.GetAllDroneCharges())
+                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())
                 {
                     if (indexOfDroneCharges.StationId == stationId)
                     {
@@ -240,7 +271,7 @@ namespace BL
             Parcel blParcel = new();
             try
             {
-                IDAL.DO.Parcel dalParcel = dalObject.FindParcel(parcelId);
+                IDAL.DO.Parcel dalParcel = dal.FindParcel(parcelId);
                 dalParcel.CopyPropertiesTo(blParcel);
                 Customer target = DisplayCustomer(dalParcel.TargetId);
                 target.CopyPropertiesTo(blParcel.TargetId);
@@ -265,9 +296,9 @@ namespace BL
             Customer blCustomer = new();
             try
             {
-                IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);// מחפש את הלקוח לפי מספר מזהה
+                IDAL.DO.Customer dalCustomer = dal.FindCustomer(customerId);// מחפש את הלקוח לפי מספר מזהה
                 dalCustomer.CopyPropertiesTo(blCustomer);//המרה-dal->bl
-                foreach (var indexOfParcels in dalObject.GetAllParcels())//עובר על כל הרשימה של החבילות
+                foreach (var indexOfParcels in dal.GetAllParcels())//עובר על כל הרשימה של החבילות
                 {
                     if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)//אם הלקוח שאנחנו רוצים הוא או המוסר או המקבל את החבילה
                     {
@@ -308,7 +339,7 @@ namespace BL
             Station tempStation = new();
             StationToList tempStationToList = new();
             List<StationToList> stationToList = new List<StationToList>();
-            foreach (var indexOfStations in dalObject.GetAllStations())
+            foreach (var indexOfStations in dal.GetAllStations())
             {
                 tempStation = DisplayStation(indexOfStations.Id);
                 tempStation.CopyPropertiesTo(tempStationToList);//
@@ -325,7 +356,7 @@ namespace BL
             Parcel tempParcel = new();
             ParcelToList tempParcelToList = new();
             List<ParcelToList> parcelToLists = new List<ParcelToList>();
-            foreach (var indexOfParcels in dalObject.GetAllParcels())
+            foreach (var indexOfParcels in dal.GetAllParcels())
             {
                 tempParcel = DisplayParcel(indexOfParcels.Id);
                 tempParcel.CopyPropertiesTo(tempParcelToList);
@@ -357,7 +388,7 @@ namespace BL
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();
             List<CustomerToList> customerToList = new();
-            foreach (var indexCustomer in dalObject.GetAllCustomers())
+            foreach (var indexCustomer in dal.GetAllCustomers())
             {
                 tempCustomer = DisplayCustomer(indexCustomer.Id);//מביא את הלקוח לפי המספר המזהה
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//המרה//dal->bll
@@ -382,13 +413,12 @@ namespace BL
         public IEnumerable<ParcelToList> ParcelWithNoDrone()
         {
             List<ParcelToList> parcelToList = new();
-
-            foreach (var indexOfParcels in ListViewParcels())
+            foreach (var indexOfParcelToList in ListViewParcels())
             {
-                
+                if (indexOfParcelToList.StateOfParcel == (ParcelState)1)
+                    parcelToList.Add(indexOfParcelToList);
             }
-
-            return;
+            return parcelToList;
         }
         public IEnumerable<StationToList> GetStationWithFreeSlots()
         {

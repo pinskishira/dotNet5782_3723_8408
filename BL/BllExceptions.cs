@@ -21,7 +21,7 @@ namespace BL
             }
         }
         [Serializable]
-        public class FailedToAddException : Exception//קלט לא חוקי
+        public class FailedToAddException : Exception//הוספה נכשלה
         {
             public FailedToAddException() : base() { }
             public FailedToAddException(string message) : base(message) { }
@@ -32,7 +32,18 @@ namespace BL
             }
         }
         [Serializable]
-        public class FailedDisplayException : Exception//קלט לא חוקי
+        public class FailedDisplayException : Exception//יצוג ישות נכשל
+        {
+            public FailedDisplayException() : base() { }
+            public FailedDisplayException(string message) : base(message) { }
+            public FailedDisplayException(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
+        [Serializable]
+        public class FailedDisplayExcep5tion : Exception//בעיה בבנאי
         {
             public FailedDisplayException() : base() { }
             public FailedDisplayException(string message) : base(message) { }
