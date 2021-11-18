@@ -114,7 +114,7 @@ namespace ConsoleUI_BL
                                     break;
                             }
                             break;
-                            case BlMainSwitchFunctions.Display: //the user will choose whether he wants to display the stations, drones, customers, or parcels
+                        case BlMainSwitchFunctions.Display: //the user will choose whether he wants to display the stations, drones, customers, or parcels
                             Console.WriteLine("What will you like to display?\nEnter 1 for station\nEnter 2 for drone\n" +
                              "Enter 3 for customer\nEnter 4 for parcel\n");
                             int.TryParse(Console.ReadLine(), out input);
@@ -146,6 +146,8 @@ namespace ConsoleUI_BL
                                     break;
                             }
                             break;
+                    }
+                }
                 catch (InvalidInputException ex)
                 {
                     Console.WriteLine(ex.Message);
@@ -155,7 +157,7 @@ namespace ConsoleUI_BL
                     Console.WriteLine(ex.Message);
                 }
             }
-            while (answerMain != BlMainSwitchFunctions.Exit) ;
+            while (answerMain != BlMainSwitchFunctions.Exit);
         }
     }
 }
