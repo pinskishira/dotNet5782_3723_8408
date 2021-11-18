@@ -430,5 +430,9 @@ namespace BL
             }
             return stationToList;
         }
+        public void updateDrone(int idDrone,string Model)
+        {
+            
+        }
     }
 }

@@ -73,5 +73,11 @@ namespace DalObject
             //    indexAssign++;
             //DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;//updating that drone is busy
         }
+
+        public void UpdateDrone(int idDrone, string newModel)
+        {
+            int indexOfDrone;
+
+            Drone drone = DataSource.Drones.Find(indexOfDrone => indexOfDrone.Id == idDrone);
     }
 }
