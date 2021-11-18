@@ -180,40 +180,35 @@ namespace BL
                 throw new FailedToAddException("The parcel already exists.\n", ex);
             }
         }
-        public Drone DisplayDrone(int droneId)
+        public Drone DisplayDrone(int droneId)//תצוגת רחפן
         {
-            DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);
+            DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//חיפוש ברשימה של הרחפנים לפי מספר מזהה של הרחפן
             if (tempDroneToList == default)
                 throw new FailedDisplayException("The ID number does not exist\n");
             Drone dalDrone = new();
-            dalDrone.Id = tempDroneToList.Id;
-            dalDrone.Model = tempDroneToList.Model;
-            dalDrone.MaxWeight = tempDroneToList.MaxWeight;
-            dalDrone.Battery = tempDroneToList.Battery;
-            dalDrone.DroneStatus = tempDroneToList.DroneStatus;
-            dalDrone.CurrentLocation = tempDroneToList.CurrentLocation;
-            if (tempDroneToList.ParcelNumInTransfer == 0)
+            tempDroneToList.CopyPropertiesTo(dalDrone);//ממירים את רחפן ברשימה לרחפן רגיל
+            if (tempDroneToList.ParcelNumInTransfer == 0)//לא שויך לחבילה רחפן
                 dalDrone.ParcelInTransfer = default;
-            else
+            else//כן שויך לחבילה רחפן
             {
-                Parcel tempParcel = DisplayParcel(tempDroneToList.ParcelNumInTransfer);
+                Parcel tempParcel = DisplayParcel(tempDroneToList.ParcelNumInTransfer);//מחפשים את החבילה לפי המספר המזהה
                 ParcelInTransfer tempParcelInTransfer = new();
-                tempParcel.CopyPropertiesTo(tempParcelInTransfer);
-                Customer Sender = DisplayCustomer(tempParcelInTransfer.Sender.Id);
-                Customer Target = DisplayCustomer(tempParcelInTransfer.Target.Id);
-                tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
-                tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
-                if (tempParcel.PickedUp == DateTime.MinValue)
-                    tempParcelInTransfer.ParcelState = true;
-                else
+                tempParcel.CopyPropertiesTo(tempParcelInTransfer);//ממירים את החבילה לחבילה בהעברה
+                Customer Sender = DisplayCustomer(tempParcelInTransfer.Sender.Id);//מוצאים את הלקוח לפי מספר מזהה
+                Customer Target = DisplayCustomer(tempParcelInTransfer.Target.Id);//מוצאים את הלקוח לפי מספר מזהה
+                tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;//מעדכנים את המרחק לפי המרחק של הלקוח
+                tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;//מעדכנים את המרחק לפי המרחק של הלקוח
+                if (tempParcel.PickedUp == DateTime.MinValue)//אם החבילה ממתינה עדיין לאיסוף
                     tempParcelInTransfer.ParcelState = false;
-                tempParcelInTransfer.TransportDistance = Distance.Haversine
+                else
+                    tempParcelInTransfer.ParcelState = true;
+                tempParcelInTransfer.TransportDistance = Distance.Haversine//חישוב המיקום הנוכחי של הרחפן
                 (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
+                dalDrone.ParcelInTransfer = tempParcelInTransfer;
             }
-
-            return;
+            return dalDrone;
         }
-        public Station DisplayStation(int stationId)
+        public Station DisplayStation(int stationId) //תצוגת תחנת-בסיס
         {
             Station blStation = new();
             try
@@ -247,7 +242,7 @@ namespace BL
             {
                 IDAL.DO.Parcel dalParcel = dalObject.FindParcel(parcelId);
                 dalParcel.CopyPropertiesTo(blParcel);
-                Customer target = GetCustomer(dalParcel.id);
+                Customer target = 
                 //foreach (var indexOfCustomers in dalObject.GetAllCustomers())
                 //{
                 //    if (indexOfCustomers.Id == blParcel.TargetId.Id)
@@ -270,41 +265,38 @@ namespace BL
             }
             return blParcel;
         }
-
-        public Customer GetCustomer(int Id)
-        {
-            
-            return 
-        }
-        
-        public Customer DisplayCustomer(int customerId)
+        public Customer DisplayCustomer(int customerId)//תצוגת לקוח
         {
             Customer blCustomer = new();
             try
             {
-                IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);
-                dalCustomer.CopyPropertiesTo(blCustomer);
-                foreach (var indexOfParcels in dalObject.GetAllParcels())
+                IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);// מחפש את הלקוח לפי מספר מזהה
+                dalCustomer.CopyPropertiesTo(blCustomer);//המרה-dal->bl
+                foreach (var indexOfParcels in dalObject.GetAllParcels())//עובר על כל הרשימה של החבילות
                 {
-                    if(indexOfParcels.SenderId==blCustomer.Id|| indexOfParcels.TargetId == blCustomer.Id)
+                    if(indexOfParcels.SenderId==blCustomer.Id|| indexOfParcels.TargetId == blCustomer.Id)//אם הלקוח שאנחנו רוצים הוא או המוסר או המקבל את החבילה
                     {
                         ParcelAtCustomer parcelAtCustomer = new();
-                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);
-                        if (indexOfParcels.Requested != DateTime.MinValue)//לעדכן את זה!!
+                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// ממיר את החבילה// dal->bl
+                        if (indexOfParcels.Scheduled != DateTime.MinValue)//החבילה שויכה
                         {
-                            parcelAtCustomer.StateOfParcel = (ParcelState)4;
+                            if (indexOfParcels.PickedUp != DateTime.MinValue)// אספו את החבילה
+                            {
+                                if (indexOfParcels.Delivered != DateTime.MinValue)//ההזמנה סופקה
+                                    parcelAtCustomer.StateOfParcel = (ParcelState)4;
+                                else
+                                    parcelAtCustomer.StateOfParcel = (ParcelState)3;
+                            }
+                            else
+                                parcelAtCustomer.StateOfParcel = (ParcelState)2;
                         }
                         else
-                        {
-                            parcelAtCustomer.StateOfParcel = (ParcelState)4;
-                        }
-                        CustomerInParcel tempCustomerInParcel = new();
-                        tempCustomerInParcel.Id = blCustomer.Id;
-                        tempCustomerInParcel.Name = blCustomer.Name;
-                        parcelAtCustomer.SourceOrDestination = tempCustomerInParcel;
-                        if (indexOfParcels.SenderId == blCustomer.Id)
+                            parcelAtCustomer.StateOfParcel = (ParcelState)1;
+                        parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//מעדכן את פרטי מקור של החבילה
+                        parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//מעדכן את פרטי מקור של החבילה
+                        if (indexOfParcels.SenderId == blCustomer.Id)//אם הלקוח שולח את החבילה
                             blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
-                        else
+                        else//אם הלקוח מקבל את החבילה
                             blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
                     }
                 }
