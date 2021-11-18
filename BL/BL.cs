@@ -63,6 +63,11 @@ namespace BL
         //    }
         //}
 
+        /// <summary>
+        /// Performing logical tests on the recieved station and coverting the station fields in the dalObject
+        /// to the station fields in the BL.
+        /// </summary>
+        /// <param name="newStation">The new station</param>
         public void AddStation(Station newStation)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)
@@ -87,6 +92,12 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Performing logical tests on the recieved new drone and the station its located in and coverting the 
+        /// drone fields in the dalObject to the drone fields in the BL.
+        /// </summary>
+        /// <param name="newDrone">The new drone</param>
+        /// <param name="stationNumber">Station where drone is located</param>
         public void AddDrone(Drone newDrone, int stationNumber)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newDrone.Id))) + 1) != 5)//בודק שהמספר מזהה של הרחפן הוא 5 ספרות
@@ -130,6 +141,12 @@ namespace BL
                 throw new FailedToAddException("The drone in charge does not exist.\n", ex);
             }
         }
+
+        /// <summary>
+        /// Performing logical tests on the recieved customer and coverting the customer fields in the dalObject
+        /// to the customer fields in the BL.
+        /// </summary>
+        /// <param name="newCustomer">The new customer</param>
         public void AddCustomer(Customer newCustomer)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newCustomer.Id))) + 1) != 9)//if name inputted is not 9 digits long
@@ -154,6 +171,11 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Performing logical tests on the recieved parcel and coverting the parcel fields in the dalObject
+        /// to the parcel fields in the BL.
+        /// </summary>
+        /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newParcel.SenderId.Id))) + 1) != 9)//if name inputted is not 9 digits long
@@ -180,6 +202,12 @@ namespace BL
                 throw new FailedToAddException("The parcel already exists.\n", ex);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId">Displaying drone</param>
+        /// <returns></returns>
         public Drone DisplayDrone(int droneId)//תצוגת רחפן
         {
             DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//חיפוש ברשימה של הרחפנים לפי מספר מזהה של הרחפן
