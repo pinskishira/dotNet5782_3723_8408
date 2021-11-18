@@ -329,7 +329,22 @@ namespace BL
             {
                 tempParcel = DisplayParcel(indexOfParcels.Id);
                 tempParcel.CopyPropertiesTo(tempParcelToList);
-                if()
+                if (tempParcel.Delivered != DateTime.MinValue)
+                    tempParcelToList.StateOfParcel = (ParcelState)4;
+                else
+                {
+                    if (tempParcel.Scheduled != DateTime.MinValue)
+                        tempParcelToList.StateOfParcel = (ParcelState)3;
+                    else
+                    {
+                        if (tempParcel.PickedUp != DateTime.MinValue)
+                            tempParcelToList.StateOfParcel = (ParcelState)2;
+                        else
+                            tempParcelToList.StateOfParcel = (ParcelState)1;
+                    }
+                }
+                parcelToLists.Add(tempParcelToList);
+
             }
             return parcelToLists;
         }
