@@ -219,19 +219,19 @@ namespace BL
             try
             {
                 IDAL.DO.Station dalStation = dalObject.FindStation(stationId);
-                blStation.CopyPropertiesTo(dalStation);
-                int i = 0;
+                dalStation.CopyPropertiesTo(blStation);
                 foreach (var indexOfDroneCharges in dalObject.GetAllDroneCharges())
                 {
-                    if (indexOfDroneCharges.Id == stationId)
+                    if (indexOfDroneCharges.StationId == stationId)
                     {
-                        blStation.DronesInCharging[i].Id = indexOfDroneCharges.Id;
-                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.Id);
+                        DroneInCharging tempDroneInCharging = new();
+                        tempDroneInCharging.Id = indexOfDroneCharges.DroneId;
+                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
                         if (tempDroneToList == default)
                             throw new FailedDisplayException("The Id number does not exist. \n");
-                        blStation.DronesInCharging[i].Battery = tempDroneToList.Battery;
+                        tempDroneInCharging.Battery = tempDroneToList.Battery;
+                        blStation.DronesInCharging.Add(tempDroneInCharging);
                     }
-                    i++;
                 }
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
@@ -246,28 +246,41 @@ namespace BL
             try
             {
                 IDAL.DO.Customer dalCustomer = dalObject.FindCustomer(customerId);
-                blCustomer.CopyPropertiesTo(dalCustomer);
-                int i = 0;
+                dalCustomer.CopyPropertiesTo(blCustomer);
                 foreach (var indexOfParcels in dalObject.GetAllParcels())
                 {
-                    if (indexOfParcels.TargetId == customerId)
+                    if(indexOfParcels.SenderId==blCustomer.Id)
                     {
                         ParcelAtCustomer tempParcelAtCustomer = new();
                         indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
-                        tempParcelAtCustomer.Id = indexOfParcels.TargetId;
-                        //tempParcelAtCustomer.Weight = (WeightCategories)(IDAL.DO.WeightCategories)indexOfParcels.Weight;
-                        //tempParcelAtCustomer.Priority = (Priorities)(IDAL.DO.Priorities)indexOfParcels.Priority;
-                        if (indexOfParcels.Requested == DateTime.Now)
-                            tempParcelAtCustomer.StateOfParcel = (ParcelState)1;
-                        //else???
-                        foreach (var indexOfcustomers in dalObject.GetAllCustomers())
+                        if (indexOfParcels.Requested != DateTime.MinValue)//לעדכן את זה!!
                         {
-                            if (indexOfcustomers.Id == indexOfParcels.TargetId)
-                            {
-                                blCustomer.ParcelsFromCustomers = indexOfcustomers.Id;
-                            }
+                            tempParcelAtCustomer.StateOfParcel = (ParcelState)4;
                         }
+                        else
+                        {
+                            tempParcelAtCustomer.StateOfParcel = (ParcelState)4;
+                        }
+
                     }
+                    //if (indexOfParcels.TargetId == customerId)
+                    //{
+                    //    ParcelAtCustomer tempParcelAtCustomer = new();
+                    //    indexOfParcels.CopyPropertiesTo(tempParcelAtCustomer);
+                    //    tempParcelAtCustomer.Id = indexOfParcels.TargetId;
+                    //    //tempParcelAtCustomer.Weight = (WeightCategories)(IDAL.DO.WeightCategories)indexOfParcels.Weight;
+                    //    //tempParcelAtCustomer.Priority = (Priorities)(IDAL.DO.Priorities)indexOfParcels.Priority;
+                    //    if (indexOfParcels.Requested == DateTime.Now)
+                    //        tempParcelAtCustomer.StateOfParcel = (ParcelState)1;
+                    //    //else???
+                    //    foreach (var indexOfcustomers in dalObject.GetAllCustomers())
+                    //    {
+                    //        if (indexOfcustomers.Id == indexOfParcels.TargetId)
+                    //        {
+                    //            blCustomer.ParcelsFromCustomers = indexOfcustomers.Id;
+                    //        }
+                    //    }
+                    //}
 
 
                 }
@@ -277,6 +290,10 @@ namespace BL
 
             }
             return blCustomer;
+        }
+        public Parcel DisplayParcel(int parcelId)
+        {
+            return;
         }
     }
 }
