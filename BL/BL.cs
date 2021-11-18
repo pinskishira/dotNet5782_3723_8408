@@ -333,7 +333,6 @@ namespace BL
             }
             return parcelToLists;
         }
-    }
         public IEnumerable<DroneToList> ListViewDrones()
         {
             return BlDrones;
