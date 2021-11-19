@@ -65,5 +65,25 @@ namespace DalObject
             }
             return tempStations;
         }
+
+        public void UpdateStation(int idStation, string newName, int chargeSlots)
+        {
+            int indexOfStation = 0;
+            Station station = new();
+            foreach (var indexStations in DataSource.Stations)
+            {
+                if(indexStations.Id == idStation)
+                {
+                    station = indexStations;
+                    if (newName != "\n")
+                        station.Name = newName;
+                    if(chargeSlots != 0)
+                        station.ChargeSlots = chargeSlots;
+                    break;
+                }
+                indexOfStation++;
+            }
+            DataSource.Stations[indexOfStation] = station;
+        }
     }
 }

@@ -76,8 +76,19 @@ namespace DalObject
 
         public void UpdateDrone(int idDrone, string newModel)
         {
-            int indexOfDrone;
-
-            Drone drone = DataSource.Drones.Find(indexOfDrone => indexOfDrone.Id == idDrone);
+            int indexOfDrone = 0;
+            Drone drone = new();
+            foreach (var indexDrones in DataSource.Drones)
+            {
+                if (indexDrones.Id == idDrone)
+                {
+                    drone = indexDrones;
+                    drone.Model = newModel;
+                    break;
+                }
+                indexOfDrone++;
+            }
+            DataSource.Drones[indexOfDrone] = drone;
+        }
     }
 }

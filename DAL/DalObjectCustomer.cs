@@ -48,5 +48,25 @@ namespace DalObject
             }
             return tempCustomers;
         }
+
+        public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
+        {
+            int indexOfCustomer = 0;
+            Customer customer = new();
+            foreach (var indexCustomer in DataSource.Customers)
+            {
+                if(indexCustomer.Id == idCustomer)
+                {
+                    customer = indexCustomer;
+                    if (newName != "\n")
+                        customer.Name = newName;
+                    if(customerPhone != "\n")
+                        customer.Phone = customerPhone;
+                    break;
+                }
+                indexOfCustomer++;
+            }
+            DataSource.Customers[indexOfCustomer] = customer;
+        }
     }
 }

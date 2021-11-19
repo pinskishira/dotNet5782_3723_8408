@@ -121,31 +121,34 @@ namespace ConsoleUI_BL
                                 "Enetr 4 to send drone to charging station\nEnter 5 for drone release from charging station\n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerUpdate = (UpdatingFunction)input;
-                            int IdParcel, IdDrone, Idcustomer;
-                            string names;
+                            int IdParcel, IdDrone, Idcustomer, ChargingSlots, IdStation;
+                            string name, customerPhone;
                             switch (answerUpdate)
                             {
                                 case UpdatingFunction.UpdateDrone:
                                     Console.WriteLine("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out IdDrone);
                                     Console.Write("Enter the new model name for the drone ");
-                                    names = Console.ReadLine();
-                                    ibl.UpdateDrone(IdDrone, names);
+                                    name = Console.ReadLine();
+                                    ibl.UpdateDrone(IdDrone, name);
                                     break;
                                 case UpdatingFunction.UpdateStation:
                                     Console.WriteLine("Enter your station ID: ");
-                                    int.TryParse(Console.ReadLine(), out IdDrone);
+                                    int.TryParse(Console.ReadLine(), out IdStation);
                                     Console.Write("Enter your station name: ");
-                                    names = Console.ReadLine();
+                                    name = Console.ReadLine();
+                                    Console.Write("Enter amount of charging slots: ");
+                                    int.TryParse(Console.ReadLine(), out ChargingSlots);
+                                    ibl.UpdateStation(IdStation, name, ChargingSlots);
                                     break;
                                 case UpdatingFunction.UpdateCustomer:
                                     Console.WriteLine("Enter your customer ID: ");
                                     int.TryParse(Console.ReadLine(), out Idcustomer);
                                     Console.WriteLine("Enter your new customer name: ");
-                                    names = Console.ReadLine();
+                                    name = Console.ReadLine();
                                     Console.WriteLine("Enter your new customer phone: ");
-                                    int.TryParse(Console.ReadLine(), out Idcustomer);
-                                    ibl.UpdateCustomer(Idcustomer, names)
+                                    customerPhone = Console.ReadLine();
+                                    ibl.UpdateCustomer(Idcustomer, name, customerPhone);
                                     break;
                                 case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
                                     Console.Write("Enter your parcel ID: ");
