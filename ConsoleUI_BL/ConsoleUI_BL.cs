@@ -121,7 +121,7 @@ namespace ConsoleUI_BL
                                 "Enetr 4 to send drone to charging station\nEnter 5 for drone release from charging station\n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerUpdate = (UpdatingFunction)input;
-                            int idParcel, idDrone, idcustomer, chargingSlots, idStation;
+                            int timeInCharging, idDrone, idcustomer, chargingSlots, idStation;
                             string name, customerPhone;
                             switch (answerUpdate)
                             {
@@ -158,7 +158,9 @@ namespace ConsoleUI_BL
                                 case UpdatingFunction.DroneReleaseFromChargingStation://שליחת רחפן לטעינה
                                     Console.Write("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
-                                    ibl.DroneReleaseFromChargingStation(idDrone);
+                                    Console.Write("Enter how long the drone is in charging: ");
+                                    int.TryParse(Console.ReadLine(), out timeInCharging);
+                                    ibl.DroneReleaseFromChargingStation(idDrone, timeInCharging);
                                     break;
                                     //case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
                                     //    Console.Write("Enter your drone ID: ");

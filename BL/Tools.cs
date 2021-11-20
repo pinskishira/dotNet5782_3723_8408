@@ -28,6 +28,7 @@ namespace BL
                 }
             }
         }
+
         public static void CopyPropertiesToIEnumerable<T, S>(this IEnumerable<S> from, List<T> to)
             where T : new()
         {
@@ -37,12 +38,6 @@ namespace BL
                 s.CopyPropertiesTo(t);
                 to.Add(t);
             }
-        }
-        public static object CopyPropertiesToNew<S>(this S from, Type type)
-        {
-            object to = Activator.CreateInstance(type); // new object of Type
-            from.CopyPropertiesTo(to);
-            return to;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace BL
                         indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
                     if (indexOfDrones.DroneStatus == (DroneStatuses)2)//if the drone is in maintanance
                     {
-                        List<IDAL.DO.Station> tempStations = (List<IDAL.DO.Station>)dal.GetAllStations();//temporary array with all the stations
+                        List<IDAL.DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
                         int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
                         IDAL.DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
                         indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
@@ -85,10 +85,10 @@ namespace BL
             double distanceFromTarget = Distance.Haversine(sender.Longitude, sender.Latitude, target.Longitude, target.Latitude);
             IDAL.DO.Station smallestStation = smallestDistance(target.Longitude, target.Latitude);
             double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
-            return (int)(distanceFromTarget * elecUse[AmountConsumption(droneToList.MaxWeight)] + distanceFromStation * elecUse[0]);
+            return (int)(distanceFromTarget * elecUse[Weight(droneToList.MaxWeight)] + distanceFromStation * elecUse[0]);
         }
 
-        public int AmountConsumption(WeightCategories maxWeight)//פונקציה שמחזירה מה כמות הצריכה של הרחפן
+        public int Weight(WeightCategories maxWeight)//פונקציה שמחזירה מה כמות הצריכה של הרחפן
         {
             if (maxWeight == (WeightCategories)1)
                 return 1;

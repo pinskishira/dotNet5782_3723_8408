@@ -1,5 +1,6 @@
 ﻿using IBL.BO;
 using System.Collections.Generic;
+using static IBL.BO.Enum;
 
 namespace IBL
 {
@@ -19,9 +20,17 @@ namespace IBL
         IEnumerable<ParcelToList> ListViewParcels();
         IEnumerable<StationToList> ListViewStations();
         IEnumerable<ParcelToList> ParcelWithNoDrone();
-        IDAL.DO.Station smallestDistance(int CustomerId);
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
         void UpdateDrone(int idDrone, string model);
         void UpdateStation(int idStation, string newName, int chargeSlots);
+        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel);
+        public int Weight(WeightCategories maxWeight);
+        public IDAL.DO.Station smallestDistance(double longitude, double latitude);
+        public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation);
+        public void DroneReleaseFromChargingStation(int idDron, int timeInCharginge);
+        public void SendDroneToChargingStation(int idDrone);
+        
+
+
     }
 }
