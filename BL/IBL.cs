@@ -23,5 +23,9 @@ namespace IBL
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
         void UpdateDrone(int idDrone, string model);
         void UpdateStation(int idStation, string newName, int chargeSlots);
+        void UpdateAssignParcelToDrone(int droneId);
+        public void UpdateParcelDeliveryToCustomer(int droneId);
+        public void UpdateParcelCollectionByDrone(int droneId);
+
     }
 }
