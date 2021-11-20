@@ -28,7 +28,7 @@ namespace IDAL
         void UpdateParcelDeliveryToCustomer(int idParcel);
         void UpdateSendDroneToChargingStation(int idDrone, string nameStation);
         double[] electricityUse();
-        void UpdateDrone(int idDrone, string newModel);
+        void UpdateDrone(Drone drone);
         void UpdateStation(int idStation, string newName, int chargingSlots);
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
     }

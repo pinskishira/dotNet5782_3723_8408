@@ -104,8 +104,68 @@ namespace BL
 
         public void UpdateDrone(int idDrone, string model)
         {
-            dal.GetAllDrones().First(item => item.Id == idDrone);
-            dal.UpdateDrone(idDrone, model);
+            dal.GetAllDrones().First(item => item.Id == idDrone);//לברר
+            IDAL.DO.Drone drone = dal.GetAllDrones().First(indexDrones => indexDrones.Id == idDrone);
+            drone.Model = model;
+            dal.UpdateDrone(drone);
+        }
+        public void SendDroneToChargingStation(int idDrone)
+        {
+            try
+            {
+                Drone drone = DisplayDrone(idDrone);
+                if (drone.DroneStatus != (DroneStatuses)1)//בדיקה אם הרחפן פנוי
+                    throw new FailedSendDroneToChargingException("The drone is not available");
+                IDAL.DO.Station station = smallestDistanceFromDrone(drone.CurrentLocation);
+                if (station.Id == -1)
+                    throw new FailedSendDroneToChargingException("There is no station with available charging stations");
+                double batteryConsumption = Distance.Haversine
+                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)*elecUse[0];
+                if (batteryConsumption < drone.Battery)
+                    throw new FailedSendDroneToChargingException("The drone does not have enough battery to go to the station");
+                //סוללת הרחפן תעודכן לפי הזמן שהיא נסעה לתחנה בשביל להיטען
+                drone.CurrentLocation.Longitude = station.Longitude;
+                drone.CurrentLocation.Latitude = station.Latitude;
+                drone.DroneStatus = (DroneStatuses)2;
+                DroneToList droneToList = new();//לעדכן ברשימה של הרחפנים לרשימה את הרחפן הזה
+                drone.CopyPropertiesTo(droneToList);
+                droneToList.ParcelNumInTransfer = drone.ParcelInTransfer.Id;
+                int indexDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneToList.Id);
+                BlDrones[indexDroneToList] = droneToList;
+                dal.UpdateSendDroneToChargingStation(drone.Id, station.Name);//גם מעדכן שהעמדות טעינה ירדו וגם מוסיף את הרחפן לרשימה של הרחפנים בטעינה
+            }
+            catch (IDAL.DO.ItemExistsException ex)
+            {
+                throw new FailedSendDroneToChargingException(ex.ToString(), ex);
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedSendDroneToChargingException(ex.ToString(), ex);
+            }
+        }
+
+        public void DroneReleaseFromChargingStation(int idDrone)
+        {
+
+        }
+
+        public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation)
+        {
+            double minDistance = double.PositiveInfinity;//starting with an unlimited value
+            IDAL.DO.Station station = new();
+            station.Id = -1;
+            double tempDistance = -1;
+            foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
+            {
+                //calculating the distance between the sender and the station
+                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude) ;
+                if (tempDistance < minDistance && indexOfStations.ChargeSlots > 0)//compares which distance is smaller
+                {
+                    minDistance = tempDistance;
+                    station = indexOfStations;
+                }
+            }
+            return station;//returns closest station to sender
         }
     }
 }

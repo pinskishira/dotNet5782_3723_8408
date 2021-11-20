@@ -66,6 +66,15 @@ namespace DalObject
             return tempStations;
         }
 
+        public int countDroneCharge(int idStation)//לשנות את השם של הפונקציה
+        {
+            int countDroneCharge = 0;
+            foreach (var indexOfDroneCharge in DataSource.DroneCharges)//עובר על הרשימה של הרחפנים בטעינה
+                if (indexOfDroneCharge.StationId == idStation)//אם המסםר מזהה של הרחפן הטעון שווה למספר המזהה של התחנה
+                    countDroneCharge++; 
+            return countDroneCharge;
+        }
+
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             int indexOfStation = 0;
@@ -78,7 +87,7 @@ namespace DalObject
                     if (newName != "\n")
                         station.Name = newName;
                     if(chargeSlots != 0)
-                        station.ChargeSlots = chargeSlots;
+                        station.ChargeSlots = chargeSlots- countDroneCharge(idStation);
                     break;
                 }
                 indexOfStation++;

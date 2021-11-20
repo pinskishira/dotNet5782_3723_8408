@@ -13,36 +13,40 @@ namespace BL
 {
     public partial class BL : Ibl
     {
-        static Random rand = new Random();
-        IDal dal = new DalObject.DalObject();
+        static Random rand = new Random();//זה בסדר לאתחל ככה את השדות ולעשות אותו סטטיק?
+        static IDal dal = new DalObject.DalObject();
         List<DroneToList> BlDrones = new();
+        double[] elecUse = dal.electricityUse();//לשאול את דן
         public BL()
         {
             dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
-            double[] elecUse = dal.electricityUse();//לשאול את דן
             foreach (var indexOfDrones in BlDrones)
             {
                 try
                 {
                     IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);//if parcel was paired but not delivered
                     indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
+                    indexOfDrones.MaxWeight = (WeightCategories)parcel.Weight;//לשאול את דן אם זה בסדר שהוספנו את זה מרצוננו החופשי
                     if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
                     {
-                        IDAL.DO.Parcel tempParcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id);//finding parcel with same id
-                        IDAL.DO.Station closestStation = smallestDistance(tempParcel.SenderId);//returning samllest distance between the sender of the parcel and the stations 
+                        IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the customer usind id number
+                        IDAL.DO.Station closestStation = smallestDistance(sender.Longitude, sender.Latitude);//returning samllest distance between the sender of the parcel and the stations 
                         indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
                         indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
+                        double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
+                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
+                        indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);
+
                     }
                     if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
                     {
-                        IDAL.DO.Parcel tempParcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id);//finding parcel with same id
-                        IDAL.DO.Customer tempCustomer = dal.FindCustomer(tempParcel.SenderId);//finding the sender in customers
+                        IDAL.DO.Customer tempCustomer = dal.FindCustomer(parcel.SenderId);//finding the sender in customers
                         indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
                         indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
+                        indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
                     }
-                    //לחשב מצב סוללה
                 }
-                catch (Exception ex)
+                catch (Exception ex)//לשאול מה צריך להיות בשגיאה הזאת
                 {
                     if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
                         indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
@@ -65,11 +69,52 @@ namespace BL
                         IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
                         indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
                         indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
-                        //לחשב מצב סוללה
+                        IDAL.DO.Station smallestStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
+                        double distanceFromStation = Distance.Haversine
+                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, smallestStation.Longitude, smallestStation.Latitude);
+                        indexOfDrones.Battery = rand.Next((int)(distanceFromStation*elecUse[0]),101);
                     }
                 }
             }
         }
 
+        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel)//פונרקציה שמחשבת כמה בטריה צריך הרחפן כדי לעשות את המשלוח
+        {
+            IDAL.DO.Customer target = dal.FindCustomer(parcel.TargetId);
+            IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);
+            double distanceFromTarget = Distance.Haversine(sender.Longitude, sender.Latitude, target.Longitude, target.Latitude);
+            IDAL.DO.Station smallestStation = smallestDistance(target.Longitude, target.Latitude);
+            double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
+            return (int)(distanceFromTarget * elecUse[AmountConsumption(droneToList.MaxWeight)] + distanceFromStation * elecUse[0]);
+        }
+
+        public int AmountConsumption(WeightCategories maxWeight)//פונקציה שמחזירה מה כמות הצריכה של הרחפן
+        {
+            if (maxWeight == (WeightCategories)1)
+                return 1;
+            if (maxWeight == (WeightCategories)2)
+                return 2;
+            if (maxWeight == (WeightCategories)3)
+                return 3;
+            return 0;
+        }
+
+        public IDAL.DO.Station smallestDistance(double longitude,double latitude)
+        {
+            double minDistance = double.PositiveInfinity;//starting with an unlimited value
+            IDAL.DO.Station station = new();
+            double tempDistance = -1;
+            foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
+            {
+                //calculating the distance between the sender and the station
+                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, longitude, latitude);
+                if (tempDistance < minDistance)//compares which distance is smaller
+                {
+                    minDistance = tempDistance;
+                    station = indexOfStations;
+                }
+            }
+            return station;//returns closest station to sender
+        }
     }
 }

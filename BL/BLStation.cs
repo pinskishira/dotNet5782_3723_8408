@@ -95,36 +95,11 @@ namespace BL
             return stationToList;
         }
 
-
-        /// <summary>
-        /// Function that returns the samllest distance between the sender and a station. 
-        /// </summary>
-        /// <param name="CustomerId">Id of sender</param>
-        /// <returns></returns>
-        public IDAL.DO.Station smallestDistance(int CustomerId)
-        {
-            IDAL.DO.Customer customer = dal.FindCustomer(CustomerId);//finding the customer usind id number
-            double minDistance = double.PositiveInfinity;//starting with an unlimited value
-            IDAL.DO.Station station = new();
-            double tempDistance = -1;
-            foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
-            {
-                //calculating the distance between the sender and the station
-                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, customer.Longitude, customer.Latitude);
-                if (tempDistance < minDistance)//compares which distance is smaller
-                {
-                    minDistance = tempDistance;
-                    station = indexOfStations;
-                }
-            }
-            return station;//returns closest station to sender
-        }
-
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             if (chargeSlots < 0)
                 throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
-            dal.GetAllStations().First(item => item.Id == idStation);
+            dal.GetAllStations().First(item => item.Id == idStation);//לברר מה זה
             dal.UpdateStation(idStation, newName, chargeSlots);
         }
     }

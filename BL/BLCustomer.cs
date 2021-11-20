@@ -114,7 +114,7 @@ namespace BL
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            dal.GetAllCustomers().First(item => item.Id == idCustomer);
+            dal.GetAllCustomers().First(item => item.Id == idCustomer);//לברר מה זה
             dal.UpdateCustomer(idCustomer, newName, customerPhone);
         }
 

@@ -24,7 +24,7 @@ namespace DalObject
             elecUse[1] = DataSource.Config.LightWeight;
             elecUse[2] = DataSource.Config.MediumWeight;
             elecUse[3] = DataSource.Config.HeavyWeight;
-            elecUse[4] = DataSource.Config.DroneChargingRatePh;
+            elecUse[4] = DataSource.Config.DroneChargingRatePH;
             return elecUse;
         }
     }

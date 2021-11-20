@@ -19,7 +19,7 @@ namespace DalObject
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {
             if (DataSource.DroneCharges.Exists(item => item.DroneId == newDroneCharge.DroneId));
-                throw new ItemDoesNotExistException("The parcel already exists.\n");
+                throw new ItemExistsException("The parcel already exists.\n");
             DataSource.DroneCharges.Add(newDroneCharge);
         }
         /// <summary>

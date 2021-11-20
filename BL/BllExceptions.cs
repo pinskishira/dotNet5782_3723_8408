@@ -42,12 +42,13 @@ namespace BL
                 return Message;
             }
         }
+
         [Serializable]
-        public class FailedDisplayExcep5tion : Exception//בעיה בבנאי
+        public class FailedSendDroneToChargingException : Exception//בעיה בלשלוח רחפן לטעינה
         {
-            public FailedDisplayException() : base() { }
-            public FailedDisplayException(string message) : base(message) { }
-            public FailedDisplayException(string message, Exception innerException) : base(message, innerException) { }
+            public FailedSendDroneToChargingException() : base() { }
+            public FailedSendDroneToChargingException(string message) : base(message) { }
+            public FailedSendDroneToChargingException(string message, Exception innerException) : base(message, innerException) { }
             public override string ToString()
             {
                 return Message;
