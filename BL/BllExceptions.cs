@@ -54,5 +54,17 @@ namespace BL
                 return Message;
             }
         }
+
+        [Serializable]
+        public class FailedToDeliverParcel : Exception//בעיה בלשלוח רחפן לטעינה
+        {
+            public FailedToDeliverParcel() : base() { }
+            public FailedToDeliverParcel(string message) : base(message) { }
+            public FailedToDeliverParcel(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
     }
 }

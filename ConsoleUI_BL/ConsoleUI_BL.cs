@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
 {
     public enum BlMainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
     public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel };
-    public enum UpdatingFunction { UpdateDrone = 1,UpdateCustomer, UpdateStation, SendDroneToChargingStation, DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer };
+    public enum UpdatingFunction { UpdateDrone = 1,UpdateCustomer, UpdateStation, SendDroneToChargingStation, AssignParcelToDrone, DroneReleaseFromChargingStation, ParcelCollectionByDrone, ParcelDeliveryToCustomer };
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
 
@@ -162,23 +162,21 @@ namespace ConsoleUI_BL
                                     int.TryParse(Console.ReadLine(), out timeInCharging);
                                     ibl.DroneReleaseFromChargingStation(idDrone, timeInCharging);
                                     break;
-                                    //case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
-                                    //    Console.Write("Enter your drone ID: ");
-                                    //    int.TryParse(Console.ReadLine(), out idDrone);
-                                    //    Console.Write("Enter your parcel ID: ");
-                                    //    int.TryParse(Console.ReadLine(), out idParcel);
-                                    //    ibl.UpdateAssignParcelToDrone(idParcel,idDrone);
-                                    //    break;
-                                    //case UpdatingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
-                                    //    Console.Write("Enter your parcel ID: ");
-                                    //    int.TryParse(Console.ReadLine(), out idParcel);
-                                    //    ibl.UpdateParcelCollectionByDrone(idParcel);
-                                    //    break;
-                                    //case UpdatingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
-                                    //    Console.Write("Enter your parcel ID: ");
-                                    //    int.TryParse(Console.ReadLine(), out idParcel);
-                                    //    ibl.UpdateParcelDeliveryToCustomer(idParcel);
-                                    //    break;
+                                    case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
+                                        Console.Write("Enter your drone ID: ");
+                                        int.TryParse(Console.ReadLine(), out idDrone);
+                                        ibl.UpdateAssignParcelToDrone(idDrone);
+                                        break;
+                                   case UpdatingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
+                                       Console.Write("Enter your parcel ID: ");
+                                       int.TryParse(Console.ReadLine(), out idParcel);
+                                       ibl.UpdateParcelCollectionByDrone(idParcel);
+                                       break;
+                                   case UpdatingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
+                                       Console.Write("Enter drone ID: ");
+                                       int.TryParse(Console.ReadLine(), out idDrone);
+                                       ibl.UpdateParcelDeliveryToCustomer(idDrone);
+                                       break;
                                     //case UpdatingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
                                     //    Console.Write("Enter the ID of the Drone with low battery: ");
                                     //    int IdOfLowBatteryDrone;

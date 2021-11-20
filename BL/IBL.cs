@@ -32,5 +32,9 @@ namespace IBL
         
 
 
+        void UpdateAssignParcelToDrone(int droneId);
+        public void UpdateParcelDeliveryToCustomer(int droneId);
+        public void UpdateParcelCollectionByDrone(int droneId);
+
     }
 }

@@ -109,5 +109,40 @@ namespace BL
             }
             return parcelToList;
         }
+
+        public void UpdateAssignParcelToDrone(int droneId)
+        {
+            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
+            Drone drone = DisplayDrone(droneId);
+            if(drone.DroneStatus == (DroneStatuses)1)
+            {
+
+            }
+        }
+        public void UpdateParcelDeliveryToCustomer(int droneId)
+        {
+            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
+            Drone drone = DisplayDrone(droneId);//finding drone with given id
+            Parcel parcel = DisplayParcel(drone.ParcelInTransfer.Id);//finding parcel that is assigned to this drone
+            if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
+            {
+                //finding distance between original location of drone to the location of its destination
+                int distance = (int)Distance.Haversine
+                    (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
+                    drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
+                drone.Battery -= (int)(distance * elecUse[4]);//
+                drone.CurrentLocation = drone.ParcelInTransfer.CollectionLocation;//
+                drone.DroneStatus = (DroneStatuses)1;
+                parcel.Delivered = DateTime.Now;
+            }
+            else
+                throw new FailedToDeliverParcel("Could not deliver parcel");
+        }
+
+        public void UpdateParcelCollectionByDrone(int droneId)
+        {
+            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
+
+        }
     }
 }
