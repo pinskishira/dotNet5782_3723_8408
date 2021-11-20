@@ -66,5 +66,17 @@ namespace BL
                 return Message;
             }
         }
+
+        [Serializable]
+        public class FailedToCollectParcel : Exception//בעיה בלשלוח רחפן לטעינה
+        {
+            public FailedToCollectParcel() : base() { }
+            public FailedToCollectParcel(string message) : base(message) { }
+            public FailedToCollectParcel(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
     }
 }

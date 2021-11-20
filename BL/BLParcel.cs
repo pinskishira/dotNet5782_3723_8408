@@ -130,19 +130,34 @@ namespace BL
                 int distance = (int)Distance.Haversine
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
+                //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
                 drone.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
-                drone.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//
-                drone.DroneStatus = (DroneStatuses)1;
-                parcel.Delivered = DateTime.Now;
+                drone.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
+                drone.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
+                parcel.Delivered = DateTime.Now;//time of delivery is present time
             }
             else
-                throw new FailedToDeliverParcel("Could not deliver parcel");
+                throw new FailedToDeliverParcel("Drone could not deliver parcel.\n");
         }
 
         public void UpdateParcelCollectionByDrone(int droneId)
         {
             dal.GetAllDrones().First(item => item.Id == droneId);//לברר
-
+            Drone drone = DisplayDrone(droneId);//finding drone with given id
+            Parcel parcel = DisplayParcel(drone.ParcelInTransfer.Id);//finding parcel that is assigned to this drone
+            if (parcel.PickedUp != DateTime.MinValue)
+            {
+                //finding distance between original location of drone to the location of its destination
+                int distance = (int)Distance.Haversine
+                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude,
+                    drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude);
+                //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
+                drone.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
+                drone.CurrentLocation = drone.ParcelInTransfer.CollectionLocation;//updating location to sender location
+                parcel.PickedUp = DateTime.Now;//time of picking up is present time
+            }
+            else
+                throw new FailedToCollectParcel("Parcel could not be collected by drone.\n");
         }
     }
 }
