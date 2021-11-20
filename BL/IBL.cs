@@ -29,9 +29,6 @@ namespace IBL
         public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation);
         public void DroneReleaseFromChargingStation(int idDron, int timeInCharginge);
         public void SendDroneToChargingStation(int idDrone);
-        
-
-
         void UpdateAssignParcelToDrone(int droneId);
         public void UpdateParcelDeliveryToCustomer(int droneId);
         public void UpdateParcelCollectionByDrone(int droneId);

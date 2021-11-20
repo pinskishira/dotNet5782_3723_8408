@@ -123,7 +123,7 @@ namespace BL
                     (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)*elecUse[0];
                 if (batteryConsumption < drone.Battery)
                     throw new FailedSendDroneToChargingException("The drone does not have enough battery to go to the station");
-                drone.Battery -= (int)(batteryConsumption * elecUse[0]);//לשאול את דן או לוודא עם יהודה שור
+                drone.Battery -= (int)(batteryConsumption * elecUse[0]);
                 drone.CurrentLocation.Longitude = station.Longitude;
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = (DroneStatuses)2;

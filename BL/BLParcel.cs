@@ -130,8 +130,8 @@ namespace BL
                 int distance = (int)Distance.Haversine
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
-                drone.Battery -= (int)(distance * elecUse[4]);//
-                drone.CurrentLocation = drone.ParcelInTransfer.CollectionLocation;//
+                drone.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
+                drone.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//
                 drone.DroneStatus = (DroneStatuses)1;
                 parcel.Delivered = DateTime.Now;
             }
