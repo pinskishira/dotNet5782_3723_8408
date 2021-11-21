@@ -113,22 +113,25 @@ namespace BL
         /// <summary>
         /// Finds parcels that are not assigned to a drone.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Parcels with no drone</returns>
         public IEnumerable<ParcelToList> ParcelWithNoDrone()
         {
             List<ParcelToList> parcelToList = new();
-            foreach (var indexOfParcelToList in ListViewParcels())
+            foreach (var indexOfParcelToList in ListViewParcels())//goes thorugh parcels
             {
-                if (indexOfParcelToList.StateOfParcel == (ParcelState)1)
-                    parcelToList.Add(indexOfParcelToList);
+                if (indexOfParcelToList.StateOfParcel == (ParcelState)1)//if they have not been assigned a drone
+                    parcelToList.Add(indexOfParcelToList);//add to list
             }
             return parcelToList;
         }
 
+        /// <summary>
+        /// Assigns a parcel to a drone.
+        /// </summary>
+        /// <param name="droneId">Drone to assign to parcel</param>
         public void UpdateAssignParcelToDrone(int droneId)
         {
-            DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-            
+            DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);            
             int maxPriorities = 0, maxWeight = 0;
             double maxDistance = 0.0;
             if (droneToList.DroneStatus==(DroneStatuses)1)
@@ -143,6 +146,13 @@ namespace BL
                 }
             }
         }
+
+        /// <summary>
+        /// Finds distance between the drone and the sender of the parcel.
+        /// </summary>
+        /// <param name="droneToList">List of drones</param>
+        /// <param name="parcelSenderId">Id of the parcel sender</param>
+        /// <returns></returns>
         public double DroneDistanceFromParcel(DroneToList droneToList,int parcelSenderId)
         {
             try
@@ -156,6 +166,10 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droneId">Drone that delivered parcel</param>
         public void UpdateParcelDeliveryToCustomer(int droneId)
         {
             try
@@ -165,6 +179,7 @@ namespace BL
                 Drone drone = DisplayDrone(droneId);//finding drone with given id
                 if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
                 {
+                    //finding distance between 
                     int distance = (int)Distance.Haversine
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
