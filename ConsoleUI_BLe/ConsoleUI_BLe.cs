@@ -14,7 +14,7 @@ namespace ConsoleUI_BL
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
 
-    class ConsoleUI_BL
+    public class ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
@@ -168,38 +168,15 @@ namespace ConsoleUI_BL
                                         ibl.UpdateAssignParcelToDrone(idDrone);
                                         break;
                                    case UpdatingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
-                                       Console.Write("Enter your parcel ID: ");
-                                       int.TryParse(Console.ReadLine(), out idParcel);
-                                       ibl.UpdateParcelCollectionByDrone(idParcel);
+                                       Console.Write("Enter your drone ID: ");
+                                       int.TryParse(Console.ReadLine(), out idDrone);
+                                       ibl.UpdateParcelCollectionByDrone(idDrone);
                                        break;
                                    case UpdatingFunction.ParcelDeliveryToCustomer://case which updates when a parcel is delivered to a customer
                                        Console.Write("Enter drone ID: ");
                                        int.TryParse(Console.ReadLine(), out idDrone);
                                        ibl.UpdateParcelDeliveryToCustomer(idDrone);
                                        break;
-                                    //case UpdatingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
-                                    //    Console.Write("Enter the ID of the Drone with low battery: ");
-                                    //    int IdOfLowBatteryDrone;
-                                    //    int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
-                                    //    Console.Write("Please enter your desired station: ");
-                                    //    IEnumerable<Station> AvailableStation = ibl.GetStationWithFreeSlots();//finding available station
-                                    //    Console.Write("\n");
-                                    //    int count = 1;
-                                    //    foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
-                                    //    {
-                                    //        if (indexStation.ChargeSlots > 0)
-                                    //            Console.WriteLine((count++) + " - " + indexStation.Name);
-                                    //    }
-                                    //    string ChosenStation = Console.ReadLine();
-                                    //    ibl.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
-                                    //    break;
-                                    //case UpdatingFunction.DroneReleaseFromChargingStation://case which releases a fully charged drone from charging station
-                                    //    Console.Write("Enter the ID of the Drone with charged battery: ");
-                                    //    int IdOfChargedBatteryDrone;
-                                    //    int.TryParse(Console.ReadLine(), out input);
-                                    //    IdOfChargedBatteryDrone = input;
-                                    //    ibl.DroneReleaseFromChargingStation(IdOfChargedBatteryDrone);
-                                    //    break;
                             }
                             break;
                         case BlMainSwitchFunctions.Display: //the user will choose whether he wants to display the stations, drones, customers, or parcels

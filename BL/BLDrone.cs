@@ -148,9 +148,23 @@ namespace BL
             }
         }
 
-        public void DroneReleaseFromChargingStation(int idDron,int timeInCharginge)
+        public void DroneReleaseFromChargingStation(int idDrone,int timeInCharginge)
         {
-
+            try
+            {
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
+                if (droneToList.DroneStatus != (DroneStatuses)2)//בדיקה אם הרחפן בתחזוקה
+                    throw new FailedReleaseDroneFromChargingException("The drone is not Maintenance");
+                droneToList.Battery -= (int)(timeInCharginge * elecUse[4]);//לשאול את שירה בעזרת ה
+                droneToList.DroneStatus = (DroneStatuses)1;
+                dal.DroneReleaseFromChargingStation(idDrone);
+                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
+                BlDrones[indexOfDroneToList] = droneToList;
+            }
+            catch (ArgumentNullException)//לשאול את פנינה
+            {
+                throw new FailedReleaseDroneFromChargingException("The drone does not exist.\n");
+            }
         }
 
         public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation)

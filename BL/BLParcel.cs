@@ -127,52 +127,101 @@ namespace BL
 
         public void UpdateAssignParcelToDrone(int droneId)
         {
-            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
-            Drone drone = DisplayDrone(droneId);
-            if(drone.DroneStatus == (DroneStatuses)1)
+            DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+            
+            int maxPriorities = 0, maxWeight = 0;
+            double maxDistance = 0.0;
+            if (droneToList.DroneStatus==(DroneStatuses)1)
             {
-
+                foreach (var indexOfParcel in dal.GetAllParcels())
+                {
+                    if ((int)indexOfParcel.Priority <= maxPriorities && (int)indexOfParcel.Weight <= maxWeight &&
+                        DroneDistanceFromParcel(droneToList, indexOfParcel.SenderId) <= maxDistance)
+                    {
+                        if()
+                    }
+                }
             }
         }
+        public double DroneDistanceFromParcel(DroneToList droneToList,int parcelSenderId)
+        {
+            try
+            {
+                IDAL.DO.Customer sender = dal.GetAllCustomers().First(indexOfParcel => indexOfParcel.Id == parcelSenderId);
+                return Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
+            }
+            catch (Exception)
+            {
+                throw new FailedAssignParcelToDroneException("The sender of the parcel was not found.\n");
+            }
+        }
+
         public void UpdateParcelDeliveryToCustomer(int droneId)
         {
-            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
-            Drone drone = DisplayDrone(droneId);//finding drone with given id
-            Parcel parcel = DisplayParcel(drone.ParcelInTransfer.Id);//finding parcel that is assigned to this drone
-            if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
+            try
             {
-                //finding distance between original location of drone to the location of its destination
-                int distance = (int)Distance.Haversine
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
+                IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelNumInTransfer);//finding parcel that is assigned to this drone
+                Drone drone = DisplayDrone(droneId);//finding drone with given id
+                if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
+                {
+                    int distance = (int)Distance.Haversine
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
-                //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
-                drone.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
-                drone.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
-                drone.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
-                parcel.Delivered = DateTime.Now;//time of delivery is present time
+                    //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
+                    droneToList.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
+                    droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
+                    droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
+                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    BlDrones[indexOfDroneToList] = droneToList;
+                    dal.UpdateParcelDeliveryToCustomer(droneId);
+                }
+                else
+                    throw new FailedToDeliverParcelException("Drone could not deliver parcel.\n");
             }
-            else
-                throw new FailedToDeliverParcel("Drone could not deliver parcel.\n");
+            catch (ArgumentNullException ex)
+            {
+                throw new FailedToCollectParcelException(ex.ToString()); ;
+            }
+            catch (FailedToDeliverParcelException ex)
+            {
+                throw new FailedToDeliverParcelException(ex.ToString());
+            }
+
         }
 
         public void UpdateParcelCollectionByDrone(int droneId)
         {
-            dal.GetAllDrones().First(item => item.Id == droneId);//לברר
-            Drone drone = DisplayDrone(droneId);//finding drone with given id
-            Parcel parcel = DisplayParcel(drone.ParcelInTransfer.Id);//finding parcel that is assigned to this drone
-            if (parcel.PickedUp != DateTime.MinValue)
+            try
             {
-                //finding distance between original location of drone to the location of its destination
-                int distance = (int)Distance.Haversine
-                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude,
-                    drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude);
-                //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
-                drone.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
-                drone.CurrentLocation = drone.ParcelInTransfer.CollectionLocation;//updating location to sender location
-                parcel.PickedUp = DateTime.Now;//time of picking up is present time
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
+                IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelNumInTransfer);//finding parcel that is assigned to this drone
+                IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);
+                if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
+                {
+                    //finding distance between original location of drone to the location of its destination
+                    int distance = (int)Distance.Haversine
+                        (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
+                    droneToList.Battery -= (int)(distance * elecUse[Weight(droneToList.MaxWeight)]);
+                    droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
+                    droneToList.CurrentLocation.Latitude = sender.Latitude;
+                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    BlDrones[indexOfDroneToList] = droneToList;
+                    dal.UpdateParcelCollectionByDrone(parcel.Id);
+                }
+                else
+                    throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
             }
-            else
-                throw new FailedToCollectParcel("Parcel could not be collected by drone.\n");
+
+            catch (ArgumentNullException ex)
+            {
+                throw new FailedToCollectParcelException("Does not exist.\n");
+            }
+
+            catch (FailedToCollectParcelException ex)
+            {
+                throw new FailedToCollectParcelException(ex.ToString());
+            }
         }
     }
 }
