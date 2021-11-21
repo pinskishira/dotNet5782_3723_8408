@@ -46,7 +46,7 @@ namespace BL
                         indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
                     }
                 }
-                catch (Exception ex)//לשאול מה צריך להיות בשגיאה הזאת
+                catch (ArgumentNullException ex)       //לשאול מה צריך להיות בשגיאה הזאת
                 {
                     if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
                         indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  

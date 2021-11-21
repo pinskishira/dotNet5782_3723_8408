@@ -56,11 +56,11 @@ namespace BL
         }
 
         [Serializable]
-        public class FailedToDeliverParcel : Exception//בעיה בלשלוח רחפן לטעינה
+        public class FailedToDeliverParcelException : Exception//בעיה בשליחת חבילה
         {
-            public FailedToDeliverParcel() : base() { }
-            public FailedToDeliverParcel(string message) : base(message) { }
-            public FailedToDeliverParcel(string message, Exception innerException) : base(message, innerException) { }
+            public FailedToDeliverParcelException() : base() { }
+            public FailedToDeliverParcelException(string message) : base(message) { }
+            public FailedToDeliverParcelException(string message, Exception innerException) : base(message, innerException) { }
             public override string ToString()
             {
                 return Message;
@@ -68,11 +68,35 @@ namespace BL
         }
 
         [Serializable]
-        public class FailedToCollectParcel : Exception//בעיה בלשלוח רחפן לטעינה
+        public class FailedToCollectParcelException : Exception//בעיה באיסוף חבילה
         {
-            public FailedToCollectParcel() : base() { }
-            public FailedToCollectParcel(string message) : base(message) { }
-            public FailedToCollectParcel(string message, Exception innerException) : base(message, innerException) { }
+            public FailedToCollectParcelException() : base() { }
+            public FailedToCollectParcelException(string message) : base(message) { }
+            public FailedToCollectParcelException(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
+
+        [Serializable]
+        public class FailedReleaseDroneFromChargingException : Exception//בעיה בשחרור רחפן מטעינה
+        {
+            public FailedReleaseDroneFromChargingException() : base() { }
+            public FailedReleaseDroneFromChargingException(string message) : base(message) { }
+            public FailedReleaseDroneFromChargingException(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
+
+        [Serializable]
+        public class FailedAssignParcelToDroneException : Exception//בעיה בשחרור רחפן מטעינה
+        {
+            public FailedAssignParcelToDroneException() : base() { }
+            public FailedAssignParcelToDroneException(string message) : base(message) { }
+            public FailedAssignParcelToDroneException(string message, Exception innerException) : base(message, innerException) { }
             public override string ToString()
             {
                 return Message;
