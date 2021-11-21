@@ -42,7 +42,12 @@ namespace BL
             }
         }
 
-        public Station DisplayStation(int stationId) //תצוגת תחנת-בסיס
+        /// <summary>
+        /// Displays a specific station, by converting station to BL an filling the missing fields.
+        /// </summary>
+        /// <param name="stationId">Id of station</param>
+        /// <returns>Parcel</returns>
+        public Station DisplayStation(int stationId) 
         {
             Station blStation = new();
             try
@@ -70,6 +75,10 @@ namespace BL
             return blStation;
         }
 
+        /// <summary>
+        /// Converting BL list to dal and updating amount of unavailable charge slots, then adding to stationToList.
+        /// </summary>
+        /// <returns>List of stations</returns>
         public IEnumerable<StationToList> ListViewStations()
         {
             Station tempStation = new();

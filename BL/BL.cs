@@ -11,20 +11,24 @@ using System.Linq;
 
 namespace BL
 {
+    /// <summary>
+    /// Constructor BL that defines the fields.
+    /// </summary>
     public partial class BL : Ibl
     {
         static Random rand = new Random();//זה בסדר לאתחל ככה את השדות ולעשות אותו סטטיק?
         static IDal dal = new DalObject.DalObject();
-        List<DroneToList> BlDrones = new();
+        List<DroneToList> BlDrones = new();//new list of drones
         double[] elecUse = dal.electricityUse();//לשאול את דן
         public BL()
         {
-            dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);
-            foreach (var indexOfDrones in BlDrones)
+            dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);//converting list of dal to BL
+            foreach (var indexOfDrones in BlDrones)//going through converted list of drones in the BL
             {
                 try
                 {
-                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);//if parcel was paired but not delivered
+                    //if parcel was paired but not delivered
+                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
                     indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
                     indexOfDrones.MaxWeight = (WeightCategories)parcel.Weight;//לשאול את דן אם זה בסדר שהוספנו את זה מרצוננו החופשי
                     if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
@@ -33,16 +37,17 @@ namespace BL
                         IDAL.DO.Station closestStation = smallestDistance(sender.Longitude, sender.Latitude);//returning samllest distance between the sender of the parcel and the stations 
                         indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
                         indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
+                        //calculates the usage of battery of the drone according to the distance it travelled and the weight of its parcel
                         double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
                             (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
-                        indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);
-
+                        indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
                     }
                     if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
                     {
                         IDAL.DO.Customer tempCustomer = dal.FindCustomer(parcel.SenderId);//finding the sender in customers
                         indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
                         indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
+                        //using random selection to calculate battery using distance the drone traveled and the parcel it collected and full charge
                         indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
                     }
                 }
@@ -57,7 +62,7 @@ namespace BL
                         IDAL.DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
                         indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
                         indexOfDrones.CurrentLocation.Latitude = station.Latitude;
-                        indexOfDrones.Battery = rand.Next(0, 21);
+                        indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
                     }
                     if (indexOfDrones.DroneStatus == (DroneStatuses)1)//if the drone is available for delivery
                     {
@@ -69,36 +74,62 @@ namespace BL
                         IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
                         indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
                         indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
-                        IDAL.DO.Station smallestStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
+                        //finding the closest station to the current location of the drone
+                        IDAL.DO.Station smallestDistanceStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
+                        //finding the distance from closest station and the drones current location
                         double distanceFromStation = Distance.Haversine
-                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, smallestStation.Longitude, smallestStation.Latitude);
-                        indexOfDrones.Battery = rand.Next((int)(distanceFromStation*elecUse[0]),101);
+                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, smallestDistanceStation.Longitude, smallestDistanceStation.Latitude);
+                        //calculating battery using the distance it will travel and the amount of battery used per km
+                        indexOfDrones.Battery = rand.Next((int)(distanceFromStation * elecUse[0]), 101);
                     }
                 }
             }
         }
 
-        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel)//פונרקציה שמחשבת כמה בטריה צריך הרחפן כדי לעשות את המשלוח
+        /// <summary>
+        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
+        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
+        /// </summary>
+        /// <param name="droneToList">The drone performing delivery</param>
+        /// <param name="parcel">Parcel drone is carrying</param>
+        /// <returns>Amount of battery used during delivery</returns>
+        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel) 
         {
-            IDAL.DO.Customer target = dal.FindCustomer(parcel.TargetId);
-            IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);
+            IDAL.DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
+            IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer
+            //finding distance between the sender and the target 
             double distanceFromTarget = Distance.Haversine(sender.Longitude, sender.Latitude, target.Longitude, target.Latitude);
+            //finding the station closest to the target to perform delivery
             IDAL.DO.Station smallestStation = smallestDistance(target.Longitude, target.Latitude);
+            //finding the distance between the closest station to target and the target destination
             double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
+            //calculates distance by multiplying by its weight and the amount of battery it uses per km.
             return (int)(distanceFromTarget * elecUse[Weight(droneToList.MaxWeight)] + distanceFromStation * elecUse[0]);
         }
 
-        public int Weight(WeightCategories maxWeight)//פונקציה שמחזירה מה כמות הצריכה של הרחפן
+        /// <summary>
+        /// Returns the index to place in the elecUse array, that finds the amount of battery used per km
+        /// according to the weight of the parcel.
+        /// </summary>
+        /// <param name="maxWeight">Weight of parcel</param>
+        /// <returns>Index, in elecUse array</returns>
+        public int Weight(WeightCategories maxWeight)
         {
-            if (maxWeight == (WeightCategories)1)
+            if (maxWeight == (WeightCategories)1)//parcel is an easy weight
                 return 1;
-            if (maxWeight == (WeightCategories)2)
+            if (maxWeight == (WeightCategories)2)//parcel is a medium weight
                 return 2;
-            if (maxWeight == (WeightCategories)3)
+            if (maxWeight == (WeightCategories)3)//parcel is heavy
                 return 3;
             return 0;
         }
 
+        /// <summary>
+        /// Finds the smallest distance between the given location and the closest station.
+        /// </summary>
+        /// <param name="longitude">Longitude in location</param>
+        /// <param name="latitude">Lattitude in location</param>
+        /// <returns>Closest station to sender</returns>
         public IDAL.DO.Station smallestDistance(double longitude,double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value

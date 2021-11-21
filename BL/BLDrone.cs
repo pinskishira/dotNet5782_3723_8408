@@ -64,10 +64,10 @@ namespace BL
         }
 
         /// <summary>
-        /// 
+        /// Displays a specific drone, by converting drone to BL an filling the missing fields.
         /// </summary>
-        /// <param name="droneId">Displaying drone</param>
-        /// <returns></returns>
+        /// <param name="droneId">Id of drone</param>
+        /// <returns>Drone</returns>
         public Drone DisplayDrone(int droneId)//תצוגת רחפן
         {
             DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//חיפוש ברשימה של הרחפנים לפי מספר מזהה של הרחפן
@@ -97,6 +97,10 @@ namespace BL
             return dalDrone;
         }
 
+        /// <summary>
+        /// Sending list of drones.
+        /// </summary>
+        /// <returns>List of drones</returns>
         public IEnumerable<DroneToList> ListViewDrones()
         {
             return BlDrones;

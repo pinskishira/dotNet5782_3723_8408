@@ -41,6 +41,11 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Displays a specific customer, by converting dcustomer to BL an filling the missing fields.
+        /// </summary>
+        /// <param name="customerId">Id of customer</param>
+        /// <returns>Customer</returns>
         public Customer DisplayCustomer(int customerId)//תצוגת לקוח
         {
             Customer blCustomer = new();
@@ -84,6 +89,11 @@ namespace BL
             return blCustomer;
         }
 
+        /// <summary>
+        /// Converting BL list to dal and updating the parcel state, and amount of packages sent and delivered
+        /// to customer ,then adding to custonerToList.
+        /// </summary>
+        /// <returns>List of customers</returns>
         public IEnumerable<CustomerToList> ListViewCustomers()
         {
             Customer tempCustomer = new();

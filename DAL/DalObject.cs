@@ -4,10 +4,7 @@ using System.Collections.Generic;
 //using DAL.IDAL.DO;
 using DalObject;
 using IDAL;
-/// <summary>
-/// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
-/// It also includes adding functions for all arrays as well as searching functions.
-/// </summary>
+
 namespace DalObject
 {
     public partial class DalObject :IDal
@@ -17,6 +14,10 @@ namespace DalObject
             DataSource.Initialize();
         }
 
+        /// <summary>
+        /// Defines an array that holds the data of the amount of battery used per km.
+        /// </summary>
+        /// <returns>Array of data</returns>
         public double[] electricityUse()
         {
             double []elecUse = new double[5];
