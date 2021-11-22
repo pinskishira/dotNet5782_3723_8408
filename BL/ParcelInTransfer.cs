@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class ParcelInTransfer//חבילה בהעברה
+        public class ParcelInTransfer
         {
             public int Id { get; set; }
             public bool ParcelState { get; set; }

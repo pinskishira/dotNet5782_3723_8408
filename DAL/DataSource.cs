@@ -49,12 +49,6 @@ namespace DalObject
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
-            newStation.Id = 1234;
-            newStation.Name = "Givat Shaul";
-            newStation.Longitude = 36.2;
-            newStation.Latitude = 34.5;
-            newStation.AvailableChargeSlots = 5;
-            Stations.Add(newStation);
 
             Drone newDrone = new();
             string[] droneArayNames = new string[5];
