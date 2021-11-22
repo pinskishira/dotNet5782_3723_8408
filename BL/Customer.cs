@@ -25,8 +25,22 @@ namespace IBL
                 result += $"Name is {Name} \n";
                 result += $"Phone is {Phone} \n";
                 result += $"Customers' Location is {CustomerLocation} \n";
-                result += $"Parcels From Customers is {ParcelsFromCustomers} \n";
-                result += $"Parcels To Customers is {ParcelsToCustomers} \n";
+                if(ParcelsFromCustomers.Any())
+                {
+                    result += $"Parcels From Customers is:\n";
+                    foreach (var indexOfParcelsFromCustomers in ParcelsFromCustomers)
+                    {
+                        result += $"{indexOfParcelsFromCustomers} \n";
+                    }
+                }
+                if (ParcelsToCustomers.Any())
+                {
+                    result += $"Parcels To Customers is {ParcelsToCustomers} \n";
+                    foreach (var indexOfParcelsToCustomers in ParcelsToCustomers)
+                    {
+                        result += $"{indexOfParcelsToCustomers} \n";
+                    }
+                }
                 return result;
             }
         }

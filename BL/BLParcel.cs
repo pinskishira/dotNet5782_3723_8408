@@ -19,9 +19,9 @@ namespace BL
         /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.SenderId.Id))) + 1) != 9)//if id inputted is not 9 digits long
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.TargetId.Id))) + 1) != 9)//if id inputted is not 9 digits long
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number of target should be 9 digits long\n");
             if (newParcel.Weight != (WeightCategories)1 && newParcel.Weight != (WeightCategories)2 && newParcel.Weight != (WeightCategories)3)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
@@ -32,7 +32,7 @@ namespace BL
             newParcel.Scheduled = DateTime.MinValue;
             newParcel.PickedUp = DateTime.MinValue;
             newParcel.Delivered = DateTime.MinValue;
-            newParcel.DroneId = null;
+            newParcel.DroneParcel = null;
             try
             {
                 //converting BL parcel to dal
@@ -57,17 +57,22 @@ namespace BL
             try
             {
                 IDAL.DO.Parcel dalParcel = dal.FindParcel(parcelId);//finding parcel
+                blParcel.Sender = new();
+                blParcel.Target = new();
+                blParcel.DroneParcel = new();
                 dalParcel.CopyPropertiesTo(blParcel);//converting to BL
                 Customer target = DisplayCustomer(dalParcel.TargetId);//finding the target who will recieve parcel
-                target.CopyPropertiesTo(blParcel.TargetId);//converting to BL
+                target.CopyPropertiesTo(blParcel.Target);//converting to BL
                 Customer sender = DisplayCustomer(dalParcel.SenderId);//finding the sender who sends the parcel
-                sender.CopyPropertiesTo(blParcel.SenderId);//converting to BL
+                sender.CopyPropertiesTo(blParcel.Sender);//converting to BL
                 if (dalParcel.DroneId == 0)//if parcel isnt assigned to a drone
-                    blParcel.DroneId = default;
+                    blParcel.DroneParcel = default;
                 else
                 {
                     Drone drone = DisplayDrone(dalParcel.DroneId);//finding its assogned drone
-                    drone.CopyPropertiesTo(blParcel.DroneId);//converting to BL
+                    blParcel.DroneParcel.CurrentLocation = new();
+                    drone.CopyPropertiesTo(blParcel.DroneParcel);//converting to BL
+                    blParcel.DroneParcel.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
                 }
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)

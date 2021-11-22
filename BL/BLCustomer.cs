@@ -55,13 +55,17 @@ namespace BL
             {
                 IDAL.DO.Customer dalCustomer = dal.FindCustomer(customerId);//finding customer using inputted id
                 dalCustomer.CopyPropertiesTo(blCustomer);//converting dal->bl
-                foreach (var indexOfParcels in dal.GetAllParcels())//goes through list of parcels
+                blCustomer.CustomerLocation = CopyLocation(dalCustomer.Longitude, dalCustomer.Latitude);
+                blCustomer.ParcelsFromCustomers = new();
+                blCustomer.ParcelsToCustomers = new();
+                List<IDAL.DO.Parcel> parcels = dal.GetAllParcels().ToList();
+                foreach (var indexOfParcels in parcels)//goes through list of parcels
                 {
+                    ParcelAtCustomer parcelAtCustomer = new();
+                    indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
                     //If the customer we want is either the sender or the recipient of the package
                     if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)
                     {
-                        ParcelAtCustomer parcelAtCustomer = new();
-                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
                         if (indexOfParcels.Scheduled != DateTime.MinValue)//if parcel is assigned a drones
                         {
                             if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel is picked up by drone
@@ -76,12 +80,14 @@ namespace BL
                         }
                         else
                             parcelAtCustomer.StateOfParcel = (ParcelState)1;
+                        parcelAtCustomer.SourceOrDestination = new();
                         parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//Updates the source information of the parcel
                         parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//Updates the source information of the parcel
                         if (indexOfParcels.SenderId == blCustomer.Id)//If the customer sends the parcel
                             blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
                         else//If the customer receives the parcel
                             blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
+
                     }
                 }
             }
