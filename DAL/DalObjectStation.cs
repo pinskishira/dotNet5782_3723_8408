@@ -17,7 +17,7 @@ namespace DalObject
         /// <param name="newStation">The new station</param>
         public void AddStation(Station newStation)
         {
-            if (!DataSource.Stations.Exists(item => item.Id == newStation.Id))
+            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))
                 throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
