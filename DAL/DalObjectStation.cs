@@ -86,8 +86,8 @@ namespace DalObject
                     station = indexStations;
                     if (newName != "\n")
                         station.Name = newName;
-                    if(chargeSlots != 0)
-                        station.ChargeSlots = chargeSlots- countDroneCharge(idStation);
+                    if (chargeSlots != 0)
+                        station.ChargeSlots = chargeSlots - countDroneCharge(idStation);
                     break;
                 }
                 indexOfStation++;

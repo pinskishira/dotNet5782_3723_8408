@@ -19,9 +19,9 @@ namespace BL
         /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.SenderId.Id))) + 1) != 9)//if name inputted is not 9 digits long
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.SenderId.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.TargetId.Id))) + 1) != 9)//if name inputted is not 9 digits long
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.TargetId.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number of target should be 9 digits long\n");
             if (newParcel.Weight != (WeightCategories)1 && newParcel.Weight != (WeightCategories)2 && newParcel.Weight != (WeightCategories)3)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
@@ -51,7 +51,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelId">Id of parcel</param>
         /// <returns>Parcel</returns>
-        public Parcel DisplayParcel(int parcelId)//תצוגת חבילה
+        public Parcel DisplayParcel(int parcelId)
         {
             Parcel blParcel = new();
             try
@@ -200,7 +200,7 @@ namespace BL
         }
 
         /// <summary>
-        /// 
+        /// Updating all the fields of drone that delivered the parcel, and the parcel that was delivered.
         /// </summary>
         /// <param name="droneId">Drone that delivered parcel</param>
         public void UpdateParcelDeliveryToCustomer(int droneId)
@@ -212,7 +212,7 @@ namespace BL
                 Drone drone = DisplayDrone(droneId);//finding drone with given id
                 if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
                 {
-                    //finding distance between 
+                    //finding distance between drones collecion location and the delivery destination location
                     int distance = (int)Distance.Haversine
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
@@ -221,8 +221,8 @@ namespace BL
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
                     droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    BlDrones[indexOfDroneToList] = droneToList;
-                    dal.UpdateParcelDeliveryToCustomer(droneId);
+                    BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
+                    dal.UpdateParcelDeliveryToCustomer(droneId);//sending to update in dal
                 }
                 else
                     throw new FailedToDeliverParcelException("Drone could not deliver parcel.\n");
@@ -238,24 +238,28 @@ namespace BL
 
         }
 
+        /// <summary>
+        /// Updating all the fields of the drone that collected the parcel, and the parcel that was collected by drone.
+        /// </summary>
+        /// <param name="droneId">Drone that collected parcel</param>
         public void UpdateParcelCollectionByDrone(int droneId)
         {
             try
             {
                 DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelNumInTransfer);//finding parcel that is assigned to this drone
-                IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);
+                IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
                 if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
                 {
                     //finding distance between original location of drone to the location of its destination
                     int distance = (int)Distance.Haversine
                         (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
-                    droneToList.Battery -= (int)(distance * Weight(droneToList.MaxWeight));
+                    droneToList.Battery -= (int)(distance * Weight(droneToList.MaxWeight));//updating battery according to distance and weight of the parcel
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    BlDrones[indexOfDroneToList] = droneToList;
-                    dal.UpdateParcelCollectionByDrone(parcel.Id);
+                    BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
+                    dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal
                 }
                 else
                     throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");

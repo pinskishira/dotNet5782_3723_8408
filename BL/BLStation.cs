@@ -20,10 +20,11 @@ namespace BL
         /// <param name="newStation">The new station</param>
         public void AddStation(Station newStation)
         {
-            if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)
+            if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)//if id inputted is not 4 digits long
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
-            if (newStation.NameOfStation == "\n")
+            if (newStation.NameOfStation == "\n")//if nothing was inputted as name for station
                 throw new InvalidInputException("You have to enter a valid name, with letters\n");
+            //if longitude isnt between -180 and 180 and latitude isnt between -90 and 90
             if (newStation.StationLocation.Longitude < -180 || newStation.StationLocation.Longitude > 180)
                 throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 180\n");
             if (newStation.StationLocation.Latitude < -90 || newStation.StationLocation.Latitude > 90)
@@ -32,9 +33,11 @@ namespace BL
                 throw new InvalidInputException("The number of charging stations of the station is less than 0\n");
             try
             {
+                //converting BL station to dal
                 IDAL.DO.Station tempStation = new();
                 newStation.CopyPropertiesTo(tempStation);
-                dal.AddStation(tempStation);
+                dal.AddStation(tempStation);//adding to station array in dal
+
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -52,19 +55,19 @@ namespace BL
             Station blStation = new();
             try
             {
-                IDAL.DO.Station dalStation = dal.FindStation(stationId);
-                dalStation.CopyPropertiesTo(blStation);
-                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())
+                IDAL.DO.Station dalStation = dal.FindStation(stationId);//finding station
+                dalStation.CopyPropertiesTo(blStation);//converting to BL
+                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())//going through drone charges
                 {
-                    if (indexOfDroneCharges.StationId == stationId)
+                    if (indexOfDroneCharges.StationId == stationId)//if station id's match
                     {
                         DroneInCharging tempDroneInCharging = new();
-                        tempDroneInCharging.Id = indexOfDroneCharges.DroneId;
+                        tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
                         DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
                         if (tempDroneToList == default)
                             throw new FailedDisplayException("The Id number does not exist. \n");
-                        tempDroneInCharging.Battery = tempDroneToList.Battery;
-                        blStation.DronesInCharging.Add(tempDroneInCharging);
+                        tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
+                        blStation.DronesInCharging.Add(tempDroneInCharging);//adding to drones in charging
                     }
                 }
             }
@@ -84,32 +87,43 @@ namespace BL
             Station tempStation = new();
             StationToList tempStationToList = new();
             List<StationToList> stationToList = new List<StationToList>();
-            foreach (var indexOfStations in dal.GetAllStations())
+            foreach (var indexOfStations in dal.GetAllStations())//going through stations
             {
-                tempStation = DisplayStation(indexOfStations.Id);
-                tempStation.CopyPropertiesTo(tempStationToList);//
-                tempStationToList.UnavaialbleChargingSlots = tempStation.DronesInCharging.Count;//בודק כמה רחפנים בטעינה וסופר
-                stationToList.Add(tempStationToList);
+                tempStation = DisplayStation(indexOfStations.Id);//getting station with inputted index
+                tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
+                tempStationToList.UnavaialbleChargingSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
+                stationToList.Add(tempStationToList);//ading to StationToList
             }
             return stationToList;
         }
+
+        /// <summary>
+        /// Returns list of stations with free charging slots
+        /// </summary>
+        /// <returns>List of stations</returns>
         public IEnumerable<StationToList> GetStationWithFreeSlots()
         {
             List<StationToList> stationToList = new();
             foreach (var indexOfStation in ListViewStations())
             {
-                if (indexOfStation.AvailableChargingSlots > 0)
-                    stationToList.Add(indexOfStation);
+                if (indexOfStation.AvailableChargingSlots > 0)//if station has available charging slots
+                    stationToList.Add(indexOfStation);//add to list
             }
             return stationToList;
         }
 
+        /// <summary>
+        /// Finds station and sends to update in dal.
+        /// </summary>
+        /// <param name="idStation">Id of station</param>
+        /// <param name="newName">New name of station</param>
+        /// <param name="chargeSlots">Amount of charge slots in station</param>
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            if (chargeSlots < 0)
+            if (chargeSlots < 0)//if invalid number was inpitted
                 throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
-            dal.GetAllStations().First(item => item.Id == idStation);//לברר מה זה
-            dal.UpdateStation(idStation, newName, chargeSlots);
+            dal.GetAllStations().First(item => item.Id == idStation);//finds station
+            dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal
         }
     }
 }

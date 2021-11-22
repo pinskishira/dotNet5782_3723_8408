@@ -19,21 +19,23 @@ namespace BL
         /// <param name="newCustomer">The new customer</param>
         public void AddCustomer(Customer newCustomer)
         {
-            if ((Math.Round(Math.Floor(Math.Log10(newCustomer.Id))) + 1) != 9)//if name inputted is not 9 digits long
+            if ((Math.Round(Math.Floor(Math.Log10(newCustomer.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number should be 9 digits long\n");
-            if (newCustomer.Name == "\n")
+            if (newCustomer.Name == "\n")//if nothing was inputted as name for station
                 throw new InvalidInputException("You have to enter a valid name, with letters\n");
-            if (newCustomer.Phone.Length != 10)
+            if (newCustomer.Phone.Length != 10)//if phone number isnt 10 digits
                 throw new InvalidInputException("You have to enter a valid phone, with 10 digits\n");
+            //if longitude isnt between -180 and 180 and latitude isnt between -90 and 90
             if (newCustomer.CustomerLocation.Longitude < -180 || newCustomer.CustomerLocation.Longitude > 180)
                 throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 1800\n");
             if (newCustomer.CustomerLocation.Latitude < -90 || newCustomer.CustomerLocation.Latitude > 90)
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between -90 and 90\n");
             try
             {
+                //converting BL customer to dal
                 IDAL.DO.Customer tempCustomer = new();
                 newCustomer.CopyPropertiesTo(tempCustomer);
-                dal.AddCustomer(tempCustomer);
+                dal.AddCustomer(tempCustomer);//adding to customer array in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -51,19 +53,20 @@ namespace BL
             Customer blCustomer = new();
             try
             {
-                IDAL.DO.Customer dalCustomer = dal.FindCustomer(customerId);// מחפש את הלקוח לפי מספר מזהה
-                dalCustomer.CopyPropertiesTo(blCustomer);//המרה-dal->bl
-                foreach (var indexOfParcels in dal.GetAllParcels())//עובר על כל הרשימה של החבילות
+                IDAL.DO.Customer dalCustomer = dal.FindCustomer(customerId);//finding customer using inputted id
+                dalCustomer.CopyPropertiesTo(blCustomer);//converting dal->bl
+                foreach (var indexOfParcels in dal.GetAllParcels())//goes through list of parcels
                 {
-                    if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)//אם הלקוח שאנחנו רוצים הוא או המוסר או המקבל את החבילה
+                    //If the customer we want is either the sender or the recipient of the package
+                    if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)
                     {
                         ParcelAtCustomer parcelAtCustomer = new();
-                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// ממיר את החבילה// dal->bl
-                        if (indexOfParcels.Scheduled != DateTime.MinValue)//החבילה שויכה
+                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
+                        if (indexOfParcels.Scheduled != DateTime.MinValue)//if parcel is assigned a drones
                         {
-                            if (indexOfParcels.PickedUp != DateTime.MinValue)// אספו את החבילה
+                            if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel is picked up by drone
                             {
-                                if (indexOfParcels.Delivered != DateTime.MinValue)//ההזמנה סופקה
+                                if (indexOfParcels.Delivered != DateTime.MinValue)//parcel is delivered
                                     parcelAtCustomer.StateOfParcel = (ParcelState)4;
                                 else
                                     parcelAtCustomer.StateOfParcel = (ParcelState)3;
@@ -73,11 +76,11 @@ namespace BL
                         }
                         else
                             parcelAtCustomer.StateOfParcel = (ParcelState)1;
-                        parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//מעדכן את פרטי מקור של החבילה
-                        parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//מעדכן את פרטי מקור של החבילה
-                        if (indexOfParcels.SenderId == blCustomer.Id)//אם הלקוח שולח את החבילה
+                        parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//Updates the source information of the parcel
+                        parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//Updates the source information of the parcel
+                        if (indexOfParcels.SenderId == blCustomer.Id)//If the customer sends the parcel
                             blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
-                        else//אם הלקוח מקבל את החבילה
+                        else//If the customer receives the parcel
                             blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
                     }
                 }
@@ -99,22 +102,22 @@ namespace BL
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();
             List<CustomerToList> customerToList = new();
-            foreach (var indexCustomer in dal.GetAllCustomers())
+            foreach (var indexCustomer in dal.GetAllCustomers())//goes through list of customers
             {
-                tempCustomer = DisplayCustomer(indexCustomer.Id);//מביא את הלקוח לפי המספר המזהה
-                tempCustomer.CopyPropertiesTo(tempCustomerToList);//המרה//dal->bll
-                foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//עובר על הרשימה של החבילות מהלקוח
+                tempCustomer = DisplayCustomer(indexCustomer.Id);//brings the customer by the ID number
+                tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
+                foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//goes over the list of parcels from the customer
                 {
-                    if (parcelsFromCustomers.StateOfParcel == (ParcelState)4)//אם החבילה סופקה
+                    if (parcelsFromCustomers.StateOfParcel == (ParcelState)4)//if parcel is delivered
                         tempCustomerToList.ParcelsSentAndDelivered++;
-                    else//אם החבילה לא סופקה
+                    else//if parcel was not delivered
                         tempCustomerToList.ParcelsSentButNotDelivered++;
                 }
-                foreach (var parcelsToCustomers in tempCustomer.ParcelsToCustomers)//עובר על הרשימה של החבילות ללקוח
+                foreach (var parcelsToCustomers in tempCustomer.ParcelsToCustomers)//goes over the list of parcels to the customer
                 {
-                    if (parcelsToCustomers.StateOfParcel == (ParcelState)4)//אם הוא קיבל את החבילה
+                    if (parcelsToCustomers.StateOfParcel == (ParcelState)4)//if he recieved the parcel
                         tempCustomerToList.RecievedParcels++;
-                    else//אם החבילה בדרך
+                    else//if the parcel is on the way
                         tempCustomerToList.ParcelsOnTheWayToCustomer++;
                 }
                 customerToList.Add(tempCustomerToList);
@@ -122,10 +125,16 @@ namespace BL
             return customerToList;
         }
 
+        /// <summary>
+        /// Finds customer and sends to update in dal.
+        /// </summary>
+        /// <param name="idCustomer">Id of customer</param>
+        /// <param name="newName">New name of customer</param>
+        /// <param name="customerPhone">New phone of customer</param>
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            dal.GetAllCustomers().First(item => item.Id == idCustomer);//לברר מה זה
-            dal.UpdateCustomer(idCustomer, newName, customerPhone);
+            dal.GetAllCustomers().First(item => item.Id == idCustomer);//finds customer
+            dal.UpdateCustomer(idCustomer, newName, customerPhone);//sends ton update in dal
         }
 
     }

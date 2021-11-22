@@ -255,7 +255,30 @@ namespace ConsoleUI_BL
                 {
                     Console.WriteLine(ex.Message);
                 }
-
+                catch (FailedDisplayException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FailedSendDroneToChargingException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FailedToDeliverParcelException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FailedToCollectParcelException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FailedReleaseDroneFromChargingException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FailedAssignParcelToDroneException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             while (answerMain != BlMainSwitchFunctions.Exit);
         }
