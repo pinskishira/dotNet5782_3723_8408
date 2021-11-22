@@ -93,9 +93,9 @@ namespace BL
                 tempStation = DisplayStation(indexOfStations.Id);//getting station with inputted index
                 tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
                 if (tempStation.DronesInCharging == null)
-                    tempStationToList.UnavaialbleChargeSlots = 0;
+                    tempStationToList.OccupiedChargeSlots = 0;
                 else
-                    tempStationToList.UnavaialbleChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
+                    tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
                 stationToList.Add(tempStationToList);//ading to StationToList
             }
             return stationToList;
