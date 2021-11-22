@@ -14,7 +14,7 @@ namespace IDAL
             public string Name { get; set; }//The station name
             public double Longitude { get; set; }//Longitude
             public double Latitude { get; set; }//Latitude
-            public int ChargeSlots { get; set; }//Number of charging stations
+            public int AvailableChargeSlots { get; set; }//Number of charging stations
             public override string ToString()//Override function
             {
                 String result = "";
@@ -22,7 +22,7 @@ namespace IDAL
                 result += $"Name is {Name} \n";
                 result += $"Longitude is {string.Format("{0:0.00}", Longitude)} \n";
                 result += $"Latitude is {string.Format("{0:0.00}",Latitude)}\n";
-                result += $"ChargeSlots is {ChargeSlots} \n";
+                result += $"ChargeSlots is {AvailableChargeSlots} \n";
                 return result;
             }
         }

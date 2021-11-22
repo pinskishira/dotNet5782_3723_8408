@@ -51,7 +51,7 @@ namespace ConsoleUI_BL
                                     int.TryParse(Console.ReadLine(), out input);
                                     newStation.Id = input;
                                     Console.Write("Enter new station name: ");
-                                    newStation.NameOfStation = Console.ReadLine();
+                                    newStation.Name = Console.ReadLine();
                                     Console.Write("Please enter you location: ");
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
@@ -72,7 +72,7 @@ namespace ConsoleUI_BL
                                     newDrone.Model = Console.ReadLine();
                                     Console.WriteLine("Enter drones maximum weight:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                     int.TryParse(Console.ReadLine(), out input);
-                                    newDrone.MaxWeight = (WeightCategories)input;
+                                    newDrone.Weight = (WeightCategories)input;
                                     Console.Write("Enter station number: ");
                                     int.TryParse(Console.ReadLine(), out input);
                                     int stationNumber = input;
@@ -109,7 +109,7 @@ namespace ConsoleUI_BL
                                     Console.WriteLine("Enter the urgency of your parcel:\n1 - normal\n2 - Fast\n3 - Emergency");
                                     int.TryParse(Console.ReadLine(), out input);
                                     NewParcel.Priority = (Priorities)input;
-                                    NewParcel.DroneParcel = null;
+                                    NewParcel.DroneId = null;
                                     ibl.AddParcel(NewParcel);
                                     break;
                             }

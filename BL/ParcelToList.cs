@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class ParcelToList//חבילה לרשימה
+        public class ParcelToList
         {
             public int Id { get; set; }
             public string SenderName { get; set; }

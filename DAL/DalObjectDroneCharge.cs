@@ -46,7 +46,7 @@ namespace DalObject
             newDroneCharge.StationId = DataSource.Stations[index].Id;
             AddDroneCharge(newDroneCharge);//updating that a drone is charging
             newStation = DataSource.Stations[index];
-            newStation.ChargeSlots--;
+            newStation.AvailableChargeSlots--;
             DataSource.Stations[index] = newStation;
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace DalObject
             while (DataSource.Drones[indexD].Id != idDrone)
                 indexD++;
             newStation = DataSource.Stations[indexS];
-            newStation.ChargeSlots++;//increasing amount of places left to charge
+            newStation.AvailableChargeSlots++;//increasing amount of places left to charge
             DataSource.Stations[indexS] = newStation;
             DataSource.DroneCharges.RemoveAt(indexDC);
             //newDroneCharge = DataSource.DroneCharges[indexDC];

@@ -32,7 +32,7 @@ namespace BL
             newParcel.Scheduled = DateTime.MinValue;
             newParcel.PickedUp = DateTime.MinValue;
             newParcel.Delivered = DateTime.MinValue;
-            newParcel.DroneParcel = null;
+            newParcel.DroneId = null;
             try
             {
                 //converting BL parcel to dal
@@ -63,11 +63,11 @@ namespace BL
                 Customer sender = DisplayCustomer(dalParcel.SenderId);//finding the sender who sends the parcel
                 sender.CopyPropertiesTo(blParcel.SenderId);//converting to BL
                 if (dalParcel.DroneId == 0)//if parcel isnt assigned to a drone
-                    blParcel.DroneParcel = default;
+                    blParcel.DroneId = default;
                 else
                 {
                     Drone drone = DisplayDrone(dalParcel.DroneId);//finding its assogned drone
-                    drone.CopyPropertiesTo(blParcel.DroneParcel);//converting to BL
+                    drone.CopyPropertiesTo(blParcel.DroneId);//converting to BL
                 }
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
@@ -217,7 +217,7 @@ namespace BL
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
                     //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
-                    droneToList.Battery -= (int)(distance * Weight(drone.MaxWeight));
+                    droneToList.Battery -= (int)(distance * Weight(drone.Weight));
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
                     droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
@@ -254,7 +254,7 @@ namespace BL
                     //finding distance between original location of drone to the location of its destination
                     int distance = (int)Distance.Haversine
                         (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
-                    droneToList.Battery -= (int)(distance * Weight(droneToList.MaxWeight));//updating battery according to distance and weight of the parcel
+                    droneToList.Battery -= (int)(distance * Weight(droneToList.Weight));//updating battery according to distance and weight of the parcel
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);

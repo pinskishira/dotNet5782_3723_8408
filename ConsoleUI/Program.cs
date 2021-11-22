@@ -64,7 +64,7 @@ namespace ConsoleUI
                                     newStation.Latitude = ansFromUserDouble;
                                     Console.Write("Enter amount of charge slots in new station : ");
                                     int.TryParse(Console.ReadLine(), out input);
-                                    newStation.ChargeSlots = input;
+                                    newStation.AvailableChargeSlots = input;
                                     dalObj.AddStation(newStation);
                                     break;
                                 case AddingFunction.AddDrone://case which adds a new drone with data into the Drones array
@@ -163,7 +163,7 @@ namespace ConsoleUI
                                     int count = 1;
                                     foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
                                     {
-                                        if (indexStation.ChargeSlots > 0)
+                                        if (indexStation.AvailableChargeSlots > 0)
                                             Console.WriteLine((count++) + " - " + indexStation.Name);
                                     }
                                     string ChosenStation = Console.ReadLine();
