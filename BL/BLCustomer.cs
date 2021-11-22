@@ -58,13 +58,14 @@ namespace BL
                 blCustomer.CustomerLocation = CopyLocation(dalCustomer.Longitude, dalCustomer.Latitude);
                 blCustomer.ParcelsFromCustomers = new();
                 blCustomer.ParcelsToCustomers = new();
-                foreach (var indexOfParcels in dal.GetAllParcels())//goes through list of parcels
+                List<IDAL.DO.Parcel> parcels = dal.GetAllParcels().ToList();
+                foreach (var indexOfParcels in parcels)//goes through list of parcels
                 {
                     ParcelAtCustomer parcelAtCustomer = new();
+                    indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
                     //If the customer we want is either the sender or the recipient of the package
                     if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)
                     {
-                        indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
                         if (indexOfParcels.Scheduled != DateTime.MinValue)//if parcel is assigned a drones
                         {
                             if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel is picked up by drone

@@ -35,7 +35,7 @@ namespace DalObject
             string[] stationArrayNames = new string[2];
             stationArrayNames[0] = "Bayit Vegan";
             stationArrayNames[1] = "Givat Shaul";
-            for (int loopStation = 0; loopStation < 1; loopStation++)//Updating 2 base stations
+            for (int loopStation = 0; loopStation < 2; loopStation++)//Updating 2 base stations
             {
                 newStation.Id = rand.Next(1000, 10000);//Updating 4-digit ID name                                   
                 for (int help = 0; help < loopStation; help++)//Checking if it already appears in array
@@ -49,12 +49,6 @@ namespace DalObject
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
-            newStation.Id = 1234;
-            newStation.Name = "Givat Shaul";
-            newStation.Longitude = 36.2;
-            newStation.Latitude = 34.5;
-            newStation.AvailableChargeSlots = 5;
-            Stations.Add(newStation);
 
             Drone newDrone = new();
             string[] droneArayNames = new string[5];
@@ -113,7 +107,7 @@ namespace DalObject
             customerArrayPhone[7] = "0503782099";
             customerArrayPhone[8] = "0504310431";
             customerArrayPhone[9] = "0506929115";
-            for (int i = 0; i < 9; i++)//Updating 10 customers
+            for (int i = 0; i < 10; i++)//Updating 10 customers
             {
                 newCustomer.Id = rand.Next(100000000, 1000000000);//Updating ID name randomly
                 for (int j = 0; j < i; j++)//Checking if it already appears in array
@@ -127,27 +121,20 @@ namespace DalObject
                 newCustomer.Phone = customerArrayPhone[i];
                 Customers.Add(newCustomer);
             }
-            newCustomer.Id = 212628408;
-            newCustomer.Name = "Yirat";
-            newCustomer.Phone = "0586310321";
-            newCustomer.Longitude = 34.5;
-            newCustomer.Latitude = 35.7;
-            Customers.Add(newCustomer);
 
             ref int parcelNum = ref Config.NextParcelNumber;
             //Initializing variables into 10 parcels.
             static void InitializeParcel(DateTime timeCreatParcel, DateTime timeScheduled, DateTime timePickedUp, DateTime timeDelivered,int idDrone)
             {
-                Random Rand = new Random(DateTime.Now.Millisecond);
                 Parcel addParcel = new Parcel();
                 addParcel.Requested = new(0);
                 addParcel.Id = DataSource.Config.NextParcelNumber++;
-                addParcel.Priority = (Priorities)Rand.Next(1, 4);
-                int senderId = Rand.Next(0, Customers.Count);
-                addParcel.SenderId = Customers[9].Id;
-                int targetId = Rand.Next(0, Customers.Count);
+                addParcel.Priority = (Priorities)rand.Next(1, 4);
+                int senderId = rand.Next(0, Customers.Count);
+                addParcel.SenderId = Customers[senderId].Id;
+                int targetId = rand.Next(0, Customers.Count);
                 addParcel.TargetId = Customers[targetId].Id;
-                addParcel.Weight = (WeightCategories)Rand.Next(1, 4);
+                addParcel.Weight = (WeightCategories)rand.Next(1, 4);
                 addParcel.DroneId = idDrone;
                 addParcel.Delivered = timeDelivered;
                 addParcel.PickedUp = timePickedUp;
@@ -164,7 +151,22 @@ namespace DalObject
             InitializeParcel(new(2021, 3, 5, 14, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
             InitializeParcel(new(2021, 3, 5, 15, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
             InitializeParcel(new(2021, 3, 5, 8, 30, 0), new(2021, 3, 1, 8, 32, 0), new(2021, 3, 1, 9, 30, 0), new(2021, 3, 2, 10, 30, 0), Drones[1].Id);
-            InitializeParcel(new(2021, 3, 5, 17, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
+
+            Parcel addParcel = new Parcel();
+            addParcel.Requested = new(0);
+            addParcel.Id = DataSource.Config.NextParcelNumber++;
+            addParcel.Priority = (Priorities)rand.Next(1, 4);
+            int senderId = rand.Next(0, Customers.Count);
+            addParcel.SenderId = Customers[senderId].Id;
+            int targetId = rand.Next(0, Customers.Count);
+            addParcel.TargetId = Customers[targetId].Id;
+            addParcel.Weight = (WeightCategories)rand.Next(1, 4);
+            addParcel.DroneId = Drones[0].Id;
+            addParcel.Delivered = DateTime.MinValue;
+            addParcel.PickedUp = DateTime.MinValue;
+            addParcel.Scheduled = DateTime.MinValue;
+            addParcel.Requested = DateTime.MinValue;
+            Parcels.Add(addParcel);
 
         }
         //for (int index = 0; index < 10; index++)//Updating 10 parcels

@@ -60,8 +60,8 @@ namespace ConsoleUI_BL
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
                                     newStation.StationLocation = new();
-                                    newStation.StationLocation.Latitude = ansFromUserDouble1;
                                     newStation.StationLocation.Longitude = ansFromUserDouble1;
+                                    newStation.StationLocation.Latitude = ansFromUserDouble2;
                                     Console.Write("Enter amount of availbale charge slots in new station: ");
                                     int.TryParse(Console.ReadLine(), out input);
                                     newStation.AvailableChargeSlots = input;
@@ -104,17 +104,17 @@ namespace ConsoleUI_BL
                                     NewParcel.Id = 0;
                                     Console.Write("Enter sender ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
-                                    NewParcel.SenderId.Id = ansFromUserInt;
+                                    NewParcel.Sender.Id = ansFromUserInt;
                                     Console.Write("Enter target ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
-                                    NewParcel.TargetId.Id = ansFromUserInt;
+                                    NewParcel.Target.Id = ansFromUserInt;
                                     Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                     int.TryParse(Console.ReadLine(), out input);
                                     NewParcel.Weight = (WeightCategories)input;
                                     Console.WriteLine("Enter the urgency of your parcel:\n1 - normal\n2 - Fast\n3 - Emergency");
                                     int.TryParse(Console.ReadLine(), out input);
                                     NewParcel.Priority = (Priorities)input;
-                                    NewParcel.DroneId = null;
+                                    NewParcel.DroneParcel = null;
                                     ibl.AddParcel(NewParcel);
                                     break;
                             }

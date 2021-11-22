@@ -74,7 +74,9 @@ namespace BL
             if (tempDroneToList == default)
                 throw new FailedDisplayException("The ID number does not exist\n");
             Drone dalDrone = new();
+            dalDrone.CurrentLocation = new();
             tempDroneToList.CopyPropertiesTo(dalDrone);//converting the drone in the list to a regular drone
+            dalDrone.CurrentLocation = CopyLocation(tempDroneToList.CurrentLocation.Longitude, tempDroneToList.CurrentLocation.Latitude);
             if (tempDroneToList.ParcelNumInTransfer == 0)//parcel wasnt assigned by drone
                 dalDrone.ParcelInTransfer = default;
             else//was assigned by drone

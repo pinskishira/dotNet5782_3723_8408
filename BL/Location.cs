@@ -16,7 +16,7 @@ namespace IBL
             {
                 String result = "";
                 result += $"Longitude is {string.Format("{0:0.00}", Longitude)} \n";
-                result += $"Latitude is {string.Format("{0:0.00}", Latitude)}\n";
+                result += $"Latitude is {string.Format("{0:0.00}", Latitude)}";
                 return result;
             }
         }

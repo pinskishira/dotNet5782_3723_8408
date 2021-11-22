@@ -35,9 +35,11 @@ namespace BL
             {
                 //converting BL station to dal
                 IDAL.DO.Station tempStation = new();
+                object obj = tempStation;
+                newStation.CopyPropertiesTo(obj);
+                tempStation = (IDAL.DO.Station)obj;
                 newStation.CopyPropertiesTo(tempStation);
-                dal.AddStation(tempStation);//adding to station array in dal
-
+                dal.AddStation(tempStation);//adding to station list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -58,6 +60,7 @@ namespace BL
                 IDAL.DO.Station dalStation = dal.FindStation(stationId);//finding station
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
+                blStation.DronesInCharging = new();
                 foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())//going through drone charges
                 {
                     if (indexOfDroneCharges.StationId == stationId)//if station id's match
