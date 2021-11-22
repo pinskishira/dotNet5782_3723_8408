@@ -213,7 +213,6 @@ namespace ConsoleUI_BL
                             switch (answerListView)
                             {
                                 case ListViewFunction.Stations://case which views the stations array
-
                                     IEnumerable<StationToList> viewStations = ibl.ListViewStations();
                                     foreach (var station in viewStations)//prints all stations
                                         Console.WriteLine(station);

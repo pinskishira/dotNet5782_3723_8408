@@ -30,9 +30,7 @@ namespace DalObject
         {
             if (!DataSource.Customers.Exists(item => item.Id == id))
                 throw new ItemDoesNotExistException("The customer does not exist.\n");
-            int indexFindCustomer = 0;
-            while (DataSource.Customers[indexFindCustomer].Id != id)//Going through customers array
-                indexFindCustomer++;
+            int indexFindCustomer = DataSource.Customers.FindIndex(indexOfCustomer => indexOfCustomer.Id == id);//Going through customers array
             return DataSource.Customers[indexFindCustomer];
         }
         /// <summary>

@@ -33,67 +33,64 @@ namespace BL
             {
                 try
                 {
-                    try
+                    //if parcel was paired but not delivered
+                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
+                    indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
+                    if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
                     {
-                        //if parcel was paired but not delivered
-                        IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
-                        indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
-                        if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
-                        {
-                            IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the customer usind id number
-                            IDAL.DO.Station closestStation = smallestDistance(sender.Longitude, sender.Latitude);//returning samllest distance between the sender of the parcel and the stations 
-                            indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
-                            indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
-                            //calculates the usage of battery of the drone according to the distance it travelled and the weight of its parcel
-                            double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
-                                (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
-                            indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
-                        }
-                        if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
-                        {
-                            IDAL.DO.Customer tempCustomer = dal.FindCustomer(parcel.SenderId);//finding the sender in customers
-                            indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
-                            indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
-                            //using random selection to calculate battery using distance the drone traveled and the parcel it collected and full charge
-                            indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
-                        }
+                        IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the customer usind id number
+                        IDAL.DO.Station closestStation = smallestDistance(sender.Longitude, sender.Latitude);//returning samllest distance between the sender of the parcel and the stations 
+                        indexOfDrones.CurrentLocation = new();
+                        indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
+                        indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
+                        //calculates the usage of battery of the drone according to the distance it travelled and the weight of its parcel
+                        double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
+                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
+                        indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
                     }
-                    catch (InvalidOperationException ex)       //לשאול מה צריך להיות בשגיאה הזאת
+                    if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
                     {
-                        if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
-                            indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
-                        if (indexOfDrones.DroneStatus == (DroneStatuses)2)//if the drone is in maintanance
-                        {
-                            List<IDAL.DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
-                            int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
-                            IDAL.DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
-                            indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
-                            indexOfDrones.CurrentLocation.Latitude = station.Latitude;
-                            indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
-                        }
-                        if (indexOfDrones.DroneStatus == (DroneStatuses)1)//if the drone is available for delivery
-                        {
-                            List<int> deliveredParcels = new();//creating a new list 
-                            foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
-                                if (indexOfParcels.Delivered != DateTime.MinValue)//finding parcels that have been delivered 
-                                    deliveredParcels.Add(indexOfParcels.TargetId);//placing their targetId in new list
-                            int idCustomer = rand.Next(0, deliveredParcels.Count());//finding a random index from the new list of deliveredParcels
-                            IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
-                            indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
-                            indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
-                            //finding the closest station to the current location of the drone
-                            IDAL.DO.Station smallestDistanceStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
-                            //finding the distance from closest station and the drones current location
-                            double distanceFromStation = Distance.Haversine
-                                (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, smallestDistanceStation.Longitude, smallestDistanceStation.Latitude);
-                            //calculating battery using the distance it will travel and the amount of battery used per km
-                            indexOfDrones.Battery = rand.Next((int)(distanceFromStation * PowerUsageEmpty), 101);
-                        }
+                        IDAL.DO.Customer tempCustomer = dal.FindCustomer(parcel.SenderId);//finding the sender in customers
+                        indexOfDrones.CurrentLocation = new();
+                        indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
+                        indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
+                        //using random selection to calculate battery using distance the drone traveled and the parcel it collected and full charge
+                        indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
                     }
                 }
-                catch (IDAL.DO.ItemDoesNotExistException ex)
+                catch (InvalidOperationException ex)
                 {
-                    throw new FailedToAddException("The customer does not exist.\n", ex);
+                    if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
+                        indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
+                    if (indexOfDrones.DroneStatus == (DroneStatuses)2)//if the drone is in maintanance
+                    {
+                        List<IDAL.DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
+                        int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
+                        IDAL.DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
+                        indexOfDrones.CurrentLocation = new();
+                        indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
+                        indexOfDrones.CurrentLocation.Latitude = station.Latitude;
+                        indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
+                    }
+                    if (indexOfDrones.DroneStatus == (DroneStatuses)1)//if the drone is available for delivery
+                    {
+                        List<int> deliveredParcels = new();//creating a new list 
+                        foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
+                            if (indexOfParcels.Delivered != DateTime.MinValue)//finding parcels that have been delivered 
+                                deliveredParcels.Add(indexOfParcels.TargetId);//placing their targetId in new list
+                        int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())];//finding a random index from the new list of deliveredParcels
+                        IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
+                        indexOfDrones.CurrentLocation = new();
+                        indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
+                        indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
+                        //finding the closest station to the current location of the drone
+                        IDAL.DO.Station smallestDistanceStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
+                        //finding the distance from closest station and the drones current location
+                        double distanceFromStation = Distance.Haversine
+                            (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, smallestDistanceStation.Longitude, smallestDistanceStation.Latitude);
+                        //calculating battery using the distance it will travel and the amount of battery used per km
+                        indexOfDrones.Battery = rand.Next((int)(distanceFromStation * PowerUsageEmpty), 101);
+                    }
                 }
             }
         }
@@ -116,7 +113,9 @@ namespace BL
             //finding the distance between the closest station to target and the target destination
             double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
             //calculates distance by multiplying by its weight and the amount of battery it uses per km.
-            return (int)(distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
+            //return (int)(distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
+            double t = (distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
+            return (int)Math.Ceiling(t);
         }
 
         /// <summary>

@@ -31,9 +31,7 @@ namespace DalObject
         {
             if (!DataSource.Stations.Exists(item => item.Id == id))
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            int indexFindStation = 0;
-            while (DataSource.Stations[indexFindStation].Id != id)//Going through stations array
-                indexFindStation++;
+            int indexFindStation = DataSource.Stations.FindIndex(item => item.Id == id);//Going through stations array
             return DataSource.Stations[indexFindStation];
         }
 
