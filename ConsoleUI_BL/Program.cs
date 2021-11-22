@@ -55,6 +55,7 @@ namespace ConsoleUI_BL
                                     Console.Write("Please enter you location: ");
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
+                                    newStation.StationLocation = new();
                                     newStation.StationLocation.Latitude = ansFromUserDouble1;
                                     newStation.StationLocation.Longitude = ansFromUserDouble1;
                                     Console.Write("Enter amount of availbale charge slots in new station: ");
