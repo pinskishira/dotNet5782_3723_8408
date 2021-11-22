@@ -30,11 +30,8 @@ namespace DalObject
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            int indexParcel = 0;
-            Parcel newParcel = new();
-            while (DataSource.Parcels[indexParcel].Id != idParcel)//finding parcel that was collected by drone
-                indexParcel++;
-            newParcel = DataSource.Parcels[indexParcel];
+            int indexParcel = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel that was collected by drone
+            Parcel newParcel = DataSource.Parcels[indexParcel];
             newParcel.PickedUp = DateTime.Now;
             DataSource.Parcels[indexParcel] = newParcel;//updating date and time
         }
@@ -46,18 +43,12 @@ namespace DalObject
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            Parcel newParcel = new();
-            int indexParcel = 0/*,indexDrone=0*/;
-            while (DataSource.Parcels[indexParcel].Id != idParcel)
-                indexParcel++;
-            newParcel = DataSource.Parcels[indexParcel];
+            int indexParcel = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
+            Parcel newParcel = DataSource.Parcels[indexParcel];
             newParcel.Delivered = DateTime.Now;
             newParcel.DroneId = 0;
             DataSource.Parcels[indexParcel] = newParcel;
             DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
-            //while (DataSource.Drones[indexDrone].Id != DataSource.Parcels[indexParcel].DroneId)
-            //    indexDrone++;
-            //DataSource.Drones[indexDrone].Status = DroneStatuses.Available;//now drone is availbale
         }
         /// <summary>
         /// Finding requested parcel according to its ID name
@@ -68,9 +59,7 @@ namespace DalObject
         {
             if (!DataSource.Parcels.Exists(item => item.Id == id))
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            int indexFindParcel = 0;
-            while (DataSource.Parcels[indexFindParcel].Id != id)//Going through parcels array
-                indexFindParcel++;
+            int indexFindParcel = DataSource.Parcels.FindIndex(item => item.Id == id);//finding parcel
             return DataSource.Parcels[indexFindParcel];
         }
         /// <summary>

@@ -30,9 +30,7 @@ namespace DalObject
         {
             if (!DataSource.Drones.Exists(item => item.Id == id))
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexFindDrone = 0;
-            while (DataSource.Drones[indexFindDrone].Id != id)//Going through drones array
-                indexFindDrone++;
+            int indexFindDrone = DataSource.Drones.FindIndex(item => item.Id == id);//finding drone;
             return DataSource.Drones[indexFindDrone];
         }
         /// <summary>
@@ -59,19 +57,11 @@ namespace DalObject
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexAssign = 0;
-            Parcel newParcel = new();
-            //Drone newDrone = new();
-            while (DataSource.Parcels[indexAssign].Id != idParcel)//finds the placement of the next parcel
-                indexAssign++;
-            newParcel = DataSource.Parcels[indexAssign];
+            int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel;
+            Parcel newParcel = DataSource.Parcels[indexAssign];
             newParcel.DroneId = idDrone;//giving parcel available drones' id
             newParcel.Scheduled = DateTime.Now;//updating date and time
             DataSource.Parcels[indexAssign] = newParcel;
-            indexAssign = 0;
-            //while (DataSource.Drones[indexAssign].Id != idDrone)
-            //    indexAssign++;
-            //DataSource.Drones[indexAssign].Status = DroneStatuses.Delivery;//updating that drone is busy
         }
 
         public void UpdateDrone(Drone drone)

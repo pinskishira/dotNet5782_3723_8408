@@ -24,14 +24,14 @@ namespace IBL
         void UpdateDrone(int idDrone, string model);
         void UpdateStation(int idStation, string newName, int chargeSlots);
         public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel);
-        public int Weight(WeightCategories maxWeight);
+        public double Weight(WeightCategories maxWeight);
         public IDAL.DO.Station smallestDistance(double longitude, double latitude);
         public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation);
         public void DroneReleaseFromChargingStation(int idDron, int timeInCharginge);
         public void SendDroneToChargingStation(int idDrone);
-        void UpdateAssignParcelToDrone(int droneId);
         public void UpdateParcelDeliveryToCustomer(int droneId);
         public void UpdateParcelCollectionByDrone(int droneId);
+        public void UpdateAssignParcelToDrone(int droneId);
 
     }
 }

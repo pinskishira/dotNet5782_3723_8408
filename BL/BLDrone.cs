@@ -124,10 +124,10 @@ namespace BL
                 if (station.Id == -1)
                     throw new FailedSendDroneToChargingException("There is no station with available charging stations");
                 double batteryConsumption = Distance.Haversine
-                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)*elecUse[0];
+                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)* PowerUsageEmpty;
                 if (batteryConsumption < drone.Battery)
                     throw new FailedSendDroneToChargingException("The drone does not have enough battery to go to the station");
-                drone.Battery -= (int)(batteryConsumption * elecUse[0]);
+                drone.Battery -= (int)(batteryConsumption * PowerUsageEmpty);
                 drone.CurrentLocation.Longitude = station.Longitude;
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = (DroneStatuses)2;
@@ -155,7 +155,7 @@ namespace BL
                 DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
                 if (droneToList.DroneStatus != (DroneStatuses)2)//בדיקה אם הרחפן בתחזוקה
                     throw new FailedReleaseDroneFromChargingException("The drone is not Maintenance");
-                droneToList.Battery -= (int)(timeInCharginge * elecUse[4]);//לשאול את שירה בעזרת ה
+                droneToList.Battery -= (int)(timeInCharginge * DroneChargingRatePH);//לשאול את שירה בעזרת ה
                 droneToList.DroneStatus = (DroneStatuses)1;
                 dal.DroneReleaseFromChargingStation(idDrone);
                 int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);

@@ -20,7 +20,7 @@ namespace DalObject
         /// </summary>
         internal static class Config
         {
-            static internal double PowerUsageEmpty = 0.01;//לפי קלומטר
+            static internal double PowerUsageEmpty = 0.01;//When the drone is empty
             static internal double LightWeight = 0.05;
             static internal double MediumWeight = 0.07;
             static internal double HeavyWeight = 0.1;
@@ -126,60 +126,78 @@ namespace DalObject
 
             ref int parcelNum = ref Config.NextParcelNumber;
             Parcel newParcel = new();
-            for (int index = 0; index < 10; index++)//Updating 10 parcels
+            //Initializing variables into 10 parcels.
+            for (int i = 0; i < 10; i++)
             {
-                newParcel.Id = Config.NextParcelNumber++;//Updating the ID number of the package
-                newParcel.SenderId = Customers[rand.Next(10)].Id;//Updating the ID number of the sender
-                newParcel.DroneId = 0;//Updating the ID number of the drone
-                do
-                {
-                    newParcel.TargetId = Customers[rand.Next(10)].Id;
-                }
-                while (Parcels[index].SenderId == Parcels[index].TargetId);
-
-                newParcel.Weight = (WeightCategories)rand.Next(1,4);//Updating the weight
-                newParcel.Priority = (Priorities)rand.Next(1,4);//Updating the urgency of the shipment
-                //Putting a random date and time
-                newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
-                    rand.Next(24), rand.Next(60), rand.Next(60));
-                int status = rand.Next(100);
-                int drone = -1;
-                if (status >= 10)
-                {
-                    //Scheduling a time to deliver parcel
-                    newParcel.Scheduled = newParcel.Requested +
-                        new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
-                    if (status >= 15)
-                    {
-                        //Time drone came to deliver parcel
-                        newParcel.PickedUp = newParcel.Scheduled +
-                            new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
-                        if (status >= 20)
-                        {
-                            //Time customer recieved parcel
-                            newParcel.Delivered = newParcel.PickedUp +
-                                new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
-                            do
-                            {
-                                drone = rand.Next(5);
-                                newParcel.DroneId = Drones[drone].Id;
-                            }
-                            while (Drones[drone].MaxWeight < newParcel.Weight);
-                        }
-                    }
-                    if (drone == -1)
-                    {
-                        do
-                        {
-                            drone = rand.Next(5);
-                            newParcel.DroneId = Drones[drone].Id;
-                        }
-                        while (/*Drones[drone].Status == DroneStatuses.Available &&*/
-                            Drones[drone].MaxWeight > newParcel.Weight);
-                    }
-                    //Drones[drone].Status = DroneStatuses.Delivery;
-                }
+                newParcel.Id = Config.NextParcelNumber++;
+                newParcel.SenderId = rand.Next(100000000, 999999999);
+                newParcel.TargetId = rand.Next(100000000, 999999999);
+                newParcel.DroneId = 0;
+                //In the initialization, the entire ID of the drone is 0
+                //because we did not want to reach contradictions in the introduction of the identity of the drone
+                //and also that no deliveries were made yet.
+                newParcel.Weight = (WeightCategories)rand.Next(1, 3);
+                newParcel.Priority = (Priorities)rand.Next(1, 3);
+                newParcel.Requested = DateTime.Now;
+                newParcel.Scheduled = DateTime.MinValue;
+                newParcel.PickedUp = DateTime.MinValue;
+                newParcel.Delivered = DateTime.MinValue;
                 Parcels.Add(newParcel);
+                //for (int index = 0; index < 10; index++)//Updating 10 parcels
+                //{
+                //    newParcel.Id = Config.NextParcelNumber++;//Updating the ID number of the package
+                //    newParcel.SenderId = Customers[rand.Next(10)].Id;//Updating the ID number of the sender
+                //    newParcel.DroneId = 0;//Updating the ID number of the drone
+                //    do
+                //    {
+                //        newParcel.TargetId = Customers[rand.Next(10)].Id;
+                //    }
+                //    while (Parcels[index].SenderId == Parcels[index].TargetId);
+
+                //    newParcel.Weight = (WeightCategories)rand.Next(1,4);//Updating the weight
+                //    newParcel.Priority = (Priorities)rand.Next(1,4);//Updating the urgency of the shipment
+                //    //Putting a random date and time
+                //    newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
+                //        rand.Next(24), rand.Next(60), rand.Next(60));
+                //    int status = rand.Next(100);
+                //    int drone = -1;
+                //    if (status >= 10)
+                //    {
+                //        //Scheduling a time to deliver parcel
+                //        newParcel.Scheduled = newParcel.Requested +
+                //            new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
+                //        if (status >= 15)
+                //        {
+                //            //Time drone came to deliver parcel
+                //            newParcel.PickedUp = newParcel.Scheduled +
+                //                new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
+                //            if (status >= 20)
+                //            {
+                //                //Time customer recieved parcel
+                //                newParcel.Delivered = newParcel.PickedUp +
+                //                    new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
+                //                do
+                //                {
+                //                    drone = rand.Next(5);
+                //                    newParcel.DroneId = Drones[drone].Id;
+                //                }
+                //                while (Drones[drone].MaxWeight < newParcel.Weight);
+                //            }
+                //        }
+                //        if (drone == -1)
+                //        {
+                //            do
+                //            {
+                //                drone = rand.Next(5);
+                //                newParcel.DroneId = Drones[drone].Id;
+                //            }
+                //            while (/*Drones[drone].Status == DroneStatuses.Available &&*/
+                //                Drones[drone].MaxWeight > newParcel.Weight);
+                //        }
+                //        //Drones[drone].Status = DroneStatuses.Delivery;
+                //    }
+                //    Parcels.Add(newParcel);
+                //}
             }
         }
     }

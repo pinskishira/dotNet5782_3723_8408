@@ -131,19 +131,52 @@ namespace BL
         /// <param name="droneId">Drone to assign to parcel</param>
         public void UpdateAssignParcelToDrone(int droneId)
         {
-            DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);            
-            int maxPriorities = 0, maxWeight = 0;
-            double maxDistance = 0.0;
-            if (droneToList.DroneStatus==(DroneStatuses)1)
+            try
             {
-                foreach (var indexOfParcel in dal.GetAllParcels())
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
+                IDAL.DO.Parcel parcel = new();
+                int maxPriorities = 0, maxWeight = 0, indexParcel = -1;
+                double maxDistance = 0.0;
+                if (droneToList.DroneStatus == (DroneStatuses)1)//Check that the drone is free
                 {
-                    if ((int)indexOfParcel.Priority <= maxPriorities && (int)indexOfParcel.Weight <= maxWeight &&
-                        DroneDistanceFromParcel(droneToList, indexOfParcel.SenderId) <= maxDistance)
+                    foreach (var indexOfParcel in dal.GetAllParcels())//Go through all the parcel to look for a suitable parcel
                     {
-                        if()
+                        IDAL.DO.Customer sender = dal.GetAllCustomers().First(index => index.Id == indexOfParcel.SenderId);//Looking for the customer of the parcle
+                        //Finds the distance between the drone and the sender
+                        double distance = Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
+                        //Looking for a parcel with high priority Maximum weight and close to the drone
+                        if ((int)indexOfParcel.Priority <= maxPriorities && (int)indexOfParcel.Weight <= maxWeight && distance <= maxDistance)
+                        {
+                            double batteryConsumption = BatteryConsumption(droneToList, indexOfParcel) + Distance.Haversine
+                                (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
+                            if (droneToList.Battery <= batteryConsumption)//Checks if the drone can make the sending
+                            {
+                                maxPriorities = (int)indexOfParcel.Priority;
+                                maxWeight = (int)indexOfParcel.Weight;
+                                maxDistance = distance;
+                                parcel = indexOfParcel;//Updating the parcel
+                            }
+                        }
                     }
+                    if (indexParcel == -1)//No suitable drone found
+                        throw new FailedAssignParcelToDroneException("There is no parcel that can belong to this drone.\n");
+                    dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
+                    droneToList.DroneStatus = (DroneStatuses)2;//Update the drone status
+                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    BlDrones[indexOfDroneToList] = droneToList;
                 }
+            }
+            catch (FailedAssignParcelToDroneException ex)
+            {
+                throw new FailedAssignParcelToDroneException(ex.ToString());
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new FailedAssignParcelToDroneException(ex.ToString());
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedToAddException("The drone in charge does not exist.\n", ex);
             }
         }
 
@@ -153,7 +186,7 @@ namespace BL
         /// <param name="droneToList">List of drones</param>
         /// <param name="parcelSenderId">Id of the parcel sender</param>
         /// <returns></returns>
-        public double DroneDistanceFromParcel(DroneToList droneToList,int parcelSenderId)
+        public double DroneDistanceFromParcel(DroneToList droneToList, int parcelSenderId)
         {
             try
             {
@@ -184,7 +217,7 @@ namespace BL
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
                     //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
-                    droneToList.Battery -= (int)(distance * elecUse[Weight(drone.MaxWeight)]);
+                    droneToList.Battery -= (int)(distance * Weight(drone.MaxWeight));
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
                     droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
@@ -217,7 +250,7 @@ namespace BL
                     //finding distance between original location of drone to the location of its destination
                     int distance = (int)Distance.Haversine
                         (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
-                    droneToList.Battery -= (int)(distance * elecUse[Weight(droneToList.MaxWeight)]);
+                    droneToList.Battery -= (int)(distance * Weight(droneToList.MaxWeight));
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
