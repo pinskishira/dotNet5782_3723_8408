@@ -158,5 +158,19 @@ namespace BL
             }
             return station;//returns closest station to sender
         }
+
+        /// <summary>
+        /// Function that converts longitude and latitude into Location. 
+        /// </summary>
+        /// <param name="longitude">Longitude</param>
+        /// <param name="latitude">Lattitude</param>
+        /// <returns></returns>
+        public Location CopyLocation(double longitude, double latitude)
+        {
+            Location currentLocation = new();
+            currentLocation.Longitude = longitude;
+            currentLocation.Latitude = latitude;
+            return currentLocation;
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace IBL
         public void UpdateParcelDeliveryToCustomer(int droneId);
         public void UpdateParcelCollectionByDrone(int droneId);
         public void UpdateAssignParcelToDrone(int droneId);
+        public Location CopyLocation(double longitude, double latitude);
 
     }
 }

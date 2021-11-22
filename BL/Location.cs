@@ -10,8 +10,8 @@ namespace IBL
     {
         public class Location///מיקום
         {
-            public double Latitude { get; set; }
             public double Longitude { get; set; }
+            public double Latitude { get; set; }
             public override string ToString()//Override function
             {
                 String result = "";

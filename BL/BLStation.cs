@@ -57,6 +57,7 @@ namespace BL
             {
                 IDAL.DO.Station dalStation = dal.FindStation(stationId);//finding station
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
+                blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
                 foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())//going through drone charges
                 {
                     if (indexOfDroneCharges.StationId == stationId)//if station id's match
