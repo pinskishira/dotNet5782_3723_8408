@@ -116,20 +116,27 @@ namespace BL
         public void UpdateDrone(int idDrone, string model)
         {
             dal.GetAllDrones().First(item => item.Id == idDrone);
-            IDAL.DO.Drone drone = dal.GetAllDrones().First(indexDrones => indexDrones.Id == idDrone);
-            drone.Model = model;
-            dal.UpdateDrone(drone);
+            IDAL.DO.Drone drone = dal.GetAllDrones().First(indexDrones => indexDrones.Id == idDrone);//finding drone
+            drone.Model = model;//changing model name
+            dal.UpdateDrone(drone);//sending to update in drone
         }
+
+        /// <summary>
+        /// Sending drone to a charging station, updating drone, and sending to update in dal.
+        /// </summary>
+        /// <param name="idDrone">Id of drone</param>
         public void SendDroneToChargingStation(int idDrone)
         {
             try
             {
-                Drone drone = DisplayDrone(idDrone);
-                if (drone.DroneStatus != (DroneStatuses)1)//בדיקה אם הרחפן פנוי
+                Drone drone = DisplayDrone(idDrone);//finding drone using inputted id from user
+                if (drone.DroneStatus != (DroneStatuses)1)//checking if drone is available
                     throw new FailedSendDroneToChargingException("The drone is not available");
+                //finding smallest distance of drone from closest station
                 IDAL.DO.Station station = smallestDistanceFromDrone(drone.CurrentLocation);
                 if (station.Id == -1)
                     throw new FailedSendDroneToChargingException("There is no station with available charging stations");
+                //
                 double batteryConsumption = Distance.Haversine
                     (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)* PowerUsageEmpty;
                 if (batteryConsumption < drone.Battery)
