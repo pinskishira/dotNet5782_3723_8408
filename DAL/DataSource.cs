@@ -119,7 +119,7 @@ namespace DalObject
                 for (int j = 0; j < i; j++)//Checking if it already appears in array
                 {
                     while (newCustomer.Id == Customers[j].Id)
-                        newCustomer.Id = rand.Next(100, 1000);
+                        newCustomer.Id = rand.Next(100000000, 1000000000);
                 }
                 newCustomer.Longitude = rand.Next(29,34) + rand.NextDouble();//U//Updating longitude   
                 newCustomer.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude
@@ -144,7 +144,7 @@ namespace DalObject
                 addParcel.Id = DataSource.Config.NextParcelNumber++;
                 addParcel.Priority = (Priorities)Rand.Next(1, 4);
                 int senderId = Rand.Next(0, Customers.Count);
-                addParcel.SenderId = Customers[senderId].Id;
+                addParcel.SenderId = Customers[9].Id;
                 int targetId = Rand.Next(0, Customers.Count);
                 addParcel.TargetId = Customers[targetId].Id;
                 addParcel.Weight = (WeightCategories)Rand.Next(1, 4);
