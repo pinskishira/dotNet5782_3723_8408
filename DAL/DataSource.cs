@@ -15,17 +15,15 @@ namespace DalObject
         static internal List<Customer> Customers = new();//Defining a list for the customers
         static internal List<Parcel> Parcels = new();//Defining a list for the parcels
         static internal List<DroneCharge> DroneCharges = new();//Defining a list for the drone charges
-        /// <summary>
-        /// Has all my static indexes
-        /// </summary>
+       
         internal static class Config
         {
-            static internal double PowerUsageEmpty = 0.01;//When the drone is empty
-            static internal double LightWeight = 0.05;
-            static internal double MediumWeight = 0.07;
-            static internal double HeavyWeight = 0.1;
-            static internal double DroneChargingRatePH = 50;//פר דקה
-            static internal int NextParcelNumber = 10000000;
+            static internal double PowerUsageEmpty = 0.01;//Amount of battery used per km with no parcel
+            static internal double LightWeight = 0.05;//Amount of battery used per km with a light parcel
+            static internal double MediumWeight = 0.07;//Amount of battery used per km with a medium parcel
+            static internal double HeavyWeight = 0.1;//Amount of battery used per km with a heavy parcel
+            static internal double DroneChargingRatePH = 50;//Amount of battery charged minute/km
+            static internal int NextParcelNumber = 10000;
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace DalObject
                     while (newDrone.Id == Drones[j].Id)
                         newDrone.Id = rand.Next(10000, 100000);
                 }
-                newDrone.MaxWeight = (WeightCategories)rand.Next(1, 4);//Updating the weight category
+                newDrone.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight category
                 newDrone.Model = droneArayNames[loopDrone];//Updating model
                 //newDrone.Battery = rand.Next(1, 101);//Updating battery status
                 // Updating drone status

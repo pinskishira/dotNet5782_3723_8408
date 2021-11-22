@@ -25,11 +25,11 @@ namespace BL
                 throw new InvalidInputException("You have to enter a valid name, with letters\n");
             if (newCustomer.Phone.Length != 10)//if phone number isnt 10 digits
                 throw new InvalidInputException("You have to enter a valid phone, with 10 digits\n");
-            //if longitude isnt between -180 and 180 and latitude isnt between -90 and 90
-            if (newCustomer.CustomerLocation.Longitude < -180 || newCustomer.CustomerLocation.Longitude > 180)
-                throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 1800\n");
-            if (newCustomer.CustomerLocation.Latitude < -90 || newCustomer.CustomerLocation.Latitude > 90)
-                throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between -90 and 90\n");
+            //if longitude isnt between 29.3 and 33.5 and latitude isnt between 33.7 and 36.3
+            if (newCustomer.CustomerLocation.Longitude < 29.3 || newCustomer.CustomerLocation.Longitude > 33.5)
+                throw new InvalidInputException("The longitude is not valid, enter a longitude point between 29.3 and 33.5\n");
+            if (newCustomer.CustomerLocation.Latitude < 33.7 || newCustomer.CustomerLocation.Latitude > 36.3)
+                throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             try
             {
                 //converting BL customer to dal
@@ -121,6 +121,7 @@ namespace BL
                         tempCustomerToList.ParcelsOnTheWayToCustomer++;
                 }
                 customerToList.Add(tempCustomerToList);
+                tempCustomerToList = new();
             }
             return customerToList;
         }

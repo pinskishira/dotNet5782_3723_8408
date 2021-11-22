@@ -12,7 +12,7 @@ namespace DalObject
     public partial class DalObject
     {
         /// <summary>
-        /// Adding a new parcel to the array of parcels
+        /// Adding a new parcel to the list of parcels
         /// </summary>
         /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
@@ -50,6 +50,7 @@ namespace DalObject
             DataSource.Parcels[indexParcel] = newParcel;
             DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
         }
+
         /// <summary>
         /// Finding requested parcel according to its ID name
         /// </summary>
@@ -62,8 +63,9 @@ namespace DalObject
             int indexFindParcel = DataSource.Parcels.FindIndex(item => item.Id == id);//finding parcel
             return DataSource.Parcels[indexFindParcel];
         }
+
         /// <summary>
-        /// Gives a view of the array of parcels
+        /// Gives a view of the list of parcels
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Parcel> GetAllParcels()
@@ -75,16 +77,17 @@ namespace DalObject
             }
             return tempParcels;
         }
+
         /// <summary>
-        /// Gives a view of the an array of parcels with no assigned drones
+        /// Gives a view of the an list of parcels with no assigned drones
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Parcel with no drone</returns>
         public IEnumerable<Parcel> ParcelWithNoDrone()
         {
             List<Parcel> parcelNoDrone = new();
             foreach (var indexNoDrone in DataSource.Parcels)
             {
-                if (indexNoDrone.DroneId == 0)
+                if (indexNoDrone.DroneId == 0)//if parcel isnt assigned to drone
                     parcelNoDrone.Add(indexNoDrone);
             }
             return parcelNoDrone;

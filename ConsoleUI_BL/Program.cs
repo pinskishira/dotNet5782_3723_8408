@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*Yirat Biton 212628408 and Shira Pinski 214103723
+ * Mini Project in Windows Systems
+ */
+
+using System;
 using IDAL;
 using System.Collections.Generic;
 using IBL.BO;
@@ -45,7 +49,7 @@ namespace ConsoleUI_BL
                             answerAdd = (AddingFunction)input;
                             switch (answerAdd)
                             {
-                                case AddingFunction.AddStation://case which adds a new station with data into the Stations array
+                                case AddingFunction.AddStation://case which adds a new station with data into the Stations list
                                     Station newStation = new();
                                     Console.Write("Enter a four-digit number in a new station ID number: ");
                                     int.TryParse(Console.ReadLine(), out input);
@@ -64,7 +68,7 @@ namespace ConsoleUI_BL
                                     newStation.DronesInCharging = null;
                                     ibl.AddStation(newStation);
                                     break;
-                                case AddingFunction.AddDrone://case which adds a new drone with data into the Drones array
+                                case AddingFunction.AddDrone://case which adds a new drone with data into the Drones list
                                     Drone newDrone = new();
                                     Console.Write("Enter drone Id: ");
                                     int.TryParse(Console.ReadLine(), out input);
@@ -79,7 +83,7 @@ namespace ConsoleUI_BL
                                     int stationNumber = input;
                                     ibl.AddDrone(newDrone, stationNumber);
                                     break;
-                                case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers array
+                                case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers list
                                     Customer NewCustomer = new();
                                     Console.Write("Please enter ID: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
@@ -95,7 +99,7 @@ namespace ConsoleUI_BL
                                     NewCustomer.CustomerLocation.Longitude = ansFromUserDouble1;
                                     ibl.AddCustomer(NewCustomer);
                                     break;
-                                case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels array
+                                case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels list
                                     Parcel NewParcel = new();
                                     NewParcel.Id = 0;
                                     Console.Write("Enter sender ID of 9 digits: ");
@@ -151,12 +155,12 @@ namespace ConsoleUI_BL
                                     customerPhone = Console.ReadLine();
                                     ibl.UpdateCustomer(idcustomer, name, customerPhone);
                                     break;
-                                case UpdatingFunction.SendDroneToChargingStation://שליחת רחפן לטעינה
+                                case UpdatingFunction.SendDroneToChargingStation://case which sends drone to a charging station
                                     Console.Write("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
                                     ibl.SendDroneToChargingStation(idDrone);
                                     break;
-                                case UpdatingFunction.DroneReleaseFromChargingStation://שליחת רחפן לטעינה
+                                case UpdatingFunction.DroneReleaseFromChargingStation://case which releases a drone from its charging slot
                                     Console.Write("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
                                     Console.Write("Enter how long the drone is in charging: ");
@@ -213,22 +217,22 @@ namespace ConsoleUI_BL
                             answerListView = (ListViewFunction)input;
                             switch (answerListView)
                             {
-                                case ListViewFunction.Stations://case which views the stations array
+                                case ListViewFunction.Stations://case which views the stations list
                                     IEnumerable<StationToList> viewStations = ibl.ListViewStations();
                                     foreach (var station in viewStations)//prints all stations
                                         Console.WriteLine(station);
                                     break;
-                                case ListViewFunction.Drones://case which views the drones array
+                                case ListViewFunction.Drones://case which views the drones list
                                     IEnumerable<DroneToList> viewDrones = ibl.ListViewDrones();
                                     foreach (var drone in viewDrones)//prints all drones
                                         Console.WriteLine(drone);
                                     break;
-                                case ListViewFunction.Customers://case which views the customers array
+                                case ListViewFunction.Customers://case which views the customers list
                                     IEnumerable<CustomerToList> viewCustomers = ibl.ListViewCustomers();
                                     foreach (var customer in viewCustomers)//prints all customers
                                         Console.WriteLine(customer);
                                     break;
-                                case ListViewFunction.Parcels://case which views the parcels array
+                                case ListViewFunction.Parcels://case which views the parcels list
                                     IEnumerable<ParcelToList> viewParcels = ibl.ListViewParcels();
                                     foreach (var parcel in viewParcels)//prints all parcels
                                         Console.WriteLine(parcel);

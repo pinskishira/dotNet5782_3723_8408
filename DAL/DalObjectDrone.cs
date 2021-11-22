@@ -12,7 +12,7 @@ namespace DalObject
     public partial class DalObject
     {
         /// <summary>
-        /// Adding a new  drone to the array of drones
+        /// Adding a new  drone to the list of drones
         /// </summary>
         /// <param name="newDrone">The new drone</param>
         public void AddDrone(Drone newDrone)
@@ -21,6 +21,7 @@ namespace DalObject
                 throw new ItemExistsException("The drone already exists.\n");
             DataSource.Drones.Add(newDrone);
         }
+
         /// <summary>
         /// Finding requested drone according to its ID name
         /// </summary>
@@ -33,8 +34,9 @@ namespace DalObject
             int indexFindDrone = DataSource.Drones.FindIndex(item => item.Id == id);//finding drone;
             return DataSource.Drones[indexFindDrone];
         }
+
         /// <summary>
-        /// Gives a view of the array of drones
+        /// Gives a view of the list of drones
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Drone> GetAllDrones()
@@ -46,6 +48,7 @@ namespace DalObject
             }
             return tempDrones;
         }
+
         /// <summary>
         /// Assigning a parcel to a drone
         /// </summary>
@@ -57,17 +60,21 @@ namespace DalObject
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel;
+            int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
             Parcel newParcel = DataSource.Parcels[indexAssign];
             newParcel.DroneId = idDrone;//giving parcel available drones' id
             newParcel.Scheduled = DateTime.Now;//updating date and time
             DataSource.Parcels[indexAssign] = newParcel;
         }
 
+        /// <summary>
+        /// Placing updated drone into drone list
+        /// </summary>
+        /// <param name="drone">Drone to update</param>
         public void UpdateDrone(Drone drone)
         {
-            int indexOfDrone = DataSource.Drones.FindIndex(index => index.Id == drone.Id);
-            DataSource.Drones[indexOfDrone] = drone;
+            int indexOfDrone = DataSource.Drones.FindIndex(index => index.Id == drone.Id);//finding index
+            DataSource.Drones[indexOfDrone] = drone;//placing updated drone in place of index
         }
 
     }

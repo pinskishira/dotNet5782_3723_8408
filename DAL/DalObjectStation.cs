@@ -36,7 +36,7 @@ namespace DalObject
         }
 
         /// <summary>
-        /// A function that returns an array of stations whose load position is greater than 0
+        /// A function that returns a list of stations whose load position is greater than 0
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Station> GetStationWithFreeSlots()
@@ -51,7 +51,7 @@ namespace DalObject
         }
 
         /// <summary>
-        /// Gives a view of the array of stations
+        /// Gives a view of the list of stations
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Station> GetAllStations()
@@ -64,33 +64,44 @@ namespace DalObject
             return tempStations;
         }
 
-        public int countDroneCharge(int idStation)//לשנות את השם של הפונקציה
+        /// <summary>
+        /// Counts how many charge slots are in use.
+        /// </summary>
+        /// <param name="idStation">Id of stat</param>
+        /// <returns></returns>
+        public int ChargeSlotsInUse(int idStation)//לשנות את השם של הפונקציה
         {
-            int countDroneCharge = 0;
-            foreach (var indexOfDroneCharge in DataSource.DroneCharges)//עובר על הרשימה של הרחפנים בטעינה
-                if (indexOfDroneCharge.StationId == idStation)//אם המסםר מזהה של הרחפן הטעון שווה למספר המזהה של התחנה
-                    countDroneCharge++; 
-            return countDroneCharge;
+            int chargeSlotsInUse = 0;
+            foreach (var indexOfDroneCharge in DataSource.DroneCharges)//goes through list of drones in charging
+                if (indexOfDroneCharge.StationId == idStation)//If the loaded drone ID number is equal to the station ID number
+                    chargeSlotsInUse++; 
+            return chargeSlotsInUse;
         }
 
+        /// <summary>
+        /// Updates station name and charge slots.
+        /// </summary>
+        /// <param name="idStation"></param>
+        /// <param name="newName"></param>
+        /// <param name="chargeSlots"></param>
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             int indexOfStation = 0;
             Station station = new();
-            foreach (var indexStations in DataSource.Stations)
+            foreach (var indexStations in DataSource.Stations)//goes through stations
             {
                 if(indexStations.Id == idStation)
                 {
                     station = indexStations;
-                    if (newName != "\n")
+                    if (newName != "\n")//if enter wasnt inputted
                         station.Name = newName;
-                    if (chargeSlots != 0)
-                        station.AvailableChargeSlots = chargeSlots - countDroneCharge(idStation);
+                    if (chargeSlots != 0)//if 0 wasnt inputted
+                        station.AvailableChargeSlots = chargeSlots - ChargeSlotsInUse(idStation);
                     break;
                 }
                 indexOfStation++;
             }
-            DataSource.Stations[indexOfStation] = station;
+            DataSource.Stations[indexOfStation] = station;//placing updated station in list of stations
         }
     }
 }

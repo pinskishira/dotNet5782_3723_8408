@@ -16,7 +16,7 @@ namespace IDAL
             {
                 String result = "";
                 result += $"DroneId is {DroneId} \n";
-                result += $"StationId is {StationId} \n";
+                result += $"Station Id is {StationId} \n";
                 return result;
             }
         }

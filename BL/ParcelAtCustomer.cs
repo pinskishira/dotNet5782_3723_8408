@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class ParcelAtCustomer//חבילה אצל לקוח
+        public class ParcelAtCustomer
         {
             public int Id { get; set; }
             public WeightCategories Weight { get; set; }

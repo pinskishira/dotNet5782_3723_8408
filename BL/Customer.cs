@@ -24,9 +24,9 @@ namespace IBL
                 result += $"Id is {Id} \n";
                 result += $"Name is {Name} \n";
                 result += $"Phone is {Phone} \n";
-                result += $"CustomerLocation is {CustomerLocation} \n";
-                result += $"ParcelsFromCustomers is {ParcelsFromCustomers} \n";
-                result += $"ParcelsToCustomers is {ParcelsToCustomers} \n";
+                result += $"Customers' Location is {CustomerLocation} \n";
+                result += $"Parcels From Customers is {ParcelsFromCustomers} \n";
+                result += $"Parcels To Customers is {ParcelsToCustomers} \n";
                 return result;
             }
         }

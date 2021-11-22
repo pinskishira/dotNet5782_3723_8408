@@ -14,7 +14,7 @@ namespace DalObject
     public partial class DalObject
     {
         /// <summary>
-        /// Adding a new drone charge to the array of drone charges
+        /// Adding a new drone charge to the list of drone charges
         /// </summary>
         /// <param name="newDroneCharge">The new drone charge</param>
         public void AddDroneCharge(DroneCharge newDroneCharge)
@@ -23,6 +23,7 @@ namespace DalObject
                 throw new ItemExistsException("The parcel already exists.\n");
             DataSource.DroneCharges.Add(newDroneCharge);
         }
+
         /// <summary>
         /// Sending drone to be charged in an available charging station
         /// </summary>
@@ -37,9 +38,6 @@ namespace DalObject
             Station newStation = new();
             DroneCharge newDroneCharge = new();//drone with low battery will go be charged here
             int index = 0;
-            //while (DataSource.Drones[index].Id != idDrone)
-            //    index++;
-            //DataSource.Drones[index].Status = DroneStatuses.Maintenance;//saying that the drone is in maintanance and unavailable to deliver
             newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
             while (DataSource.Stations[index].Name != nameStation)
                 index++;
@@ -49,6 +47,7 @@ namespace DalObject
             newStation.AvailableChargeSlots--;
             DataSource.Stations[index] = newStation;
         }
+
         /// <summary>
         /// Releasing a Drone from a charging station
         /// </summary>
@@ -58,10 +57,7 @@ namespace DalObject
             if (!DataSource.DroneCharges.Exists(item => item.DroneId == idDrone))
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             Station newStation = new();
-            //DroneCharge newDroneCharge = new();
             int indexDC = 0, indexS = 0, indexD = 0;
-            //while (DataSource.DroneCharges[indexDC].DroneId != idDrone)
-            //    indexDC++;
             while (DataSource.Stations[indexS].Id != DataSource.DroneCharges[indexDC].StationId)
                 indexS++;
             while (DataSource.Drones[indexD].Id != idDrone)
@@ -70,12 +66,12 @@ namespace DalObject
             newStation.AvailableChargeSlots++;//increasing amount of places left to charge
             DataSource.Stations[indexS] = newStation;
             DataSource.DroneCharges.RemoveAt(indexDC);
-            //newDroneCharge = DataSource.DroneCharges[indexDC];
-            //newDroneCharge.DroneId = 0;
-            //newDroneCharge.StationId = 0;
-            //DataSource.DroneCharges[indexDC] = newDroneCharge;
-
         }
+
+        /// <summary>
+        /// Returns list of all the drones in charges
+        /// </summary>
+        /// <returns>List of drones in charging</returns>
         public IEnumerable<DroneCharge> GetAllDroneCharges()
         {
             List<DroneCharge> tempDroneCharges = new();

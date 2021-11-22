@@ -76,7 +76,7 @@ namespace ConsoleUI
                                     newDrone.Model = Console.ReadLine();
                                     Console.WriteLine("Enter drones' maximum weight:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                     int.TryParse(Console.ReadLine(), out input);
-                                    newDrone.MaxWeight = (WeightCategories)input;
+                                    newDrone.Weight = (WeightCategories)input;
                                     Console.WriteLine("Enter drones' status:\n1 - Available\n2 - Maintanance\n3 - Delivery");
                                     int.TryParse(Console.ReadLine(), out input);
                                     //newDrone.Status = (DroneStatuses)input;

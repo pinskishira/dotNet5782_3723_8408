@@ -24,11 +24,11 @@ namespace BL
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
             if (newStation.Name == "\n")//if nothing was inputted as name for station
                 throw new InvalidInputException("You have to enter a valid name, with letters\n");
-            //if longitude isnt between -180 and 180 and latitude isnt between -90 and 90
-            if (newStation.StationLocation.Longitude < -180 || newStation.StationLocation.Longitude > 180)
-                throw new InvalidInputException("The longitude is not valid, enter a longitude point between -180 and 180\n");
-            if (newStation.StationLocation.Latitude < -90 || newStation.StationLocation.Latitude > 90)
-                throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between -90 and 90\n");
+            //if longitude isnt between 29.3 and 33.5 and latitude isnt between 33.7 and 36.3
+            if (newStation.StationLocation.Longitude < 29.3 || newStation.StationLocation.Longitude > 33.5)
+                throw new InvalidInputException("The longitude is not valid, enter a longitude point between 29.3 and 33.5\n");
+            if (newStation.StationLocation.Latitude < 33.7 || newStation.StationLocation.Latitude > 36.3)
+                throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             if (newStation.AvailableChargeSlots < 0)
                 throw new InvalidInputException("The number of charging stations of the station is less than 0\n");
             try
@@ -86,13 +86,16 @@ namespace BL
         public IEnumerable<StationToList> ListViewStations()
         {
             Station tempStation = new();
-            StationToList tempStationToList = new();
             List<StationToList> stationToList = new List<StationToList>();
             foreach (var indexOfStations in dal.GetAllStations())//going through stations
             {
+                StationToList tempStationToList = new();
                 tempStation = DisplayStation(indexOfStations.Id);//getting station with inputted index
                 tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
-                tempStationToList.UnavaialbleChargingSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
+                if (tempStation.DronesInCharging == null)
+                    tempStationToList.UnavaialbleChargeSlots = 0;
+                else
+                    tempStationToList.UnavaialbleChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
                 stationToList.Add(tempStationToList);//ading to StationToList
             }
             return stationToList;
@@ -107,7 +110,7 @@ namespace BL
             List<StationToList> stationToList = new();
             foreach (var indexOfStation in ListViewStations())
             {
-                if (indexOfStation.AvailableChargingSlots > 0)//if station has available charging slots
+                if (indexOfStation.AvailableChargeSlots > 0)//if station has available charging slots
                     stationToList.Add(indexOfStation);//add to list
             }
             return stationToList;
@@ -121,7 +124,7 @@ namespace BL
         /// <param name="chargeSlots">Amount of charge slots in station</param>
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            if (chargeSlots < 0)//if invalid number was inpitted
+            if (chargeSlots < 0)//if invalid number was inputted
                 throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
             dal.GetAllStations().First(item => item.Id == idStation);//finds station
             dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal

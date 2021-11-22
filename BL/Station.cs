@@ -14,12 +14,12 @@ namespace IBL
     {
         public class Station
         {
-            public int Id { get; set; }//ID
-            public string Name { get; set; }//The station name
-            public Location StationLocation { get; set; }//Longitude
-            public int AvailableChargeSlots { get; set; }//Number of charging stations
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public Location StationLocation { get; set; }
+            public int AvailableChargeSlots { get; set; }
             public List<DroneInCharging> DronesInCharging { get; set; }
-            public override string ToString()//Override function
+            public override string ToString()
             {
                 String result = "";
                 result += $"ID is {Id} \n";

@@ -10,10 +10,10 @@ namespace IBL
 {
     namespace BO
     {
-        public class DroneToList//רחפן לרשימה
+        public class DroneToList
         {
-            public int Id { get; set; }//ID
-            public string Model { get; set; }//The drone model
+            public int Id { get; set; }
+            public string Model { get; set; }
             public WeightCategories Weight { get; set; }
             public int Battery { get; set; }
             public DroneStatuses DroneStatus { get; set; }
@@ -26,9 +26,9 @@ namespace IBL
                 result += $"Model is {Model} \n";
                 result += $"MaxWeight is {Weight} \n";
                 result += $"Battery is {Battery} \n";
-                result += $"DroneStatus is {DroneStatus} \n";
-                result += $"CurrentLocation is {CurrentLocation} \n";
-                result += $"ParcelNumInTransfer is {ParcelNumInTransfer} \n";
+                result += $"Drone Status is {DroneStatus} \n";
+                result += $"Current Location is {CurrentLocation} \n";
+                result += $"Parcel Number In Transfer is {ParcelNumInTransfer} \n";
                 return result;
             }
         }

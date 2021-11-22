@@ -105,6 +105,7 @@ namespace BL
                     }
                 }
                 parcelToLists.Add(tempParcelToList);
+                tempParcelToList = new();
 
             }
             return parcelToLists;

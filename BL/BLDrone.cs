@@ -136,21 +136,23 @@ namespace BL
                 IDAL.DO.Station station = smallestDistanceFromDrone(drone.CurrentLocation);
                 if (station.Id == -1)
                     throw new FailedSendDroneToChargingException("There is no station with available charging stations");
-                //
+                //finds amount of battery used during the drone travel from its current location to the closest station to him
                 double batteryConsumption = Distance.Haversine
                     (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)* PowerUsageEmpty;
                 if (batteryConsumption < drone.Battery)
                     throw new FailedSendDroneToChargingException("The drone does not have enough battery to go to the station");
+                //battery is decreases by amount of battery used during travel times the percentage of battery used with no parcel
                 drone.Battery -= (int)(batteryConsumption * PowerUsageEmpty);
-                drone.CurrentLocation.Longitude = station.Longitude;
+                drone.CurrentLocation.Longitude = station.Longitude;//upating location
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = (DroneStatuses)2;
-                DroneToList droneToList = new();//לעדכן ברשימה של הרחפנים לרשימה את הרחפן הזה
-                drone.CopyPropertiesTo(droneToList);
+                DroneToList droneToList = new();//new drone to list
+                drone.CopyPropertiesTo(droneToList);//converting drone -> droneToList
                 droneToList.ParcelNumInTransfer = drone.ParcelInTransfer.Id;
-                int indexDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneToList.Id);
-                BlDrones[indexDroneToList] = droneToList;
-                dal.UpdateSendDroneToChargingStation(drone.Id, station.Name);//גם מעדכן שהעמדות טעינה ירדו וגם מוסיף את הרחפן לרשימה של הרחפנים בטעינה
+                int indexDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneToList.Id);//finds drone
+                BlDrones[indexDroneToList] = droneToList;//updated droneToList
+                //updates that the charging slots decreased and also adds the drone to the list of drones in the charge
+                dal.UpdateSendDroneToChargingStation(drone.Id, station.Name);
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -162,25 +164,37 @@ namespace BL
             }
         }
 
-        public void DroneReleaseFromChargingStation(int idDrone,int timeInCharginge)
+        /// <summary>
+        /// Releasing drone from a charging station and updating the drone released, and charging station
+        /// and then sending to update in dal.
+        /// </summary>
+        /// <param name="idDrone">Id of drone</param>
+        /// <param name="timeInCharginge">Time drone was in charging</param>
+        public void DroneReleaseFromChargingStation(int idDrone,int timeInCharging)
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
-                if (droneToList.DroneStatus != (DroneStatuses)2)//בדיקה אם הרחפן בתחזוקה
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
+                if (droneToList.DroneStatus != (DroneStatuses)2)//checking if drone is in maintanace
                     throw new FailedReleaseDroneFromChargingException("The drone is not Maintenance");
-                droneToList.Battery -= (int)(timeInCharginge * DroneChargingRatePH);//לשאול את שירה בעזרת ה
-                droneToList.DroneStatus = (DroneStatuses)1;
-                dal.DroneReleaseFromChargingStation(idDrone);
-                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
-                BlDrones[indexOfDroneToList] = droneToList;
+                //battery decreases by amount of time in charging times its charing rate per hour
+                droneToList.Battery -= (int)(timeInCharging * DroneChargingRatePH);
+                droneToList.DroneStatus = (DroneStatuses)1;//drone is now available
+                dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
+                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
+                BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
             }
-            catch (ArgumentNullException)//לשאול את פנינה
+            catch (ArgumentNullException)
             {
                 throw new FailedReleaseDroneFromChargingException("The drone does not exist.\n");
             }
         }
 
+        /// <summary>
+        /// Finds the smallest distance between sent location and closest station.
+        /// </summary>
+        /// <param name="CurrentLocation">Current location</param>
+        /// <returns></returns>
         public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value

@@ -8,25 +8,25 @@ namespace IBL
 {
     namespace BO
     {
-        public class CustomerToList//לקוח לרשימה
+        public class CustomerToList
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public int ParcelsSentAndDelivered { get; set; }//מספר חבילות ששלח וסופקו
-            public int ParcelsSentButNotDelivered { get; set; }//מספר חבילות ששלח אך עוד לא סופקו
-            public int RecievedParcels { get; set; }//מספר חבילות שקיבל
-            public int ParcelsOnTheWayToCustomer { get; set; }//מספר חבילות שבדרך אל הלקוח
+            public int ParcelsSentAndDelivered { get; set; }//Number of parcels sent and delivered
+            public int ParcelsSentButNotDelivered { get; set; }//Number of parcels sent but not yet delivered
+            public int RecievedParcels { get; set; }//Number of parcels received
+            public int ParcelsOnTheWayToCustomer { get; set; }//Amount of parcels on the way to customer
             public override string ToString()
             {
                 String result = "";
                 result += $"Id is {Id} \n";
                 result += $"Name is {Name} \n";
                 result += $"Phone is {Phone} \n";
-                result += $"ParcelsSentAndDelivered is {ParcelsSentAndDelivered} \n";
-                result += $"ParcelsSentButNotDelivered is {ParcelsSentButNotDelivered} \n";
-                result += $"RecivedParcels is {RecievedParcels} \n";
-                result += $"ParcelsOnTheWayToCustomer is {ParcelsOnTheWayToCustomer} \n";
+                result += $"Parcels Sent And Delivered is {ParcelsSentAndDelivered} \n";
+                result += $"Parcels Sent But Not Delivered is {ParcelsSentButNotDelivered} \n";
+                result += $"Recived Parcels is {RecievedParcels} \n";
+                result += $"Parcels On The Way To Customer is {ParcelsOnTheWayToCustomer} \n";
                 return result;
             }
         }
