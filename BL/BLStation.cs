@@ -22,7 +22,7 @@ namespace BL
         {
             if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)//if id inputted is not 4 digits long
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
-            if (newStation.NameOfStation == "\n")//if nothing was inputted as name for station
+            if (newStation.Name == "\n")//if nothing was inputted as name for station
                 throw new InvalidInputException("You have to enter a valid name, with letters\n");
             //if longitude isnt between -180 and 180 and latitude isnt between -90 and 90
             if (newStation.StationLocation.Longitude < -180 || newStation.StationLocation.Longitude > 180)

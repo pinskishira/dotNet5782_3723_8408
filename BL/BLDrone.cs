@@ -25,7 +25,7 @@ namespace BL
                 throw new InvalidInputException("The identification number should be 5 digits long\n");
             if (newDrone.Model.Length > 6)//if model name is less than 6 digits
                 throw new InvalidInputException("The model number should be 6 digits long\n");
-            if (newDrone.MaxWeight != (WeightCategories)1 && newDrone.MaxWeight != (WeightCategories)2 && newDrone.MaxWeight != (WeightCategories)3)//if 1,2 or 3 werent inputted
+            if (newDrone.Weight != (WeightCategories)1 && newDrone.Weight != (WeightCategories)2 && newDrone.Weight != (WeightCategories)3)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
             if ((Math.Round(Math.Floor(Math.Log10(stationNumber))) + 1) != 4)//if station id isnt 4 digits long
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
@@ -40,7 +40,7 @@ namespace BL
             DroneToList newDroneToList = new();//adding information to droneToLists
             newDroneToList.Id = newDrone.Id;
             newDroneToList.Model = newDrone.Model;
-            newDroneToList.MaxWeight = newDrone.MaxWeight;
+            newDroneToList.Weight = newDrone.Weight;
             newDroneToList.Battery = newDrone.Battery;
             newDroneToList.DroneStatus = newDrone.DroneStatus;
             newDroneToList.CurrentLocation = newDrone.CurrentLocation;
@@ -191,7 +191,7 @@ namespace BL
             {
                 //calculating the distance between the sender and the station
                 tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude) ;
-                if (tempDistance < minDistance && indexOfStations.ChargeSlots > 0)//compares which distance is smaller
+                if (tempDistance < minDistance && indexOfStations.AvailableChargeSlots > 0)//compares which distance is smaller
                 {
                     minDistance = tempDistance;
                     station = indexOfStations;

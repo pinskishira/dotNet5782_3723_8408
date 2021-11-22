@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace IBL
         public class Station
         {
             public int Id { get; set; }//ID
-            public string NameOfStation { get; set; }//The station name
+            public string Name { get; set; }//The station name
             public Location StationLocation { get; set; }//Longitude
             public int AvailableChargeSlots { get; set; }//Number of charging stations
             public List<DroneInCharging> DronesInCharging { get; set; }
@@ -22,7 +23,7 @@ namespace IBL
             {
                 String result = "";
                 result += $"ID is {Id} \n";
-                result += $"Name is {NameOfStation} \n";
+                result += $"Name is {Name} \n";
                 result += $"Location is {StationLocation} \n";
                 result += $"Available Charge Slots is {AvailableChargeSlots} \n";
                 result += $"Drones In Charging is {DronesInCharging} \n";

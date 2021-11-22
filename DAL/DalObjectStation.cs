@@ -44,7 +44,7 @@ namespace DalObject
             List<Station> freeSlotsStation = new();
             foreach (var indexSlots in DataSource.Stations)
             {
-                if (indexSlots.ChargeSlots > 0)
+                if (indexSlots.AvailableChargeSlots > 0)
                     freeSlotsStation.Add(indexSlots);
             }
             return freeSlotsStation;
@@ -85,7 +85,7 @@ namespace DalObject
                     if (newName != "\n")
                         station.Name = newName;
                     if (chargeSlots != 0)
-                        station.ChargeSlots = chargeSlots - countDroneCharge(idStation);
+                        station.AvailableChargeSlots = chargeSlots - countDroneCharge(idStation);
                     break;
                 }
                 indexOfStation++;

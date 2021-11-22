@@ -47,7 +47,7 @@ namespace DalObject
                 }
                 newStation.Longitude = rand.Next(29, 34) + rand.NextDouble();//U//Updating longitude   
                 newStation.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude 
-                newStation.ChargeSlots = rand.Next(10, 30);//Updating charging slots
+                newStation.AvailableChargeSlots = rand.Next(10, 30);//Updating charging slots
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
@@ -55,7 +55,7 @@ namespace DalObject
             newStation.Name = "Givat Shaul";
             newStation.Longitude = 36.2;
             newStation.Latitude = 34.5;
-            newStation.ChargeSlots = 5;
+            newStation.AvailableChargeSlots = 5;
             Stations.Add(newStation);
 
             Drone newDrone = new();
