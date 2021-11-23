@@ -1,5 +1,6 @@
-﻿using IBL.BO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using IBL.BO;
 using static IBL.BO.Enum;
 
 namespace IBL

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using BL;
-using static IBL.BO.Enum;
-using IBL.BO;
 
 namespace IBL
 {

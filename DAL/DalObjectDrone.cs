@@ -22,11 +22,6 @@ namespace DalObject
             DataSource.Drones.Add(newDrone);
         }
 
-        /// <summary>
-        /// Finding requested drone according to its ID name
-        /// </summary>
-        /// <param name=id">Wanted drone</param>
-        /// <returns></returns>
         public Drone FindDrone(int id)
         {
             if (!DataSource.Drones.Exists(item => item.Id == id))

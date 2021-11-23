@@ -123,106 +123,62 @@ namespace DalObject
             }
 
             ref int parcelNum = ref Config.NextParcelNumber;
-            //Initializing variables into 10 parcels.
-            static void InitializeParcel(DateTime timeCreatParcel, DateTime timeScheduled, DateTime timePickedUp, DateTime timeDelivered,int idDrone)
+            for (int index = 0; index < 10; index++)//Updating 10 parcels
             {
-                Parcel addParcel = new Parcel();
-                addParcel.Requested = new(0);
-                addParcel.Id = DataSource.Config.NextParcelNumber++;
-                addParcel.Priority = (Priorities)rand.Next(1, 4);
-                int senderId = rand.Next(0, Customers.Count);
-                addParcel.SenderId = Customers[senderId].Id;
-                int targetId = rand.Next(0, Customers.Count);
-                addParcel.TargetId = Customers[targetId].Id;
-                addParcel.Weight = (WeightCategories)rand.Next(1, 4);
-                addParcel.DroneId = idDrone;
-                addParcel.Delivered = timeDelivered;
-                addParcel.PickedUp = timePickedUp;
-                addParcel.Scheduled = timeScheduled;
-                addParcel.Requested = timeCreatParcel;
-                Parcels.Add(addParcel);
+                Parcel newParcel = new();
+                newParcel.Id = Config.NextParcelNumber++;//Updating the ID number of the package
+                newParcel.SenderId = Customers[rand.Next(10)].Id;//Updating the ID number of the sender
+                newParcel.DroneId = 0;//Updating the ID number of the drone
+                do
+                {
+                    newParcel.TargetId = Customers[rand.Next(10)].Id;
+                }
+                while (newParcel.SenderId == newParcel.TargetId);
+
+                newParcel.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight
+                newParcel.Priority = (Priorities)rand.Next(1, 4);//Updating the urgency of the shipment
+                //Putting a random date and time
+                newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
+                    rand.Next(24), rand.Next(60), rand.Next(60));
+                int status = rand.Next(100);
+                int drone = -1;
+                if (status >= 10)
+                {
+                    //Scheduling a time to deliver parcel
+                    newParcel.Scheduled = newParcel.Requested +
+                        new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
+                    if (status >= 15)
+                    {
+                        //Time drone came to deliver parcel
+                        newParcel.PickedUp = newParcel.Scheduled +
+                            new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
+                        if (status >= 20)
+                        {
+                            //Time customer recieved parcel
+                            newParcel.Delivered = newParcel.PickedUp +
+                                new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
+                            do
+                            {
+                                drone = rand.Next(5);
+                                newParcel.DroneId = Drones[drone].Id;
+                            }
+                            while (Drones[drone].Weight < newParcel.Weight);
+                        }
+                    }
+                    if (drone == -1)
+                    {
+                        do
+                        {
+                            drone = rand.Next(5);
+                            newParcel.DroneId = Drones[drone].Id;
+                        }
+                        while (/*Drones[drone].Status == DroneStatuses.Available &&*/
+                            Drones[drone].Weight > newParcel.Weight);
+                    }
+                    //Drones[drone].Status = DroneStatuses.Delivery;
+                }
+                Parcels.Add(newParcel);
             }
-            InitializeParcel(new(2021, 3, 5, 16, 30, 0), new(2021, 3, 1, 16, 32, 0), DateTime.MinValue, DateTime.MinValue, Drones[0].Id);
-            InitializeParcel(new(2021, 3, 5, 9, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(new(2021, 3, 5, 10, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(new(2021, 3, 5, 13, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(new(2021, 3, 5, 14, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(new(2021, 3, 5, 15, 30, 0), DateTime.MinValue, DateTime.MinValue, DateTime.MinValue,0);
-            InitializeParcel(new(2021, 3, 5, 8, 30, 0), new(2021, 3, 1, 8, 32, 0), new(2021, 3, 1, 9, 30, 0), new(2021, 3, 2, 10, 30, 0), Drones[1].Id);
-
-            Parcel addParcel = new Parcel();
-            addParcel.Requested = new(0);
-            addParcel.Id = DataSource.Config.NextParcelNumber++;
-            addParcel.Priority = (Priorities)rand.Next(1, 4);
-            int senderId = rand.Next(0, Customers.Count);
-            addParcel.SenderId = Customers[senderId].Id;
-            int targetId = rand.Next(0, Customers.Count);
-            addParcel.TargetId = Customers[targetId].Id;
-            addParcel.Weight = (WeightCategories)rand.Next(1, 4);
-            addParcel.DroneId = Drones[0].Id;
-            addParcel.Delivered = DateTime.MinValue;
-            addParcel.PickedUp = DateTime.MinValue;
-            addParcel.Scheduled = DateTime.MinValue;
-            addParcel.Requested = DateTime.MinValue;
-            Parcels.Add(addParcel);
-
         }
-        //for (int index = 0; index < 10; index++)//Updating 10 parcels
-        //{
-        //    newParcel.Id = Config.NextParcelNumber++;//Updating the ID number of the package
-        //    newParcel.SenderId = Customers[rand.Next(10)].Id;//Updating the ID number of the sender
-        //    newParcel.DroneId = 0;//Updating the ID number of the drone
-        //    do
-        //    {
-        //        newParcel.TargetId = Customers[rand.Next(10)].Id;
-        //    }
-        //    while (Parcels[index].SenderId == Parcels[index].TargetId);
-
-        //    newParcel.Weight = (WeightCategories)rand.Next(1,4);//Updating the weight
-        //    newParcel.Priority = (Priorities)rand.Next(1,4);//Updating the urgency of the shipment
-        //    //Putting a random date and time
-        //    newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
-        //        rand.Next(24), rand.Next(60), rand.Next(60));
-        //    int status = rand.Next(100);
-        //    int drone = -1;
-        //    if (status >= 10)
-        //    {
-        //        //Scheduling a time to deliver parcel
-        //        newParcel.Scheduled = newParcel.Requested +
-        //            new TimeSpan(rand.Next(5), rand.Next(60), rand.Next(60));
-        //        if (status >= 15)
-        //        {
-        //            //Time drone came to deliver parcel
-        //            newParcel.PickedUp = newParcel.Scheduled +
-        //                new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
-        //            if (status >= 20)
-        //            {
-        //                //Time customer recieved parcel
-        //                newParcel.Delivered = newParcel.PickedUp +
-        //                    new TimeSpan(0, rand.Next(1, 60), rand.Next(60));
-        //                do
-        //                {
-        //                    drone = rand.Next(5);
-        //                    newParcel.DroneId = Drones[drone].Id;
-        //                }
-        //                while (Drones[drone].MaxWeight < newParcel.Weight);
-        //            }
-        //        }
-        //        if (drone == -1)
-        //        {
-        //            do
-        //            {
-        //                drone = rand.Next(5);
-        //                newParcel.DroneId = Drones[drone].Id;
-        //            }
-        //            while (/*Drones[drone].Status == DroneStatuses.Available &&*/
-        //                Drones[drone].MaxWeight > newParcel.Weight);
-        //        }
-        //        //Drones[drone].Status = DroneStatuses.Delivery;
-        //    }
-        //    Parcels.Add(newParcel);
-        //}
     }
 }

@@ -196,12 +196,12 @@ namespace ConsoleUI
                                 case DisplayingFunction.Drone://case which displays the requested drone
                                     Drone d = new();
                                     d = dalObj.FindDrone(id);//finds drone according to inputted id
-                                    Console.WriteLine(d.ToString());
+                                    Console.WriteLine(d);
                                     break;
                                 case DisplayingFunction.Customer://case which displays the requested customer
                                     Customer c = new();
                                     c = dalObj.FindCustomer(id);//finds customer according to inputted id
-                                    Console.WriteLine(c.ToString());
+                                    Console.WriteLine(c);
                                     break;
                                 case DisplayingFunction.Parcel://case which displays the requested parcel
                                     Parcel p = new();

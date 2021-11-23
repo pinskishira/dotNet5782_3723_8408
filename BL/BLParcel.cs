@@ -1,13 +1,10 @@
 ﻿using System;
-using IDAL;
-using System.Collections;
 using System.Collections.Generic;
-using IBL.BO;
-using IBL;
-using static IBL.BO.Enum;
-using DalObject;
-using BL.IBL.BO;
 using System.Linq;
+
+using IBL.BO;
+using static IBL.BO.Enum;
+
 namespace BL
 {
     public partial class BL
@@ -259,6 +256,8 @@ namespace BL
             try
             {
                 DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
+                if(droneToList==null)
+                {}
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelNumInTransfer);//finding parcel that is assigned to this drone
                 IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
                 if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
@@ -277,14 +276,9 @@ namespace BL
                     throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
             }
 
-            catch (ArgumentNullException ex)
+            catch (InvalidOperationException ex)
             {
-                throw new FailedToCollectParcelException("Does not exist.\n");
-            }
-
-            catch (FailedToCollectParcelException ex)
-            {
-                throw new FailedToCollectParcelException(ex.ToString());
+                throw new FailedToCollectParcelException("Does not exist.\n", ex);
             }
         }
     }

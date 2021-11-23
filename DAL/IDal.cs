@@ -13,8 +13,17 @@ namespace IDAL
         void AddStation(Station newStation);
         void DroneReleaseFromChargingStation(int idDrone);
         Customer FindCustomer(int id);
+
+        /// <summary>
+        /// Finding requested drone according to its ID name
+        /// </summary>
+        /// <param name="id">Wanted drone</param>
+        /// <returns>if found - the droune is returned, if not - there is exception</returns>
+        /// <exception cref="IDAL.DO.ItemDoesNotExistException"></exception>
         Drone FindDrone(int id);
+
         Parcel FindParcel(int id);
+        
         Station FindStation(int id);
         IEnumerable<Customer> GetAllCustomers();
         IEnumerable<Drone> GetAllDrones();

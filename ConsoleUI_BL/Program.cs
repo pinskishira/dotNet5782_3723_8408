@@ -3,12 +3,10 @@
  */
 
 using System;
-using IDAL;
 using System.Collections.Generic;
+
 using IBL.BO;
-using IBL;
 using static IBL.BO.Enum;
-using BL.IBL.BO;
 
 namespace ConsoleUI_BL
 {
@@ -96,8 +94,8 @@ namespace ConsoleUI_BL
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
                                     NewCustomer.CustomerLocation = new();
-                                    NewCustomer.CustomerLocation.Latitude = ansFromUserDouble1;
-                                    NewCustomer.CustomerLocation.Longitude = ansFromUserDouble2;
+                                    NewCustomer.CustomerLocation.Longitude = ansFromUserDouble1;
+                                    NewCustomer.CustomerLocation.Latitude = ansFromUserDouble2;
                                     ibl.AddCustomer(NewCustomer);
                                     break;
                                 case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels list

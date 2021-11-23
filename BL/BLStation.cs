@@ -1,13 +1,8 @@
 ﻿using System;
-using IDAL;
-using System.Collections;
 using System.Collections.Generic;
-using IBL.BO;
-using IBL;
-using static IBL.BO.Enum;
-using DalObject;
-using BL.IBL.BO;
 using System.Linq;
+
+using IBL.BO;
 
 namespace BL
 {

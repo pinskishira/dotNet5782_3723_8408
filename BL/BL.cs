@@ -1,13 +1,12 @@
 ﻿using System;
-using IDAL;
-using System.Collections;
-using IBL.BO;
 using System.Collections.Generic;
-using IBL;
-using static IBL.BO.Enum;
-using DalObject;
-using BL.IBL.BO;
 using System.Linq;
+
+using IBL;
+using IBL.BO;
+using static IBL.BO.Enum;
+
+using IDAL;
 
 namespace BL
 {
@@ -16,15 +15,15 @@ namespace BL
     /// </summary>
     public partial class BL : Ibl
     {
-        static Random rand = new Random();//זה בסדר לאתחל ככה את השדות ולעשות אותו סטטיק?
+        static Random rand = new Random();
         IDal dal;
         List<DroneToList> BlDrones = new();//new list of drones
-        double PowerUsageEmpty, LightWeight, MediumWeight, HeavyWeight, DroneChargingRatePH;
+        double PowerUsageEmpty, BatteryConsumptionLightWeight, MediumWeight, HeavyWeight, DroneChargingRatePH;
         public BL()
         {
             dal = new DalObject.DalObject();
             PowerUsageEmpty = dal.electricityUse()[0];//When the drone is empty
-            LightWeight = dal.electricityUse()[1];//amount of battery used per km for light weight
+            BatteryConsumptionLightWeight = dal.electricityUse()[1];//amount of battery used per km for light weight
             MediumWeight = dal.electricityUse()[2];//amount of battery used per km for medium weight
             HeavyWeight = dal.electricityUse()[3];//amount of battery used per km for heavy weight
             DroneChargingRatePH = dal.electricityUse()[4];//Charging per minutes
@@ -102,7 +101,7 @@ namespace BL
         /// <param name="droneToList">The drone performing delivery</param>
         /// <param name="parcel">Parcel drone is carrying</param>
         /// <returns>Amount of battery used during delivery</returns>
-        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel) 
+        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel)
         {
             IDAL.DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
             IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer
@@ -124,16 +123,13 @@ namespace BL
         /// </summary>
         /// <param name="maxWeight">Weight of parcel</param>
         /// <returns>Index, in elecUse array</returns>
-        public double Weight(WeightCategories maxWeight)
+        public double Weight(WeightCategories maxWeight) => maxWeight switch
         {
-            if (maxWeight == (WeightCategories)1)//parcel is an easy weight
-                return LightWeight;
-            if (maxWeight == (WeightCategories)2)//parcel is a medium weight
-                return MediumWeight;
-            if (maxWeight == (WeightCategories)3)//parcel is heavy
-                return HeavyWeight;
-            return PowerUsageEmpty;
-        }
+            WeightCategories.Easy => BatteryConsumptionLightWeight,
+            WeightCategories.Medium => MediumWeight,
+            WeightCategories.Heavy => HeavyWeight,
+            _ => throw new ArgumentException()
+        };
 
         /// <summary>
         /// Finds the smallest distance between the given location and the closest station.
@@ -141,7 +137,7 @@ namespace BL
         /// <param name="longitude">Longitude in location</param>
         /// <param name="latitude">Lattitude in location</param>
         /// <returns>Closest station to sender</returns>
-        public IDAL.DO.Station smallestDistance(double longitude,double latitude)
+        public IDAL.DO.Station smallestDistance(double longitude, double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
             IDAL.DO.Station station = new();
