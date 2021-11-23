@@ -103,9 +103,11 @@ namespace ConsoleUI_BL
                                     NewParcel.Id = 0;
                                     Console.Write("Enter sender ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
+                                    NewParcel.Sender = new();
                                     NewParcel.Sender.Id = ansFromUserInt;
                                     Console.Write("Enter target ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
+                                    NewParcel.Target = new();
                                     NewParcel.Target.Id = ansFromUserInt;
                                     Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                     int.TryParse(Console.ReadLine(), out input);

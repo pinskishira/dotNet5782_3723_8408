@@ -29,7 +29,6 @@ namespace BL
             newParcel.Scheduled = DateTime.MinValue;
             newParcel.PickedUp = DateTime.MinValue;
             newParcel.Delivered = DateTime.MinValue;
-            newParcel.DroneParcel = null;
             try
             {
 
@@ -39,6 +38,8 @@ namespace BL
                 newParcel.CopyPropertiesTo(obj);
                 tempParcel = (IDAL.DO.Parcel)obj;
                 newParcel.CopyPropertiesTo(tempParcel);
+                tempParcel.SenderId = newParcel.Sender.Id;
+                tempParcel.TargetId = newParcel.Target.Id;               
                 dal.AddParcel(tempParcel);//adding to station list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
