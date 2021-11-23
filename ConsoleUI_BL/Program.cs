@@ -12,7 +12,7 @@ namespace ConsoleUI_BL
 {
     public enum BlMainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
     public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel };
-    public enum UpdatingFunction { UpdateDrone = 1, UpdateCustomer, UpdateStation, SendDroneToChargingStation, AssignParcelToDrone, DroneReleaseFromChargingStation, ParcelCollectionByDrone, ParcelDeliveryToCustomer };
+    public enum UpdatingFunction { UpdateDrone = 1, UpdateStation, UpdateCustomer, SendDroneToChargingStation,  DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer };
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
 
@@ -122,9 +122,10 @@ namespace ConsoleUI_BL
                             break;
                         case BlMainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone,
                                                           //parcel delivery to customer, sending drone to charge, and release from charge
-                            Console.WriteLine("What object do you want to update?\nEnter 1 to assign a parcel to a drone\n" +
-                                "Enter 2 for parcel collection by drone\nEnter 3 for parcel delivery to customer\n" +
-                                "Enetr 4 to send drone to charging station\nEnter 5 for drone release from charging station\n");
+                            Console.WriteLine("What object do you want to update?\nEnter 1 toupdate a drone\n" +
+                                "Enter 2 to update a station\nEnter 3 to update a customer\n" +
+                                "Enter 4 to send drone to charging station\nEnter 5 for drone release from charging station\nEnter 6 to assign a parcel To a drone\n" +
+                                "Enter 7 for parcel collection by drone\nEnter 8 for parcel delivery to customer\n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerUpdate = (UpdatingFunction)input;
                             int timeInCharging, idDrone, idcustomer, chargingSlots, idStation;
