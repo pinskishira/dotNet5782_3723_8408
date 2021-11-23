@@ -9,11 +9,6 @@ namespace BL
 {
     public partial class BL
     {
-        /// <summary>
-        /// Performing logical tests on the recieved customer and coverting the customer fields in the dalObject
-        /// to the customer fields in the BL.
-        /// </summary>
-        /// <param name="newCustomer">The new customer</param>
         public void AddCustomer(Customer newCustomer)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newCustomer.Id))) + 1) != 9)//if id inputted is not 9 digits long
@@ -48,12 +43,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Displays a specific customer, by converting dcustomer to BL an filling the missing fields.
-        /// </summary>
-        /// <param name="customerId">Id of customer</param>
-        /// <returns>Customer</returns>
-        public Customer DisplayCustomer(int customerId)//תצוגת לקוח
+        public Customer GetCustomer(int customerId)//תצוגת לקוח
         {
             Customer blCustomer = new();
             try
@@ -103,19 +93,14 @@ namespace BL
             return blCustomer;
         }
 
-        /// <summary>
-        /// Converting BL list to dal and updating the parcel state, and amount of packages sent and delivered
-        /// to customer ,then adding to custonerToList.
-        /// </summary>
-        /// <returns>List of customers</returns>
-        public IEnumerable<CustomerToList> ListViewCustomers()
+        public IEnumerable<CustomerToList> GetAllCustomers()
         {
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();
             List<CustomerToList> customerToList = new();
             foreach (var indexCustomer in dal.GetAllCustomers())//goes through list of customers
             {
-                tempCustomer = DisplayCustomer(indexCustomer.Id);//brings the customer by the ID number
+                tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
                 foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//goes over the list of parcels from the customer
                 {
@@ -137,12 +122,6 @@ namespace BL
             return customerToList;
         }
 
-        /// <summary>
-        /// Finds customer and sends to update in dal.
-        /// </summary>
-        /// <param name="idCustomer">Id of customer</param>
-        /// <param name="newName">New name of customer</param>
-        /// <param name="customerPhone">New phone of customer</param>
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
             dal.GetAllCustomers().First(item => item.Id == idCustomer);//finds customer

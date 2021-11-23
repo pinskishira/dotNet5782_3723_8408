@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using IDAL.DO;
-//using DAL.IDAL.DO;
-using IDAL;
 
 namespace DalObject
 {
     public partial class DalObject
     {
-        /// <summary>
-        /// Adding a new parcel to the list of parcels
-        /// </summary>
-        /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
             if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id))
@@ -22,10 +14,7 @@ namespace DalObject
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);
         }
-        /// <summary>
-        /// Updating when parcel is collected by drone
-        /// </summary>
-        /// <param name="idParcel">Parcel who's collected by drone</param>
+        
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
@@ -35,10 +24,7 @@ namespace DalObject
             newParcel.PickedUp = DateTime.Now;
             DataSource.Parcels[indexParcel] = newParcel;//updating date and time
         }
-        /// <summary>
-        /// Updating when parcel is delivered to customer
-        /// </summary>
-        /// <param name="idParcel">Parcel delivered to customer</param>
+       
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
@@ -51,11 +37,6 @@ namespace DalObject
             DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
         }
 
-        /// <summary>
-        /// Finding requested parcel according to its ID name
-        /// </summary>
-        /// <param name="id">Wanted parcel</param>
-        /// <returns></returns>
         public Parcel FindParcel(int id)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == id))
@@ -64,10 +45,6 @@ namespace DalObject
             return DataSource.Parcels[indexFindParcel];
         }
 
-        /// <summary>
-        /// Gives a view of the list of parcels
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<Parcel> GetAllParcels()
         {
             List<Parcel> tempParcels = new();
@@ -78,10 +55,6 @@ namespace DalObject
             return tempParcels;
         }
 
-        /// <summary>
-        /// Gives a view of the an list of parcels with no assigned drones
-        /// </summary>
-        /// <returns>Parcel with no drone</returns>
         public IEnumerable<Parcel> ParcelWithNoDrone()
         {
             List<Parcel> parcelNoDrone = new();

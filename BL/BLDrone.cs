@@ -9,12 +9,6 @@ namespace BL
 {
     public partial class BL
     {
-        /// <summary>
-        /// Performing logical tests on the recieved new drone and the station its located in and coverting the 
-        /// drone fields in the dalObject to the drone fields in the BL.
-        /// </summary>
-        /// <param name="newDrone">The new drone</param>
-        /// <param name="stationNumber">Station where drone is located</param>
         public void AddDrone(Drone newDrone, int stationNumber)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newDrone.Id))) + 1) != 5)//if the ID number of the drone is not 5 digits
@@ -67,12 +61,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Displays a specific drone, by converting drone to BL an filling the missing fields.
-        /// </summary>
-        /// <param name="droneId">Id of drone</param>
-        /// <returns>Drone</returns>
-        public Drone DisplayDrone(int droneId)
+        public Drone GetDrone(int droneId)
         {
             DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//searches the list of drones by ID number of the drone
             if (tempDroneToList == default)
@@ -85,11 +74,11 @@ namespace BL
                 dalDrone.ParcelInTransfer = default;
             else//was assigned by drone
             {
-                Parcel tempParcel = DisplayParcel(tempDroneToList.ParcelNumInTransfer);//searches for the parcel by ID number
+                Parcel tempParcel = GetParcel(tempDroneToList.ParcelNumInTransfer);//searches for the parcel by ID number
                 ParcelInTransfer tempParcelInTransfer = new();
                 tempParcel.CopyPropertiesTo(tempParcelInTransfer);//converting from parcel to 
-                Customer Sender = DisplayCustomer(tempParcelInTransfer.Sender.Id);//finding sender
-                Customer Target = DisplayCustomer(tempParcelInTransfer.Target.Id);//finding target 
+                Customer Sender = GetCustomer(tempParcelInTransfer.Sender.Id);//finding sender
+                Customer Target = GetCustomer(tempParcelInTransfer.Target.Id);//finding target 
                 //updating location with sender location and target location
                 tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
                 tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
@@ -105,20 +94,11 @@ namespace BL
             return dalDrone;
         }
 
-        /// <summary>
-        /// Sending list of drones.
-        /// </summary>
-        /// <returns>List of drones</returns>
-        public IEnumerable<DroneToList> ListViewDrones()
+        public IEnumerable<DroneToList> GetAllDrones()
         {
             return BlDrones;
         }
 
-        /// <summary>
-        /// Finding drone, changing model name and sending to update in dal.
-        /// </summary>
-        /// <param name="idDrone">Id of drone</param>
-        /// <param name="model">New model name</param>
         public void UpdateDrone(int idDrone, string model)
         {
             dal.GetAllDrones().First(item => item.Id == idDrone);
@@ -127,26 +107,22 @@ namespace BL
             dal.UpdateDrone(drone);//sending to update in drone
         }
 
-        /// <summary>
-        /// Sending drone to a charging station, updating drone, and sending to update in dal.
-        /// </summary>
-        /// <param name="idDrone">Id of drone</param>
         public void SendDroneToChargingStation(int idDrone)
         {
             try
             {
-                Drone drone = DisplayDrone(idDrone);//finding drone using inputted id from user
+                Drone drone = GetDrone(idDrone);//finding drone using inputted id from user
                 if (drone.DroneStatus != (DroneStatuses)1)//checking if drone is available
-                    throw new FailedSendDroneToChargingException("The drone is not available");
+                    throw new DroneMaintananceException("The drone is not available");
                 //finding smallest distance of drone from closest station
                 IDAL.DO.Station station = smallestDistanceFromDrone(drone.CurrentLocation);
                 if (station.Id == -1)
-                    throw new FailedSendDroneToChargingException("There is no station with available charging stations");
+                    throw new DroneMaintananceException("There is no station with available charging stations");
                 //finds amount of battery used during the drone travel from its current location to the closest station to him
                 double batteryConsumption = Distance.Haversine
                     (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)* PowerUsageEmpty;
                 if (batteryConsumption < drone.Battery)
-                    throw new FailedSendDroneToChargingException("The drone does not have enough battery to go to the station");
+                    throw new DroneMaintananceException("The drone does not have enough battery to go to the station");
                 //battery is decreases by amount of battery used during travel times the percentage of battery used with no parcel
                 drone.Battery -= (int)(batteryConsumption * PowerUsageEmpty);
                 drone.CurrentLocation.Longitude = station.Longitude;//upating location
@@ -162,27 +138,21 @@ namespace BL
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new FailedSendDroneToChargingException(ex.ToString(), ex);
+                throw new DroneMaintananceException(ex.ToString(), ex);
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedSendDroneToChargingException(ex.ToString(), ex);
+                throw new DroneMaintananceException(ex.ToString(), ex);
             }
         }
 
-        /// <summary>
-        /// Releasing drone from a charging station and updating the drone released, and charging station
-        /// and then sending to update in dal.
-        /// </summary>
-        /// <param name="idDrone">Id of drone</param>
-        /// <param name="timeInCharginge">Time drone was in charging</param>
         public void DroneReleaseFromChargingStation(int idDrone,int timeInCharging)
         {
             try
             {
                 DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
                 if (droneToList.DroneStatus != (DroneStatuses)2)//checking if drone is in maintanace
-                    throw new FailedReleaseDroneFromChargingException("The drone is not Maintenance");
+                    throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
                 droneToList.Battery -= (int)(timeInCharging * DroneChargingRatePH);
                 droneToList.DroneStatus = (DroneStatuses)1;//drone is now available
@@ -192,15 +162,10 @@ namespace BL
             }
             catch (ArgumentNullException)
             {
-                throw new FailedReleaseDroneFromChargingException("The drone does not exist.\n");
+                throw new DroneMaintananceException("The drone does not exist.\n");
             }
         }
 
-        /// <summary>
-        /// Finds the smallest distance between sent location and closest station.
-        /// </summary>
-        /// <param name="CurrentLocation">Current location</param>
-        /// <returns></returns>
         public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value

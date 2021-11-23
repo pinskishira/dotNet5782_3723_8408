@@ -8,11 +8,6 @@ namespace BL
 {
     public partial class BL
     {
-        /// <summary>
-        /// Performing logical tests on the recieved station and coverting the station fields in the dalObject
-        /// to the station fields in the BL.
-        /// </summary>
-        /// <param name="newStation">The new station</param>
         public void AddStation(Station newStation)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)//if id inputted is not 4 digits long
@@ -42,12 +37,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Displays a specific station, by converting station to BL an filling the missing fields.
-        /// </summary>
-        /// <param name="stationId">Id of station</param>
-        /// <returns>Parcel</returns>
-        public Station DisplayStation(int stationId) 
+        public Station GetStation(int stationId) 
         {
             Station blStation = new();
             try
@@ -77,18 +67,14 @@ namespace BL
             return blStation;
         }
 
-        /// <summary>
-        /// Converting BL list to dal and updating amount of unavailable charge slots, then adding to stationToList.
-        /// </summary>
-        /// <returns>List of stations</returns>
-        public IEnumerable<StationToList> ListViewStations()
+        public IEnumerable<StationToList> GetAllStations()
         {
             Station tempStation = new();
             List<StationToList> stationToList = new List<StationToList>();
             foreach (var indexOfStations in dal.GetAllStations())//going through stations
             {
                 StationToList tempStationToList = new();
-                tempStation = DisplayStation(indexOfStations.Id);//getting station with inputted index
+                tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
                 tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
                 if (tempStation.DronesInCharging == null)
                     tempStationToList.OccupiedChargeSlots = 0;
@@ -99,14 +85,10 @@ namespace BL
             return stationToList;
         }
 
-        /// <summary>
-        /// Returns list of stations with free charging slots
-        /// </summary>
-        /// <returns>List of stations</returns>
         public IEnumerable<StationToList> GetStationWithFreeSlots()
         {
             List<StationToList> stationToList = new();
-            foreach (var indexOfStation in ListViewStations())
+            foreach (var indexOfStation in GetAllStations())
             {
                 if (indexOfStation.AvailableChargeSlots > 0)//if station has available charging slots
                     stationToList.Add(indexOfStation);//add to list
@@ -114,12 +96,6 @@ namespace BL
             return stationToList;
         }
 
-        /// <summary>
-        /// Finds station and sends to update in dal.
-        /// </summary>
-        /// <param name="idStation">Id of station</param>
-        /// <param name="newName">New name of station</param>
-        /// <param name="chargeSlots">Amount of charge slots in station</param>
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             if (chargeSlots < 0)//if invalid number was inputted

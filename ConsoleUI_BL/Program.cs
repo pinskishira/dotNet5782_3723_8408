@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
-            BL.BL ibl = new BL.BL();//
+            BL.BL ibl = new BL.BL();
             int ansFromUserInt, input;
             double ansFromUserDouble1;
             double ansFromUserDouble2;
@@ -195,17 +195,17 @@ namespace ConsoleUI_BL
                             int.TryParse(Console.ReadLine(), out id);
                             switch (answerDisplay)
                             {
-                                case DisplayingFunction.Station://case which displays the requested station
-                                    Console.WriteLine(ibl.DisplayStation(id));//finds station according to inputted id
+                                case DisplayingFunction.Station://case which returns the requested station
+                                    Console.WriteLine(ibl.GetStation(id));//finds station according to inputted id
                                     break;
-                                case DisplayingFunction.Drone://case which displays the requested drone
-                                    Console.WriteLine(ibl.DisplayDrone(id));//finds drone according to inputted id
+                                case DisplayingFunction.Drone://case which returns the requested drone
+                                    Console.WriteLine(ibl.GetDrone(id));//finds drone according to inputted id
                                     break;
-                                case DisplayingFunction.Customer://case which displays the requested customer
-                                    Console.WriteLine(ibl.DisplayCustomer(id));//finds customer according to inputted id
+                                case DisplayingFunction.Customer://case which returns the requested customer
+                                    Console.WriteLine(ibl.GetCustomer(id));//finds customer according to inputted id
                                     break;
-                                case DisplayingFunction.Parcel://case which displays the requested parcel
-                                    Console.WriteLine(ibl.DisplayParcel(id));//finds parcel according to inputted id
+                                case DisplayingFunction.Parcel://case which returns the requested parcel
+                                    Console.WriteLine(ibl.GetParcel(id));//finds parcel according to inputted id
                                     break;
                             }
                             break;
@@ -219,27 +219,27 @@ namespace ConsoleUI_BL
                             switch (answerListView)
                             {
                                 case ListViewFunction.Stations://case which views the stations list
-                                    IEnumerable<StationToList> viewStations = ibl.ListViewStations();
+                                    IEnumerable<StationToList> viewStations = ibl.GetAllStations();
                                     foreach (var station in viewStations)//prints all stations
                                         Console.WriteLine(station);
                                     break;
                                 case ListViewFunction.Drones://case which views the drones list
-                                    IEnumerable<DroneToList> viewDrones = ibl.ListViewDrones();
+                                    IEnumerable<DroneToList> viewDrones = ibl.GetAllDrones();
                                     foreach (var drone in viewDrones)//prints all drones
                                         Console.WriteLine(drone);
                                     break;
                                 case ListViewFunction.Customers://case which views the customers list
-                                    IEnumerable<CustomerToList> viewCustomers = ibl.ListViewCustomers();
+                                    IEnumerable<CustomerToList> viewCustomers = ibl.GetAllCustomers();
                                     foreach (var customer in viewCustomers)//prints all customers
                                         Console.WriteLine(customer);
                                     break;
                                 case ListViewFunction.Parcels://case which views the parcels list
-                                    IEnumerable<ParcelToList> viewParcels = ibl.ListViewParcels();
+                                    IEnumerable<ParcelToList> viewParcels = ibl.GetAllParcels();
                                     foreach (var parcel in viewParcels)//prints all parcels
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    IEnumerable<ParcelToList> ViewParcelsWithNoDrone = ibl.ParcelWithNoDrone();
+                                    IEnumerable<ParcelToList> ViewParcelsWithNoDrone = ibl.GetAllParcelsWithNoDrone();
                                     foreach (var parcel in ViewParcelsWithNoDrone)//printing
                                         Console.WriteLine(parcel);
                                     break;
@@ -264,11 +264,7 @@ namespace ConsoleUI_BL
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (FailedSendDroneToChargingException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch (FailedToDeliverParcelException ex)
+                catch (DroneMaintananceException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -276,11 +272,7 @@ namespace ConsoleUI_BL
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (FailedReleaseDroneFromChargingException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch (FailedAssignParcelToDroneException ex)
+                catch (ParcelDeliveryException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }

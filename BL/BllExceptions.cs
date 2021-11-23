@@ -41,23 +41,11 @@ namespace IBL.BO
     }
 
     [Serializable]
-    public class FailedSendDroneToChargingException : Exception//בעיה בלשלוח רחפן לטעינה
+    public class DroneMaintananceException : Exception//בעיה בלשלוח רחפן לטעינה
     {
-        public FailedSendDroneToChargingException() : base() { }
-        public FailedSendDroneToChargingException(string message) : base(message) { }
-        public FailedSendDroneToChargingException(string message, Exception innerException) : base(message, innerException) { }
-        public override string ToString()
-        {
-            return Message;
-        }
-    }
-
-    [Serializable]
-    public class FailedToDeliverParcelException : Exception//בעיה בשליחת חבילה
-    {
-        public FailedToDeliverParcelException() : base() { }
-        public FailedToDeliverParcelException(string message) : base(message) { }
-        public FailedToDeliverParcelException(string message, Exception innerException) : base(message, innerException) { }
+        public DroneMaintananceException() : base() { }
+        public DroneMaintananceException(string message) : base(message) { }
+        public DroneMaintananceException(string message, Exception innerException) : base(message, innerException) { }
         public override string ToString()
         {
             return Message;
@@ -76,24 +64,13 @@ namespace IBL.BO
         }
     }
 
-    [Serializable]
-    public class FailedReleaseDroneFromChargingException : Exception//בעיה בשחרור רחפן מטעינה
-    {
-        public FailedReleaseDroneFromChargingException() : base() { }
-        public FailedReleaseDroneFromChargingException(string message) : base(message) { }
-        public FailedReleaseDroneFromChargingException(string message, Exception innerException) : base(message, innerException) { }
-        public override string ToString()
-        {
-            return Message;
-        }
-    }
 
     [Serializable]
-    public class FailedAssignParcelToDroneException : Exception//בעיה בשחרור רחפן מטעינה
+    public class ParcelDeliveryException : Exception//בעיה בשחרור רחפן מטעינה
     {
-        public FailedAssignParcelToDroneException() : base() { }
-        public FailedAssignParcelToDroneException(string message) : base(message) { }
-        public FailedAssignParcelToDroneException(string message, Exception innerException) : base(message, innerException) { }
+        public ParcelDeliveryException() : base() { }
+        public ParcelDeliveryException(string message) : base(message) { }
+        public ParcelDeliveryException(string message, Exception innerException) : base(message, innerException) { }
         public override string ToString()
         {
             return Message;

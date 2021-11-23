@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using IDAL.DO;
-//using DAL.IDAL.DO;
-using IDAL;
-using DalObject;
-using System.Linq;
 
 namespace DalObject
 {
     public partial class DalObject
     {
-        /// <summary>
-        /// Adding a new drone charge to the list of drone charges
-        /// </summary>
-        /// <param name="newDroneCharge">The new drone charge</param>
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {
             if (DataSource.DroneCharges.Exists(item => item.DroneId == newDroneCharge.DroneId))
@@ -24,11 +13,6 @@ namespace DalObject
             DataSource.DroneCharges.Add(newDroneCharge);
         }
 
-        /// <summary>
-        /// Sending drone to be charged in an available charging station
-        /// </summary>
-        /// <param name="idDrone">Drone that needs charging</param>
-        /// <param name="nameStation">Station with available charging stations</param>
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))
@@ -48,10 +32,6 @@ namespace DalObject
             DataSource.Stations[index] = newStation;
         }
 
-        /// <summary>
-        /// Releasing a Drone from a charging station
-        /// </summary>
-        /// <param name="idDrone">Drone released from charging</param>
         public void DroneReleaseFromChargingStation(int idDrone)
         {
             if (!DataSource.DroneCharges.Exists(item => item.DroneId == idDrone))
@@ -68,10 +48,6 @@ namespace DalObject
             DataSource.DroneCharges.RemoveAt(indexDC);
         }
 
-        /// <summary>
-        /// Returns list of all the drones in charges
-        /// </summary>
-        /// <returns>List of drones in charging</returns>
         public IEnumerable<DroneCharge> GetAllDroneCharges()
         {
             List<DroneCharge> tempDroneCharges = new();

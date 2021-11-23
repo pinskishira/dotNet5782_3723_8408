@@ -18,14 +18,14 @@ namespace BL
         static Random rand = new Random();
         IDal dal;
         List<DroneToList> BlDrones = new();//new list of drones
-        double PowerUsageEmpty, BatteryConsumptionLightWeight, MediumWeight, HeavyWeight, DroneChargingRatePH;
+        double PowerUsageEmpty, BatteryConsumptionLightWeight, BatteryConsumptionMediumWeight, BatteryConsumptionHeavyWeight, DroneChargingRatePH;
         public BL()
         {
             dal = new DalObject.DalObject();
             PowerUsageEmpty = dal.electricityUse()[0];//When the drone is empty
             BatteryConsumptionLightWeight = dal.electricityUse()[1];//amount of battery used per km for light weight
-            MediumWeight = dal.electricityUse()[2];//amount of battery used per km for medium weight
-            HeavyWeight = dal.electricityUse()[3];//amount of battery used per km for heavy weight
+            BatteryConsumptionMediumWeight = dal.electricityUse()[2];//amount of battery used per km for medium weight
+            BatteryConsumptionHeavyWeight = dal.electricityUse()[3];//amount of battery used per km for heavy weight
             DroneChargingRatePH = dal.electricityUse()[4];//Charging per minutes
             dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);//converting list of dal to BL
             foreach (var indexOfDrones in BlDrones)//going through converted list of drones in the BL
@@ -94,13 +94,6 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
-        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
-        /// </summary>
-        /// <param name="droneToList">The drone performing delivery</param>
-        /// <param name="parcel">Parcel drone is carrying</param>
-        /// <returns>Amount of battery used during delivery</returns>
         public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel)
         {
             IDAL.DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
@@ -117,26 +110,14 @@ namespace BL
             return (int)Math.Ceiling(t);
         }
 
-        /// <summary>
-        /// Returns the index to place in the elecUse array, that finds the amount of battery used per km
-        /// according to the weight of the parcel.
-        /// </summary>
-        /// <param name="maxWeight">Weight of parcel</param>
-        /// <returns>Index, in elecUse array</returns>
         public double Weight(WeightCategories maxWeight) => maxWeight switch
         {
             WeightCategories.Easy => BatteryConsumptionLightWeight,
-            WeightCategories.Medium => MediumWeight,
-            WeightCategories.Heavy => HeavyWeight,
+            WeightCategories.Medium => BatteryConsumptionMediumWeight,
+            WeightCategories.Heavy => BatteryConsumptionHeavyWeight,
             _ => throw new ArgumentException()
         };
 
-        /// <summary>
-        /// Finds the smallest distance between the given location and the closest station.
-        /// </summary>
-        /// <param name="longitude">Longitude in location</param>
-        /// <param name="latitude">Lattitude in location</param>
-        /// <returns>Closest station to sender</returns>
         public IDAL.DO.Station smallestDistance(double longitude, double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
@@ -155,12 +136,6 @@ namespace BL
             return station;//returns closest station to sender
         }
 
-        /// <summary>
-        /// Function that converts longitude and latitude into Location. 
-        /// </summary>
-        /// <param name="longitude">Longitude</param>
-        /// <param name="latitude">Lattitude</param>
-        /// <returns></returns>
         public Location CopyLocation(double longitude, double latitude)
         {
             Location currentLocation = new();

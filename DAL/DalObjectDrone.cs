@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using IDAL.DO;
-//using DAL.IDAL.DO;
-using IDAL;
 
 namespace DalObject
 {
     public partial class DalObject
     {
-        /// <summary>
-        /// Adding a new  drone to the list of drones
-        /// </summary>
-        /// <param name="newDrone">The new drone</param>
         public void AddDrone(Drone newDrone)
         {
             if (DataSource.Drones.Exists(item => item.Id == newDrone.Id))
@@ -30,10 +22,6 @@ namespace DalObject
             return DataSource.Drones[indexFindDrone];
         }
 
-        /// <summary>
-        /// Gives a view of the list of drones
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<Drone> GetAllDrones()
         {
             List<Drone> tempDrones = new();
@@ -44,11 +32,6 @@ namespace DalObject
             return tempDrones;
         }
 
-        /// <summary>
-        /// Assigning a parcel to a drone
-        /// </summary>
-        /// <param name="idParcel">Parcel to assign to drone</param>
-        /// <param name="idDrone">Drone which will be assigned a parcel</param>
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
@@ -62,10 +45,6 @@ namespace DalObject
             DataSource.Parcels[indexAssign] = newParcel;
         }
 
-        /// <summary>
-        /// Placing updated drone into drone list
-        /// </summary>
-        /// <param name="drone">Drone to update</param>
         public void UpdateDrone(Drone drone)
         {
             int indexOfDrone = DataSource.Drones.FindIndex(index => index.Id == drone.Id);//finding index

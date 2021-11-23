@@ -1,6 +1,8 @@
 ﻿using System;
-using IDAL.DO;
 using System.Collections.Generic;
+
+using IDAL.DO;
+
 /// <summary>
 /// DalObject defines arrays for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.
 /// It also includes adding functions for all arrays as well as searching functions.
@@ -18,10 +20,10 @@ namespace DalObject
        
         internal static class Config
         {
-            static internal double PowerUsageEmpty = 0.01;//Amount of battery used per km with no parcel
-            static internal double LightWeight = 0.05;//Amount of battery used per km with a light parcel
-            static internal double MediumWeight = 0.07;//Amount of battery used per km with a medium parcel
-            static internal double HeavyWeight = 0.1;//Amount of battery used per km with a heavy parcel
+            static internal double BatteryConsumptionPowerUsageEmpty = 0.01;//Amount of battery used per km with no parcel
+            static internal double BatteryConsumptionLightWeight = 0.05;//Amount of battery used per km with a light parcel
+            static internal double BatteryConsumptionMediumWeight = 0.07;//Amount of battery used per km with a medium parcel
+            static internal double BatteryConsumptionHeavyWeight = 0.1;//Amount of battery used per km with a heavy parcel
             static internal double DroneChargingRatePH = 50;//Amount of battery charged minute/km
             static internal int NextParcelNumber = 10000;
         }
@@ -68,17 +70,6 @@ namespace DalObject
                 }
                 newDrone.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight category
                 newDrone.Model = droneArayNames[loopDrone];//Updating model
-                //newDrone.Battery = rand.Next(1, 101);//Updating battery status
-                // Updating drone status
-                //if (newDrone.Battery < 20)
-                //{
-                //    newDrone.Status = DroneStatuses.Maintenance;
-                //    int station = rand.Next(2);
-                //    DroneCharges[Config.IndexDroneCharge].StationId = Stations[station].Id;
-                //    Stations[station].ChargeSlots--;
-                //}
-                //else
-                //    newDrone.Status = DroneStatuses.Available;
                 Drones.Add(newDrone);
             }
 
@@ -172,10 +163,8 @@ namespace DalObject
                             drone = rand.Next(5);
                             newParcel.DroneId = Drones[drone].Id;
                         }
-                        while (/*Drones[drone].Status == DroneStatuses.Available &&*/
-                            Drones[drone].Weight > newParcel.Weight);
+                        while ( Drones[drone].Weight > newParcel.Weight);
                     }
-                    //Drones[drone].Status = DroneStatuses.Delivery;
                 }
                 Parcels.Add(newParcel);
             }

@@ -9,11 +9,6 @@ namespace BL
 {
     public partial class BL
     {
-        /// <summary>
-        /// Performing logical tests on the recieved parcel and coverting the parcel fields in the dalObject
-        /// to the parcel fields in the BL, and placing parcel into the dal list of drones.
-        /// </summary>
-        /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
@@ -48,12 +43,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Displays a specific parcel, by converting parcel to BL an filling the missing fields.
-        /// </summary>
-        /// <param name="parcelId">Id of parcel</param>
-        /// <returns>Parcel</returns>
-        public Parcel DisplayParcel(int parcelId)
+        public Parcel GetParcel(int parcelId)
         {
             Parcel blParcel = new();
             try
@@ -63,15 +53,15 @@ namespace BL
                 blParcel.Target = new();
                 blParcel.DroneParcel = new();
                 dalParcel.CopyPropertiesTo(blParcel);//converting to BL
-                Customer target = DisplayCustomer(dalParcel.TargetId);//finding the target who will recieve parcel
+                Customer target = GetCustomer(dalParcel.TargetId);//finding the target who will recieve parcel
                 target.CopyPropertiesTo(blParcel.Target);//converting to BL
-                Customer sender = DisplayCustomer(dalParcel.SenderId);//finding the sender who sends the parcel
+                Customer sender = GetCustomer(dalParcel.SenderId);//finding the sender who sends the parcel
                 sender.CopyPropertiesTo(blParcel.Sender);//converting to BL
                 if (dalParcel.DroneId == 0)//if parcel isnt assigned to a drone
                     blParcel.DroneParcel = default;
                 else
                 {
-                    Drone drone = DisplayDrone(dalParcel.DroneId);//finding its assogned drone
+                    Drone drone = GetDrone(dalParcel.DroneId);//finding its assogned drone
                     blParcel.DroneParcel.CurrentLocation = new();
                     drone.CopyPropertiesTo(blParcel.DroneParcel);//converting to BL
                     blParcel.DroneParcel.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
@@ -84,18 +74,14 @@ namespace BL
             return blParcel;
         }
 
-        /// <summary>
-        /// Converting BL list to dal and updating the parcel state, then adding to parcelToList.
-        /// </summary>
-        /// <returns>List of parcels</returns>
-        public IEnumerable<ParcelToList> ListViewParcels()
+        public IEnumerable<ParcelToList> GetAllParcels()
         {
             Parcel tempParcel = new();
             ParcelToList tempParcelToList = new();
             List<ParcelToList> parcelToLists = new List<ParcelToList>();
             foreach (var indexOfParcels in dal.GetAllParcels())//goes through dals list of parcels
             {
-                tempParcel = DisplayParcel(indexOfParcels.Id);//finding parcel
+                tempParcel = GetParcel(indexOfParcels.Id);//finding parcel
                 tempParcel.CopyPropertiesTo(tempParcelToList);//converting to parcelToList
                 tempParcelToList.SenderName = tempParcel.Sender.Name;
                 tempParcelToList.TargetName = tempParcel.Target.Name;
@@ -120,14 +106,10 @@ namespace BL
             return parcelToLists;
         }
 
-        /// <summary>
-        /// Finds parcels that are not assigned to a drone.
-        /// </summary>
-        /// <returns>Parcels with no drone</returns>
-        public IEnumerable<ParcelToList> ParcelWithNoDrone()
+        public IEnumerable<ParcelToList> GetAllParcelsWithNoDrone()
         {
             List<ParcelToList> parcelToList = new();
-            foreach (var indexOfParcelToList in ListViewParcels())//goes thorugh parcels
+            foreach (var indexOfParcelToList in GetAllParcels())//goes thorugh parcels
             {
                 if (indexOfParcelToList.StateOfParcel == (ParcelState)1)//if they have not been assigned a drone
                     parcelToList.Add(indexOfParcelToList);//add to list
@@ -135,10 +117,6 @@ namespace BL
             return parcelToList;
         }
 
-        /// <summary>
-        /// Assigns a parcel to a drone.
-        /// </summary>
-        /// <param name="droneId">Drone to assign to parcel</param>
         public void UpdateAssignParcelToDrone(int droneId)
         {
             try
@@ -169,20 +147,20 @@ namespace BL
                         }
                     }
                     if (indexParcel == -1)//No suitable drone found
-                        throw new FailedAssignParcelToDroneException("There is no parcel that can belong to this drone.\n");
+                        throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
                     dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
                     droneToList.DroneStatus = (DroneStatuses)2;//Update the drone status
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
                     BlDrones[indexOfDroneToList] = droneToList;
                 }
             }
-            catch (FailedAssignParcelToDroneException ex)
+            catch (ParcelDeliveryException ex)
             {
-                throw new FailedAssignParcelToDroneException(ex.ToString());
+                throw new ParcelDeliveryException(ex.ToString());
             }
             catch (ArgumentNullException ex)
             {
-                throw new FailedAssignParcelToDroneException(ex.ToString());
+                throw new ParcelDeliveryException(ex.ToString());
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
@@ -205,21 +183,17 @@ namespace BL
             }
             catch (Exception)
             {
-                throw new FailedAssignParcelToDroneException("The sender of the parcel was not found.\n");
+                throw new ParcelDeliveryException("The sender of the parcel was not found.\n");
             }
         }
 
-        /// <summary>
-        /// Updating all the fields of drone that delivered the parcel, and the parcel that was delivered.
-        /// </summary>
-        /// <param name="droneId">Drone that delivered parcel</param>
         public void UpdateParcelDeliveryToCustomer(int droneId)
         {
             try
             {
                 DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelNumInTransfer);//finding parcel that is assigned to this drone
-                Drone drone = DisplayDrone(droneId);//finding drone with given id
+                Drone drone = GetDrone(droneId);//finding drone with given id
                 if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
                 {
                     //finding distance between drones collecion location and the delivery destination location
@@ -235,23 +209,19 @@ namespace BL
                     dal.UpdateParcelDeliveryToCustomer(droneId);//sending to update in dal
                 }
                 else
-                    throw new FailedToDeliverParcelException("Drone could not deliver parcel.\n");
+                    throw new ParcelDeliveryException("Drone could not deliver parcel.\n");
             }
             catch (ArgumentNullException ex)
             {
                 throw new FailedToCollectParcelException(ex.ToString()); ;
             }
-            catch (FailedToDeliverParcelException ex)
+            catch (ParcelDeliveryException ex)
             {
-                throw new FailedToDeliverParcelException(ex.ToString());
+                throw new ParcelDeliveryException(ex.ToString());
             }
 
         }
 
-        /// <summary>
-        /// Updating all the fields of the drone that collected the parcel, and the parcel that was collected by drone.
-        /// </summary>
-        /// <param name="droneId">Drone that collected parcel</param>
         public void UpdateParcelCollectionByDrone(int droneId)
         {
             try

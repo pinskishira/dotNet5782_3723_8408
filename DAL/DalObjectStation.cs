@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using IDAL.DO;
-//using DAL.IDAL.DO;
-using IDAL;
 
 namespace DalObject
 {
     public partial class DalObject
     {
-        /// <summary>
-        /// Adding a new station to the list of stations
-        /// </summary>
-        /// <param name="newStation">The new station</param>
         public void AddStation(Station newStation)
         {
             if (DataSource.Stations.Exists(item => item.Id == newStation.Id))
@@ -22,11 +13,6 @@ namespace DalObject
             DataSource.Stations.Add(newStation);
         }
 
-        /// <summary>
-        /// Finding requested station according to its ID name
-        /// </summary>
-        /// <param name="id">Wanted station</param>
-        /// <returns></returns>
         public Station FindStation(int id)
         {
             if (!DataSource.Stations.Exists(item => item.Id == id))
@@ -35,10 +21,6 @@ namespace DalObject
             return DataSource.Stations[indexFindStation];
         }
 
-        /// <summary>
-        /// A function that returns a list of stations whose load position is greater than 0
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<Station> GetStationWithFreeSlots()
         {
             List<Station> freeSlotsStation = new();
@@ -50,10 +32,6 @@ namespace DalObject
             return freeSlotsStation;
         }
 
-        /// <summary>
-        /// Gives a view of the list of stations
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<Station> GetAllStations()
         {
             List<Station> tempStations = new List<Station>();
@@ -69,7 +47,7 @@ namespace DalObject
         /// </summary>
         /// <param name="idStation">Id of stat</param>
         /// <returns></returns>
-        public int ChargeSlotsInUse(int idStation)//לשנות את השם של הפונקציה
+        public int ChargeSlotsInUse(int idStation)
         {
             int chargeSlotsInUse = 0;
             foreach (var indexOfDroneCharge in DataSource.DroneCharges)//goes through list of drones in charging
@@ -78,12 +56,6 @@ namespace DalObject
             return chargeSlotsInUse;
         }
 
-        /// <summary>
-        /// Updates station name and charge slots.
-        /// </summary>
-        /// <param name="idStation"></param>
-        /// <param name="newName"></param>
-        /// <param name="chargeSlots"></param>
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             int indexOfStation = 0;
