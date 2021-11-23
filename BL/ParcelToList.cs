@@ -21,8 +21,8 @@ namespace IBL
             {
                 String result = "";
                 result += $"ID is {Id} \n";
-                result += $"Sender Id is {SenderName} \n";
-                result += $"Target Id is {TargetName} \n";
+                result += $"Sender name is {SenderName} \n";
+                result += $"Target name is {TargetName} \n";
                 result += $"Weight is {Weight} \n";
                 result += $"Priority is {Priority} \n";
                 result += $"Parcel State is {StateOfParcel} \n";

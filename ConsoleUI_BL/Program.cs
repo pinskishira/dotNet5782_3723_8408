@@ -95,8 +95,9 @@ namespace ConsoleUI_BL
                                     Console.Write("Please enter you location: ");
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
+                                    NewCustomer.CustomerLocation = new();
                                     NewCustomer.CustomerLocation.Latitude = ansFromUserDouble1;
-                                    NewCustomer.CustomerLocation.Longitude = ansFromUserDouble1;
+                                    NewCustomer.CustomerLocation.Longitude = ansFromUserDouble2;
                                     ibl.AddCustomer(NewCustomer);
                                     break;
                                 case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels list

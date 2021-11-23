@@ -32,6 +32,7 @@ namespace BL
             newDrone.Battery = rand.Next(20, 41);//battery status between 20 and 40
             newDrone.DroneStatus = (DroneStatuses)2;//drone status -> maintanace
             IDAL.DO.Station newStation = dal.FindStation(stationNumber);//finds the station by the ID number the user entered
+            newDrone.CurrentLocation = new();
             newDrone.CurrentLocation.Longitude = newStation.Longitude;//updates the longitude according to the longitude of the station
             newDrone.CurrentLocation.Latitude = newStation.Latitude;//updates the latitude according to the latitude of the station
             IDAL.DO.DroneCharge tempDroneCharge = new();//updates that the drone is charging
@@ -44,13 +45,20 @@ namespace BL
             newDroneToList.Battery = newDrone.Battery;
             newDroneToList.DroneStatus = newDrone.DroneStatus;
             newDroneToList.CurrentLocation = newDrone.CurrentLocation;
-            newDroneToList.ParcelNumInTransfer = newDrone.ParcelInTransfer.Id;
+            if (newDrone.ParcelInTransfer == null)
+                newDroneToList.ParcelNumInTransfer = 0;
+            else
+                newDroneToList.ParcelNumInTransfer = newDrone.ParcelInTransfer.Id;
             BlDrones.Add(newDroneToList);
             try
             {
-                dal.AddDroneCharge(tempDroneCharge);//sends to add to th drones in charging
+                dal.AddDroneCharge(tempDroneCharge);//sends to add to the drones in charging
+                //converting BL drone to dal
                 IDAL.DO.Drone tempDrone = new();
-                newDrone.CopyPropertiesTo(tempDrone);
+                object obj = tempDrone;
+                newDrone.CopyPropertiesTo(obj);
+                tempDrone = (IDAL.DO.Drone)obj;
+                newStation.CopyPropertiesTo(tempDrone);
                 dal.AddDrone(tempDrone);//sends to add to drones
             }
             catch (IDAL.DO.ItemExistsException ex)

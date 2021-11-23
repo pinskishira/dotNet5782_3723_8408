@@ -17,7 +17,7 @@ namespace DalObject
         /// <param name="newParcel">The new parcel</param>
         public void AddParcel(Parcel newParcel)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == newParcel.Id))
+            if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id))
                 throw new ItemExistsException("The parcel already exists.\n");
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);

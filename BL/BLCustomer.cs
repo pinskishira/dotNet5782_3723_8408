@@ -32,10 +32,18 @@ namespace BL
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             try
             {
-                //converting BL customer to dal
+
+                //converting BL station to dal
                 IDAL.DO.Customer tempCustomer = new();
+                object obj = tempCustomer;
+                newCustomer.CopyPropertiesTo(obj);
+                tempCustomer = (IDAL.DO.Customer)obj;
                 newCustomer.CopyPropertiesTo(tempCustomer);
-                dal.AddCustomer(tempCustomer);//adding to customer array in dal
+                dal.AddCustomer(tempCustomer);//adding to station list in dal
+                ////converting BL customer to dal
+                //IDAL.DO.Customer tempCustomer = new();
+                //newCustomer.CopyPropertiesTo(tempCustomer);
+                //dal.AddCustomer(tempCustomer);//adding to customer list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {

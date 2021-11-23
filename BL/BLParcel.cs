@@ -35,10 +35,14 @@ namespace BL
             newParcel.DroneParcel = null;
             try
             {
+
                 //converting BL parcel to dal
                 IDAL.DO.Parcel tempParcel = new();
+                object obj = tempParcel;
+                newParcel.CopyPropertiesTo(obj);
+                tempParcel = (IDAL.DO.Parcel)obj;
                 newParcel.CopyPropertiesTo(tempParcel);
-                dal.AddParcel(tempParcel);//adding to parcel array in dal
+                dal.AddParcel(tempParcel);//adding to station list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -95,6 +99,8 @@ namespace BL
             {
                 tempParcel = DisplayParcel(indexOfParcels.Id);//finding parcel
                 tempParcel.CopyPropertiesTo(tempParcelToList);//converting to parcelToList
+                tempParcelToList.SenderName = tempParcel.Sender.Name;
+                tempParcelToList.TargetName = tempParcel.Target.Name;
                 if (tempParcel.Delivered != DateTime.MinValue)//if parcel was delivered
                     tempParcelToList.StateOfParcel = (ParcelState)4;//state -> provided
                 else

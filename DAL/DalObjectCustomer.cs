@@ -17,7 +17,7 @@ namespace DalObject
         /// <param name="newCustomer">The new customer</param>
         public void AddCustomer(Customer newCustomer)
         {
-            if (!DataSource.Customers.Exists(item => item.Id == newCustomer.Id))
+            if (DataSource.Customers.Exists(item => item.Id == newCustomer.Id))
                 throw new ItemExistsException("The customer already exists.\n");
             DataSource.Customers.Add(newCustomer);
         }
