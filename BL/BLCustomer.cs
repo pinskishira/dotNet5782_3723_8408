@@ -32,10 +32,6 @@ namespace BL
                 tempCustomer = (IDAL.DO.Customer)obj;
                 newCustomer.CopyPropertiesTo(tempCustomer);
                 dal.AddCustomer(tempCustomer);//adding to station list in dal
-                ////converting BL customer to dal
-                //IDAL.DO.Customer tempCustomer = new();
-                //newCustomer.CopyPropertiesTo(tempCustomer);
-                //dal.AddCustomer(tempCustomer);//adding to customer list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
@@ -43,7 +39,7 @@ namespace BL
             }
         }
 
-        public Customer GetCustomer(int customerId)//תצוגת לקוח
+        public Customer GetCustomer(int customerId)
         {
             Customer blCustomer = new();
             try
@@ -66,15 +62,15 @@ namespace BL
                             if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel is picked up by drone
                             {
                                 if (indexOfParcels.Delivered != DateTime.MinValue)//parcel is delivered
-                                    parcelAtCustomer.StateOfParcel = (ParcelState)4;
+                                    parcelAtCustomer.StateOfParcel = ParcelState.Provided;
                                 else
-                                    parcelAtCustomer.StateOfParcel = (ParcelState)3;
+                                    parcelAtCustomer.StateOfParcel = ParcelState.PickedUp;
                             }
                             else
-                                parcelAtCustomer.StateOfParcel = (ParcelState)2;
+                                parcelAtCustomer.StateOfParcel = ParcelState.Paired;
                         }
                         else
-                            parcelAtCustomer.StateOfParcel = (ParcelState)1;
+                            parcelAtCustomer.StateOfParcel = ParcelState.Created;
                         parcelAtCustomer.SourceOrDestination = new();
                         parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//Updates the source information of the parcel
                         parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//Updates the source information of the parcel
@@ -104,14 +100,14 @@ namespace BL
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
                 foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//goes over the list of parcels from the customer
                 {
-                    if (parcelsFromCustomers.StateOfParcel == (ParcelState)4)//if parcel is delivered
+                    if (parcelsFromCustomers.StateOfParcel == ParcelState.Provided)//if parcel is delivered
                         tempCustomerToList.ParcelsSentAndDelivered++;
                     else//if parcel was not delivered
                         tempCustomerToList.ParcelsSentButNotDelivered++;
                 }
                 foreach (var parcelsToCustomers in tempCustomer.ParcelsToCustomers)//goes over the list of parcels to the customer
                 {
-                    if (parcelsToCustomers.StateOfParcel == (ParcelState)4)//if he recieved the parcel
+                    if (parcelsToCustomers.StateOfParcel == ParcelState.Provided)//if he recieved the parcel
                         tempCustomerToList.RecievedParcels++;
                     else//if the parcel is on the way
                         tempCustomerToList.ParcelsOnTheWayToCustomer++;
@@ -126,7 +122,7 @@ namespace BL
         {
             try
             {
-                dal.UpdateCustomer(idCustomer, newName, customerPhone);//sends ton update in dal
+                dal.UpdateCustomer(idCustomer, newName, customerPhone);//sends to update in dal
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {

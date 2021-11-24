@@ -8,25 +8,25 @@ namespace DalObject
     {
         public void AddStation(Station newStation)
         {
-            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))
+            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))//checks if station exists
                 throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
 
         public Station FindStation(int id)
         {
-            if (!DataSource.Stations.Exists(item => item.Id == id))
+            if (!DataSource.Stations.Exists(item => item.Id == id))//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            int indexFindStation = DataSource.Stations.FindIndex(item => item.Id == id);//Going through stations array
+            int indexFindStation = DataSource.Stations.FindIndex(item => item.Id == id);//Going through stations list
             return DataSource.Stations[indexFindStation];
         }
 
         public IEnumerable<Station> GetStationWithFreeSlots()
         {
             List<Station> freeSlotsStation = new();
-            foreach (var indexSlots in DataSource.Stations)
+            foreach (var indexSlots in DataSource.Stations)//goes through stations list
             {
-                if (indexSlots.AvailableChargeSlots > 0)
+                if (indexSlots.AvailableChargeSlots > 0)//if he has available charging slots
                     freeSlotsStation.Add(indexSlots);
             }
             return freeSlotsStation;
@@ -35,9 +35,9 @@ namespace DalObject
         public IEnumerable<Station> GetAllStations()
         {
             List<Station> tempStations = new List<Station>();
-            foreach (var indexOfStations in DataSource.Stations)
+            foreach (var indexOfStations in DataSource.Stations)//goes through stations list
             {
-                tempStations.Add(indexOfStations);
+                tempStations.Add(indexOfStations);//adds to list
             }
             return tempStations;
         }
@@ -58,9 +58,9 @@ namespace DalObject
 
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            if (!DataSource.Stations.Exists(item => item.Id == idStation))
+            if (!DataSource.Stations.Exists(item => item.Id == idStation))//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            Station station = DataSource.Stations.Find(item => item.Id == idStation);
+            Station station = DataSource.Stations.Find(item => item.Id == idStation);//finds wanted station
             int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);
             if (newName != "")//if enter wasnt inputted
                 station.Name = newName;

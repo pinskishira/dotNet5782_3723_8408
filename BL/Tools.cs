@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace BL
 {
+    /// <summary>
+    /// Class that converts the fields in the one class to another class
+    /// </summary>
     public static class DeepCopy
     {
         public static void CopyPropertiesTo<T, S>(this S from, T to)

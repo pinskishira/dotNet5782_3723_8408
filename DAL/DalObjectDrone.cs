@@ -9,14 +9,14 @@ namespace DalObject
     {
         public void AddDrone(Drone newDrone)
         {
-            if (DataSource.Drones.Exists(item => item.Id == newDrone.Id))
+            if (DataSource.Drones.Exists(item => item.Id == newDrone.Id))//checks if drone exists
                 throw new ItemExistsException("The drone already exists.\n");
             DataSource.Drones.Add(newDrone);
         }
 
         public Drone FindDrone(int id)
         {
-            if (!DataSource.Drones.Exists(item => item.Id == id))
+            if (!DataSource.Drones.Exists(item => item.Id == id))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexFindDrone = DataSource.Drones.FindIndex(item => item.Id == id);//finding drone;
             return DataSource.Drones[indexFindDrone];
@@ -25,7 +25,7 @@ namespace DalObject
         public IEnumerable<Drone> GetAllDrones()
         {
             List<Drone> tempDrones = new();
-            foreach (var indexOfDrones in DataSource.Drones)
+            foreach (var indexOfDrones in DataSource.Drones)//going through drones list
             {
                 tempDrones.Add(indexOfDrones);
             }
@@ -34,9 +34,9 @@ namespace DalObject
 
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == idParcel))
+            if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            if (!DataSource.Drones.Exists(item => item.Id == idDrone))
+            if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
             Parcel newParcel = DataSource.Parcels[indexAssign];

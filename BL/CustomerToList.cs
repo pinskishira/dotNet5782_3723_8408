@@ -23,10 +23,10 @@ namespace IBL
                 result += $"Id is {Id} \n";
                 result += $"Name is {Name} \n";
                 result += $"Phone is {Phone} \n";
-                result += $"Parcels Sent And Delivered is {ParcelsSentAndDelivered} \n";
-                result += $"Parcels Sent But Not Delivered is {ParcelsSentButNotDelivered} \n";
-                result += $"Recived Parcels is {RecievedParcels} \n";
-                result += $"Parcels On The Way To Customer is {ParcelsOnTheWayToCustomer} \n";
+                result += $"Parcels sent and delivered is {ParcelsSentAndDelivered} \n";
+                result += $"Parcels sent but not delivered is {ParcelsSentButNotDelivered} \n";
+                result += $"Recived parcels is {RecievedParcels} \n";
+                result += $"Parcels on the way to customer is {ParcelsOnTheWayToCustomer} \n";
                 return result;
             }
         }

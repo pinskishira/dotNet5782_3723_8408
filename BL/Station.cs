@@ -22,10 +22,10 @@ namespace IBL
                 result += $"ID is {Id} \n";
                 result += $"Name is {Name} \n";
                 result += $"Location is {StationLocation} \n";
-                result += $"Available Charge Slots is {AvailableChargeSlots} \n";
+                result += $"Available charge slots is {AvailableChargeSlots} \n";
                 if (DronesInCharging.Any())
                 {
-                    result += $"Drones In Charging is:\n";
+                    result += $"Drones in charging is:\n";
                     foreach (var indexOfDronesInCharging in DronesInCharging)
                     {
                         result += $"{indexOfDronesInCharging} \n";

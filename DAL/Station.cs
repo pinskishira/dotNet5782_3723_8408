@@ -6,12 +6,12 @@ namespace IDAL
     {
         public struct Station
         {
-            public int Id { get; set; }//ID
-            public string Name { get; set; }//The station name
-            public double Longitude { get; set; }//Longitude
-            public double Latitude { get; set; }//Latitude
-            public int AvailableChargeSlots { get; set; }//Number of charging stations
-            public override string ToString()//Override function
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+            public int AvailableChargeSlots { get; set; }//Number of available charging stations
+            public override string ToString()
             {
                 String result = "";
                 result += $"ID is {Id} \n";

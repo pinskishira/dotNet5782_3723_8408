@@ -18,10 +18,10 @@ namespace IBL
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DroneInParcel DroneParcel { get; set; }
-            public DateTime Requested { get; set; }//זמן יצירת חבילה
-            public DateTime Scheduled { get; set; }//זמן שיוך חבילה
-            public DateTime PickedUp { get; set; }//זמן איסוף
-            public DateTime Delivered { get; set; }//זמן אספקה
+            public DateTime Requested { get; set; }//Time parcel is created  
+            public DateTime Scheduled { get; set; }//Time parcel is assigned to drone
+            public DateTime PickedUp { get; set; }//Time parcel is picked up by drone
+            public DateTime Delivered { get; set; }//Time parcel is delivered by drone
             public override string ToString()
             {
                 String result = "";
@@ -34,7 +34,7 @@ namespace IBL
                 result += $"Requested is {Requested} \n";
                 result += $"Scheduled is {Scheduled} \n";
                 result += $"Delivered is {Delivered} \n";
-                result += $"PickedUp is {PickedUp} \n";
+                result += $"Picked Up is {PickedUp} \n";
                 return result;
             }
         }
