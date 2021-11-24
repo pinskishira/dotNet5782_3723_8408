@@ -15,9 +15,9 @@ namespace BL
                 throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
             if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
                 throw new InvalidInputException("The identification number of target should be 9 digits long\n");
-            if (newParcel.Weight != (WeightCategories)1 && newParcel.Weight != (WeightCategories)2 && newParcel.Weight != (WeightCategories)3)//if 1,2 or 3 werent inputted
+            if (newParcel.Weight != WeightCategories.Easy && newParcel.Weight != WeightCategories.Medium && newParcel.Weight != WeightCategories.Heavy)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
-            if (newParcel.Priority != (Priorities)1 && newParcel.Priority != (Priorities)2 && newParcel.Priority != (Priorities)3)//if 1,2 or 3 were inputted
+            if (newParcel.Priority != Priorities.Normal && newParcel.Priority != Priorities.Fast && newParcel.Priority != Priorities.Emergency)//if 1,2 or 3 were inputted
                 throw new InvalidInputException("You need to select 1- for Normal 2- for Fast 3- for Emergency\n");
             //updating times
             newParcel.Requested = DateTime.Now;
@@ -90,17 +90,17 @@ namespace BL
                 tempParcelToList.SenderName = tempParcel.Sender.Name;
                 tempParcelToList.TargetName = tempParcel.Target.Name;
                 if (tempParcel.Delivered != DateTime.MinValue)//if parcel was delivered
-                    tempParcelToList.StateOfParcel = (ParcelState)4;//state -> provided
+                    tempParcelToList.StateOfParcel = ParcelState.Provided;//state -> provided
                 else
                 {
                     if (tempParcel.PickedUp != DateTime.MinValue)//if parcel was picked up by drone
-                        tempParcelToList.StateOfParcel = (ParcelState)3;//state -> picked up
+                        tempParcelToList.StateOfParcel = ParcelState.PickedUp;//state -> picked up
                     else
                     {
                         if (tempParcel.Scheduled != DateTime.MinValue)//if if parcel was assigned to drone
-                            tempParcelToList.StateOfParcel = (ParcelState)2;//state -> paired
+                            tempParcelToList.StateOfParcel = ParcelState.Paired;//state -> paired
                         else//if parcel was requested
-                            tempParcelToList.StateOfParcel = (ParcelState)1;//state -> created
+                            tempParcelToList.StateOfParcel = ParcelState.Created;//state -> created
                     }
                 }
                 parcelToLists.Add(tempParcelToList);
@@ -114,7 +114,7 @@ namespace BL
             List<ParcelToList> parcelToList = new();
             foreach (var indexOfParcelToList in GetAllParcels())//goes thorugh parcels
             {
-                if (indexOfParcelToList.StateOfParcel == (ParcelState)1)//if they have not been assigned a drone
+                if (indexOfParcelToList.StateOfParcel == ParcelState.Created)//if they have not been assigned a drone
                     parcelToList.Add(indexOfParcelToList);//add to list
             }
             return parcelToList;
@@ -129,7 +129,7 @@ namespace BL
                 int maxPriorities = 0, maxWeight = 0;
                 double maxDistance = 0.0;
                 bool flag = false;
-                if (droneToList.DroneStatus == (DroneStatuses)1)//Check that the drone is free
+                if (droneToList.DroneStatus == DroneStatuses.Available)//Check that the drone is free
                 {
                     foreach (var indexOfParcel in dal.GetParcelWithNoDrone())//Go through all the parcel to look for a suitable parcel
                     {
@@ -155,7 +155,7 @@ namespace BL
                     if (flag==false)//No suitable drone found
                         throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
                     dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
-                    droneToList.DroneStatus = (DroneStatuses)3;//Update the drone status
+                    droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
                     droneToList.ParcelIdInTransfer = parcel.Id;
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
                     BlDrones[indexOfDroneToList] = droneToList;
@@ -210,7 +210,7 @@ namespace BL
                     //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
                     droneToList.Battery -= (int)(distance * Weight((WeightCategories)parcel.Weight));
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
-                    droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
+                    droneToList.DroneStatus = DroneStatuses.Available;//updating status of drone to be available
                     droneToList.ParcelIdInTransfer = 0;
                     int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
                     BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones

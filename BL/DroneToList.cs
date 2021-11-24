@@ -26,9 +26,9 @@ namespace IBL
                 result += $"Model is {Model} \n";
                 result += $"MaxWeight is {Weight} \n";
                 result += $"Battery is {Battery} \n";
-                result += $"Drone Status is {DroneStatus} \n";
-                result += $"Current Location is {CurrentLocation} \n";
-                result += $"Parcel Number In Transfer is {ParcelIdInTransfer} \n";
+                result += $"Drone status is {DroneStatus} \n";
+                result += $"Current location is {CurrentLocation} \n";
+                result += $"Parcel number in transfer is {ParcelIdInTransfer} \n";
                 return result;
             }
         }

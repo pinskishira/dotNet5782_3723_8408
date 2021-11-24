@@ -15,12 +15,12 @@ namespace BL
                 throw new InvalidInputException("The identification number should be 5 digits long\n");
             if (newDrone.Model.Length > 6)//if model name is less than 6 digits
                 throw new InvalidInputException("The model number should be 6 digits long\n");
-            if (newDrone.Weight != (WeightCategories)1 && newDrone.Weight != (WeightCategories)2 && newDrone.Weight != (WeightCategories)3)//if 1,2 or 3 werent inputted
+            if (newDrone.Weight != WeightCategories.Easy && newDrone.Weight != WeightCategories.Medium && newDrone.Weight != WeightCategories.Heavy)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
             if ((Math.Round(Math.Floor(Math.Log10(stationNumber))) + 1) != 4)//if station id isnt 4 digits long
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
             newDrone.Battery = rand.Next(20, 41);//battery status between 20 and 40
-            newDrone.DroneStatus = (DroneStatuses)2;//drone status -> maintanace
+            newDrone.DroneStatus = DroneStatuses.Maintenance;//drone status -> maintanace
             IDAL.DO.Station newStation = dal.FindStation(stationNumber);//finds the station by the ID number the user entered
             newDrone.CurrentLocation = new();
             newDrone.CurrentLocation.Longitude = newStation.Longitude;//updates the longitude according to the longitude of the station
@@ -128,7 +128,7 @@ namespace BL
             try
             {
                 Drone drone = GetDrone(idDrone);//finding drone using inputted id from user
-                if (drone.DroneStatus != (DroneStatuses)1)//checking if drone is available
+                if (drone.DroneStatus != DroneStatuses.Available)//checking if drone is available
                     throw new DroneMaintananceException("The drone is not available");
                 //finding smallest distance of drone from closest station
                 IDAL.DO.Station station = smallestDistanceFromDrone(drone.CurrentLocation);
@@ -143,7 +143,7 @@ namespace BL
                 drone.Battery -= (int)(batteryConsumption * PowerUsageEmpty);
                 drone.CurrentLocation.Longitude = station.Longitude;//upating location
                 drone.CurrentLocation.Latitude = station.Latitude;
-                drone.DroneStatus = (DroneStatuses)2;
+                drone.DroneStatus = DroneStatuses.Maintenance;
                 DroneToList droneToList = new();//new drone to list
                 droneToList.CurrentLocation = new();
                 drone.CopyPropertiesTo(droneToList);//converting drone -> droneToList
@@ -171,8 +171,8 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
-                if (droneToList.DroneStatus != (DroneStatuses)2)//checking if drone is in maintanace
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
+                if (droneToList.DroneStatus != DroneStatuses.Maintenance)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
                 if ((int)(timeInCharging * DroneChargingRatePH) > 100)

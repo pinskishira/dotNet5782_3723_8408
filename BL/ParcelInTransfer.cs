@@ -30,9 +30,9 @@ namespace IBL
                 result += $"Weight is {Weight} \n";
                 result += $"Sender is {Sender} \n";
                 result += $"Target is {Target} \n";
-                result += $"Collection Location is {CollectionLocation} \n";
-                result += $"Delivery Destination is {DeliveryDestination} \n";
-                result += $"Transport Distance is {TransportDistance} \n";
+                result += $"Collection location is {CollectionLocation} \n";
+                result += $"Delivery destination is {DeliveryDestination} \n";
+                result += $"Transport distance is {TransportDistance} \n";
                 return result;
             }
         }

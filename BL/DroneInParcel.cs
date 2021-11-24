@@ -18,7 +18,7 @@ namespace IBL
                 String result = "";
                 result += $"Id is {Id} \n";
                 result += $"Battery is {Battery} \n";
-                result += $"Current Location is {CurrentLocation} \n";
+                result += $"Current location is {CurrentLocation} \n";
                 return result;
             }
         }

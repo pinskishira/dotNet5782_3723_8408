@@ -6,9 +6,9 @@ namespace IDAL
     {
         public struct Drone
         {
-            public int Id { get; set; }//ID
+            public int Id { get; set; }
             public string Model { get; set; }//The drone model
-            public WeightCategories Weight { get; set; }//Weight category
+            public WeightCategories Weight { get; set; }
             public override string ToString()
             {
                 String result = "";

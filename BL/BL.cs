@@ -34,7 +34,7 @@ namespace BL
                 {
                     //if parcel was paired but not delivered
                     IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
-                    indexOfDrones.DroneStatus = (DroneStatuses)3;//updating status to be in delivery
+                    indexOfDrones.DroneStatus = DroneStatuses.Delivery;//updating status to be in delivery
                     if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
                     {
                         IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the customer usind id number
@@ -59,9 +59,9 @@ namespace BL
                 }
                 catch (InvalidOperationException)
                 {
-                    if (indexOfDrones.DroneStatus != (DroneStatuses)3)//if the drone is not performing a delivery
+                    if (indexOfDrones.DroneStatus != DroneStatuses.Delivery)//if the drone is not performing a delivery
                         indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
-                    if (indexOfDrones.DroneStatus == (DroneStatuses)2)//if the drone is in maintanance
+                    if (indexOfDrones.DroneStatus == DroneStatuses.Maintenance)//if the drone is in maintanance
                     {
                         List<IDAL.DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
                         int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
@@ -71,7 +71,7 @@ namespace BL
                         indexOfDrones.CurrentLocation.Latitude = station.Latitude;
                         indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
                     }
-                    if (indexOfDrones.DroneStatus == (DroneStatuses)1)//if the drone is available for delivery
+                    if (indexOfDrones.DroneStatus == DroneStatuses.Available)//if the drone is available for delivery
                     {
                         List<int> deliveredParcels = new();//creating a new list 
                         foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
