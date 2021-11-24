@@ -30,7 +30,7 @@ namespace IBL
                 result += $"TargetId is \n{Target}";
                 result += $"Weight is {Weight}\n";
                 result += $"Priority is {Priority} \n";
-                result += $"Drone in parcel is \n{DroneParcel} \n";
+                result += $"Drone in parcel is: \n{DroneParcel} \n";
                 result += $"Requested is {Requested} \n";
                 result += $"Scheduled is {Scheduled} \n";
                 result += $"Delivered is {Delivered} \n";

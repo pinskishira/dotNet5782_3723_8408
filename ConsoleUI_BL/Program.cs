@@ -124,7 +124,7 @@ namespace ConsoleUI_BL
                             break;
                         case BlMainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone,
                                                           //parcel delivery to customer, sending drone to charge, and release from charge
-                            Console.WriteLine("What object do you want to update?\nEnter 1 toupdate a drone\n" +
+                            Console.WriteLine("What object do you want to update?\nEnter 1 to update a drone\n" +
                                 "Enter 2 to update a station\nEnter 3 to update a customer\n" +
                                 "Enter 4 to send drone to charging station\nEnter 5 for drone release from charging station\nEnter 6 to assign a parcel To a drone\n" +
                                 "Enter 7 for parcel collection by drone\nEnter 8 for parcel delivery to customer\nEnter 9 to return to main menu \n");
@@ -137,7 +137,7 @@ namespace ConsoleUI_BL
                                 case UpdatingFunction.UpdateDrone:
                                     Console.WriteLine("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
-                                    Console.Write("Enter the new model name for the drone ");
+                                    Console.Write("Enter the new model name for the drone: ");
                                     name = Console.ReadLine();
                                     ibl.UpdateDrone(idDrone, name);
                                     break;
@@ -294,3 +294,561 @@ namespace ConsoleUI_BL
         }
     }
 }
+/*
+ * What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+1
+ID is 5772
+Name Of Station is Bayit Vegan
+Available Charge Slots is 10
+Occupied Charge Slots is 0
+
+ID is 4299
+Name Of Station is Givat Shaul
+Available Charge Slots is 19
+Occupied Charge Slots is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+2
+Id is 88856
+Model is 123EST
+MaxWeight is Easy
+Battery is 78
+Drone status is Delivery
+Current location is Longitude is 29.88
+Latitude is 34.89
+Parcel number in transfer is 0
+
+Id is 36053
+Model is 234EST
+MaxWeight is Heavy
+Battery is 89
+Drone status is Available
+Current location is Longitude is 33.30
+Latitude is 36.30
+Parcel number in transfer is 0
+
+Id is 84829
+Model is 345EST
+MaxWeight is Easy
+Battery is 25
+Drone status is Available
+Current location is Longitude is 33.25
+Latitude is 34.33
+Parcel number in transfer is 0
+
+Id is 33250
+Model is 456EST
+MaxWeight is Medium
+Battery is 2
+Drone status is Maintenance
+Current location is Longitude is 33.30
+Latitude is 36.33
+Parcel number in transfer is 0
+
+Id is 26648
+Model is 567EST
+MaxWeight is Easy
+Battery is 54
+Drone status is Delivery
+Current location is Longitude is 33.30
+Latitude is 36.33
+Parcel number in transfer is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+3
+Id is 973546612
+Name is Avital
+Phone is 0586322431
+Parcels sent and delivered is 1
+Parcels sent but not delivered is 0
+Recived parcels is 1
+Parcels on the way to customer is 0
+
+Id is 480207142
+Name is Hadar
+Phone is 0522230982
+Parcels sent and delivered is 0
+Parcels sent but not delivered is 0
+Recived parcels is 0
+Parcels on the way to customer is 0
+
+Id is 520861071
+Name is Ayala
+Phone is 0506876398
+Parcels sent and delivered is 1
+Parcels sent but not delivered is 1
+Recived parcels is 0
+Parcels on the way to customer is 0
+
+Id is 166911047
+Name is Dasi
+Phone is 0506561043
+Parcels sent and delivered is 0
+Parcels sent but not delivered is 0
+Recived parcels is 2
+Parcels on the way to customer is 1
+
+Id is 783340236
+Name is Moshe
+Phone is 0502350982
+Parcels sent and delivered is 1
+Parcels sent but not delivered is 0
+Recived parcels is 1
+Parcels on the way to customer is 0
+
+Id is 747639708
+Name is Ayalet
+Phone is 0534456021
+Parcels sent and delivered is 1
+Parcels sent but not delivered is 0
+Recived parcels is 1
+Parcels on the way to customer is 0
+
+Id is 403501779
+Name is David
+Phone is 0552356731
+Parcels sent and delivered is 3
+Parcels sent but not delivered is 0
+Recived parcels is 1
+Parcels on the way to customer is 1
+
+Id is 423156062
+Name is Shira
+Phone is 0503782099
+Parcels sent and delivered is 0
+Parcels sent but not delivered is 0
+Recived parcels is 0
+Parcels on the way to customer is 0
+
+Id is 201075691
+Name is Yosef
+Phone is 0504310431
+Parcels sent and delivered is 0
+Parcels sent but not delivered is 1
+Recived parcels is 2
+Parcels on the way to customer is 0
+
+Id is 281017537
+Name is John
+Phone is 0506929115
+Parcels sent and delivered is 1
+Parcels sent but not delivered is 0
+Recived parcels is 0
+Parcels on the way to customer is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+4
+ID is 10000
+Sender name is Avital
+Target name is Dasi
+Weight is Easy
+Priority is Normal
+Parcel State is Provided
+
+ID is 10001
+Sender name is Ayalet
+Target name is David
+Weight is Heavy
+Priority is Normal
+Parcel State is Provided
+
+ID is 10002
+Sender name is Ayala
+Target name is David
+Weight is Medium
+Priority is Emergency
+Parcel State is Paired
+
+ID is 10003
+Sender name is Yosef
+Target name is Dasi
+Weight is Medium
+Priority is Emergency
+Parcel State is Paired
+
+ID is 10004
+Sender name is David
+Target name is Avital
+Weight is Medium
+Priority is Emergency
+Parcel State is Provided
+
+ID is 10005
+Sender name is David
+Target name is Yosef
+Weight is Medium
+Priority is Emergency
+Parcel State is Provided
+
+ID is 10006
+Sender name is Ayala
+Target name is Ayalet
+Weight is Easy
+Priority is Fast
+Parcel State is Provided
+
+ID is 10007
+Sender name is David
+Target name is Moshe
+Weight is Medium
+Priority is Fast
+Parcel State is Provided
+
+ID is 10008
+Sender name is Moshe
+Target name is Yosef
+Weight is Easy
+Priority is Emergency
+Parcel State is Provided
+
+ID is 10009
+Sender name is John
+Target name is Dasi
+Weight is Medium
+Priority is Fast
+Parcel State is Provided
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+5
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+6
+ID is 5772
+Name Of Station is Bayit Vegan
+Available Charge Slots is 10
+Occupied Charge Slots is 0
+
+ID is 4299
+Name Of Station is Givat Shaul
+Available Charge Slots is 19
+Occupied Charge Slots is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+3
+What will you like to display?
+Enter 1 for station
+Enter 2 for drone
+Enter 3 for customer
+Enter 4 for parcel
+Enter 5 to return to main menu
+
+2
+Enter your ID number:
+88856
+Id is 88856
+Model is 123EST
+Weight is Easy
+Battery is 78
+Drone Status is Delivery
+Parcel in transfer is
+Current location is Longitude is 29.88
+Latitude is 34.89
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+3
+What will you like to display?
+Enter 1 for station
+Enter 2 for drone
+Enter 3 for customer
+Enter 4 for parcel
+Enter 5 to return to main menu
+
+4
+Enter your ID number:
+10004
+Id is 10004
+SenderId is
+Id is 403501779
+Name is David
+TargetId is
+Id is 973546612
+Name is Avital
+Weight is Medium
+Priority is Emergency
+Drone in parcel is
+Id is 33250
+Battery is 2
+Current location is Longitude is 33.30
+Latitude is 36.33
+
+Requested is 09/07/2021 13:34:46
+Scheduled is 09/07/2021 15:31:28
+Delivered is 09/07/2021 16:35:58
+Picked Up is 09/07/2021 15:56:19
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+1
+What object would you like to add on?
+Enter 1 to add a station
+Enter 2 to add a drone
+Enter 3 to add a customer
+Enter 4 to add a parcel
+Enter 5 to return to main menu
+
+1
+Enter a four-digit number in a new station ID number: 2398
+Enter new station name: uziel
+Please enter you location: 30
+34
+Enter amount of availbale charge slots in new station: 12
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+2
+What object do you want to update?
+Enter 1 toupdate a drone
+Enter 2 to update a station
+Enter 3 to update a customer
+Enter 4 to send drone to charging station
+Enter 5 for drone release from charging station
+Enter 6 to assign a parcel To a drone
+Enter 7 for parcel collection by drone
+Enter 8 for parcel delivery to customer
+Enter 9 to return to main menu
+
+1
+Enter your drone ID:
+33250
+Enter the new model name for the drone 987EST
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+1
+ID is 5772
+Name Of Station is Bayit Vegan
+Available Charge Slots is 10
+Occupied Charge Slots is 0
+
+ID is 4299
+Name Of Station is Givat Shaul
+Available Charge Slots is 19
+Occupied Charge Slots is 0
+
+ID is 2398
+Name Of Station is uziel
+Available Charge Slots is 12
+Occupied Charge Slots is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+4
+What do you want to view?
+Enter 1 for stations
+Enter 2 for drones
+Enter 3 for customers
+Enter 4 for parcels
+Enter 5 for parcels with no drone
+Enter 6 for station with available charging stations
+Enter 7 to return to main menu
+
+2
+Id is 88856
+Model is 123EST
+MaxWeight is Easy
+Battery is 78
+Drone status is Delivery
+Current location is Longitude is 29.88
+Latitude is 34.89
+Parcel number in transfer is 0
+
+Id is 36053
+Model is 234EST
+MaxWeight is Heavy
+Battery is 89
+Drone status is Available
+Current location is Longitude is 33.30
+Latitude is 36.30
+Parcel number in transfer is 0
+
+Id is 84829
+Model is 345EST
+MaxWeight is Easy
+Battery is 25
+Drone status is Available
+Current location is Longitude is 33.25
+Latitude is 34.33
+Parcel number in transfer is 0
+
+Id is 33250
+Model is 987EST
+MaxWeight is Medium
+Battery is 2
+Drone status is Maintenance
+Current location is Longitude is 33.30
+Latitude is 36.33
+Parcel number in transfer is 0
+
+Id is 26648
+Model is 567EST
+MaxWeight is Easy
+Battery is 54
+Drone status is Delivery
+Current location is Longitude is 33.30
+Latitude is 36.33
+Parcel number in transfer is 0
+
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+2
+What object do you want to update?
+Enter 1 toupdate a drone
+Enter 2 to update a station
+Enter 3 to update a customer
+Enter 4 to send drone to charging station
+Enter 5 for drone release from charging station
+Enter 6 to assign a parcel To a drone
+Enter 7 for parcel collection by drone
+Enter 8 for parcel delivery to customer
+Enter 9 to return to main menu
+
+9
+What would you like to perform?
+Enter 1 to Add
+Enter 2 to Update
+Enter 3 to Display
+Enter 4 to ListView
+Enter 5 to Exit
+
+5
+ */
