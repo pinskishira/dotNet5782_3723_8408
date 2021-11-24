@@ -18,7 +18,7 @@ namespace IBL
             public int Battery { get; set; }
             public DroneStatuses DroneStatus { get; set; }
             public Location CurrentLocation { get; set; }
-            public int ParcelNumInTransfer { get; set; }
+            public int ParcelIdInTransfer { get; set; }
             public override string ToString()
             {
                 String result = "";
@@ -28,7 +28,7 @@ namespace IBL
                 result += $"Battery is {Battery} \n";
                 result += $"Drone Status is {DroneStatus} \n";
                 result += $"Current Location is {CurrentLocation} \n";
-                result += $"Parcel Number In Transfer is {ParcelNumInTransfer} \n";
+                result += $"Parcel Number In Transfer is {ParcelIdInTransfer} \n";
                 return result;
             }
         }

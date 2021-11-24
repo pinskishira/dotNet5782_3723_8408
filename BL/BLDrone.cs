@@ -36,9 +36,9 @@ namespace BL
             newDroneToList.DroneStatus = newDrone.DroneStatus;
             newDroneToList.CurrentLocation = newDrone.CurrentLocation;
             if (newDrone.ParcelInTransfer == null)
-                newDroneToList.ParcelNumInTransfer = 0;
+                newDroneToList.ParcelIdInTransfer = 0;
             else
-                newDroneToList.ParcelNumInTransfer = newDrone.ParcelInTransfer.Id;
+                newDroneToList.ParcelIdInTransfer = newDrone.ParcelInTransfer.Id;
             BlDrones.Add(newDroneToList);
             try
             {
@@ -70,18 +70,25 @@ namespace BL
             dalDrone.CurrentLocation = new();
             tempDroneToList.CopyPropertiesTo(dalDrone);//converting the drone in the list to a regular drone
             dalDrone.CurrentLocation = CopyLocation(tempDroneToList.CurrentLocation.Longitude, tempDroneToList.CurrentLocation.Latitude);
-            if (tempDroneToList.ParcelNumInTransfer == 0)//parcel wasnt assigned by drone
+            if (tempDroneToList.ParcelIdInTransfer == 0)//parcel wasnt assigned by drone
                 dalDrone.ParcelInTransfer = default;
             else//was assigned by drone
             {
-                Parcel tempParcel = GetParcel(tempDroneToList.ParcelNumInTransfer);//searches for the parcel by ID number
+                Parcel tempParcel = GetParcel(tempDroneToList.ParcelIdInTransfer);//searches for the parcel by ID number
                 ParcelInTransfer tempParcelInTransfer = new();
+                tempParcelInTransfer.Sender = new();
+                tempParcelInTransfer.Target = new();
+                tempParcelInTransfer.CollectionLocation = new();
+                tempParcelInTransfer.DeliveryDestination = new();
                 tempParcel.CopyPropertiesTo(tempParcelInTransfer);//converting from parcel to 
-                Customer Sender = GetCustomer(tempParcelInTransfer.Sender.Id);//finding sender
-                Customer Target = GetCustomer(tempParcelInTransfer.Target.Id);//finding target 
+                Customer Sender = GetCustomer(tempParcel.Sender.Id);//finding sender
+                Customer Target = GetCustomer(tempParcel.Target.Id);//finding target 
+                Sender.CopyPropertiesTo(tempParcelInTransfer.Sender);
+                Target.CopyPropertiesTo(tempParcelInTransfer.Target);
                 //updating location with sender location and target location
                 tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
                 tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
+
                 if (tempParcel.PickedUp == DateTime.MinValue)//if package is waiting for pickup
                     tempParcelInTransfer.ParcelState = false;
                 else
@@ -98,13 +105,24 @@ namespace BL
         {
             return BlDrones;
         }
-
         public void UpdateDrone(int idDrone, string model)
         {
-            dal.GetAllDrones().First(item => item.Id == idDrone);
-            IDAL.DO.Drone drone = dal.GetAllDrones().First(indexDrones => indexDrones.Id == idDrone);//finding drone
-            drone.Model = model;//changing model name
-            dal.UpdateDrone(drone);//sending to update in drone
+            try
+            {
+                IDAL.DO.Drone dalDrone = dal.GetAllDrones().First(indexDrones => indexDrones.Id == idDrone);//finding drone
+                if (!BlDrones.Exists(indexOfDroneToList => indexOfDroneToList.Id == idDrone))
+                    throw new ItemDoesNotExistException("The drone does not exist.\n");
+                dalDrone.Model = model;//changing model name
+                dal.UpdateDrone(dalDrone);//sending to update in drone
+                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
+                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
+                droneToList.Model = model;
+                BlDrones[indexOfDroneToList] = droneToList;
+            }
+            catch (InvalidInputException)
+            {
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
+            }
         }
 
         public void SendDroneToChargingStation(int idDrone)
@@ -119,9 +137,9 @@ namespace BL
                 if (station.Id == -1)
                     throw new DroneMaintananceException("There is no station with available charging stations");
                 //finds amount of battery used during the drone travel from its current location to the closest station to him
-                double batteryConsumption = Distance.Haversine
-                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude)* PowerUsageEmpty;
-                if (batteryConsumption < drone.Battery)
+                int batteryConsumption = (int)Math.Ceiling(Distance.Haversine
+                    (drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.Longitude, station.Latitude) * PowerUsageEmpty);
+                if (batteryConsumption > drone.Battery)
                     throw new DroneMaintananceException("The drone does not have enough battery to go to the station");
                 //battery is decreases by amount of battery used during travel times the percentage of battery used with no parcel
                 drone.Battery -= (int)(batteryConsumption * PowerUsageEmpty);
@@ -129,8 +147,13 @@ namespace BL
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = (DroneStatuses)2;
                 DroneToList droneToList = new();//new drone to list
+                droneToList.CurrentLocation = new();
                 drone.CopyPropertiesTo(droneToList);//converting drone -> droneToList
-                droneToList.ParcelNumInTransfer = drone.ParcelInTransfer.Id;
+                droneToList.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
+                if (drone.ParcelInTransfer != null)
+                    droneToList.ParcelIdInTransfer = drone.ParcelInTransfer.Id;
+                else
+                    droneToList.ParcelIdInTransfer = 0;
                 int indexDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneToList.Id);//finds drone
                 BlDrones[indexDroneToList] = droneToList;//updated droneToList
                 //updates that the charging slots decreased and also adds the drone to the list of drones in the charge
@@ -146,7 +169,7 @@ namespace BL
             }
         }
 
-        public void DroneReleaseFromChargingStation(int idDrone,int timeInCharging)
+        public void DroneReleaseFromChargingStation(int idDrone, int timeInCharging)
         {
             try
             {
@@ -154,7 +177,7 @@ namespace BL
                 if (droneToList.DroneStatus != (DroneStatuses)2)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
-                droneToList.Battery -= (int)(timeInCharging * DroneChargingRatePH);
+                droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
                 droneToList.DroneStatus = (DroneStatuses)1;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
                 int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
@@ -175,7 +198,7 @@ namespace BL
             foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
             {
                 //calculating the distance between the sender and the station
-                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude) ;
+                tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude);
                 if (tempDistance < minDistance && indexOfStations.AvailableChargeSlots > 0)//compares which distance is smaller
                 {
                     minDistance = tempDistance;

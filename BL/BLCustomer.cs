@@ -124,8 +124,14 @@ namespace BL
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            dal.GetAllCustomers().First(item => item.Id == idCustomer);//finds customer
-            dal.UpdateCustomer(idCustomer, newName, customerPhone);//sends ton update in dal
+            try
+            {
+                dal.UpdateCustomer(idCustomer, newName, customerPhone);//sends ton update in dal
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedToAddException("The customer does not exist.\n", ex);
+            }
         }
 
     }

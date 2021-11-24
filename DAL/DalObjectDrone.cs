@@ -44,12 +44,10 @@ namespace DalObject
             newParcel.Scheduled = DateTime.Now;//updating date and time
             DataSource.Parcels[indexAssign] = newParcel;
         }
-
         public void UpdateDrone(Drone drone)
         {
             int indexOfDrone = DataSource.Drones.FindIndex(index => index.Id == drone.Id);//finding index
             DataSource.Drones[indexOfDrone] = drone;//placing updated drone in place of index
         }
-
     }
 }

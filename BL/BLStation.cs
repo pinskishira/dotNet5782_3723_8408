@@ -98,10 +98,16 @@ namespace BL
 
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            if (chargeSlots < 0)//if invalid number was inputted
-                throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
-            dal.GetAllStations().First(item => item.Id == idStation);//finds station
-            dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal
+            try
+            {
+                if (chargeSlots < 0)//if invalid number was inputted
+                    throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
+                dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedToAddException("The station does not exist.\n", ex);
+            }
         }
     }
 }

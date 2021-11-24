@@ -46,33 +46,26 @@ namespace DalObject
         /// Counts how many charge slots are in use.
         /// </summary>
         /// <param name="idStation">Id of stat</param>
-        /// <returns></returns>
-        public int ChargeSlotsInUse(int idStation)
+        /// <returns>charge Slots In Use</returns>
+        private int ChargeSlotsInUse(int idStation)
         {
             int chargeSlotsInUse = 0;
             foreach (var indexOfDroneCharge in DataSource.DroneCharges)//goes through list of drones in charging
                 if (indexOfDroneCharge.StationId == idStation)//If the loaded drone ID number is equal to the station ID number
-                    chargeSlotsInUse++; 
+                    chargeSlotsInUse++;
             return chargeSlotsInUse;
         }
 
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            int indexOfStation = 0;
-            Station station = new();
-            foreach (var indexStations in DataSource.Stations)//goes through stations
-            {
-                if(indexStations.Id == idStation)
-                {
-                    station = indexStations;
-                    if (newName != "\n")//if enter wasnt inputted
-                        station.Name = newName;
-                    if (chargeSlots != 0)//if 0 wasnt inputted
-                        station.AvailableChargeSlots = chargeSlots - ChargeSlotsInUse(idStation);
-                    break;
-                }
-                indexOfStation++;
-            }
+            if (!DataSource.Stations.Exists(item => item.Id == idStation))
+                throw new ItemDoesNotExistException("The station does not exist.\n");
+            Station station = DataSource.Stations.Find(item => item.Id == idStation);
+            int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);
+            if (newName != "")//if enter wasnt inputted
+                station.Name = newName;
+            if (chargeSlots != 0)//if 0 wasnt inputted
+                station.AvailableChargeSlots = chargeSlots - ChargeSlotsInUse(idStation);
             DataSource.Stations[indexOfStation] = station;//placing updated station in list of stations
         }
     }

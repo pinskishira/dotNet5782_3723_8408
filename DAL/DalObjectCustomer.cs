@@ -33,21 +33,14 @@ namespace DalObject
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            int indexOfCustomer = 0;
-            Customer customer = new();
-            foreach (var indexCustomer in DataSource.Customers)//going through list of customers
-            {
-                if(indexCustomer.Id == idCustomer)
-                {
-                    customer = indexCustomer;
-                    if (newName != "\n")//if enter wasnt entered instead of new name
-                        customer.Name = newName;
-                    if(customerPhone != "\n")//if enter wasnt entered instead of new phone
-                        customer.Phone = customerPhone;
-                    break;
-                }
-                indexOfCustomer++;
-            }
+            if (!DataSource.Customers.Exists(item => item.Id == idCustomer))
+                throw new ItemDoesNotExistException("The customer does not exist.\n");
+            Customer customer = DataSource.Customers.Find(item => item.Id == idCustomer);
+            int indexOfCustomer = DataSource.Customers.FindIndex(item => item.Id == idCustomer);
+            if (newName != "")//if enter wasnt entered instead of new name
+                customer.Name = newName;
+            if (customerPhone != "")//if enter wasnt entered instead of new phone
+                customer.Phone = customerPhone;
             DataSource.Customers[indexOfCustomer] = customer;//updated customer into list of customers
         }
     }

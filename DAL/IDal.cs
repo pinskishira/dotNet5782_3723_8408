@@ -118,7 +118,7 @@ namespace IDAL
         /// Gives a view of the an list of parcels with no assigned drones
         /// </summary>
         /// <returns>Parcel with no drone</returns>
-        IEnumerable<Parcel> ParcelWithNoDrone();
+        IEnumerable<Parcel> GetParcelWithNoDrone();
 
         /// <summary>
         /// Assigning a parcel to a drone

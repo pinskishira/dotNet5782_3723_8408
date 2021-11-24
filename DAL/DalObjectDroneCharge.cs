@@ -21,10 +21,8 @@ namespace DalObject
                 throw new ItemDoesNotExistException("The station does not exist.\n");
             Station newStation = new();
             DroneCharge newDroneCharge = new();//drone with low battery will go be charged here
-            int index = 0;
+            int index = DataSource.Stations.FindIndex(indexOfStation=>indexOfStation.Name==nameStation);
             newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
-            while (DataSource.Stations[index].Name != nameStation)
-                index++;
             newDroneCharge.StationId = DataSource.Stations[index].Id;
             AddDroneCharge(newDroneCharge);//updating that a drone is charging
             newStation = DataSource.Stations[index];
@@ -36,13 +34,9 @@ namespace DalObject
         {
             if (!DataSource.DroneCharges.Exists(item => item.DroneId == idDrone))
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            Station newStation = new();
-            int indexDC = 0, indexS = 0, indexD = 0;
-            while (DataSource.Stations[indexS].Id != DataSource.DroneCharges[indexDC].StationId)
-                indexS++;
-            while (DataSource.Drones[indexD].Id != idDrone)
-                indexD++;
-            newStation = DataSource.Stations[indexS];
+            int indexDC = DataSource.DroneCharges.FindIndex(indexOfDroneCharges => indexOfDroneCharges.DroneId==idDrone);
+            int indexS= DataSource.Stations.FindIndex(indexOfStations => indexOfStations.Id== DataSource.DroneCharges[indexDC].StationId);
+            Station newStation = DataSource.Stations[indexS];
             newStation.AvailableChargeSlots++;//increasing amount of places left to charge
             DataSource.Stations[indexS] = newStation;
             DataSource.DroneCharges.RemoveAt(indexDC);

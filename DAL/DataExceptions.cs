@@ -25,6 +25,5 @@ namespace IDAL.DO
             return Message;
         }
     }
-
 }
 

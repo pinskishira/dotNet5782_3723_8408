@@ -241,7 +241,7 @@ namespace ConsoleUI
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.ParcelWithNoDrone();
+                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.GetParcelWithNoDrone();
                                     foreach (var parcel in ViewParcelsWithNoDrone)//printing
                                         Console.WriteLine(parcel);
                                     break;

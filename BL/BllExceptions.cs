@@ -64,13 +64,22 @@ namespace IBL.BO
         }
     }
 
-
     [Serializable]
     public class ParcelDeliveryException : Exception//בעיה בשחרור רחפן מטעינה
     {
         public ParcelDeliveryException() : base() { }
         public ParcelDeliveryException(string message) : base(message) { }
         public ParcelDeliveryException(string message, Exception innerException) : base(message, innerException) { }
+        public override string ToString()
+        {
+            return Message;
+        }
+    }
+    public class ItemDoesNotExistException : Exception
+    {
+        public ItemDoesNotExistException() : base() { }
+        public ItemDoesNotExistException(string message) : base(message) { }
+        public ItemDoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
         public override string ToString()
         {
             return Message;

@@ -11,10 +11,10 @@ using static IBL.BO.Enum;
 namespace ConsoleUI_BL
 {
     public enum BlMainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
-    public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel };
-    public enum UpdatingFunction { UpdateDrone = 1, UpdateStation, UpdateCustomer, SendDroneToChargingStation,  DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer };
-    public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel };
-    public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation };
+    public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel, MainMenu };
+    public enum UpdatingFunction { UpdateDrone = 1, UpdateStation, UpdateCustomer, SendDroneToChargingStation,  DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer, MainMenu };
+    public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel, MainMenu };
+    public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation, MainMenu };
 
     class ConsoleUI_BL
     {
@@ -42,7 +42,7 @@ namespace ConsoleUI_BL
                     {
                         case BlMainSwitchFunctions.Add: //the user will choose whether he wants to add on a station, drone, customer or parcel
                             Console.WriteLine("What object would you like to add on? \nEnter 1 to add a station \n" +
-                                "Enter 2 to add a drone \nEnter 3 to add a customer \nEnter 4 to add a parcel \n");
+                                "Enter 2 to add a drone \nEnter 3 to add a customer \nEnter 4 to add a parcel \nEnter 5 to return to main menu \n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerAdd = (AddingFunction)input;
                             switch (answerAdd)
@@ -118,6 +118,8 @@ namespace ConsoleUI_BL
                                     NewParcel.DroneParcel = null;
                                     ibl.AddParcel(NewParcel);
                                     break;
+                                case AddingFunction.MainMenu:
+                                    break;
                             }
                             break;
                         case BlMainSwitchFunctions.Update://the user will choose whether he wants to update a parcel to a drone, parcel collection by a drone,
@@ -125,7 +127,7 @@ namespace ConsoleUI_BL
                             Console.WriteLine("What object do you want to update?\nEnter 1 toupdate a drone\n" +
                                 "Enter 2 to update a station\nEnter 3 to update a customer\n" +
                                 "Enter 4 to send drone to charging station\nEnter 5 for drone release from charging station\nEnter 6 to assign a parcel To a drone\n" +
-                                "Enter 7 for parcel collection by drone\nEnter 8 for parcel delivery to customer\n");
+                                "Enter 7 for parcel collection by drone\nEnter 8 for parcel delivery to customer\nEnter 9 to return to main menu \n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerUpdate = (UpdatingFunction)input;
                             int timeInCharging, idDrone, idcustomer, chargingSlots, idStation;
@@ -175,7 +177,7 @@ namespace ConsoleUI_BL
                                     ibl.UpdateAssignParcelToDrone(idDrone);
                                     break;
                                 case UpdatingFunction.ParcelCollectionByDrone://case which updates when a parcel is collected by a drone
-                                    Console.Write("Enter your parcel ID: ");
+                                    Console.Write("Enter drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
                                     ibl.UpdateParcelCollectionByDrone(idDrone);
                                     break;
@@ -184,11 +186,13 @@ namespace ConsoleUI_BL
                                     int.TryParse(Console.ReadLine(), out idDrone);
                                     ibl.UpdateParcelDeliveryToCustomer(idDrone);
                                     break;
+                                case UpdatingFunction.MainMenu:
+                                    break;
                             }
                             break;
                         case BlMainSwitchFunctions.Display: //the user will choose whether he wants to display the stations, drones, customers, or parcels
                             Console.WriteLine("What will you like to display?\nEnter 1 for station\nEnter 2 for drone\n" +
-                             "Enter 3 for customer\nEnter 4 for parcel\n");
+                             "Enter 3 for customer\nEnter 4 for parcel\nEnter 5 to return to main menu \n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerDisplay = (DisplayingFunction)input;
                             Console.WriteLine("Enter your ID number: ");
@@ -208,13 +212,15 @@ namespace ConsoleUI_BL
                                 case DisplayingFunction.Parcel://case which returns the requested parcel
                                     Console.WriteLine(ibl.GetParcel(id));//finds parcel according to inputted id
                                     break;
+                                case DisplayingFunction.MainMenu:
+                                    break;
                             }
                             break;
                         case BlMainSwitchFunctions.ListView://the user will choose whether he wants to view the array of stations, customers, parcels,
                                                             //or parcels with no assigned drones, or stations available to charge
                             Console.WriteLine("What do you want to view?\nEnter 1 for stations\nEnter 2 for drones\n" +
                                 "Enter 3 for customers\nEnter 4 for parcels\nEnter 5 for parcels with no drone\n" +
-                                "Enter 6 for station with available charging stations\n ");
+                                "Enter 6 for station with available charging stations\nEnter 7 to return to main menu \n ");
                             int.TryParse(Console.ReadLine(), out input);
                             answerListView = (ListViewFunction)input;
                             switch (answerListView)
@@ -249,6 +255,8 @@ namespace ConsoleUI_BL
                                     foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
                                         Console.WriteLine(station);
                                     break;
+                                case ListViewFunction.MainMenu:
+                                    break;
                             }
                             break;
                     }
@@ -274,6 +282,10 @@ namespace ConsoleUI_BL
                     Console.WriteLine(ex.Message);
                 }
                 catch (ParcelDeliveryException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ItemDoesNotExistException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }

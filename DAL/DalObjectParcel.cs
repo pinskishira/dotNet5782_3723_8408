@@ -55,7 +55,7 @@ namespace DalObject
             return tempParcels;
         }
 
-        public IEnumerable<Parcel> ParcelWithNoDrone()
+        public IEnumerable<Parcel> GetParcelWithNoDrone()
         {
             List<Parcel> parcelNoDrone = new();
             foreach (var indexNoDrone in DataSource.Parcels)

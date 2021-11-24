@@ -20,11 +20,11 @@ namespace DalObject
        
         internal static class Config
         {
-            static internal double BatteryConsumptionPowerUsageEmpty = 0.01;//Amount of battery used per km with no parcel
-            static internal double BatteryConsumptionLightWeight = 0.05;//Amount of battery used per km with a light parcel
-            static internal double BatteryConsumptionMediumWeight = 0.07;//Amount of battery used per km with a medium parcel
-            static internal double BatteryConsumptionHeavyWeight = 0.1;//Amount of battery used per km with a heavy parcel
-            static internal double DroneChargingRatePH = 50;//Amount of battery charged minute/km
+            static internal double BatteryConsumptionPowerUsageEmpty = 1;//Amount of battery used per km with no parcel
+            static internal double BatteryConsumptionLightWeight = 3;//Amount of battery used per km with a light parcel
+            static internal double BatteryConsumptionMediumWeight =5;//Amount of battery used per km with a medium parcel
+            static internal double BatteryConsumptionHeavyWeight = 7;//Amount of battery used per km with a heavy parcel
+            static internal double DroneChargingRatePH = 1;//Amount of battery charged minute/km
             static internal int NextParcelNumber = 10000;
         }
 
@@ -129,7 +129,7 @@ namespace DalObject
                 newParcel.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight
                 newParcel.Priority = (Priorities)rand.Next(1, 4);//Updating the urgency of the shipment
                 //Putting a random date and time
-                newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 30),
+                newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 29),
                     rand.Next(24), rand.Next(60), rand.Next(60));
                 int status = rand.Next(100);
                 int drone = -1;
