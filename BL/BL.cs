@@ -106,7 +106,7 @@ namespace BL
             double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
             //calculates distance by multiplying by its weight and the amount of battery it uses per km.
             //return (int)(distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
-            return (int)Math.Ceiling(distanceFromTarget * Weight(droneToList.Weight) + distanceFromStation * PowerUsageEmpty);
+            return (int)Math.Ceiling(distanceFromTarget * Weight((WeightCategories)parcel.Weight) + distanceFromStation * PowerUsageEmpty);
         }
 
         public double Weight(WeightCategories maxWeight) => maxWeight switch

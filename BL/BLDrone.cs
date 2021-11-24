@@ -53,11 +53,11 @@ namespace BL
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new FailedToAddException("The drone already exists.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedToAddException("The drone in charge does not exist.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
 
@@ -88,7 +88,6 @@ namespace BL
                 //updating location with sender location and target location
                 tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
                 tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
-
                 if (tempParcel.PickedUp == DateTime.MinValue)//if package is waiting for pickup
                     tempParcelInTransfer.ParcelState = false;
                 else
@@ -105,6 +104,7 @@ namespace BL
         {
             return BlDrones;
         }
+
         public void UpdateDrone(int idDrone, string model)
         {
             try
@@ -114,10 +114,8 @@ namespace BL
                     throw new ItemDoesNotExistException("The drone does not exist.\n");
                 dalDrone.Model = model;//changing model name
                 dal.UpdateDrone(dalDrone);//sending to update in drone
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
-                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
                 droneToList.Model = model;
-                BlDrones[indexOfDroneToList] = droneToList;
             }
             catch (InvalidInputException)
             {
@@ -161,11 +159,11 @@ namespace BL
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new DroneMaintananceException(ex.ToString(), ex);
+                throw new DroneMaintananceException("ERROR\n", ex);
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new DroneMaintananceException(ex.ToString(), ex);
+                throw new DroneMaintananceException("ERROR\n", ex);
             }
         }
 
@@ -173,17 +171,20 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
                 if (droneToList.DroneStatus != (DroneStatuses)2)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
-                droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
+                if ((int)(timeInCharging * DroneChargingRatePH) > 100)
+                    droneToList.Battery = 100;
+                else
+                    droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
                 droneToList.DroneStatus = (DroneStatuses)1;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
                 int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
                 BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
             }
-            catch (ArgumentNullException)
+            catch (InvalidOperationException)
             {
                 throw new DroneMaintananceException("The drone does not exist.\n");
             }

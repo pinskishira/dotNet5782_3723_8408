@@ -26,7 +26,6 @@ namespace BL
             newParcel.Delivered = DateTime.MinValue;
             try
             {
-
                 //converting BL parcel to dal
                 IDAL.DO.Parcel tempParcel = new();
                 object obj = tempParcel;
@@ -39,7 +38,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new FailedToAddException("The parcel already exists.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
 
@@ -61,19 +60,20 @@ namespace BL
                     blParcel.DroneParcel = default;
                 else
                 {
-                    //Drone drone = GetDrone(dalParcel.DroneId);//finding its assogned drone
                     DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == dalParcel.DroneId);
                     blParcel.DroneParcel.CurrentLocation = new();
                     blParcel.DroneParcel.Id = dalParcel.DroneId;
                     blParcel.DroneParcel.Battery = droneToList.Battery;
                     blParcel.DroneParcel.CurrentLocation = droneToList.CurrentLocation;
-                    //drone.CopyPropertiesTo(blParcel.DroneParcel);//converting to BL
-                    //blParcel.DroneParcel.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
                 }
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedDisplayException("The Id does not exist.\n", ex);
+                throw new FailedDisplayException("ERROR.\n", ex);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new DroneMaintananceException("The drone does not exist.\n");
             }
             return blParcel;
         }
@@ -105,7 +105,6 @@ namespace BL
                 }
                 parcelToLists.Add(tempParcelToList);
                 tempParcelToList = new();
-
             }
             return parcelToLists;
         }
@@ -125,7 +124,7 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
                 IDAL.DO.Parcel parcel = new();
                 int maxPriorities = 0, maxWeight = 0;
                 double maxDistance = 0.0;
@@ -162,17 +161,17 @@ namespace BL
                     BlDrones[indexOfDroneToList] = droneToList;
                 }
             }
-            catch (ParcelDeliveryException ex)
+            catch (ParcelDeliveryException)
             {
-                throw new ParcelDeliveryException(ex.ToString());
+                throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
             }
-            catch (ArgumentNullException ex)
+            catch (InvalidOperationException)
             {
-                throw new ParcelDeliveryException(ex.ToString());
+                throw new ParcelDeliveryException("Does not exist.\n");
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedToAddException("The drone in charge does not exist.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
 
@@ -189,7 +188,7 @@ namespace BL
                 IDAL.DO.Customer sender = dal.GetAllCustomers().First(indexOfParcel => indexOfParcel.Id == parcelSenderId);
                 return Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 throw new ParcelDeliveryException("The sender of the parcel was not found.\n");
             }
@@ -199,7 +198,7 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelIdInTransfer);//finding parcel that is assigned to this drone
                 Drone drone = GetDrone(droneId);//finding drone with given id
                 if (drone.ParcelInTransfer.ParcelState == true)//if parcel is delivered
@@ -209,7 +208,7 @@ namespace BL
                     (drone.ParcelInTransfer.CollectionLocation.Longitude, drone.ParcelInTransfer.CollectionLocation.Latitude,
                     drone.ParcelInTransfer.DeliveryDestination.Longitude, drone.ParcelInTransfer.DeliveryDestination.Latitude);
                     //battery is measured by the distance the drone did and the amount of battery that goes down according to the parcel weight
-                    droneToList.Battery -= (int)(distance * Weight(drone.Weight));
+                    droneToList.Battery -= (int)(distance * Weight((WeightCategories)parcel.Weight));
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
                     droneToList.DroneStatus = (DroneStatuses)1;//updating status of drone to be available
                     droneToList.ParcelIdInTransfer = 0;
@@ -220,7 +219,7 @@ namespace BL
                 else
                     throw new ParcelDeliveryException("Drone could not deliver parcel.\n");
             }
-            catch (ArgumentNullException ex)
+            catch (InvalidOperationException ex)
             {
                 throw new FailedToCollectParcelException(ex.ToString()); ;
             }
@@ -235,11 +234,7 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
-                if (droneToList == null)
-                {
-                    throw new FailedToCollectParcelException("Drone does not exist.\n");
-                }
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelIdInTransfer);//finding parcel that is assigned to this drone
                 IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
                 if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
@@ -258,10 +253,13 @@ namespace BL
                 else
                     throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
             }
-
             catch (InvalidOperationException ex)
             {
                 throw new FailedToCollectParcelException("Does not exist.\n", ex);
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedToCollectParcelException("ERROR.\n", ex);
             }
         }
     }

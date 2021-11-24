@@ -24,26 +24,20 @@ namespace BL
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             try
             {
-
-                //converting BL station to dal
                 IDAL.DO.Customer tempCustomer = new();
                 object obj = tempCustomer;
                 newCustomer.CopyPropertiesTo(obj);
                 tempCustomer = (IDAL.DO.Customer)obj;
                 newCustomer.CopyPropertiesTo(tempCustomer);
                 dal.AddCustomer(tempCustomer);//adding to station list in dal
-                ////converting BL customer to dal
-                //IDAL.DO.Customer tempCustomer = new();
-                //newCustomer.CopyPropertiesTo(tempCustomer);
-                //dal.AddCustomer(tempCustomer);//adding to customer list in dal
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new FailedToAddException("The customer already exists.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
 
-        public Customer GetCustomer(int customerId)//תצוגת לקוח
+        public Customer GetCustomer(int customerId)
         {
             Customer blCustomer = new();
             try
@@ -88,7 +82,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedDisplayException("The Id does not exist.\n", ex);
+                throw new FailedDisplayException("ERROR\n", ex);
             }
             return blCustomer;
         }
@@ -130,7 +124,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedToAddException("The customer does not exist.\n", ex);
+                throw new FailedToAddException("ERROR\n", ex);
             }
         }
 
