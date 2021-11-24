@@ -137,7 +137,7 @@ namespace ConsoleUI_BL
                                 case UpdatingFunction.UpdateDrone:
                                     Console.WriteLine("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
-                                    Console.Write("Enter the new model name for the drone ");
+                                    Console.Write("Enter the new model name for the drone: ");
                                     name = Console.ReadLine();
                                     ibl.UpdateDrone(idDrone, name);
                                     break;
