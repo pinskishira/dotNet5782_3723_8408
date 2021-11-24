@@ -29,11 +29,11 @@ namespace IBL.BO
         }
     }
     [Serializable]
-    public class FailedDisplayException : Exception//יצוג ישות נכשל
+    public class FailedGetException : Exception//יצוג ישות נכשל
     {
-        public FailedDisplayException() : base() { }
-        public FailedDisplayException(string message) : base(message) { }
-        public FailedDisplayException(string message, Exception innerException) : base(message, innerException) { }
+        public FailedGetException() : base() { }
+        public FailedGetException(string message) : base(message) { }
+        public FailedGetException(string message, Exception innerException) : base(message, innerException) { }
         public override string ToString()
         {
             return Message;

@@ -33,7 +33,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemExistsException ex)
             {
-                throw new FailedToAddException("The station already exists.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
 
@@ -52,9 +52,9 @@ namespace BL
                     {
                         DroneInCharging tempDroneInCharging = new();
                         tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
-                        DroneToList tempDroneToList = BlDrones.Find(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
+                        DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
                         if (tempDroneToList == default)
-                            throw new FailedDisplayException("The Id number does not exist. \n");
+                            throw new FailedGetException("The Id number does not exist. \n");
                         tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
                         blStation.DronesInCharging.Add(tempDroneInCharging);//adding to drones in charging
                     }
@@ -62,7 +62,11 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedDisplayException("The Id does not exist.\n", ex);
+                throw new FailedGetException("ERROR.\n", ex);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new FailedGetException("The drone does not exist.\n");
             }
             return blStation;
         }
@@ -106,7 +110,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedToAddException("The station does not exist.\n", ex);
+                throw new FailedToAddException("ERROR.\n", ex);
             }
         }
     }

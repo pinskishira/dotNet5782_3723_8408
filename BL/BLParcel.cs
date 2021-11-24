@@ -69,11 +69,11 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedDisplayException("ERROR.\n", ex);
+                throw new FailedGetException("ERROR.\n", ex);
             }
             catch (InvalidOperationException)
             {
-                throw new DroneMaintananceException("The drone does not exist.\n");
+                throw new FailedGetException("The drone does not exist.\n");
             }
             return blParcel;
         }
@@ -171,7 +171,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedToAddException("ERROR.\n", ex);
+                throw new ParcelDeliveryException("ERROR.\n", ex);
             }
         }
 
@@ -180,8 +180,8 @@ namespace BL
         /// </summary>
         /// <param name="droneToList">List of drones</param>
         /// <param name="parcelSenderId">Id of the parcel sender</param>
-        /// <returns></returns>
-        public double DroneDistanceFromParcel(DroneToList droneToList, int parcelSenderId)
+        /// <returns>distance</returns>
+        double DroneDistanceFromParcel(DroneToList droneToList, int parcelSenderId)
         {
             try
             {
@@ -219,15 +219,14 @@ namespace BL
                 else
                     throw new ParcelDeliveryException("Drone could not deliver parcel.\n");
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                throw new FailedToCollectParcelException(ex.ToString()); ;
+                throw new ParcelDeliveryException("Does not exist.\n");
             }
-            catch (ParcelDeliveryException ex)
+            catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new ParcelDeliveryException(ex.ToString());
+                throw new ParcelDeliveryException("ERROR.\n", ex);
             }
-
         }
 
         public void UpdateParcelCollectionByDrone(int droneId)
@@ -253,9 +252,9 @@ namespace BL
                 else
                     throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                throw new FailedToCollectParcelException("Does not exist.\n", ex);
+                throw new FailedToCollectParcelException("ERROR.\n");
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {

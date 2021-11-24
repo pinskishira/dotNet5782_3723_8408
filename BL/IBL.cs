@@ -46,7 +46,7 @@ namespace IBL
         /// </summary>
         /// <param name="customerId">Id of customer</param>
         /// <returns>Customer</returns>
-        /// <exception cref="IBL.BO.FailedDisplayException"></exception>
+        /// <exception cref="IBL.BO.FailedGetException"></exception>
         Customer GetCustomer(int customerId);
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace IBL
         /// </summary>
         /// <param name="droneId">Id of drone</param>
         /// <returns>Drone</returns>
-        ///  <exception cref="IBL.BO.FailedDisplayException"></exception>
+        ///  <exception cref="IBL.BO.FailedGetException"></exception>
         Drone GetDrone(int droneId);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcelId">Id of parcel</param>
         /// <returns>Parcel</returns>
-        ///  <exception cref="IBL.BO.FailedDisplayException"></exception>
+        ///  <exception cref="IBL.BO.FailedGetException"></exception>
         Parcel GetParcel(int parcelId);
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace IBL
         /// </summary>
         /// <param name="stationId">Id of station</param>
         /// <returns>Parcel</returns>
-        /// <exception cref="IBL.BO.FailedDisplayException"></exception>
+        /// <exception cref="IBL.BO.FailedGetException"></exception>
         Station GetStation(int stationId);
 
         /// <summary>

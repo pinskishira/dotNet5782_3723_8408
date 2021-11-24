@@ -269,7 +269,7 @@ namespace ConsoleUI_BL
                 {
                     Console.WriteLine(ex.Message);
                 }
-                catch (FailedDisplayException ex)
+                catch (FailedGetException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }

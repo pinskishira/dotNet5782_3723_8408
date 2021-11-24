@@ -82,7 +82,7 @@ namespace BL
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
-                throw new FailedDisplayException("ERROR\n", ex);
+                throw new FailedGetException("ERROR\n", ex);
             }
             return blCustomer;
         }

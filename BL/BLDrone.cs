@@ -65,7 +65,7 @@ namespace BL
         {
             DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//searches the list of drones by ID number of the drone
             if (tempDroneToList == default)
-                throw new FailedDisplayException("The ID number does not exist\n");
+                throw new FailedGetException("The ID number does not exist\n");
             Drone dalDrone = new();
             dalDrone.CurrentLocation = new();
             tempDroneToList.CopyPropertiesTo(dalDrone);//converting the drone in the list to a regular drone
@@ -171,7 +171,7 @@ namespace BL
         {
             try
             {
-                DroneToList droneToList = BlDrones.Find(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
                 if (droneToList.DroneStatus != DroneStatuses.Maintenance)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
@@ -179,7 +179,7 @@ namespace BL
                     droneToList.Battery = 100;
                 else
                     droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
-                droneToList.DroneStatus = (DroneStatuses)1;//drone is now available
+                droneToList.DroneStatus = DroneStatuses.Available;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
                 int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
                 BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
