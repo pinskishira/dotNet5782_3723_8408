@@ -21,9 +21,9 @@ namespace BL
                 throw new InvalidInputException("You need to select 1- for Normal 2- for Fast 3- for Emergency\n");
             //updating times
             newParcel.Requested = DateTime.Now;
-            newParcel.Scheduled = DateTime.MinValue;
-            newParcel.PickedUp = DateTime.MinValue;
-            newParcel.Delivered = DateTime.MinValue;
+            newParcel.Scheduled = null;
+            newParcel.PickedUp = null;
+            newParcel.Delivered = null;
             try
             {
                 //converting BL parcel to dal
@@ -89,15 +89,15 @@ namespace BL
                 tempParcel.CopyPropertiesTo(tempParcelToList);//converting to parcelToList
                 tempParcelToList.SenderName = tempParcel.Sender.Name;
                 tempParcelToList.TargetName = tempParcel.Target.Name;
-                if (tempParcel.Delivered != DateTime.MinValue)//if parcel was delivered
+                if (tempParcel.Delivered != null)//if parcel was delivered
                     tempParcelToList.StateOfParcel = ParcelState.Provided;//state -> provided
                 else
                 {
-                    if (tempParcel.PickedUp != DateTime.MinValue)//if parcel was picked up by drone
+                    if (tempParcel.PickedUp != null)//if parcel was picked up by drone
                         tempParcelToList.StateOfParcel = ParcelState.PickedUp;//state -> picked up
                     else
                     {
-                        if (tempParcel.Scheduled != DateTime.MinValue)//if if parcel was assigned to drone
+                        if (tempParcel.Scheduled != null)//if if parcel was assigned to drone
                             tempParcelToList.StateOfParcel = ParcelState.Paired;//state -> paired
                         else//if parcel was requested
                             tempParcelToList.StateOfParcel = ParcelState.Created;//state -> created
@@ -236,7 +236,7 @@ namespace BL
                 DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
                 IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelIdInTransfer);//finding parcel that is assigned to this drone
                 IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
-                if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
+                if (parcel.Scheduled != null && parcel.PickedUp == null)
                 {
                     //finding distance between original location of drone to the location of its destination
                     int distance = (int)Distance.Haversine
