@@ -88,7 +88,7 @@ namespace BL
                 //updating location with sender location and target location
                 tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
                 tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
-                if (tempParcel.PickedUp == DateTime.MinValue)//if package is waiting for pickup
+                if (tempParcel.PickedUp == null)//if package is waiting for pickup
                     tempParcelInTransfer.ParcelState = false;
                 else
                     tempParcelInTransfer.ParcelState = true;
