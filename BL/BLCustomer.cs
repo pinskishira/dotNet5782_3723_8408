@@ -47,8 +47,8 @@ namespace BL
                 blCustomer.CustomerLocation = CopyLocation(dalCustomer.Longitude, dalCustomer.Latitude);
                 blCustomer.ParcelsFromCustomers = new();
                 blCustomer.ParcelsToCustomers = new();
-                List<IDAL.DO.Parcel> parcels = dal.GetAllParcels().ToList();
-                foreach (var indexOfParcels in parcels)//goes through list of parcels
+                //goes through the parcels with the sent condition
+                foreach (var indexOfParcels in dal.GetAllParcels(parcel => parcel.SenderId == customerId || parcel.TargetId == customerId))
                 {
                     ParcelAtCustomer parcelAtCustomer = new();
                     indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
@@ -76,7 +76,6 @@ namespace BL
                             blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
                         else//If the customer receives the parcel
                             blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
-
                     }
                 }
             }
@@ -87,12 +86,12 @@ namespace BL
             return blCustomer;
         }
 
-        public IEnumerable<CustomerToList> GetAllCustomers()
+        public IEnumerable<CustomerToList> GetAllCustomers(Predicate<IDAL.DO.Customer> predicate = null)
         {
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();
             List<CustomerToList> customerToList = new();
-            foreach (var indexCustomer in dal.GetAllCustomers())//goes through list of customers
+            foreach (var indexCustomer in dal.GetAllCustomers(predicate))//goes through list of customers
             {
                 tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll

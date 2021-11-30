@@ -29,11 +29,8 @@ namespace BL
             tempDroneCharge.DroneId = newDrone.Id;
             tempDroneCharge.StationId = stationNumber;
             DroneToList newDroneToList = new();//adding information to droneToLists
-            newDroneToList.Id = newDrone.Id;
-            newDroneToList.Model = newDrone.Model;
-            newDroneToList.Weight = newDrone.Weight;
-            newDroneToList.Battery = newDrone.Battery;
-            newDroneToList.DroneStatus = newDrone.DroneStatus;
+            newDroneToList.CurrentLocation = new();
+            newDrone.CopyPropertiesTo(newDroneToList);
             newDroneToList.CurrentLocation = newDrone.CurrentLocation;
             if (newDrone.ParcelInTransfer == null)
                 newDroneToList.ParcelIdInTransfer = 0;
@@ -63,41 +60,46 @@ namespace BL
 
         public Drone GetDrone(int droneId)
         {
-            DroneToList tempDroneToList = BlDrones.Find(item => item.Id == droneId);//searches the list of drones by ID number of the drone
-            if (tempDroneToList == default)
-                throw new FailedGetException("The ID number does not exist\n");
-            Drone dalDrone = new();
-            dalDrone.CurrentLocation = new();
-            tempDroneToList.CopyPropertiesTo(dalDrone);//converting the drone in the list to a regular drone
-            dalDrone.CurrentLocation = CopyLocation(tempDroneToList.CurrentLocation.Longitude, tempDroneToList.CurrentLocation.Latitude);
-            if (tempDroneToList.ParcelIdInTransfer == 0)//parcel wasnt assigned by drone
-                dalDrone.ParcelInTransfer = default;
-            else//was assigned by drone
+            try
             {
-                Parcel tempParcel = GetParcel(tempDroneToList.ParcelIdInTransfer);//searches for the parcel by ID number
-                ParcelInTransfer tempParcelInTransfer = new();
-                tempParcelInTransfer.Sender = new();
-                tempParcelInTransfer.Target = new();
-                tempParcelInTransfer.CollectionLocation = new();
-                tempParcelInTransfer.DeliveryDestination = new();
-                tempParcel.CopyPropertiesTo(tempParcelInTransfer);//converting from parcel to 
-                Customer Sender = GetCustomer(tempParcel.Sender.Id);//finding sender
-                Customer Target = GetCustomer(tempParcel.Target.Id);//finding target 
-                Sender.CopyPropertiesTo(tempParcelInTransfer.Sender);
-                Target.CopyPropertiesTo(tempParcelInTransfer.Target);
-                //updating location with sender location and target location
-                tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
-                tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
-                if (tempParcel.PickedUp == null)//if package is waiting for pickup
-                    tempParcelInTransfer.ParcelState = false;
-                else
-                    tempParcelInTransfer.ParcelState = true;
-                //finding distance between sender and target
-                tempParcelInTransfer.TransportDistance = Distance.Haversine
-                (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
-                dalDrone.ParcelInTransfer = tempParcelInTransfer;
+                DroneToList tempDroneToList = BlDrones.First(item => item.Id == droneId);//searches the list of drones by ID number of the drone
+                Drone blDrone = new();
+                blDrone.CurrentLocation = new();
+                tempDroneToList.CopyPropertiesTo(blDrone);//converting the drone in the list to a regular drone
+                blDrone.CurrentLocation = CopyLocation(tempDroneToList.CurrentLocation.Longitude, tempDroneToList.CurrentLocation.Latitude);
+                if (tempDroneToList.ParcelIdInTransfer == 0)//parcel wasnt assigned by drone
+                    blDrone.ParcelInTransfer = default;
+                else//was assigned by drone
+                {
+                    Parcel tempParcel = GetParcel(tempDroneToList.ParcelIdInTransfer);//searches for the parcel by ID number
+                    ParcelInTransfer tempParcelInTransfer = new();
+                    tempParcelInTransfer.Sender = new();
+                    tempParcelInTransfer.Target = new();
+                    tempParcelInTransfer.CollectionLocation = new();
+                    tempParcelInTransfer.DeliveryDestination = new();
+                    tempParcel.CopyPropertiesTo(tempParcelInTransfer);//converting from parcel to 
+                    Customer Sender = GetCustomer(tempParcel.Sender.Id);//finding sender
+                    Customer Target = GetCustomer(tempParcel.Target.Id);//finding target 
+                    Sender.CopyPropertiesTo(tempParcelInTransfer.Sender);
+                    Target.CopyPropertiesTo(tempParcelInTransfer.Target);
+                    //updating location with sender location and target location
+                    tempParcelInTransfer.CollectionLocation = Sender.CustomerLocation;
+                    tempParcelInTransfer.DeliveryDestination = Target.CustomerLocation;
+                    if (tempParcel.PickedUp == null)//if package is waiting for pickup
+                        tempParcelInTransfer.ParcelState = false;
+                    else
+                        tempParcelInTransfer.ParcelState = true;
+                    //finding distance between sender and target
+                    tempParcelInTransfer.TransportDistance = Distance.Haversine
+                    (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
+                    blDrone.ParcelInTransfer = tempParcelInTransfer;
+                }
+                return blDrone;
             }
-            return dalDrone;
+            catch (ArgumentNullException)
+            {
+                throw new FailedGetException("The ID number does not exist\n");
+            }
         }
 
         public IEnumerable<DroneToList> GetAllDrones()

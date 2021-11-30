@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 using IDAL.DO;
 
@@ -17,26 +18,23 @@ namespace DalObject
         {
             if (!DataSource.Customers.Exists(item => item.Id == id))//checks if customer exists
                 throw new ItemDoesNotExistException("The customer does not exist.\n");
-            int indexFindCustomer = DataSource.Customers.FindIndex(indexOfCustomer => indexOfCustomer.Id == id);//Going through customers array
-            return DataSource.Customers[indexFindCustomer];
+            return DataSource.Customers[DataSource.Customers.FindIndex(indexOfCustomer => indexOfCustomer.Id == id)];//find customer
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
-            List<Customer> tempCustomers = new();
-            foreach (var indexOfCustomers in DataSource.Customers)//going through customers list
-            {
-                tempCustomers.Add(indexOfCustomers);
-            }
-            return tempCustomers;
+            // List<Customer> tempCustomers = new();
+            //going through customers list
+           // foreach (var indexOfCustomers in DataSource.Customers) { tempCustomers.Add(indexOfCustomers); }
+            return DataSource.Customers.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
             if (!DataSource.Customers.Exists(item => item.Id == idCustomer))//checks if customer exists
                 throw new ItemDoesNotExistException("The customer does not exist.\n");
-            Customer customer = DataSource.Customers.Find(item => item.Id == idCustomer);
             int indexOfCustomer = DataSource.Customers.FindIndex(item => item.Id == idCustomer);//finds index where customer is
+            Customer customer = DataSource.Customers[indexOfCustomer];
             if (newName != "")//if enter was entered instead of new name
                 customer.Name = newName;
             if (customerPhone != "")//if enter was entered instead of new phone

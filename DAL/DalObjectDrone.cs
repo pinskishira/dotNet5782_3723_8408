@@ -18,18 +18,18 @@ namespace DalObject
         {
             if (!DataSource.Drones.Exists(item => item.Id == id))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexFindDrone = DataSource.Drones.FindIndex(item => item.Id == id);//finding drone;
-            return DataSource.Drones[indexFindDrone];
+            return DataSource.Drones[DataSource.Drones.FindIndex(item => item.Id == id)];//finding drone
         }
 
-        public IEnumerable<Drone> GetAllDrones()
+        public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
-            List<Drone> tempDrones = new();
-            foreach (var indexOfDrones in DataSource.Drones)//going through drones list
-            {
-                tempDrones.Add(indexOfDrones);
-            }
-            return tempDrones;
+            //List<Drone> tempDrones = new();
+            //foreach (var indexOfDrones in DataSource.Drones)//going through drones list
+            //{
+            //    tempDrones.Add(indexOfDrones);
+            //}
+            //return tempDrones;
+            return DataSource.Drones.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)

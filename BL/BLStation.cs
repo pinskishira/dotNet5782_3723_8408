@@ -46,18 +46,15 @@ namespace BL
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
                 blStation.DronesInCharging = new();
-                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges())//going through drone charges
+                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges(item=> item.StationId == stationId))//going through drone charges
                 {
-                    if (indexOfDroneCharges.StationId == stationId)//if station id's match
-                    {
-                        DroneInCharging tempDroneInCharging = new();
-                        tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
-                        DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
-                        if (tempDroneToList == default)
-                            throw new FailedGetException("The Id number does not exist. \n");
-                        tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
-                        blStation.DronesInCharging.Add(tempDroneInCharging);//adding to drones in charging
-                    }
+                    DroneInCharging tempDroneInCharging = new();
+                    tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
+                    DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
+                    if (tempDroneToList == default)
+                        throw new FailedGetException("The Id number does not exist. \n");
+                    tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
+                    blStation.DronesInCharging.Add(tempDroneInCharging);//adding to drones in charging
                 }
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
@@ -71,11 +68,11 @@ namespace BL
             return blStation;
         }
 
-        public IEnumerable<StationToList> GetAllStations()
+        public IEnumerable<StationToList> GetAllStations(Predicate<IDAL.DO.Station> predicate = null)
         {
             Station tempStation = new();
             List<StationToList> stationToList = new List<StationToList>();
-            foreach (var indexOfStations in dal.GetAllStations())//going through stations
+            foreach (var indexOfStations in dal.GetAllStations(predicate))//going through stations
             {
                 StationToList tempStationToList = new();
                 tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
@@ -85,17 +82,6 @@ namespace BL
                 else
                     tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
                 stationToList.Add(tempStationToList);//ading to StationToList
-            }
-            return stationToList;
-        }
-
-        public IEnumerable<StationToList> GetStationWithFreeSlots()
-        {
-            List<StationToList> stationToList = new();
-            foreach (var indexOfStation in GetAllStations())
-            {
-                if (indexOfStation.AvailableChargeSlots > 0)//if station has available charging slots
-                    stationToList.Add(indexOfStation);//add to list
             }
             return stationToList;
         }

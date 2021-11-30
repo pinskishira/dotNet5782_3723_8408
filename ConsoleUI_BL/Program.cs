@@ -246,14 +246,12 @@ namespace ConsoleUI_BL
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    IEnumerable<ParcelToList> ViewParcelsWithNoDrone = ibl.GetAllParcelsWithNoDrone();
-                                    foreach (var parcel in ViewParcelsWithNoDrone)//printing
-                                        Console.WriteLine(parcel);
+                                    ((List<ParcelToList>)ibl.GetAllParcels(parcel => parcel.Scheduled==null))
+                                        .ForEach(parcel => Console.WriteLine(parcel));
                                     break;
                                 case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                    IEnumerable<StationToList> viewStationWithAvailableChargingStation = ibl.GetStationWithFreeSlots();
-                                    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
-                                        Console.WriteLine(station);
+                                    ((List<StationToList>)ibl.GetAllStations(station => station.AvailableChargeSlots > 0))
+                                        .ForEach(station => Console.WriteLine(station));
                                     break;
                                 case ListViewFunction.MainMenu:
                                     break;

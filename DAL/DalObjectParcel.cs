@@ -14,7 +14,7 @@ namespace DalObject
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);
         }
-        
+
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
@@ -24,7 +24,7 @@ namespace DalObject
             newParcel.PickedUp = DateTime.Now;
             DataSource.Parcels[indexParcel] = newParcel;//updating date and time
         }
-       
+
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
             if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
@@ -41,29 +41,29 @@ namespace DalObject
         {
             if (!DataSource.Parcels.Exists(item => item.Id == id))//checks if parcel exists
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            int indexFindParcel = DataSource.Parcels.FindIndex(item => item.Id == id);//finding parcel
-            return DataSource.Parcels[indexFindParcel];
+            return DataSource.Parcels[DataSource.Parcels.FindIndex(item => item.Id == id)];//finding parcel
         }
 
-        public IEnumerable<Parcel> GetAllParcels()
+        public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
-            List<Parcel> tempParcels = new();
-            foreach (var indexOfParcels in DataSource.Parcels)//going through parcels list
-            {
-                tempParcels.Add(indexOfParcels);//adding to list
-            }
-            return tempParcels;
+            //List<Parcel> tempParcels = new();
+            //foreach (var indexOfParcels in DataSource.Parcels)//going through parcels list
+            //{
+            //    tempParcels.Add(indexOfParcels);//adding to list
+            //}
+            //return tempParcels;
+            return DataSource.Parcels.FindAll(item => predicate == null ? true : predicate(item));
         }
 
-        public IEnumerable<Parcel> GetParcelWithNoDrone()
-        {
-            List<Parcel> parcelNoDrone = new();
-            foreach (var indexNoDrone in DataSource.Parcels)//going through parcels list
-            {
-                if (indexNoDrone.DroneId == 0)//if parcel isnt assigned to drone
-                    parcelNoDrone.Add(indexNoDrone);
-            }
-            return parcelNoDrone;
-        }
+        //public IEnumerable<Parcel> GetParcelWithNoDrone()
+        //{
+        //    List<Parcel> parcelNoDrone = new();
+        //    foreach (var indexNoDrone in DataSource.Parcels)//going through parcels list
+        //    {
+        //        if (indexNoDrone.DroneId == 0)//if parcel isnt assigned to drone
+        //            parcelNoDrone.Add(indexNoDrone);
+        //    }
+        //    return parcelNoDrone;
+        //}
     }
 }

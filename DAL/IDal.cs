@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using IDAL.DO;
 
 
@@ -82,31 +83,31 @@ namespace IDAL
         /// Gives a view of the list of customers
         /// </summary>
         /// <returns>List of customers</returns>
-        IEnumerable<Customer> GetAllCustomers();
+        IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null);
 
         /// <summary>
         /// Gives a view of the list of drones
         /// </summary>
         /// <returns>List of drones</returns>
-        IEnumerable<Drone> GetAllDrones();
+        IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null);
 
         /// <summary>
         /// Gives a view of the list of parcels
         /// </summary>
         /// <returns>List of parcels</returns>
-        IEnumerable<Parcel> GetAllParcels();
+        IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null);
 
         /// <summary>
         /// Gives a view of the list of stations
         /// </summary>
         /// <returns>List of stations</returns>
-        IEnumerable<Station> GetAllStations();
+        IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null);
 
         /// <summary>
         /// Returns list of all the drones in charges
         /// </summary>
         /// <returns>List of drones in charging</returns>
-        IEnumerable<DroneCharge> GetAllDroneCharges();
+        IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null);
 
         /// <summary>
         /// A function that returns a list of stations whose load position is greater than 0

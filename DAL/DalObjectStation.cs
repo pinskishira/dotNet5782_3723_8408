@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 using IDAL.DO;
 
@@ -17,29 +18,30 @@ namespace DalObject
         {
             if (!DataSource.Stations.Exists(item => item.Id == id))//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            int indexFindStation = DataSource.Stations.FindIndex(item => item.Id == id);//Going through stations list
-            return DataSource.Stations[indexFindStation];
+            return DataSource.Stations[DataSource.Stations.FindIndex(item => item.Id == id)];//Going through stations list
         }
 
-        public IEnumerable<Station> GetStationWithFreeSlots()
-        {
-            List<Station> freeSlotsStation = new();
-            foreach (var indexSlots in DataSource.Stations)//goes through stations list
-            {
-                if (indexSlots.AvailableChargeSlots > 0)//if he has available charging slots
-                    freeSlotsStation.Add(indexSlots);
-            }
-            return freeSlotsStation;
-        }
+        //public IEnumerable<Station> GetStationWithFreeSlots(Predicate<Station> predicate = null)
+        //{
+        //    //List<Station> freeSlotsStation = new();
+        //    //foreach (var indexSlots in DataSource.Stations)//goes through stations list
+        //    //{
+        //    //    if (indexSlots.AvailableChargeSlots > 0)//if he has available charging slots
+        //    //        freeSlotsStation.Add(indexSlots);
+        //    //}
+        //    //return freeSlotsStation;
+        //}
 
-        public IEnumerable<Station> GetAllStations()
+        public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
-            List<Station> tempStations = new List<Station>();
-            foreach (var indexOfStations in DataSource.Stations)//goes through stations list
-            {
-                tempStations.Add(indexOfStations);//adds to list
-            }
-            return tempStations;
+            //List<Station> tempStations = new List<Station>();
+            //foreach (var indexOfStations in DataSource.Stations)//goes through stations list
+            //{
+            //    tempStations.Add(indexOfStations);//adds to list
+            //}
+            //return tempStations;
+            return DataSource.Stations.FindAll(item => predicate == null ? true : predicate(item));
+
         }
 
         /// <summary>
@@ -60,8 +62,8 @@ namespace DalObject
         {
             if (!DataSource.Stations.Exists(item => item.Id == idStation))//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            Station station = DataSource.Stations.Find(item => item.Id == idStation);//finds wanted station
             int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);
+            Station station = DataSource.Stations[indexOfStation];
             if (newName != "")//if enter wasnt inputted
                 station.Name = newName;
             if (chargeSlots != 0)//if 0 wasnt inputted

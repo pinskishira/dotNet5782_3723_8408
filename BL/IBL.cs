@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 using IBL.BO;
 using static IBL.BO.Enum;
@@ -74,17 +75,11 @@ namespace IBL
         Station GetStation(int stationId);
 
         /// <summary>
-        /// Returns list of stations with free charging slots
-        /// </summary>
-        /// <returns>List of stations</returns>
-        IEnumerable<StationToList> GetStationWithFreeSlots();
-
-        /// <summary>
         /// Converting BL list to dal and updating the parcel state, and amount of packages sent and delivered
         /// to customer, then adding to custonerToList.
         /// </summary>
         /// <returns>List of customers</returns>
-        IEnumerable<CustomerToList> GetAllCustomers();
+        IEnumerable<CustomerToList> GetAllCustomers(Predicate<IDAL.DO.Customer> predicate = null);
 
         /// <summary>
         /// Sending list of drones.
@@ -96,19 +91,13 @@ namespace IBL
         /// Converting BL list to dal and updating the parcel state, then adding to parcelToList.
         /// </summary>
         /// <returns>List of parcels</returns>
-        IEnumerable<ParcelToList> GetAllParcels();
+        IEnumerable<ParcelToList> GetAllParcels(Predicate<IDAL.DO.Parcel> predicate = null);
 
         /// <summary>
         /// Converting BL list to dal and updating amount of unavailable charge slots, then adding to stationToList.
         /// </summary>
         /// <returns>List of stations</returns>
-        IEnumerable<StationToList> GetAllStations();
-
-        /// <summary>
-        /// Finds parcels that are not assigned to a drone.
-        /// </summary>
-        /// <returns>Parcels with no drone</returns>
-        IEnumerable<ParcelToList> GetAllParcelsWithNoDrone();
+        IEnumerable<StationToList> GetAllStations(Predicate<IDAL.DO.Station> predicate = null);
 
         /// <summary>
         /// Finds customer and sends to update in dal.

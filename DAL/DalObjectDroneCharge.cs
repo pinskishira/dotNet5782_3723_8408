@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 using IDAL.DO;
 
@@ -42,14 +43,15 @@ namespace DalObject
             DataSource.DroneCharges.RemoveAt(indexDC);//removes drone from charging
         }
 
-        public IEnumerable<DroneCharge> GetAllDroneCharges()
+        public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null)
         {
-            List<DroneCharge> tempDroneCharges = new();
-            foreach (var indexOfDroneCharges in DataSource.DroneCharges)
-            {
-                tempDroneCharges.Add(indexOfDroneCharges);
-            }
-            return tempDroneCharges;
+            //List<DroneCharge> tempDroneCharges = new();
+            //foreach (var indexOfDroneCharges in DataSource.DroneCharges)
+            //{
+            //    tempDroneCharges.Add(indexOfDroneCharges);
+            //}
+            //return tempDroneCharges;
+            return DataSource.DroneCharges.FindAll(item => predicate == null ? true : predicate(item));
         }
     }
 }
