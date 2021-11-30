@@ -18,10 +18,10 @@ namespace IBL
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DroneInParcel DroneParcel { get; set; }
-            public DateTime Requested { get; set; }//Time parcel is created  
-            public DateTime Scheduled { get; set; }//Time parcel is assigned to drone
-            public DateTime PickedUp { get; set; }//Time parcel is picked up by drone
-            public DateTime Delivered { get; set; }//Time parcel is delivered by drone
+            public DateTime? Requested { get; set; }//Time parcel is created  
+            public DateTime? Scheduled { get; set; }//Time parcel is assigned to drone
+            public DateTime? PickedUp { get; set; }//Time parcel is picked up by drone
+            public DateTime? Delivered { get; set; }//Time parcel is delivered by drone
             public override string ToString()
             {
                 String result = "";

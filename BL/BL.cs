@@ -35,7 +35,7 @@ namespace BL
                     //if parcel was paired but not delivered
                     IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
                     indexOfDrones.DroneStatus = DroneStatuses.Delivery;//updating status to be in delivery
-                    if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if parcel was paired but not picked up
+                    if (parcel.Scheduled != null && parcel.PickedUp == null)//if parcel was paired but not picked up
                     {
                         IDAL.DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the customer usind id number
                         IDAL.DO.Station closestStation = smallestDistance(sender.Longitude, sender.Latitude);//returning samllest distance between the sender of the parcel and the stations 
@@ -47,7 +47,7 @@ namespace BL
                             (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
                         indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
                     }
-                    if (parcel.PickedUp != DateTime.MinValue)//if parcel was picked up but not delivered 
+                    if (parcel.PickedUp != null)//if parcel was picked up but not delivered 
                     {
                         IDAL.DO.Customer tempCustomer = dal.FindCustomer(parcel.SenderId);//finding the sender in customers
                         indexOfDrones.CurrentLocation = new();
@@ -75,7 +75,7 @@ namespace BL
                     {
                         List<int> deliveredParcels = new();//creating a new list 
                         foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
-                            if (indexOfParcels.Delivered != DateTime.MinValue)//finding parcels that have been delivered 
+                            if (indexOfParcels.Delivered != null)//finding parcels that have been delivered 
                                 deliveredParcels.Add(indexOfParcels.TargetId);//placing their targetId in new list
                         int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())];//finding a random index from the new list of deliveredParcels
                         IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
