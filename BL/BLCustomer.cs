@@ -55,11 +55,11 @@ namespace BL
                     //If the customer we want is either the sender or the recipient of the package
                     if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)
                     {
-                        if (indexOfParcels.Scheduled != DateTime.MinValue)//if parcel is assigned a drones
+                        if (indexOfParcels.Scheduled != null)//if parcel is assigned a drones
                         {
-                            if (indexOfParcels.PickedUp != DateTime.MinValue)//if parcel is picked up by drone
+                            if (indexOfParcels.PickedUp != null)//if parcel is picked up by drone
                             {
-                                if (indexOfParcels.Delivered != DateTime.MinValue)//parcel is delivered
+                                if (indexOfParcels.Delivered != null)//parcel is delivered
                                     parcelAtCustomer.StateOfParcel = ParcelState.Provided;
                                 else
                                     parcelAtCustomer.StateOfParcel = ParcelState.PickedUp;

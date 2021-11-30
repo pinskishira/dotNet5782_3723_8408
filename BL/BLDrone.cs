@@ -117,7 +117,7 @@ namespace BL
                 DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);
                 droneToList.Model = model;
             }
-            catch (InvalidInputException)
+            catch (InvalidOperationException)
             {
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             }

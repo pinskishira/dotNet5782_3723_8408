@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IBL.BO
 {
     [Serializable]
-    public class InvalidInputException : Exception//קלט לא חוקי
+    public class InvalidInputException : Exception
     {
         public InvalidInputException() : base() { }
         public InvalidInputException(string message) : base(message) { }
