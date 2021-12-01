@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static IBL.BO.Enum;
 
 namespace PL
 {
@@ -19,9 +20,36 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        public DroneListWindow(BL.BL bl)
+        BL.BL bl;
+        public DroneListWindow(BL.BL ibl)
         {
             InitializeComponent();
+            bl = ibl;
+            DronesListView.ItemsSource = ibl.GetAllDrones();
+            StatusSelection.ItemsSource = Enum.GetValues(typeof(DroneStatuses));
+            WeightSelection.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+        }
+
+        private void StatusSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();
+        }
+
+        private void WeightSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();
+        }
+
+        private void Selection()
+        {
+            if (StatusSelection.SelectedItem == null && WeightSelection.SelectedItem != null)
+                DronesListView.ItemsSource = bl.GetAllDrones(item => item.Weight == (WeightCategories)WeightSelection.SelectedItem);
+            if (StatusSelection.SelectedItem != null && WeightSelection.SelectedItem == null)
+                DronesListView.ItemsSource = bl.GetAllDrones(item => item.DroneStatus == (DroneStatuses)StatusSelection.SelectedItem);
+            if (StatusSelection.SelectedItem != null && WeightSelection.SelectedItem != null)
+                DronesListView.ItemsSource = bl.GetAllDrones(item => item.DroneStatus == (DroneStatuses)StatusSelection.SelectedItem && 
+                  item.Weight == (WeightCategories)WeightSelection.SelectedItem);
+
         }
     }
 }

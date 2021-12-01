@@ -19,8 +19,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="StatusSelection" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="136" Height="50"/>
-            <ComboBox x:Name="WeightSelection" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="136" Height="50"/>
+            <ComboBox x:Name="StatusSelection" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="136" Height="50" SelectionChanged="StatusSelection_SelectionChanged"/>
+            <ComboBox x:Name="WeightSelection" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="136" Height="50" SelectionChanged="WeightSelection_SelectionChanged"/>
             <Label Content="Label" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
             <Label Content="Label" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
         </Grid>
@@ -31,5 +31,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button  Content="AddDrone:" Margin="258,165,258,312" Height="78" Width="283" Grid.Row="1"/>
     </Grid>
 </Window>
