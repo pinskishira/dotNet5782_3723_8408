@@ -24,11 +24,11 @@ namespace BL
                 {
                     propTo.SetValue(to, value);
                 }
-                else if (!(value is IEnumerable))
-                {
-                    object target = propTo.GetValue(to, null);
-                    value.CopyPropertiesTo(target);
-                }
+                //else if (!(value is IEnumerable))
+                //{
+                //    object target = propTo.GetValue(to, null);
+                //    value.CopyPropertiesTo(target);
+                //}
             }
         }
 

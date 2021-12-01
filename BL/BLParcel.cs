@@ -147,8 +147,8 @@ namespace BL
                     dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
                     droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
                     droneToList.ParcelIdInTransfer = parcel.Id;
-                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    BlDrones[indexOfDroneToList] = droneToList;
+                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    //BlDrones[indexOfDroneToList] = droneToList;
                 }
             }
             catch (ParcelDeliveryException)
@@ -202,8 +202,8 @@ namespace BL
                     droneToList.CurrentLocation = drone.ParcelInTransfer.DeliveryDestination;//updating location to destination location
                     droneToList.DroneStatus = DroneStatuses.Available;//updating status of drone to be available
                     droneToList.ParcelIdInTransfer = 0;
-                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
+                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    //BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
                     dal.UpdateParcelDeliveryToCustomer(parcel.Id);//sending to update in dal
                 }
                 else
@@ -235,8 +235,8 @@ namespace BL
                     droneToList.CurrentLocation = new();
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
-                    int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
+                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
+                    //BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
                     dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal
                 }
                 else

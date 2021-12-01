@@ -153,22 +153,22 @@ namespace ConsoleUI
                                     int.TryParse(Console.ReadLine(), out IdParcel);
                                     dalObj.UpdateParcelDeliveryToCustomer(IdParcel);
                                     break;
-                                case UpdateingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
-                                    Console.Write("Enter the ID of the Drone with low battery: ");
-                                    int IdOfLowBatteryDrone;
-                                    int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
-                                    Console.Write("Please enter your desired station: ");
-                                    IEnumerable<Station> AvailableStation = dalObj.GetStationWithFreeSlots();//finding available station
-                                    Console.Write("\n");
-                                    int count = 1;
-                                    foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
-                                    {
-                                        if (indexStation.AvailableChargeSlots > 0)
-                                            Console.WriteLine((count++) + " - " + indexStation.Name);
-                                    }
-                                    string ChosenStation = Console.ReadLine();
-                                    dalObj.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
-                                    break;
+                                //case UpdateingFunction.SendDroneToChargingStation://case which sends a low battey drone to be charged 
+                                //    Console.Write("Enter the ID of the Drone with low battery: ");
+                                //    int IdOfLowBatteryDrone;
+                                //    int.TryParse(Console.ReadLine(), out IdOfLowBatteryDrone);//user entering drone with low battery
+                                //    Console.Write("Please enter your desired station: ");
+                                //    IEnumerable<Station> AvailableStation = dalObj.GetStationWithFreeSlots();//finding available station
+                                //    Console.Write("\n");
+                                //    int count = 1;
+                                //    foreach (var indexStation in AvailableStation)//user will have a few charging stations to choose from
+                                //    {
+                                //        if (indexStation.AvailableChargeSlots > 0)
+                                //            Console.WriteLine((count++) + " - " + indexStation.Name);
+                                //    }
+                                //    string ChosenStation = Console.ReadLine();
+                                //    dalObj.UpdateSendDroneToChargingStation(IdOfLowBatteryDrone, ChosenStation);
+                                //    break;
                                 case UpdateingFunction.DroneReleaseFromChargingStation://case which releases a fully charged drone from charging station
                                     Console.Write("Enter the ID of the Drone with charged battery: ");
                                     int IdOfChargedBatteryDrone;
@@ -240,16 +240,16 @@ namespace ConsoleUI
                                     foreach (var parcel in viewParcels)//prints all parcels
                                         Console.WriteLine(parcel);
                                     break;
-                                case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.GetParcelWithNoDrone();
-                                    foreach (var parcel in ViewParcelsWithNoDrone)//printing
-                                        Console.WriteLine(parcel);
-                                    break;
-                                case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
-                                    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
-                                        Console.WriteLine(station);
-                                    break;
+                                //case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
+                                //    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.GetParcelWithNoDrone();
+                                //    foreach (var parcel in ViewParcelsWithNoDrone)//printing
+                                //        Console.WriteLine(parcel);
+                                //    break;
+                                //case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
+                                //    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
+                                //    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
+                                //        Console.WriteLine(station);
+                                //    break;
                             }
                             break;
                     }

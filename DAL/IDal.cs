@@ -110,18 +110,6 @@ namespace IDAL
         IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null);
 
         /// <summary>
-        /// A function that returns a list of stations whose load position is greater than 0
-        /// </summary>
-        /// <returns>List of stations with free slots</returns>
-        IEnumerable<Station> GetStationWithFreeSlots();
-
-        /// <summary>
-        /// Gives a view of the an list of parcels with no assigned drones
-        /// </summary>
-        /// <returns>Parcel with no drone</returns>
-        IEnumerable<Parcel> GetParcelWithNoDrone();
-
-        /// <summary>
         /// Assigning a parcel to a drone
         /// </summary>
         /// <param name="idParcel">Parcel to assign to drone</param>

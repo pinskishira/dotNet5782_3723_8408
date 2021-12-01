@@ -54,16 +54,5 @@ namespace DalObject
             //return tempParcels;
             return DataSource.Parcels.FindAll(item => predicate == null ? true : predicate(item));
         }
-
-        //public IEnumerable<Parcel> GetParcelWithNoDrone()
-        //{
-        //    List<Parcel> parcelNoDrone = new();
-        //    foreach (var indexNoDrone in DataSource.Parcels)//going through parcels list
-        //    {
-        //        if (indexNoDrone.DroneId == 0)//if parcel isnt assigned to drone
-        //            parcelNoDrone.Add(indexNoDrone);
-        //    }
-        //    return parcelNoDrone;
-        //}
     }
 }

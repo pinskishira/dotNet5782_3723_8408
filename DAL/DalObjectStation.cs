@@ -20,18 +20,6 @@ namespace DalObject
                 throw new ItemDoesNotExistException("The station does not exist.\n");
             return DataSource.Stations[DataSource.Stations.FindIndex(item => item.Id == id)];//Going through stations list
         }
-
-        //public IEnumerable<Station> GetStationWithFreeSlots(Predicate<Station> predicate = null)
-        //{
-        //    //List<Station> freeSlotsStation = new();
-        //    //foreach (var indexSlots in DataSource.Stations)//goes through stations list
-        //    //{
-        //    //    if (indexSlots.AvailableChargeSlots > 0)//if he has available charging slots
-        //    //        freeSlotsStation.Add(indexSlots);
-        //    //}
-        //    //return freeSlotsStation;
-        //}
-
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
             //List<Station> tempStations = new List<Station>();

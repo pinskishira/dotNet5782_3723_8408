@@ -73,11 +73,9 @@ namespace BL
                     }
                     if (indexOfDrones.DroneStatus == DroneStatuses.Available)//if the drone is available for delivery
                     {
-                        List<int> deliveredParcels = new();//creating a new list 
-                        foreach (var indexOfParcels in dal.GetAllParcels())//going through parcel list
-                            if (indexOfParcels.Delivered != null)//finding parcels that have been delivered 
-                                deliveredParcels.Add(indexOfParcels.TargetId);//placing their targetId in new list
-                        int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())];//finding a random index from the new list of deliveredParcels
+                        //להראות לשירה!!!!!!!!!!!!!!!!!!!!!!
+                        List<IDAL.DO.Parcel> deliveredParcels = (List<IDAL.DO.Parcel>)dal.GetAllParcels(indexOfParcels => indexOfParcels.Delivered != null);
+                        int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())].TargetId;//finding a random index from the new list of deliveredParcels
                         IDAL.DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
                         indexOfDrones.CurrentLocation = new();
                         indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone

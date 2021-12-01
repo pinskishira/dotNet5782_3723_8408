@@ -31,7 +31,7 @@ namespace IBL
                 }
                 if (ParcelsToCustomers.Any())
                 {
-                    result += $"Parcels to customers is {ParcelsToCustomers} \n";
+                    result += $"Parcels to customers is: \n";
                     foreach (var indexOfParcelsToCustomers in ParcelsToCustomers)
                     {
                         result += $"{indexOfParcelsToCustomers} \n";

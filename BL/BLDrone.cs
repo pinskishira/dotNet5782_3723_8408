@@ -183,8 +183,8 @@ namespace BL
                     droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
                 droneToList.DroneStatus = DroneStatuses.Available;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
-                int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
-                BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
+                //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
+                //BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
             }
             catch (InvalidOperationException)
             {

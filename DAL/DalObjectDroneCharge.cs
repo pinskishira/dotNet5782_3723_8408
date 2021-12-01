@@ -20,13 +20,12 @@ namespace DalObject
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             if (!DataSource.Stations.Exists(item => item.Name == nameStation))//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            Station newStation = new();
             DroneCharge newDroneCharge = new();//drone with low battery will go be charged here
-            int index = DataSource.Stations.FindIndex(indexOfStation=>indexOfStation.Name==nameStation);
+            int index = DataSource.Stations.FindIndex(indexOfStation => indexOfStation.Name == nameStation);
             newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
             newDroneCharge.StationId = DataSource.Stations[index].Id;
             AddDroneCharge(newDroneCharge);//updating that a drone is charging
-            newStation = DataSource.Stations[index];
+            Station newStation = DataSource.Stations[index];
             newStation.AvailableChargeSlots--;//less available charge slots in station
             DataSource.Stations[index] = newStation;
         }
@@ -35,8 +34,8 @@ namespace DalObject
         {
             if (!DataSource.DroneCharges.Exists(item => item.DroneId == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexDC = DataSource.DroneCharges.FindIndex(indexOfDroneCharges => indexOfDroneCharges.DroneId==idDrone);//finds index where drone is
-            int indexS= DataSource.Stations.FindIndex(indexOfStations => indexOfStations.Id== DataSource.DroneCharges[indexDC].StationId);//finds index where station is
+            int indexDC = DataSource.DroneCharges.FindIndex(indexOfDroneCharges => indexOfDroneCharges.DroneId == idDrone);//finds index where drone is
+            int indexS = DataSource.Stations.FindIndex(indexOfStations => indexOfStations.Id == DataSource.DroneCharges[indexDC].StationId);//finds index where station is
             Station newStation = DataSource.Stations[indexS];
             newStation.AvailableChargeSlots++;//increasing amount of places left to charge
             DataSource.Stations[indexS] = newStation;
