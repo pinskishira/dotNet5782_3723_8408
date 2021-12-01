@@ -17,9 +17,9 @@ namespace PL
     /// <summary>
     /// Interaction logic for DronesWindow.xaml
     /// </summary>
-    public partial class DronesWindow : Window
+    public partial class DroneListWindow : Window
     {
-        public DronesWindow()
+        public DroneListWindow(BL.BL bl)
         {
             InitializeComponent();
         }
