@@ -85,7 +85,7 @@ namespace IBL
         /// Sending list of drones.
         /// </summary>
         /// <returns>List of drones</returns>
-        IEnumerable<DroneToList> GetAllDrones();
+        IEnumerable<DroneToList> GetAllDrones(Predicate<DroneToList> predicate = null);
 
         /// <summary>
         /// Converting BL list to dal and updating the parcel state, then adding to parcelToList.

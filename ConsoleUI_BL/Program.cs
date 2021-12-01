@@ -246,7 +246,7 @@ namespace ConsoleUI_BL
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    ((List<ParcelToList>)ibl.GetAllParcels(parcel => parcel.Scheduled==null))
+                                    ((List<ParcelToList>)ibl.GetAllParcels(parcel => parcel.StateOfParcel==ParcelState.Created))
                                         .ForEach(parcel => Console.WriteLine(parcel));
                                     break;
                                 case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations

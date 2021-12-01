@@ -48,7 +48,8 @@ namespace BL
                 blCustomer.ParcelsFromCustomers = new();
                 blCustomer.ParcelsToCustomers = new();
                 //goes through the parcels with the sent condition
-                foreach (var indexOfParcels in dal.GetAllParcels(parcel => parcel.SenderId == customerId || parcel.TargetId == customerId))
+                List<IDAL.DO.Parcel> parcelList = dal.GetAllParcels(parcel => parcel.SenderId == customerId || parcel.TargetId == customerId).ToList();
+                foreach (var indexOfParcels in parcelList)
                 {
                     ParcelAtCustomer parcelAtCustomer = new();
                     indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
@@ -91,18 +92,21 @@ namespace BL
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();
             List<CustomerToList> customerToList = new();
-            foreach (var indexCustomer in dal.GetAllCustomers(predicate))//goes through list of customers
+            List<IDAL.DO.Customer> customerList = dal.GetAllCustomers().ToList();
+            foreach (var indexCustomer in customerList)//goes through list of customers
             {
                 tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
-                foreach (var parcelsFromCustomers in tempCustomer.ParcelsFromCustomers)//goes over the list of parcels from the customer
+                List<ParcelAtCustomer> ParcelsFromCustomerList = tempCustomer.ParcelsFromCustomers;
+                foreach (var parcelsFromCustomers in ParcelsFromCustomerList)//goes over the list of parcels from the customer
                 {
                     if (parcelsFromCustomers.StateOfParcel == ParcelState.Provided)//if parcel is delivered
                         tempCustomerToList.ParcelsSentAndDelivered++;
                     else//if parcel was not delivered
                         tempCustomerToList.ParcelsSentButNotDelivered++;
                 }
-                foreach (var parcelsToCustomers in tempCustomer.ParcelsToCustomers)//goes over the list of parcels to the customer
+                List<ParcelAtCustomer> ParcelsToCustomersList = tempCustomer.ParcelsToCustomers;
+                foreach (var parcelsToCustomers in ParcelsToCustomersList)//goes over the list of parcels to the customer
                 {
                     if (parcelsToCustomers.StateOfParcel == ParcelState.Provided)//if he recieved the parcel
                         tempCustomerToList.RecievedParcels++;
@@ -112,7 +116,7 @@ namespace BL
                 customerToList.Add(tempCustomerToList);
                 tempCustomerToList = new();
             }
-            return customerToList;
+            return customerToList.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)

@@ -102,9 +102,9 @@ namespace BL
             }
         }
 
-        public IEnumerable<DroneToList> GetAllDrones()
+        public IEnumerable<DroneToList> GetAllDrones(Predicate<DroneToList> predicate = null)
         {
-            return BlDrones;
+            return BlDrones.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateDrone(int idDrone, string model)
@@ -198,7 +198,8 @@ namespace BL
             IDAL.DO.Station station = new();
             station.Id = -1;
             double tempDistance = -1;
-            foreach (var indexOfStations in dal.GetAllStations())//goes through all the stations 
+            List<IDAL.DO.Station> stationList = dal.GetAllStations().ToList();
+            foreach (var indexOfStations in stationList)//goes through all the stations 
             {
                 //calculating the distance between the sender and the station
                 tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude);

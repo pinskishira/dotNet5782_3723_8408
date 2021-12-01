@@ -78,12 +78,13 @@ namespace BL
             return blParcel;
         }
 
-        public IEnumerable<ParcelToList> GetAllParcels(Predicate<IDAL.DO.Parcel> predicate = null)
+        public IEnumerable<ParcelToList> GetAllParcels(Predicate<ParcelToList> predicate = null)
         {
             Parcel tempParcel = new();
             ParcelToList tempParcelToList = new();
             List<ParcelToList> parcelToLists = new();
-            foreach (var indexOfParcels in dal.GetAllParcels(predicate))//goes through dals list of parcels
+            List<IDAL.DO.Parcel> parcelList = dal.GetAllParcels().ToList();
+            foreach (var indexOfParcels in parcelList)//goes through dals list of parcels
             {
                 tempParcel = GetParcel(indexOfParcels.Id);//finding parcel
                 tempParcel.CopyPropertiesTo(tempParcelToList);//converting to parcelToList
@@ -106,8 +107,7 @@ namespace BL
                 parcelToLists.Add(tempParcelToList);
                 tempParcelToList = new();
             }
-            return parcelToLists;
-
+            return parcelToLists.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateAssignParcelToDrone(int droneId)
@@ -121,7 +121,8 @@ namespace BL
                 bool flag = false;
                 if (droneToList.DroneStatus == DroneStatuses.Available)//Check that the drone is free
                 {
-                    foreach (var indexOfParcel in dal.GetAllParcels(item => item.DroneId == 0))//Go through all the parcel to look for a suitable parcel
+                    List<IDAL.DO.Parcel> parcelList = dal.GetAllParcels(item => item.DroneId == 0).ToList();
+                    foreach (var indexOfParcel in parcelList)//Go through all the parcel to look for a suitable parcel
                     {
                         IDAL.DO.Customer sender = dal.GetAllCustomers().First(index => index.Id == indexOfParcel.SenderId);//Looking for the customer of the parcle
                         //Finds the distance between the drone and the sender
@@ -147,8 +148,6 @@ namespace BL
                     dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
                     droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
                     droneToList.ParcelIdInTransfer = parcel.Id;
-                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    //BlDrones[indexOfDroneToList] = droneToList;
                 }
             }
             catch (ParcelDeliveryException)
@@ -235,8 +234,6 @@ namespace BL
                     droneToList.CurrentLocation = new();
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
-                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);
-                    //BlDrones[indexOfDroneToList] = droneToList;//placing updated droneToList into the list of BlDRones
                     dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal
                 }
                 else
