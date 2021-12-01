@@ -49,7 +49,6 @@ namespace PL
             if (StatusSelection.SelectedItem != null && WeightSelection.SelectedItem != null)
                 DronesListView.ItemsSource = bl.GetAllDrones(item => item.DroneStatus == (DroneStatuses)StatusSelection.SelectedItem && 
                   item.Weight == (WeightCategories)WeightSelection.SelectedItem);
-
         }
     }
 }
