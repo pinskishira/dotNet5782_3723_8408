@@ -51,5 +51,10 @@ namespace PL
                   item.Weight == (WeightCategories)WeightSelection.SelectedItem);
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneWindow(bl).Show();
+        }
     }
 }

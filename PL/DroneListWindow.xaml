@@ -24,13 +24,14 @@
             <Label Content="Label" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
             <Label Content="Label" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
         </Grid>
-        <ListView x:Name ="DronesListView" Margin="10,10,10,10" Grid.Row="1">
+        <ListView x:Name ="DronesListView" Margin="10,10,289,10" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button  Content="AddDrone:" Margin="258,165,258,312" Height="78" Width="283" Grid.Row="1"/>
+        <Button  Content="Add Drone" Margin="554,40,39,378" Grid.Row="1" Click="Button_Click"/>
+        <Button Content="Close Window" HorizontalAlignment="Left" Margin="554,408,0,0" Grid.Row="1" VerticalAlignment="Top" Height="69" Width="207"/>
     </Grid>
 </Window>
