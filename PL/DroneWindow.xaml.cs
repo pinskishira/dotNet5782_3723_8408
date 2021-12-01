@@ -23,5 +23,38 @@ namespace PL
         {
             InitializeComponent();
         }
+        public DroneWindow()
+        {
+            InitializeComponent();
+            DroneWindow viewDrone = new DroneWindow();
+            IBL.BO.Drone newDrone = new();
+            newDrone.Id= 
+
+        }
+
+        private void IDLabel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ModelLabel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void WeightLabel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BatteryLabel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void StatusLable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
