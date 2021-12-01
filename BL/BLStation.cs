@@ -46,7 +46,8 @@ namespace BL
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
                 blStation.DronesInCharging = new();
-                foreach (var indexOfDroneCharges in dal.GetAllDroneCharges(item=> item.StationId == stationId))//going through drone charges
+                List<IDAL.DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
+                foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
                 {
                     DroneInCharging tempDroneInCharging = new();
                     tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
@@ -68,11 +69,12 @@ namespace BL
             return blStation;
         }
 
-        public IEnumerable<StationToList> GetAllStations(Predicate<IDAL.DO.Station> predicate = null)
+        public IEnumerable<StationToList> GetAllStations(Predicate<StationToList> predicate = null)
         {
             Station tempStation = new();
-            List<StationToList> stationToList = new List<StationToList>();
-            foreach (var indexOfStations in dal.GetAllStations(predicate))//going through stations
+            List<StationToList> stationToList = new();
+            List<IDAL.DO.Station> stationList = dal.GetAllStations().ToList();
+            foreach (var indexOfStations in stationList)//going through stations
             {
                 StationToList tempStationToList = new();
                 tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
@@ -83,7 +85,7 @@ namespace BL
                     tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
                 stationToList.Add(tempStationToList);//ading to StationToList
             }
-            return stationToList;
+            return stationToList.FindAll(item => predicate == null ? true : predicate(item));
         }
 
         public void UpdateStation(int idStation, string newName, int chargeSlots)

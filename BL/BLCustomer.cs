@@ -86,7 +86,7 @@ namespace BL
             return blCustomer;
         }
 
-        public IEnumerable<CustomerToList> GetAllCustomers(Predicate<IDAL.DO.Customer> predicate = null)
+        public IEnumerable<CustomerToList> GetAllCustomers(Predicate<CustomerToList> predicate = null)
         {
             Customer tempCustomer = new();
             CustomerToList tempCustomerToList = new();

@@ -23,9 +23,6 @@ namespace DalObject
 
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
-            // List<Customer> tempCustomers = new();
-            //going through customers list
-           // foreach (var indexOfCustomers in DataSource.Customers) { tempCustomers.Add(indexOfCustomers); }
             return DataSource.Customers.FindAll(item => predicate == null ? true : predicate(item));
         }
 

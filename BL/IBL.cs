@@ -79,7 +79,7 @@ namespace IBL
         /// to customer, then adding to custonerToList.
         /// </summary>
         /// <returns>List of customers</returns>
-        IEnumerable<CustomerToList> GetAllCustomers(Predicate<IDAL.DO.Customer> predicate = null);
+        IEnumerable<CustomerToList> GetAllCustomers(Predicate<CustomerToList> predicate = null);
 
         /// <summary>
         /// Sending list of drones.
@@ -91,13 +91,13 @@ namespace IBL
         /// Converting BL list to dal and updating the parcel state, then adding to parcelToList.
         /// </summary>
         /// <returns>List of parcels</returns>
-        IEnumerable<ParcelToList> GetAllParcels(Predicate<IDAL.DO.Parcel> predicate = null);
+        IEnumerable<ParcelToList> GetAllParcels(Predicate<ParcelToList> predicate = null);
 
         /// <summary>
         /// Converting BL list to dal and updating amount of unavailable charge slots, then adding to stationToList.
         /// </summary>
         /// <returns>List of stations</returns>
-        IEnumerable<StationToList> GetAllStations(Predicate<IDAL.DO.Station> predicate = null);
+        IEnumerable<StationToList> GetAllStations(Predicate<StationToList> predicate = null);
 
         /// <summary>
         /// Finds customer and sends to update in dal.

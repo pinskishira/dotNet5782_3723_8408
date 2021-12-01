@@ -22,12 +22,12 @@ namespace PL
     public partial class MainWindow : Window
     {
         public BL.BL bl = new BL.BL();
-        public MainWindow(BL.BL bl)
+        public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void ShowDronesButtonClick(object sender, RoutedEventArgs e)
+        private void ShowDronesButtonClick_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(bl).Show();
         }
