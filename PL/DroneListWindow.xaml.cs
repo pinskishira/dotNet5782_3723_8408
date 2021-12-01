@@ -50,5 +50,10 @@ namespace PL
                 DronesListView.ItemsSource = bl.GetAllDrones(item => item.DroneStatus == (DroneStatuses)StatusSelection.SelectedItem && 
                   item.Weight == (WeightCategories)WeightSelection.SelectedItem);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new DroneWindow(bl).Show();
+        }
     }
 }
