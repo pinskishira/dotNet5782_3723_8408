@@ -52,6 +52,5 @@ namespace PL
             newDrone.Weight = (IBL.BO.Enum.WeightCategories)WeightComboBox.SelectedItem;
             bl.AddDrone(newDrone, int.Parse(NumOfStationTextBox.Text));
         }
-
     }
 }
