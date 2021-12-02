@@ -17,44 +17,41 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
+
     public partial class DroneWindow : Window
     {
+        BL.BL bl;
+        public DroneWindow(BL.BL ibl, IBL.BO.Drone updateDrone)
+        {
+            InitializeComponent();
+            bl = ibl;
+
+        }
         public DroneWindow(BL.BL ibl)
         {
             InitializeComponent();
+            bl = ibl;
+            ParcelInTranferTextBox.Visibility = Visibility.Hidden;
+            ParcelInTransferLabel.Visibility = Visibility.Hidden;
+            LatitudeLabel.Visibility = Visibility.Hidden;
+            LongitutdeLabel.Visibility = Visibility.Hidden;
+            LatitudeTextBox.Visibility = Visibility.Hidden;
+            LongitutdeTextBox.Visibility = Visibility.Hidden;
+            LocationLabel.Visibility = Visibility.Hidden;
+            BatteryLabel.Visibility = Visibility.Hidden;
+            BatteryTextBox.Visibility = Visibility.Hidden;
+            LongitutdeTextBox.Visibility = Visibility.Hidden;
+
+
         }
-        public DroneWindow()
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-            DroneWindow viewDrone = new DroneWindow();
             IBL.BO.Drone newDrone = new();
-            newDrone.Id= 
-
+            newDrone.Id = int.Parse(IDTextBox.Text);
+            newDrone.Model = ModelTextBox.Text;
+            newDrone.Weight = (IBL.BO.Enum.WeightCategories)WeightComboBox.SelectedItem;
+            bl.AddDrone(newDrone, int.Parse(NumOfStationTextBox.Text));
         }
 
-        private void IDLabel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void ModelLabel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void WeightLabel_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void BatteryLabel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void StatusLable_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
