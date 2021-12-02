@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static IBL.BO.Enum;
 
 namespace PL
 {
@@ -21,29 +22,28 @@ namespace PL
     public partial class DroneWindow : Window
     {
         BL.BL bl;
-        public DroneWindow(BL.BL ibl, IBL.BO.Drone updateDrone)
+        public DroneWindow(BL.BL ibl, IBL.BO.DroneToList droneToList)
         {
             InitializeComponent();
             bl = ibl;
-
+            GridUpdateDrone.Visibility = Visibility.Visible;
+            IDTextBoxUD.Text = droneToList.Id.ToString();
+            WeightTextBoxUD.Text = droneToList.Weight.ToString();
+            BatteryTextBoxUD.Text = droneToList.Battery.ToString();
+            StatusTextBoxUD.Text = droneToList.DroneStatus.ToString();
+            LatitudeTextBoxUD.Text = droneToList.CurrentLocation.Latitude.ToString();
+            LongitutdeTextBoxUD.Text = droneToList.CurrentLocation.Longitude.ToString();
+            ParcelInTranferTextBoxUD.Text = droneToList.ParcelIdInTransfer.ToString();
         }
+
         public DroneWindow(BL.BL ibl)
         {
             InitializeComponent();
             bl = ibl;
-            ParcelInTranferTextBox.Visibility = Visibility.Hidden;
-            ParcelInTransferLabel.Visibility = Visibility.Hidden;
-            LatitudeLabel.Visibility = Visibility.Hidden;
-            LongitutdeLabel.Visibility = Visibility.Hidden;
-            LatitudeTextBox.Visibility = Visibility.Hidden;
-            LongitutdeTextBox.Visibility = Visibility.Hidden;
-            LocationLabel.Visibility = Visibility.Hidden;
-            BatteryLabel.Visibility = Visibility.Hidden;
-            BatteryTextBox.Visibility = Visibility.Hidden;
-            LongitutdeTextBox.Visibility = Visibility.Hidden;
-
-
+            WeightComboBox.ItemsSource = Enum.GetValues(typeof(IBL.BO.Enum.WeightCategories));
+            GridAddDrone.Visibility = Visibility.Visible;
         }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone newDrone = new();
@@ -51,6 +51,24 @@ namespace PL
             newDrone.Model = ModelTextBox.Text;
             newDrone.Weight = (IBL.BO.Enum.WeightCategories)WeightComboBox.SelectedItem;
             bl.AddDrone(newDrone, int.Parse(NumOfStationTextBox.Text));
+        }
+
+        private void UpdateDroneButtonUD_Click(object sender, RoutedEventArgs e)
+        {
+            bl.UpdateDrone(int.Parse(IDTextBoxUD.Text), ModelTextBoxUD.Text);
+            var result = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTextBoxUD.Text}", "Successfuly updated",
+               MessageBoxButton.OKCancel);
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    this.Close();
+                    DroneListWindow. DronesListView.ItemsSource = bl.GetAllDrones();
+                    break;
+                case MessageBoxResult.Cancel:
+                    ModelTextBoxUD.Text = "";
+                    break;
+            }
+
         }
     }
 }

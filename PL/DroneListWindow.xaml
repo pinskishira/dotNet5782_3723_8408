@@ -24,7 +24,7 @@
             <Label Content="Label" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
             <Label Content="Label" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="87"/>
         </Grid>
-        <ListView x:Name ="DronesListView" Margin="10,10,289,10" Grid.Row="1">
+        <ListView x:Name ="DronesListView" Margin="10,10,289,10" Grid.Row="1" SelectionChanged="DronesListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
