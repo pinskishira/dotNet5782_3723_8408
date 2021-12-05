@@ -62,7 +62,7 @@ namespace PL
             {
                 case MessageBoxResult.OK:
                     this.Close();
-                    DroneListWindow. DronesListView.ItemsSource = bl.GetAllDrones();
+                    //DroneListWindow. DronesListView.ItemsSource = bl.GetAllDrones();
                     break;
                 case MessageBoxResult.Cancel:
                     ModelTextBoxUD.Text = "";
