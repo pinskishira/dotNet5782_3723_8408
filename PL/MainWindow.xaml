@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Name ="ShowDronesButtonClick" Content="View Drones:" HorizontalAlignment="Left" Margin="703,0,0,0" VerticalAlignment="Center" Height="414" Width="87" Click="ShowDronesButtonClick_Click"/>
+        <Button Name ="ShowDronesButtonClick" Content="View Drones:" HorizontalAlignment="Left" Margin="687,0,0,0" VerticalAlignment="Center" Height="414" Width="87" Click="ShowDronesButtonClick_Click"/>
         <Image HorizontalAlignment="Left" Height="414" Margin="10,0,0,0" Source="file:///C:/Users/Shira%20Pinski/Desktop/Computers%2020-21/2021-2022/semester%201/%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%20%D7%91%D7%9E%D7%99%D7%A0%D7%99%20%D7%97%D7%9C%D7%95%D7%A0%D7%95%D7%AA/roland_berger_305_uam_cargo_drones_urban_parcel_delivery_st.webp" VerticalAlignment="Center" Width="689"
                />
     </Grid>

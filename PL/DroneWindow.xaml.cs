@@ -234,7 +234,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            bl.DroneReleaseFromChargingStation(int.Parse(IDTextBoxUD.Text));
+                            //bl.DroneReleaseFromChargingStation(int.Parse(IDTextBoxUD.Text));
                             success = MessageBox.Show($"SUCCESSFULY RELEASED DRONE FROM CHARGE! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;

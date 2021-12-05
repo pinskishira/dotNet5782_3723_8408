@@ -53,14 +53,14 @@
             <Label x:Name="BatteryLabelUD" Content="Battery" HorizontalAlignment="Left" Margin="31,176,0,0" VerticalAlignment="Top" Height="33" Width="65"/>
             <TextBox x:Name="BatteryTextBoxUD" HorizontalAlignment="Left" Margin="250,177,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
                      Text="{Binding Path=Battery, Mode=TwoWay}"/>
-            <Button x:Name="UpdateDroneButtonUD" Content="Update Drone" HorizontalAlignment="Left" Height="50" Margin="510,275,0,0" VerticalAlignment="Top" Width="204" Click="UpdateDroneButtonUD_Click"/>
-            <Button x:Name="CancelButtonUD" Content="Cancel" HorizontalAlignment="Left" Height="48" Margin="650,4,0,0" VerticalAlignment="Top" Width="108" Click="CancelButtonUD_Click"/>
+            <Button x:Name="UpdateDroneButtonUD" Content="Update Drone" HorizontalAlignment="Left" Height="50" Margin="510,242,0,0" VerticalAlignment="Top" Width="204" Click="UpdateDroneButtonUD_Click"/>
+            <Button x:Name="CancelButtonUD" Content="Cancel" HorizontalAlignment="Left" Height="48" Margin="606,25,0,0" VerticalAlignment="Top" Width="108" Click="CancelButtonUD_Click"/>
             <TextBox  x:Name="WeightTextBoxUD" HorizontalAlignment="Left" Margin="250,140,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
                       Text="{Binding Path=Weight, Mode=TwoWay}"/>
             <TextBox x:Name="StatusTextBoxUD" HorizontalAlignment="Left" Margin="250,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
                       Text="{Binding Path=DroneStatus, Mode=TwoWay}"/>
-            <Button x:Name="ChargeDroneUD" Visibility="Visible" Content=""  HorizontalAlignment="Left" Height="50" Margin="510,353,0,0" VerticalAlignment="Top" Width="204" Click="ChargeDroneUD_Click"/>
-            <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content=""   HorizontalAlignment="Left" Height="50" Margin="510,198,0,0" VerticalAlignment="Top" Width="204" Click="DroneStatusChangeUD_Click"/>
+            <Button x:Name="ChargeDroneUD" Visibility="Visible" Content=""  HorizontalAlignment="Left" Height="50" Margin="510,318,0,0" VerticalAlignment="Top" Width="204" Click="ChargeDroneUD_Click"/>
+            <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content=""   HorizontalAlignment="Left" Height="50" Margin="510,172,0,0" VerticalAlignment="Top" Width="204" Click="DroneStatusChangeUD_Click"/>
         </Grid>
     </Grid>
 </Window>
