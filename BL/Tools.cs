@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace BL
+namespace IBL.BO
 {
     /// <summary>
     /// Class that converts the fields in the one class to another class

@@ -11,12 +11,16 @@
             <Label x:Name="IdLabel" Content="ID" HorizontalAlignment="Left" Margin="31,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-4.446,-1.449" Height="27" Width="27"/>
             <Label x:Name="ModelLabel" Content="Model" HorizontalAlignment="Left" Margin="31,90,0,0" VerticalAlignment="Top" Width="71"/>
             <Label x:Name="WeightLabel" Content="Weight" HorizontalAlignment="Left" Margin="31,140,0,0" VerticalAlignment="Top"/>
-            <ComboBox x:Name="WeightComboBox" HorizontalAlignment="Left" Margin="250,140,0,0" VerticalAlignment="Top" Width="120" Height="25" />
-            <TextBox x:Name="ModelTextBox" HorizontalAlignment="Left" Margin="250,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"/>
-            <TextBox x:Name="IDTextBox" HorizontalAlignment="Left" Margin="250,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"/>
+            <ComboBox x:Name="WeightComboBox" HorizontalAlignment="Left" Margin="250,140,0,0" VerticalAlignment="Top" Width="120" Height="25"
+                      Text="{Binding Path=Weight, Mode=TwoWay}"/>
+            <TextBox x:Name="ModelTextBox" HorizontalAlignment="Left" Margin="250,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"
+                     Text="{Binding Path=Model, Mode=TwoWay}"/>
+            <TextBox x:Name="IDTextBox" HorizontalAlignment="Left" Margin="250,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"
+                     Text="{Binding Path=Id, Mode=TwoWay}"/>
             <Button x:Name="AddDroneButton" Content="Add Drone" HorizontalAlignment="Left" Height="50" Margin="606,324,0,0" VerticalAlignment="Top" Width="108" Click="Button_Click"/>
             <Label x:Name="NumOfStationLabel" Content="Number Of Station" HorizontalAlignment="Left" Margin="31,186,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="NumOfStationTextBox" HorizontalAlignment="Left" Margin="250,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" />
+            <TextBox x:Name="NumOfStationTextBox" HorizontalAlignment="Left" Margin="250,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"/>
+            <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Left" Height="53" Margin="608,253,0,0" VerticalAlignment="Top" Width="106" Click="CloseWindowButton_Click"/>
         </Grid >
         <Grid x:Name="GridUpdateDrone" Margin="10,0,21,31" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
             <Grid.RenderTransform>
@@ -31,22 +35,35 @@
             <Label x:Name="ModelLabelUD" Content="Model" HorizontalAlignment="Left" Margin="31,90,0,0" VerticalAlignment="Top" Width="71"/>
             <Label x:Name="WeightLabelUD" Content="Weight" HorizontalAlignment="Left" Margin="31,140,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="ModelTextBoxUD" HorizontalAlignment="Left" Margin="250,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"/>
-            <TextBox x:Name="IDTextBoxUD" HorizontalAlignment="Left" Margin="250,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
-            <Label Content="StatusLabel" HorizontalAlignment="Left" Margin="31,214,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="IDTextBoxUD" HorizontalAlignment="Left" Margin="250,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                     Text="{Binding Path=Id, Mode=TwoWay}"/>
+            <Label Content="Status" HorizontalAlignment="Left" Margin="31,214,0,0" VerticalAlignment="Top"/>
             <Label Content="Location" HorizontalAlignment="Left" Margin="31,266,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.472,-0.73"/>
             <Label x:Name="ParcelInTransferLabelUD" Content="Parcel in Transfer" HorizontalAlignment="Left" Margin="31,390,0,0" VerticalAlignment="Top" Width="107"/>
-            <TextBox x:Name="StatusTextBoxUD" HorizontalAlignment="Left" Margin="250,215,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
+
             <Label x:Name="LatitudeLabelUD" Content="Latitude" HorizontalAlignment="Left" Margin="135,269,0,0" VerticalAlignment="Top" Width="73" Height="23"/>
             <Label x:Name="LongitutdeLabelUD" Content="Longitutde" HorizontalAlignment="Left" Margin="135,311,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="LatitudeTextBoxUD" HorizontalAlignment="Left" Margin="250,269,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
-            <TextBox x:Name="LongitutdeTextBoxUD" HorizontalAlignment="Left" Margin="250,312,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
-            <TextBox x:Name="ParcelInTranferTextBoxUD" HorizontalAlignment="Left" Margin="250,349,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
+            <TextBox x:Name="LatitudeTextBoxUD" HorizontalAlignment="Left" Margin="250,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                    Text="{Binding Path=CurrentLocation.Latitude, Mode=TwoWay}" />
+            <TextBox x:Name="LongitutdeTextBoxUD" HorizontalAlignment="Left" Margin="250,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                    Text="{Binding Path=CurrentLocation.Longitude, Mode=TwoWay}" />
+            <TextBox x:Name="ParcelInTranferTextBoxUD" HorizontalAlignment="Left" Margin="250,349,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                     Text="{Binding Path=ParcelIdInTransfer, Mode=TwoWay}"/>
             <Label x:Name="ParcelInTranferLabelU" Content="Parcel In Tranfer ID" HorizontalAlignment="Left" Margin="31,348,0,0" VerticalAlignment="Top"/>
-            <TextBox  x:Name="WeightTextBoxUD" HorizontalAlignment="Left" Margin="250,140,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
-            <Label x:Name="BatteryLabelUD" Content="Battery" HorizontalAlignment="Left" Margin="37,176,0,0" VerticalAlignment="Top" Height="33" Width="65"/>
-            <TextBox x:Name="BatteryTextBoxUD" HorizontalAlignment="Left" Margin="250,177,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"/>
+            <Label x:Name="BatteryLabelUD" Content="Battery" HorizontalAlignment="Left" Margin="31,176,0,0" VerticalAlignment="Top" Height="33" Width="65"/>
+            <TextBox x:Name="BatteryTextBoxUD" HorizontalAlignment="Left" Margin="250,177,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                     Text="{Binding Path=Battery, Mode=TwoWay}"/>
             <Button x:Name="UpdateDroneButtonUD" Content="Update Drone" HorizontalAlignment="Left" Height="50" Margin="606,324,0,0" VerticalAlignment="Top" Width="108" Click="UpdateDroneButtonUD_Click"/>
-            <Button x:Name="CancelButtonUD" Content="Cancel" HorizontalAlignment="Left" Height="48" Margin="606,261,0,0" VerticalAlignment="Top" Width="108"/>
+            <Button x:Name="CancelButtonUD" Content="Cancel" HorizontalAlignment="Left" Height="48" Margin="606,261,0,0" VerticalAlignment="Top" Width="108" Click="CancelButtonUD_Click"/>
+            <TextBox  x:Name="WeightTextBoxUD" HorizontalAlignment="Left" Margin="250,140,0,0" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                      Text="{Binding Path=Weight, Mode=TwoWay}"/>
+            <TextBox x:Name="StatusTextBoxUD" HorizontalAlignment="Left" Margin="250,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25" IsReadOnly="True"
+                      Text="{Binding Path=DroneStatus, Mode=TwoWay}"/>
+            <Button x:Name="SendToChargingButton" Content="Send Drone To Charging Station" HorizontalAlignment="Left" Height="50" Margin="606,190,0,0" VerticalAlignment="Top" Width="108" Click="SendToChargingButton_Click"/>
+            <Button x:Name="ReleaseFromChargingButton" Content="Release Drone From Charging Station" HorizontalAlignment="Left" Height="49" Margin="606,116,0,0" VerticalAlignment="Top" Width="108" Click="ReleaseFromChargingButton_Click"/>
+            <Button x:Name="AssignParcelToDroneButton" Content="Assign Parcel To Drone" HorizontalAlignment="Left" Height="48" Margin="606,54,0,0" VerticalAlignment="Top" Width="108" Click="AssignParcelToDroneButton_Click"/>
+            <Button x:Name="ParcelCollectionByDroneButton" Content="Parcel Collection By Drone" HorizontalAlignment="Left" Height="49" Margin="444,116,0,0" VerticalAlignment="Top" Width="138" Click="ParcelCollectionByDroneButton_Click"/>
+            <Button x:Name="ParcelDeliveryToCustomerButton" Content="ParcelDeliveryToCustomer" HorizontalAlignment="Left" Height="49" Margin="444,54,0,0" VerticalAlignment="Top" Width="138" Click="ParcelDeliveryToCustomerButton_Click"/>
         </Grid>
     </Grid>
 </Window>

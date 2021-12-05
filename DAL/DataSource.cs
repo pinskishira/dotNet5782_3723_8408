@@ -74,7 +74,7 @@ namespace DalObject
                     while (newDrone.Id == Drones[j].Id)
                         newDrone.Id = rand.Next(10000, 100000);
                 }
-                newDrone.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight category
+                newDrone.Weight = (WeightCategories)rand.Next(0, 3);//Updating the weight category
                 newDrone.Model = droneArayNames[loopDrone];//Updating model
                 Drones.Add(newDrone);
             }
@@ -132,8 +132,8 @@ namespace DalObject
                 }
                 while (newParcel.SenderId == newParcel.TargetId);
 
-                newParcel.Weight = (WeightCategories)rand.Next(1, 4);//Updating the weight
-                newParcel.Priority = (Priorities)rand.Next(1, 4);//Updating the urgency of the shipment
+                newParcel.Weight = (WeightCategories)rand.Next(0, 3);//Updating the weight
+                newParcel.Priority = (Priorities)rand.Next(0, 3);//Updating the urgency of the shipment
                 //Putting a random date and time
                 newParcel.Requested = new DateTime(2021, rand.Next(1, 13), rand.Next(1, 29),
                     rand.Next(24), rand.Next(60), rand.Next(60));

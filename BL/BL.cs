@@ -60,7 +60,7 @@ namespace BL
                 catch (InvalidOperationException)
                 {
                     if (indexOfDrones.DroneStatus != DroneStatuses.Delivery)//if the drone is not performing a delivery
-                        indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(1, 3);//his status will be found using random selection  
+                        indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(0, 2);//his status will be found using random selection  
                     if (indexOfDrones.DroneStatus == DroneStatuses.Maintenance)//if the drone is in maintanance
                     {
                         List<IDAL.DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
