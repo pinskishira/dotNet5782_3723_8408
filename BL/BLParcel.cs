@@ -183,6 +183,37 @@ namespace BL
         //    }
         //}
 
+        public void UpdateParcelCollectionByDrone(int droneId)
+        {
+            try
+            {
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
+                IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelIdInTransfer);//finding parcel that is assigned to this drone
+                IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
+                if (parcel.Scheduled != null && parcel.PickedUp == null)
+                {
+                    //finding distance between original location of drone to the location of its destination
+                    int distance = (int)Distance.Haversine
+                        (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
+                    droneToList.Battery -= (int)(distance * PowerUsageEmpty);//updating battery according to distance and weight of the parcel
+                    droneToList.CurrentLocation = new();
+                    droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
+                    droneToList.CurrentLocation.Latitude = sender.Latitude;
+                    dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal
+                }
+                else
+                    throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
+            }
+            catch (InvalidOperationException)
+            {
+                throw new FailedToCollectParcelException("ERROR.\n");
+            }
+            catch (IDAL.DO.ItemDoesNotExistException ex)
+            {
+                throw new FailedToCollectParcelException("ERROR.\n", ex);
+            }
+        }
+
         public void UpdateParcelDeliveryToCustomer(int droneId)
         {
             try
@@ -215,37 +246,6 @@ namespace BL
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {
                 throw new ParcelDeliveryException("ERROR.\n", ex);
-            }
-        }
-
-        public void UpdateParcelCollectionByDrone(int droneId)
-        {
-            try
-            {
-                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding drone with given id
-                IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.Id == droneToList.ParcelIdInTransfer);//finding parcel that is assigned to this drone
-                IDAL.DO.Customer sender = dal.GetAllCustomers().First(item => item.Id == parcel.SenderId);//finding sender that sended this parcel
-                if (parcel.Scheduled != null && parcel.PickedUp == null)
-                {
-                    //finding distance between original location of drone to the location of its destination
-                    int distance = (int)Distance.Haversine
-                        (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
-                    droneToList.Battery -= (int)(distance * PowerUsageEmpty);//updating battery according to distance and weight of the parcel
-                    droneToList.CurrentLocation = new();
-                    droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
-                    droneToList.CurrentLocation.Latitude = sender.Latitude;
-                    dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal
-                }
-                else
-                    throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
-            }
-            catch (InvalidOperationException)
-            {
-                throw new FailedToCollectParcelException("ERROR.\n");
-            }
-            catch (IDAL.DO.ItemDoesNotExistException ex)
-            {
-                throw new FailedToCollectParcelException("ERROR.\n", ex);
             }
         }
     }
