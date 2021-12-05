@@ -139,6 +139,28 @@ namespace PL
 
         private void AssignParcelToDroneButton_Click(object sender, RoutedEventArgs e)
         {
+            var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "???",
+               MessageBoxButton.OKCancel);
+            switch (result1)
+            {
+                case MessageBoxResult.OK:
+                    bl.UpdateDrone(int.Parse(IDTextBoxUD.Text), ModelTextBoxUD.Text);
+                    DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
+                    droneToList.Model = ModelTextBoxUD.Text;
+                    DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = droneToList;
+                    var result2 = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTextBoxUD.Text}", "Successfuly updated",
+                       MessageBoxButton.OK);
+                    switch (result2)
+                    {
+                        case MessageBoxResult.OK:
+                            this.Close();
+                            break;
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    ModelTextBoxUD.Text = "";
+                    break;
+            }
             bl.UpdateAssignParcelToDrone(int.Parse(IDTextBoxUD.Text));
         }
 
