@@ -120,8 +120,23 @@ namespace PL
                         if (StatusTextBoxUD.Text != DroneStatuses.Available.ToString())
                             throw new UnmatchedDroneStatusException("Drone could no be sent to charge because it is not available.\n");
                         bl.SendDroneToChargingStation(int.Parse(IDTextBoxUD.Text));
+                        var result2 = MessageBox.Show($"SUCCESSFULY SENT DRONE TO CHARGE! \n", "Successfuly updated",
+                      MessageBoxButton.OK);
+                        switch (result2)
+                        {
+                            case MessageBoxResult.OK:
+                                DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
+                                DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item=>item.Id==int.Parse(IDTextBoxUD.Text))] = droneToList;
+                                this.Close();
+                                break;
+                        }
+                        break;
                     }
                     catch (UnmatchedDroneStatusException ex)
+                    {
+                        var result2 = MessageBox.Show($"ERROR! {ex.ToString()}", "ERROR");
+                    }
+                    catch(DroneMaintananceException ex)
                     {
                         var result2 = MessageBox.Show($"ERROR! {ex.ToString()}", "ERROR");
                     }
