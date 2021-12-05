@@ -22,7 +22,7 @@
             <TextBox x:Name="NumOfStationTextBox" HorizontalAlignment="Left" Margin="250,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="25"/>
             <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Left" Height="53" Margin="608,253,0,0" VerticalAlignment="Top" Width="106" Click="CloseWindowButton_Click"/>
         </Grid >
-        <Grid x:Name="GridUpdateDrone" Margin="10,0,21,31" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+        <Grid x:Name="GridUpdateDrone" Margin="10,0,21,31" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1"/>
