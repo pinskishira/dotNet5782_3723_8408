@@ -44,12 +44,6 @@ namespace DalObject
 
         public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null)
         {
-            //List<DroneCharge> tempDroneCharges = new();
-            //foreach (var indexOfDroneCharges in DataSource.DroneCharges)
-            //{
-            //    tempDroneCharges.Add(indexOfDroneCharges);
-            //}
-            //return tempDroneCharges;
             return DataSource.DroneCharges.FindAll(item => predicate == null ? true : predicate(item));
         }
     }

@@ -125,8 +125,23 @@ namespace PL
                         switch (result2)
                         {
                             case MessageBoxResult.OK:
-                                DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
-                                DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item=>item.Id==int.Parse(IDTextBoxUD.Text))] = droneToList;
+                                int i;
+                                //IBL.BO.DroneToList droneToList = new();
+                                // droneToList = (DroneToList)DataContext;
+                                ////IBL.BO.DroneToList droneToListUD=DroneListWindow.droneToLists.First(item => item.Id == int.Parse(IDTextBoxUD.Text));
+                                ////droneToListUD = droneToList;
+                                //for (i = 0; i < DroneListWindow.droneToLists.Count; i++)
+                                //{
+                                //    if (DroneListWindow.droneToLists[i].Id == int.Parse(IDTextBoxUD.Text))
+                                //        break;
+                                //}
+                                DroneToList droneToList = bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IDTextBoxUD.Text));
+                                for (i = 0; i < DroneListWindow.droneToLists.Count; i++)
+                                {
+                                    if (DroneListWindow.droneToLists[i].Id == int.Parse(IDTextBoxUD.Text))
+                                        break;
+                                }
+                                DroneListWindow.droneToLists[i]=droneToList;
                                 this.Close();
                                 break;
                         }

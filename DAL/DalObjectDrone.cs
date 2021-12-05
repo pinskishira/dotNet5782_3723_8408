@@ -23,12 +23,6 @@ namespace DalObject
 
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
-            //List<Drone> tempDrones = new();
-            //foreach (var indexOfDrones in DataSource.Drones)//going through drones list
-            //{
-            //    tempDrones.Add(indexOfDrones);
-            //}
-            //return tempDrones;
             return DataSource.Drones.FindAll(item => predicate == null ? true : predicate(item));
         }
 
