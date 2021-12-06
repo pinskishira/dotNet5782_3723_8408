@@ -19,5 +19,17 @@ namespace PL
                 return Message;
             }
         }
+
+        [Serializable]
+        public class SameFieldDataException : Exception
+        {
+            public SameFieldDataException() : base() { }
+            public SameFieldDataException(string message) : base(message) { }
+            public SameFieldDataException(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
     }
 }

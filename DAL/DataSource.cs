@@ -9,7 +9,7 @@ using IDAL.DO;
 /// </summary>
 namespace DalObject
 {
-    public static class DataSource
+    internal static class DataSource
     {
         static Random rand = new Random();
         static internal List<Drone> Drones = new();//Defining a list for the drones
@@ -119,7 +119,6 @@ namespace DalObject
                 Customers.Add(newCustomer);
             }
 
-            ref int parcelNum = ref Config.NextParcelNumber;
             for (int index = 0; index < 10; index++)//Updating 10 parcels
             {
                 Parcel newParcel = new();

@@ -35,16 +35,23 @@ namespace PL
             Drone = ibl.GetDrone(DroneListWindow.CurrentDrone.Id);
             DataContext = Drone;
             Drone visibleDroneButton = Drone;
+            if (Drone.ParcelInTransfer == null)
+            {
+                UpdateGrid1.Visibility = Visibility.Collapsed;
+            }
+
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)
             {
                 ChargeDroneUD.Content = "Send Drone to Charging";
                 DroneStatusChangeUD.Content = "Send Drone to Collect Parcel";
             }
+
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Maintenance)
             {
                 ChargeDroneUD.Content = "Release Drone from Charging";
                 DroneStatusChangeUD.Visibility = Visibility.Hidden;
             }
+
             else
             {
                 if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == false)
@@ -66,34 +73,68 @@ namespace PL
             bl = ibl;
             DroneListWindow = droneListWindow;
             DataContext = Drone;
-            WeightComboBox.ItemsSource = System.Enum.GetValues(typeof(IBL.BO.Enum.WeightCategories));
+            WeightCmbxAdd.ItemsSource = System.Enum.GetValues(typeof(IBL.BO.Enum.WeightCategories));
             GridAddDrone.Visibility = Visibility.Visible;
         }
 
-        private void AddDroneButton_Click(object sender, RoutedEventArgs e)
+        private void AddDroneButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to add this drone? \n", "Request Review",
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            switch (result1)
+            try
             {
-                case MessageBoxResult.OK:
-                    bl.AddDrone(Drone, int.Parse(NumOfStationTextBox.Text));
-                    DroneListWindow.droneToLists.Add(bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IDTextBox.Text)));
-                    var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \n", "Successfuly Added",
-                       MessageBoxButton.OK);
-                    switch (result2)
-                    {
-                        case MessageBoxResult.OK:
-                            this.Close();
-                            break;
-                    }
-                    break;
-                case MessageBoxResult.Cancel:
-                    IDTextBox.Text = "";
-                    ModelTextBox.Text = "";
-                    WeightComboBox.SelectedItem = 0;
-                    NumOfStationTextBox.Text = "";
-                    break;
+                switch (result1)
+                {
+                    case MessageBoxResult.OK:
+                        bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));
+                        DroneListWindow.droneToLists.Add(bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
+                        var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \n", "Successfuly Added",
+                           MessageBoxButton.OK);
+                        switch (result2)
+                        {
+                            case MessageBoxResult.OK:
+                                this.Close();
+                                break;
+                        }
+                        break;
+                    case MessageBoxResult.Cancel:
+                        Drone = new();
+                        DataContext = Drone;
+                        break;
+                }
+            }
+            catch (FailedToAddException ex)
+            {
+                var errorMessage=MessageBox.Show("Failed to add drone: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning",MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        Drone = new();
+                        DataContext = Drone;
+                        break;
+                }
+            }
+            catch(InvalidInputException ex)
+            {
+                var errorMessage = MessageBox.Show("Failed to add drone: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        Drone = new();
+                        DataContext = Drone;
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                var errorMessage = MessageBox.Show("Failed to add drone: "+ "\n" + "You need to enter information for all the given fields", "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        Drone = new();
+                        DataContext = Drone;
+                        break;
+                }
             }
         }
 
@@ -101,28 +142,53 @@ namespace PL
         {
             var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "Request Review",
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            switch (result1)
+            try
             {
-                case MessageBoxResult.OK:
-                    bl.UpdateDrone(int.Parse(IDTextBoxUD.Text), ModelTextBoxUD.Text);
-                    DroneListWindow.CurrentDrone.Model = ModelTextBoxUD.Text;
-                    DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = DroneListWindow.CurrentDrone;
-                    var result2 = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTextBoxUD.Text}", "Successfuly Updated",
-                       MessageBoxButton.OK);
-                    switch (result2)
-                    {
-                        case MessageBoxResult.OK:
-                            this.Close();
-                            break;
-                    }
-                    break;
-                case MessageBoxResult.Cancel:
-                    ModelTextBoxUD.Text = "";
-                    break;
+                if (ModelTxtUD.Text == Drone.Model)
+                    throw new SameFieldDataException("Drone model name remained the same");
+                switch (result1)
+                {
+                    case MessageBoxResult.OK:
+                        bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);
+                        DroneListWindow.CurrentDrone.Model = ModelTxtUD.Text;
+                        DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = DroneListWindow.CurrentDrone;
+                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
+                           MessageBoxButton.OK);
+                        switch (result2)
+                        {
+                            case MessageBoxResult.OK:
+                                this.Close();
+                                break;
+                        }
+                        break;
+                    case MessageBoxResult.Cancel:
+                        ModelTxtUD.Text = "";
+                        break;
+                }
+            }
+            catch (ItemDoesNotExistException ex)
+            {
+                var errorMessage = MessageBox.Show("Failed to update drone: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        ModelTxtUD.Text = "";
+                        break;
+                }
+            }
+            catch(SameFieldDataException ex)
+            {
+                var errorMessage = MessageBox.Show("Attention: " + ex.GetType().Name + "\n" + ex.Message, "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        ModelTxtUD.Text = "";
+                        break;
+                }
             }
         }
 
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        private void CloseWidowButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -131,12 +197,12 @@ namespace PL
         {
             this.Close();
         }
-
         private void DroneStatusChangeUD_Click(object sender, RoutedEventArgs e)
         {
+            
             try
             {
-                var success = MessageBox.Show("");
+                object success = null;
                 if (DroneStatusChangeUD.Content.ToString() == "Send Drone to Collect Parcel")
                 {
                     var request = MessageBox.Show($"Are you sure you would like to send drone to collect a parcel? \n", "Request Review",
@@ -144,7 +210,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            bl.UpdateAssignParcelToDrone(int.Parse(IDTextBoxUD.Text));
+                            bl.UpdateAssignParcelToDrone(int.Parse(IDTxtUD.Text));
                             success = MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;
@@ -158,7 +224,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            bl.UpdateParcelCollectionByDrone(int.Parse(IDTextBoxUD.Text));
+                            bl.UpdateParcelCollectionByDrone(int.Parse(IDTxtUD.Text));
                             success = MessageBox.Show($"DRONE SUCCESSFULY COLLECTED PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;
@@ -171,7 +237,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            bl.UpdateParcelDeliveryToCustomer(int.Parse(IDTextBoxUD.Text));
+                            bl.UpdateParcelDeliveryToCustomer(int.Parse(IDTxtUD.Text));
                             success = MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;
@@ -181,7 +247,7 @@ namespace PL
                 {
                     case MessageBoxResult.OK:
                         DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
-                        DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item => item.Id == int.Parse(IDTextBoxUD.Text))] = droneToList;
+                        DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item => item.Id == int.Parse(IDTxtUD.Text))] = droneToList;
                         this.Close();
                         break;
                 }
@@ -220,7 +286,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            bl.SendDroneToChargingStation(int.Parse(IDTextBoxUD.Text));
+                            bl.SendDroneToChargingStation(int.Parse(IDTxtUD.Text));
                             success = MessageBox.Show($"SUCCESSFULY SENT DRONE TO CHARGE! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;
@@ -243,7 +309,7 @@ namespace PL
                 {
                     case MessageBoxResult.OK:
                         DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
-                        DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item => item.Id == int.Parse(IDTextBoxUD.Text))] = droneToList;
+                        DroneListWindow.droneToLists[bl.GetAllDrones().ToList().FindIndex(item => item.Id == int.Parse(IDTxtUD.Text))] = droneToList;
                         this.Close();
                         break;
                 }
