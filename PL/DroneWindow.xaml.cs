@@ -32,9 +32,9 @@ namespace PL
             bl = ibl;
             DroneListWindow = droneListWindow;
             GridUpdateDrone.Visibility = Visibility.Visible;
-            Drone drone = ibl.GetDrone(((DroneToList)DroneListWindow.DronesListView.SelectedItem).Id);
-            DataContext = drone;
-            Drone visibleDroneButton = drone;
+            Drone = ibl.GetDrone(DroneListWindow.CurrentDrone.Id);
+            DataContext = Drone;
+            Drone visibleDroneButton = Drone;
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)
             {
                 ChargeDroneUD.Content = "Send Drone to Charging";
@@ -105,9 +105,8 @@ namespace PL
             {
                 case MessageBoxResult.OK:
                     bl.UpdateDrone(int.Parse(IDTextBoxUD.Text), ModelTextBoxUD.Text);
-                    DroneToList droneToList = (DroneToList)DroneListWindow.DronesListView.SelectedItem;
-                    droneToList.Model = ModelTextBoxUD.Text;
-                    DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = droneToList;
+                    DroneListWindow.CurrentDrone.Model = ModelTextBoxUD.Text;
+                    DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = DroneListWindow.CurrentDrone;
                     var result2 = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTextBoxUD.Text}", "Successfuly Updated",
                        MessageBoxButton.OK);
                     switch (result2)

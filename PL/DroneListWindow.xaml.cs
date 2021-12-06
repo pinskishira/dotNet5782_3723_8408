@@ -29,6 +29,7 @@ namespace PL
     {
         BL.BL bl;
         public ObservableCollection<DroneToList> droneToLists;
+        public DroneToList CurrentDrone { get; set; } = new();
         public DroneListWindow(BL.BL ibl)
         {
             InitializeComponent();
@@ -83,12 +84,14 @@ namespace PL
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(bl,this, 5).Show();
+            new DroneWindow(bl, this, 5).Show();
         }
 
         private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            new DroneWindow(bl ,this).Show();
+            CurrentDrone = (DroneToList)DronesListView.SelectedItem;
+            if (CurrentDrone != null)
+                new DroneWindow(bl, this).Show();
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
