@@ -145,14 +145,14 @@
                 <TextBox x:Name="LatitudeTargetTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="5" Grid.Row="5"/>
                 <TextBox x:Name="LongitutdeTargetTextBoxUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="5" Grid.Row="6"/>
             </Grid>
-      
-        
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
-            <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click"/>
-            <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click"/>
-            <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" Width="200" Click="UpdateDroneButtonUD_Click"/>
-            <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click"/>
-        </StackPanel>
+
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
+                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click"/>
+                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click"/>
+                <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" Width="200" Click="UpdateDroneButtonUD_Click"/>
+                <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
