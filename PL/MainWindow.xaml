@@ -5,14 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStyle="None">
+
+    <Window.Background>
+        <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"></ImageBrush>
+    </Window.Background>
     <Grid>
-        <Image HorizontalAlignment="Left" Height="492" Source="file:///C:/Users/Shira%20Pinski/Desktop/Computers%2020-21/2021-2022/semester%201/%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%20%D7%91%D7%9E%D7%99%D7%A0%D7%99%20%D7%97%D7%9C%D7%95%D7%A0%D7%95%D7%AA/roland_berger_305_uam_cargo_drones_urban_parcel_delivery_st.webp" VerticalAlignment="Center" Width="818"
+        <Image Margin="0,0,10,0" Stretch="Fill" Source="pack://siteoforigin:,,,/WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"/>
+        <Image HorizontalAlignment="Left" Height="492" VerticalAlignment="Top" Width="818" Margin="0,-57,0,0"
                />
         <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="Transparent" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic">
             <Button.Effect>
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
+        <Image Stretch="Fill" Source=""/>
     </Grid>
 </Window>
