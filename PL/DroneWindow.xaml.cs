@@ -86,6 +86,7 @@ namespace PL
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
+
                         bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));
                         DroneListWindow.droneToLists.Add(bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
                         var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \n", "Successfuly Added",
