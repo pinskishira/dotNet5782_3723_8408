@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+        WindowStyle="none"
         Title="DroneListWindow" Height="640" Width="800">
     <Grid Name="MainGrid">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFC11D1D"/>
-                <GradientStop Color="White" Offset="1"/>
+                <GradientStop Color="#FF347DE4" Offset="0"/>
+                <GradientStop Color="#FFF9F9FA" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
@@ -21,8 +22,8 @@
          VerticalAlignment="Stretch" Width="auto">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFC11D1D"/>
-                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF347DE4" Offset="0"/>
+                    <GradientStop Color="#FFF9F9FA" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.ColumnDefinitions>
@@ -31,21 +32,21 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="StatusSelection" Grid.Column="1" SelectionChanged="StatusSelection_SelectionChanged" Margin="32,29,42,9"/>
-            <ComboBox x:Name="WeightSelection" Grid.Column="2" SelectionChanged="WeightSelection_SelectionChanged" Margin="32,29,42,9"/>
-            <Label  Content="List Of Drones" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="200" FontFamily="Britannic Bold" Foreground="#FF0D0B0B" FontSize="28" Grid.ColumnSpan="2" Margin="10,15,0,0"/>
+            <ComboBox x:Name="StatusSelection" Grid.Column="1" SelectionChanged="StatusSelection_SelectionChanged" Margin="32,29,42,9" Foreground="#FF0D0000" FontFamily="Britannic Bold" FontSize="18"/>
+            <ComboBox x:Name="WeightSelection" Grid.Column="2" SelectionChanged="WeightSelection_SelectionChanged" Margin="32,29,42,9" FontFamily="Britannic Bold" FontSize="18"/>
+            <Label  Content="List Of Drones" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="200" FontFamily="Britannic Bold" Foreground="#FF2B0303" FontSize="28" Grid.ColumnSpan="2" Margin="10,15,0,0"/>
             <Label Content="      Sort by Status" Grid.Column="1" HorizontalAlignment="Left" Height="31" Margin="0,4,0,0" VerticalAlignment="Top" Width="158" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
             <Label Content="      Sort by Weight" Grid.Column="2" HorizontalAlignment="Left" Height="31" Margin="0,4,0,0" VerticalAlignment="Top" Width="158" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
         </Grid>
-        <ListView x:Name ="DronesListView" Margin="10,10,262,10" Grid.Row="1" SelectionChanged="DronesListView_SelectionChanged">
+        <ListView x:Name ="DronesListView" Margin="10,10,10,93" Grid.Row="1" SelectionChanged="DronesListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,60,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,3.8" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
-        <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Left" Margin="574,463,0,0" Grid.Row="1" VerticalAlignment="Top" Height="56" Width="189" BorderThickness="4,4,4,3.8" BorderBrush="#FFEA7272" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>
+        <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,26,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,3.8" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
+        <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" Margin="0,462,0,0" Grid.Row="1" VerticalAlignment="Top" Height="56" Width="780" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>
         <Image HorizontalAlignment="Left" Height="113" Margin="574,209,0,0" Grid.Row="1" VerticalAlignment="Top" Width="166"/>
     </Grid>
 </Window>

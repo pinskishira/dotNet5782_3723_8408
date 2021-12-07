@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None">
+        Title="MainWindow" Height="450" Width="800">
 
     <Window.Background>
-        <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"></ImageBrush>
+        <ImageBrush ImageSource="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Image Margin="0,0,10,0" Stretch="Fill" Source="pack://siteoforigin:,,,/WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"/>
+        <Image Stretch="Fill" Source="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
+        <Image Margin="0,0,10,0" Stretch="Fill" Source="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
         <Image HorizontalAlignment="Left" Height="492" VerticalAlignment="Top" Width="818" Margin="0,-57,0,0"
                />
-        <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="Transparent" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic">
+        <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic">
             <Button.Effect>
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
-        <Image Stretch="Fill" Source=""/>
     </Grid>
 </Window>
