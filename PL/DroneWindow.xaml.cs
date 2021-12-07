@@ -144,8 +144,8 @@ namespace PL
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
             try
             {
-                if (ModelTxtUD.Text == Drone.Model)
-                    throw new SameFieldDataException("Drone model name remained the same");
+                //if (ModelTxtUD.Text == Drone.Model)
+                //    throw new SameFieldDataException("Drone model name remained the same");
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
@@ -176,16 +176,16 @@ namespace PL
                         break;
                 }
             }
-            catch(SameFieldDataException ex)
-            {
-                var errorMessage = MessageBox.Show("Attention: " + ex.GetType().Name + "\n" + ex.Message, "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        ModelTxtUD.Text = "";
-                        break;
-                }
-            }
+            //catch(SameFieldDataException ex)
+            //{
+            //    var errorMessage = MessageBox.Show("Attention: " + ex.GetType().Name + "\n" + ex.Message, "Attention", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    switch (errorMessage)
+            //    {
+            //        case MessageBoxResult.OK:
+            //            ModelTxtUD.Text = "";
+            //            break;
+            //    }
+            //}
         }
 
         private void CloseWidowButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -262,7 +262,7 @@ namespace PL
                         break;
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (FailedToCollectParcelException ex)
             {
                 var errorMessage = MessageBox.Show($"ERROR! {ex.ToString()}", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
                 switch (errorMessage)
@@ -272,7 +272,6 @@ namespace PL
                         break;
                 }
             }
-
         }
         private void ChargeDroneUD_Click(object sender, RoutedEventArgs e)
         {

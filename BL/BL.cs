@@ -33,7 +33,8 @@ namespace BL
                 try
                 {
                     //if parcel was paired but not delivered
-                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered == DateTime.MinValue);
+                    IDAL.DO.Parcel parcel = dal.GetAllParcels().First(item => item.DroneId == indexOfDrones.Id && item.Delivered ==null);
+                    indexOfDrones.ParcelIdInTransfer = parcel.Id;
                     indexOfDrones.DroneStatus = DroneStatuses.Delivery;//updating status to be in delivery
                     if (parcel.Scheduled != null && parcel.PickedUp == null)//if parcel was paired but not picked up
                     {

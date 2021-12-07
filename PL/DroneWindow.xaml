@@ -92,7 +92,7 @@
 
 
 
-            <Grid x:Name="UpdateGrid1" Grid.Column="2" Grid.Row="0">
+            <Grid x:Name="UpdateGrid1" Grid.Column="2" Grid.Row="0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -129,7 +129,7 @@
                 <TextBox x:Name="SenderIDTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"  Text="{Binding ParcelInTransfer.Sender.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="4"/>
                 <TextBox x:Name="SenderNameTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"   Text="{Binding ParcelInTransfer.Sender.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="5"/>
                 <TextBox x:Name="TargetIDTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"   Text="{Binding ParcelInTransfer.Target.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="6"/>
-                <TextBox x:Name="TargetNameTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"    Text="{Binding ParcelInTransfer.TargetNullValue.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7"/>
+                <TextBox x:Name="TargetNameTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"    Text="{Binding ParcelInTransfer.Target.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7"/>
 
                 <Label x:Name="TransportDistanceLblUP" Content="Transport Distance" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2"/>
                 <Label x:Name="CollectionLocationLblUD" Content="CollectionLocation" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1"/>
@@ -140,10 +140,10 @@
                 <Label x:Name="LongitutdeTargetLabelUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6"/>
 
                 <TextBox x:Name="TransportDistanceTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.TransportDistance, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" />
-                <TextBox x:Name="LatitudeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2"/>
-                <TextBox x:Name="LongitutdeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3"/>
-                <TextBox x:Name="LatitudeTargetTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="5"/>
-                <TextBox x:Name="LongitutdeTargetTextBoxUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CurrentLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="6"/>
+                <TextBox x:Name="LatitudeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CollectionLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2"/>
+                <TextBox x:Name="LongitutdeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CollectionLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3"/>
+                <TextBox x:Name="LatitudeTargetTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="5"/>
+                <TextBox x:Name="LongitutdeTargetTextBoxUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="6"/>
             </Grid>
       
         
