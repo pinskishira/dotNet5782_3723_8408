@@ -52,7 +52,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Visible" >
+        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>
