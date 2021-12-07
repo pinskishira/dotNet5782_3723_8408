@@ -24,6 +24,7 @@ namespace DalObject
             int index = DataSource.Stations.FindIndex(indexOfStation => indexOfStation.Name == nameStation);
             newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
             newDroneCharge.StationId = DataSource.Stations[index].Id;
+            newDroneCharge.TimeDroneInCharging = DateTime.Now;
             AddDroneCharge(newDroneCharge);//updating that a drone is charging
             Station newStation = DataSource.Stations[index];
             newStation.AvailableChargeSlots--;//less available charge slots in station

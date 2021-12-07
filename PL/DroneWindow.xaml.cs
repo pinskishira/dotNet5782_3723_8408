@@ -277,7 +277,7 @@ namespace PL
         {
             try
             {
-                var success = MessageBox.Show("");
+                object success = null;
                 if (ChargeDroneUD.Content.ToString() == "Send Drone to Charging")
                 {
                     var request = MessageBox.Show($"Are you sure you would like to send drone to charge? \n", "Request Review",
@@ -298,7 +298,7 @@ namespace PL
                     switch (request)
                     {
                         case MessageBoxResult.OK:
-                            //bl.DroneReleaseFromChargingStation(int.Parse(IDTextBoxUD.Text));
+                            bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));
                             success = MessageBox.Show($"SUCCESSFULY RELEASED DRONE FROM CHARGE! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
                             break;
@@ -313,10 +313,15 @@ namespace PL
                         break;
                 }
             }
-            catch (Exception)
+            catch (DroneMaintananceException ex)
             {
-
-                throw;
+                var errorMessage = MessageBox.Show($"ERROR! {ex.ToString()}", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        this.Close();
+                        break;
+                }
             }
         }
 

@@ -167,9 +167,7 @@ namespace ConsoleUI_BL
                                 case UpdatingFunction.DroneReleaseFromChargingStation://case which releases a drone from its charging slot
                                     Console.Write("Enter your drone ID: ");
                                     int.TryParse(Console.ReadLine(), out idDrone);
-                                    Console.Write("Enter how long the drone is in charging: ");
-                                    int.TryParse(Console.ReadLine(), out timeInCharging);
-                                    ibl.DroneReleaseFromChargingStation(idDrone, timeInCharging);
+                                    ibl.DroneReleaseFromChargingStation(idDrone);
                                     break;
                                 case UpdatingFunction.AssignParcelToDrone://case which assigns a parcel to a suitable drone
                                     Console.Write("Enter your drone ID: ");

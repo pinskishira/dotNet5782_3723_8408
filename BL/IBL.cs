@@ -160,9 +160,8 @@ namespace IBL
         /// and then sending to update in dal.
         /// </summary>
         /// <param name="idDrone">Id of drone</param>
-        /// <param name="timeInCharginge">Time drone was in charging</param>
         /// <exception cref="IBL.BO.DroneMaintananceException"></exception>
-        public void DroneReleaseFromChargingStation(int idDron, int timeInCharginge);
+        public void DroneReleaseFromChargingStation(int idDron);
 
         /// <summary>
         /// Sending drone to a charging station, updating drone, and sending to update in dal.

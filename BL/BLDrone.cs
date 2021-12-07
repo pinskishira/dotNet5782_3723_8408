@@ -169,7 +169,7 @@ namespace BL
             }
         }
 
-        public void DroneReleaseFromChargingStation(int idDrone, int timeInCharging)
+        public void DroneReleaseFromChargingStation(int idDrone)
         {
             try
             {
@@ -177,10 +177,12 @@ namespace BL
                 if (droneToList.DroneStatus != DroneStatuses.Maintenance)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
-                if ((int)(timeInCharging * DroneChargingRatePH) > 100)
+                TimeSpan timeInCharging = DateTime.Now - dal.GetAllDroneCharges(index => index.DroneId == droneToList.Id).ToList()[0].TimeDroneInCharging;
+                int batteryCharge = (int)(timeInCharging.TotalHours * DroneChargingRatePH);
+                if (batteryCharge + droneToList.Battery > 100)
                     droneToList.Battery = 100;
                 else
-                    droneToList.Battery += (int)(timeInCharging * DroneChargingRatePH);
+                    droneToList.Battery += batteryCharge;
                 droneToList.DroneStatus = DroneStatuses.Available;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
                 //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
