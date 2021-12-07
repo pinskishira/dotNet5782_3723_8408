@@ -164,7 +164,6 @@ namespace PL
                         }
                         break;
                     case MessageBoxResult.Cancel:
-                        ModelTxtUD.Text = "";
                         break;
                 }
             }
