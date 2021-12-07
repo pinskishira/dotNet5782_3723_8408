@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="drone.jpeg" />
-    <None Remove="logo.jpeg" />
+    <None Remove="מיני.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,8 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="drone.jpeg" />
-    <Resource Include="logo.jpeg" />
+    <Resource Include="מיני.jpg" />
   </ItemGroup>
 
 </Project>
