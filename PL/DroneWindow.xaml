@@ -8,7 +8,10 @@
         WindowStyle="none"
         Title="temp" Height="450" Width="800">
     <Grid>
-        <Grid x:Name="GridAddDrone" Visibility="Visible">
+        <Grid.Background>
+            <ImageBrush ImageSource="/drone.jpeg" Opacity="0.435"/>
+        </Grid.Background>
+        <Grid x:Name="GridAddDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>
@@ -49,7 +52,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed" >
+        <Grid x:Name="GridUpdateDrone" Visibility="Visible" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>
