@@ -24,7 +24,7 @@ namespace DalObject
             static internal double BatteryConsumptionLightWeight = 3;//Amount of battery used per km with a light parcel
             static internal double BatteryConsumptionMediumWeight =5;//Amount of battery used per km with a medium parcel
             static internal double BatteryConsumptionHeavyWeight = 7;//Amount of battery used per km with a heavy parcel
-            static internal double DroneChargingRatePH = 1;//Amount of battery charged minute/km
+            static internal double DroneChargingRatePH = 20000;//Amount of battery charged hour/km
             static internal int NextParcelNumber = 10000;
         }
 

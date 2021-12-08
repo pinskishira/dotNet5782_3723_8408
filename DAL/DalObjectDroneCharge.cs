@@ -2,6 +2,7 @@
 using System;
 
 using IDAL.DO;
+using System.Linq;
 
 namespace DalObject
 {
@@ -46,6 +47,19 @@ namespace DalObject
         public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null)
         {
             return DataSource.DroneCharges.FindAll(item => predicate == null ? true : predicate(item));
+        }
+
+        public DroneCharge GetDroneCharge(int id)
+        {
+            try
+            {
+                return DataSource.DroneCharges.First(item => item.DroneId == id);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ItemExistsException("The drone does not exists.\n");
+            }
+            
         }
     }
 }

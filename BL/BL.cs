@@ -71,6 +71,11 @@ namespace BL
                         indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
                         indexOfDrones.CurrentLocation.Latitude = station.Latitude;
                         indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
+                        IDAL.DO.DroneCharge droneCharge = new();
+                        droneCharge.DroneId = indexOfDrones.Id;
+                        droneCharge.StationId = station.Id;
+                        droneCharge.TimeDroneInCharging = DateTime.Now;
+                        dal.AddDroneCharge(droneCharge);
                     }
                     if (indexOfDrones.DroneStatus == DroneStatuses.Available)//if the drone is available for delivery
                     {

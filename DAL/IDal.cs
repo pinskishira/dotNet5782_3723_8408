@@ -166,5 +166,7 @@ namespace IDAL
         /// <param name="newName">Customers new name</param>
         /// <param name="customerPhone">Customers new phone</param>
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
+        public DroneCharge GetDroneCharge(int id);
+        
     }
 }

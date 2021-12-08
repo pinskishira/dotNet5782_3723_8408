@@ -208,7 +208,7 @@ namespace BL
             }
             catch (InvalidOperationException)
             {
-                throw new FailedToCollectParcelException("ERROR.\n");
+                throw new FailedToCollectParcelException("Could not find parcel.\n");
             }
             catch (IDAL.DO.ItemDoesNotExistException ex)
             {

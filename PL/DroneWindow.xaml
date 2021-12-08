@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        WindowStyle="none"
-        Title="temp" Height="450" Width="800">
+        Title="temp" Height="450" Width="800" Closing="window_closeing">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg" Opacity="0.435"/>
         </Grid.Background>
         <Grid x:Name="GridAddDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>
-                <RowDefinition Height="13*"/>
+                <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid>
@@ -47,12 +49,12 @@
 
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button x:Name="AddDroneButtonAdd" Visibility="Visible" Content="Add Drone" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7"/>
-                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7"/>
+                <Button x:Name="AddDroneButtonAdd" Visibility="Visible" Content="Add Drone" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="18"/>
+                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="18"/>
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed" >
+        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>
@@ -154,10 +156,10 @@
 
 
             <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
-                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="20" Background="#FF44BBF7"/>
-                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="20" Background="#FF44BBF7"/>
-                <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="20" Background="#FF44BBF7"/>
-                <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="20" Background="#FF44BBF7"/>
+                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+                <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+                <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace PL
         BL.BL bl;
         public ObservableCollection<DroneToList> droneToLists;
         public DroneToList CurrentDrone { get; set; } = new();
+        private bool _close { get; set; } = false;
 
         /// <summary>
         /// Initializes the list of all the drones
@@ -106,22 +108,34 @@ namespace PL
             new DroneWindow(bl, this, 5).Show();
         }
 
-        /// <summary>
-        /// Goes to the constructor of update 
-        /// </summary>
-        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CurrentDrone = (DroneToList)DronesListView.SelectedItem;
-            if (CurrentDrone != null)
-                new DroneWindow(bl, this).Show();
-        }
+
 
         /// <summary>
         /// closes current window
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            _close = true;
             this.Close();
+        }
+
+        /// <summary>
+        /// Goes to the constructor of update 
+        /// </summary>
+        private void DronesListView_SelectionChanged(object sender, MouseButtonEventArgs e)
+        {
+            CurrentDrone = (DroneToList)DronesListView.SelectedItem;
+            if (CurrentDrone != null)
+                new DroneWindow(bl, this).Show();
+        }
+
+        private void window_closeing(object sender, CancelEventArgs e)
+        {
+            if (!_close)
+            {
+                e.Cancel = true;
+                MessageBox.Show("You can't force the window to close");
+            }
         }
     }
 }

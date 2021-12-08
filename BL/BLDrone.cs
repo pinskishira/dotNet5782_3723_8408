@@ -177,7 +177,7 @@ namespace BL
                 if (droneToList.DroneStatus != DroneStatuses.Maintenance)//checking if drone is in maintanace
                     throw new DroneMaintananceException("The drone is not Maintenance");
                 //battery decreases by amount of time in charging times its charing rate per hour
-                TimeSpan timeInCharging = DateTime.Now - dal.GetAllDroneCharges(index => index.DroneId == droneToList.Id).ToList()[0].TimeDroneInCharging;
+                TimeSpan timeInCharging = DateTime.Now - dal.GetDroneCharge(droneToList.Id).TimeDroneInCharging;
                 int batteryCharge = (int)(timeInCharging.TotalHours * DroneChargingRatePH);
                 if (batteryCharge + droneToList.Battery > 100)
                     droneToList.Battery = 100;
