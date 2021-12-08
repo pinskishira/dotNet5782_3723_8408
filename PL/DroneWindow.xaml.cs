@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+
 using static IBL.BO.Enum;
 using IBL.BO;
-using System.Text.RegularExpressions;
 using static PL.PLExceptions;
 
 namespace PL
@@ -59,7 +59,7 @@ namespace PL
             Drone visibleDroneButton = Drone;//equals chosen drone to update
             if (Drone.ParcelInTransfer == null)//if its got no parcel assigned to it
             {
-                GridPacelInTransfer.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
+                UpdateGrid1.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
             }
 
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)//if drone status is - available
@@ -143,15 +143,20 @@ namespace PL
                         break;
                 }
             }
+            catch (FormatException)
+            {
+                var errorMessage = MessageBox.Show("Failed to add drone: "+ "\n" + "You need to enter information for all the given fields", "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (errorMessage)
+                {
+                    case MessageBoxResult.OK:
+                        Drone = new();
+                        DataContext = Drone;
+                        break;
+                }
+            }
         }
 
-    private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-    {
-        Regex regex = new Regex("[^0-9]+");
-        e.Handled = regex.IsMatch(e.Text);
-    }
-
-    private void UpdateDroneButtonUD_Click(object sender, RoutedEventArgs e)
+        private void UpdateDroneButtonUD_Click(object sender, RoutedEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "Request Review",
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
@@ -236,7 +241,7 @@ namespace PL
                             DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                             success = MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
-                            GridPacelInTransfer.Visibility = Visibility.Visible;
+                            GridPapcelInTransfer.Visibility = Visibility.Visible;
                             break;
                     }
 
@@ -273,7 +278,7 @@ namespace PL
                                     DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                                     success = MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated",
                                     MessageBoxButton.OK);
-                                    GridPacelInTransfer.Visibility = Visibility.Collapsed;
+                                    GridPapcelInTransfer.Visibility = Visibility.Collapsed;
                                     break;
                             }
                         }
