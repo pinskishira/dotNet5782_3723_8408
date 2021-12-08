@@ -9,7 +9,7 @@
         Title="temp" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg" Opacity="0.435"/>
+            <ImageBrush ImageSource="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg" Opacity="0.435"/>
         </Grid.Background>
         <Grid x:Name="GridAddDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>

@@ -105,6 +105,12 @@ namespace PL
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
+                        if (Drone.Id == default)
+                            throw new MissingInfoException("No Drone ID entered for this drone");
+                        if (Drone.Model == default || Drone.Model == null)
+                            throw new MissingInfoException("No Model entered for this drone");
+                        if (NumOfStationTxtAdd.SelectedItem == null)
+                            throw new MissingInfoException("No station ID was entered for this drone");
                         bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));//adding new drone to list
                         //adding drone to list in the window of drones
                         DroneListWindow.droneToLists.Add(bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
@@ -140,8 +146,7 @@ namespace PL
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
-                        Drone = new();
-                        DataContext = Drone;
+                        IdTxtAdd.Text = "";
                         break;
                 }
             }
@@ -153,6 +158,16 @@ namespace PL
                     case MessageBoxResult.OK:
                         Drone = new();
                         DataContext = Drone;
+                        break;
+                }
+            }
+            catch (MissingInfoException ex)
+            {
+                var message = MessageBox.Show("Failed to add the drone: \n" + ex.Message, "Failed To Add",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (message)
+                {
+                    case MessageBoxResult.OK:
                         break;
                 }
             }
