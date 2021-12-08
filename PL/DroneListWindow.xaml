@@ -41,7 +41,7 @@
         <ListView
             x:Name ="DronesListView" Margin="10,10,10,93" Grid.Row="1" SelectionChanged="DronesListView_SelectionChanged">
             <ListView.Background>
-                <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png" Opacity="0.4"/>
+                <ImageBrush ImageSource="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png" Opacity="0.4"/>
 
             </ListView.Background>
             <ListView.View>
@@ -56,7 +56,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,26,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,3.8" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
+        <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,26,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
         <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" Margin="0,462,0,0" Grid.Row="1" VerticalAlignment="Top" Height="56" Width="780" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>
     </Grid>
 </Window>

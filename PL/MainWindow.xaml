@@ -8,11 +8,11 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Window.Background>
-        <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"></ImageBrush>
+        <ImageBrush ImageSource="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Image Stretch="Fill" Source="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
-        <Image Margin="0,0,10,0" Stretch="Fill" Source="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
+        <Image Stretch="Fill" Source="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
+        <Image Margin="0,0,10,0" Stretch="Fill" Source="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png"/>
         <Image HorizontalAlignment="Left" Height="492" VerticalAlignment="Top" Width="818" Margin="0,-57,0,0"
                />
         <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic">

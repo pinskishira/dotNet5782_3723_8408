@@ -27,6 +27,9 @@ namespace PL
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Goes to constructor which shows all the drones  
+        /// </summary>
         private void ShowDronesButtonClick_Click(object sender, RoutedEventArgs e)
         {
             new DroneListWindow(bl).Show();
