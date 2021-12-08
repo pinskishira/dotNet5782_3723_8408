@@ -13,8 +13,8 @@ namespace BL
         {
             if ((Math.Round(Math.Floor(Math.Log10(newDrone.Id))) + 1) != 5)//if the ID number of the drone is not 5 digits
                 throw new InvalidInputException("The identification number should be 5 digits long\n");
-            if (newDrone.Model.Length > 6)//if model name is less than 6 digits
-                throw new InvalidInputException("The model number should be 6 digits long\n");
+            //if (newDrone.Model.Length != 6 )//if model name is less than 6 digits
+            //    throw new InvalidInputException("The model number should be 6 digits long\n");
             if (newDrone.Weight != WeightCategories.Easy && newDrone.Weight != WeightCategories.Medium && newDrone.Weight != WeightCategories.Heavy)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
             if ((Math.Round(Math.Floor(Math.Log10(stationNumber))) + 1) != 4)//if station id isnt 4 digits long

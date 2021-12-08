@@ -42,7 +42,6 @@
             x:Name ="DronesListView" Margin="10,10,10,93" Grid.Row="1" SelectionChanged="DronesListView_SelectionChanged">
             <ListView.Background>
                 <ImageBrush ImageSource="C:\Users\Shira Pinski\source\repos\pinskishira\dotNet5782_3723_8408\PL\Image2.png" Opacity="0.4"/>
-
             </ListView.Background>
             <ListView.View>
                 <GridView>
