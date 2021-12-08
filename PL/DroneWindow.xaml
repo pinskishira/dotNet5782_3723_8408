@@ -40,7 +40,7 @@
                 <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontSize="14" FontWeight="Bold"/>
                 <Label x:Name="ModelLblAdd" Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontSize="14" FontWeight="Bold"/>
                 <Label x:Name="WeightLblAdd" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontSize="14" FontWeight="Bold"/>
-                <Label x:Name="NumOfStationLblAdd" Content="Number Of Station" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontSize="14" FontWeight="Bold"/>
+                <Label x:Name="NumOfStationLblAdd" Content="Number Of Station" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="12.5"/>
 
                 <TextBox x:Name="IdTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="ModelTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Model, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
@@ -49,8 +49,8 @@
 
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button x:Name="AddDroneButtonAdd" Visibility="Visible" Content="Add Drone" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="18"/>
-                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="18"/>
+                <Button x:Name="AddDroneButtonAdd" Visibility="Visible" Content="Add Drone" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
+                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
             </StackPanel>
         </Grid>
 
@@ -109,7 +109,7 @@
                 <Label x:Name="CollectionLocationLblUD" Content="Collection Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" Height="26"/>
                 <Label x:Name="LatitudeSenderLblUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
                 <Label x:Name="LongitutdeSenderLblUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
-                <Label x:Name="DeliveryDestinationLblUD" Content="Delivery Destination" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="DeliveryDestinationLblUD" Content="Delivery Destination" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold"/>
                 <Label x:Name="LatitudeTargetLabelUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
                 <Label x:Name="LongitutdeTargetLabelUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
 
@@ -156,8 +156,8 @@
 
 
             <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
-                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
-                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
+                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
                 <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
                 <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
             </StackPanel>
