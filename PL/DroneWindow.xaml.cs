@@ -240,6 +240,7 @@ namespace PL
                             DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                             success = MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
+                            GridPapcelInTransfer.Visibility = Visibility.Visible;
                             break;
                     }
 
@@ -276,6 +277,7 @@ namespace PL
                                     DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                                     success = MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated",
                                     MessageBoxButton.OK);
+                                    GridPapcelInTransfer.Visibility = Visibility.Collapsed;
                                     break;
                             }
                         }
