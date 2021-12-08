@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
+
 
 using static IBL.BO.Enum;
 using IBL.BO;
@@ -59,7 +61,7 @@ namespace PL
             Drone visibleDroneButton = Drone;//equals chosen drone to update
             if (Drone.ParcelInTransfer == null)//if its got no parcel assigned to it
             {
-                UpdateGrid1.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
+                GridParcelInTransfer.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
             }
 
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)//if drone status is - available
@@ -156,6 +158,12 @@ namespace PL
             }
         }
 
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
         private void UpdateDroneButtonUD_Click(object sender, RoutedEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "Request Review",
@@ -241,7 +249,7 @@ namespace PL
                             DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                             success = MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
-                            GridPapcelInTransfer.Visibility = Visibility.Visible;
+                            GridParcelInTransfer.Visibility = Visibility.Visible;
                             break;
                     }
 
@@ -278,7 +286,7 @@ namespace PL
                                     DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
                                     success = MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated",
                                     MessageBoxButton.OK);
-                                    GridPapcelInTransfer.Visibility = Visibility.Collapsed;
+                                    GridParcelInTransfer.Visibility = Visibility.Collapsed;
                                     break;
                             }
                         }
