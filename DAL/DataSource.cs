@@ -112,7 +112,7 @@ namespace DalObject
                     while (newCustomer.Id == Customers[j].Id)
                         newCustomer.Id = rand.Next(100000000, 1000000000);
                 }
-                newCustomer.Longitude = rand.Next(29,34) + rand.NextDouble();//U//Updating longitude   
+                newCustomer.Longitude = rand.Next(29,34) + rand.NextDouble();//Updating longitude   
                 newCustomer.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude
                 newCustomer.Name = customerArrayName[i];
                 newCustomer.Phone = customerArrayPhone[i];
