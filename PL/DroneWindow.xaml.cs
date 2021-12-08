@@ -37,7 +37,7 @@ namespace PL
             Drone visibleDroneButton = Drone;
             if (Drone.ParcelInTransfer == null)
             {
-                UpdateGrid1.Visibility = Visibility.Collapsed;
+                GridPapcelInTransfer.Visibility = Visibility.Collapsed;
             }
 
             if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)
@@ -216,6 +216,7 @@ namespace PL
                             DroneStatusChangeUD.Content = "Drone Collects Parcel";
                             success = MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated",
                             MessageBoxButton.OK);
+                            GridPapcelInTransfer.Visibility = Visibility.Visible;
                             break;
                     }
 
@@ -252,6 +253,7 @@ namespace PL
                                     DroneStatusChangeUD.Content = "Drone Collects Parcel";
                                     success = MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated",
                                     MessageBoxButton.OK);
+                                    GridPapcelInTransfer.Visibility = Visibility.Collapsed;
                                     break;
                             }
                         }
