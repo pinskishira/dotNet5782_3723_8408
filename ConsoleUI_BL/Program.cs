@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 
-using IBL.BO;
-using static IBL.BO.Enum;
+using BO;
+using static BO.Enum;
 
 namespace ConsoleUI_BL
 {
@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
-            BL.BL ibl = new BL.BL();
+            BL.BL ibl = BL.BlFactory.GetBl();
             int ansFromUserInt, input;
             double ansFromUserDouble1;
             double ansFromUserDouble2;

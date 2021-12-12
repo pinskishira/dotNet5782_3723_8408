@@ -14,9 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-//using IBL;
-using IBL.BO;
-using static IBL.BO.Enum;
+using BO;
+using static BO.Enum;
 
 namespace PL
 {
@@ -27,7 +26,7 @@ namespace PL
     /// </summary>
     public partial class DroneListWindow : Window
     {
-        BL.BL bl;
+        BlApi.Ibl bl;
         public ObservableCollection<DroneToList> droneToLists;
         public DroneToList CurrentDrone { get; set; } = new();
         private bool _close { get; set; } = false;
@@ -36,7 +35,7 @@ namespace PL
         /// Initializes the list of all the drones
         /// </summary>
         /// <param name="ibl">From type bl</param>
-        public DroneListWindow(BL.BL ibl)
+        public DroneListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
             bl = ibl;
@@ -90,14 +89,14 @@ namespace PL
                 DronesListView.ItemsSource = droneToLists;
             //sorts list by chosen weight
             if (droneStatuses == DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.Weight == (IBL.BO.Enum.WeightCategories)WeightSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.Weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
             //sorts list by chosen status
             if (droneStatuses != DroneStatuses.All && weightCategories == WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (IBL.BO.Enum.DroneStatuses)StatusSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (BO.Enum.DroneStatuses)StatusSelection.SelectedItem);
             //sorts list by chosen status and weight
             if (droneStatuses != DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (IBL.BO.Enum.DroneStatuses)StatusSelection.SelectedItem &&
-                  item.Weight == (IBL.BO.Enum.WeightCategories)WeightSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (BO.Enum.DroneStatuses)StatusSelection.SelectedItem &&
+                  item.Weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
         }
 
         /// <summary>

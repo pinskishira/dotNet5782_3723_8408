@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System;
 
-using IBL.BO;
-using static IBL.BO.Enum;
+using BO;
+using static BO.Enum;
 
-namespace IBL
+namespace BlApi
 {
     public interface Ibl
     {
@@ -130,7 +130,7 @@ namespace IBL
         /// <param name="droneToList">The drone performing delivery</param>
         /// <param name="parcel">Parcel drone is carrying</param>
         /// <returns>Amount of battery used during delivery</returns>
-        public int BatteryConsumption(DroneToList droneToList, IDAL.DO.Parcel parcel);
+        public int BatteryConsumption(DroneToList droneToList, DO.Parcel parcel);
 
         /// <summary>
         /// Returns the index to place in the elecUse array, that finds the amount of battery used per km
@@ -146,14 +146,14 @@ namespace IBL
         /// <param name="longitude">Longitude in location</param>
         /// <param name="latitude">Lattitude in location</param>
         /// <returns>Closest station to sender</returns>
-        public IDAL.DO.Station smallestDistance(double longitude, double latitude);
+        public DO.Station smallestDistance(double longitude, double latitude);
 
         /// <summary>
         /// Finds the smallest distance between sent location and closest station.
         /// </summary>
         /// <param name="CurrentLocation">Current location</param>
         /// <returns>Returns smallest distance between drone and closest station</returns>
-        public IDAL.DO.Station smallestDistanceFromDrone(Location CurrentLocation);
+        public DO.Station smallestDistanceFromDrone(Location CurrentLocation);
 
         /// <summary>
         /// Releasing drone from a charging station and updating the drone released, and charging station

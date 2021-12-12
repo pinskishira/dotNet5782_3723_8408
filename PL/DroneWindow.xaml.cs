@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Windows.Controls;
-using IBL.BO;
+using BO;
 
 namespace PL
 {
@@ -14,7 +14,7 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
-        BL.BL bl;
+        BlApi.Ibl bl;
         private DroneListWindow DroneListWindow { get; }
         private Drone Drone { get; set; } = new();
         private bool _close { get; set; } = false;
@@ -24,13 +24,13 @@ namespace PL
         /// </summary>
         /// <param name="ibl">Access to BL</param>
         /// <param name="droneListWindow">Access to Drone List Window</param>
-        public DroneWindow(BL.BL ibl, DroneListWindow droneListWindow, int i = 0)
+        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow, int i = 0)
         {
             InitializeComponent();
             bl = ibl;
             DroneListWindow = droneListWindow;//access to drone list
             DataContext = Drone;//updating event 
-            WeightCmbxAdd.ItemsSource = System.Enum.GetValues(typeof(IBL.BO.Enum.WeightCategories));//getting chosen weight
+            WeightCmbxAdd.ItemsSource = System.Enum.GetValues(typeof(BO.Enum.WeightCategories));//getting chosen weight
             GridAddDrone.Visibility = Visibility.Visible;//showing grid of fields needed for adding a drone
             NumOfStationTxtAdd.ItemsSource = bl.GetAllStations(index => index.AvailableChargeSlots > 0).Select(s => s.Id);//choosing a station from a combo box
         }
@@ -40,7 +40,7 @@ namespace PL
         /// </summary>
         /// <param name="ibl">Access to BL</param>
         /// <param name="droneListWindow">Access to Drone List Window</param>
-        public DroneWindow(BL.BL ibl, DroneListWindow droneListWindow)
+        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow)
         {
             InitializeComponent();
             bl = ibl;
@@ -54,13 +54,13 @@ namespace PL
                 GridParcelInTransfer.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
             }
 
-            if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Available)//if drone status is - available
+            if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Available)//if drone status is - available
             {
                 ChargeDroneUD.Content = "Send Drone to Charging";//input button content
                 DroneStatusChangeUD.Content = "Assign drone to a parcel";//input button content
             }
 
-            if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Maintenance)//if drone status is - maintanance
+            if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Maintenance)//if drone status is - maintanance
             {
                 ChargeDroneUD.Content = "Release Drone from Charging";//input button content
                 DroneStatusChangeUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
@@ -69,13 +69,13 @@ namespace PL
             else
             {
                 //if drone status is - Delivery, and parcel has not yet been delivered 
-                if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == false)
+                if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == false)
                 {
                     DroneStatusChangeUD.Content = "Drone Collects Parcel";//input button content
                     ChargeDroneUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
                 }
                 //if drone status is - Delivery, and parcel has been deliveerd
-                if (visibleDroneButton.DroneStatus == IBL.BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == true)
+                if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == true)
                 {
                     DroneStatusChangeUD.Content = "Drone Delivers Parcel";//input button content
                     ChargeDroneUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status

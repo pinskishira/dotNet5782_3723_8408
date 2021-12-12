@@ -2,9 +2,9 @@
  * Mini Project in Windows Systems
  */
 using System;
-using IDAL.DO;
+using DO;
 using System.Collections.Generic;
-//using DAL.IDAL.DO;
+using DalApi;
 
 /// <summary>
 /// Program main which gives us 4 main options: To add, update, display and view the: drones, stations, parcels, customers,
@@ -22,7 +22,7 @@ namespace ConsoleUI
     {
         public static void Main(string[] args)
         {
-            DalObject.DalObject dalObj = new DalObject.DalObject();
+            IDal dalObj = DalApi.DLFactory.GetDL();
             int ansFromUserInt, input;
             double ansFromUserDouble;
             AddingFunction answerAdd;
@@ -39,7 +39,7 @@ namespace ConsoleUI
                 answerMain = (MainSwitchFunctions)input;
                 try
                 {
-                    
+
                     switch (answerMain)
                     {
                         case MainSwitchFunctions.Add://the user will choose whether he wants to add on a station, drone, customer or parcel
@@ -240,16 +240,16 @@ namespace ConsoleUI
                                     foreach (var parcel in viewParcels)//prints all parcels
                                         Console.WriteLine(parcel);
                                     break;
-                                //case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                //    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.GetParcelWithNoDrone();
-                                //    foreach (var parcel in ViewParcelsWithNoDrone)//printing
-                                //        Console.WriteLine(parcel);
-                                //    break;
-                                //case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
-                                //    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
-                                //    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
-                                //        Console.WriteLine(station);
-                                //    break;
+                                    //case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
+                                    //    IEnumerable<Parcel> ViewParcelsWithNoDrone = dalObj.GetParcelWithNoDrone();
+                                    //    foreach (var parcel in ViewParcelsWithNoDrone)//printing
+                                    //        Console.WriteLine(parcel);
+                                    //    break;
+                                    //case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations
+                                    //    IEnumerable<Station> viewStationWithAvailableChargingStation = dalObj.GetStationWithFreeSlots();
+                                    //    foreach (var station in viewStationWithAvailableChargingStation)//prints all parcels
+                                    //        Console.WriteLine(station);
+                                    //    break;
                             }
                             break;
                     }

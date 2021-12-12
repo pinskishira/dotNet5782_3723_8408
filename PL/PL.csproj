@@ -4,6 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\bin\‏‏תיקיה חדשה\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\Bll\BL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
