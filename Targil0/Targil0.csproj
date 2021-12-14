@@ -9,4 +9,14 @@
     <OutputPath>..\bin\</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="NewFolder\obj\**" />
+    <EmbeddedResource Remove="NewFolder\obj\**" />
+    <None Remove="NewFolder\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\" />
+  </ItemGroup>
+
 </Project>

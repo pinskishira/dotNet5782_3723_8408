@@ -1,18 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Dal</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath></OutputPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
 
-	
-	
   <ItemGroup>
     <ProjectReference Include="..\DalApi\DalApi.csproj" />
+    <ProjectReference Include="..\DalObject\DalObject.csproj" />
+    <ProjectReference Include="..\one\DalObject.csproj" />
     <ProjectReference Include="..\two\DalApi.csproj" />
   </ItemGroup>
 

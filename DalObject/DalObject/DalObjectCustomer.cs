@@ -5,7 +5,7 @@ using DO;
 
 namespace Dal
 {
-    internal partial class DalObject
+    partial class DalObject
     {
         public void AddCustomer(Customer newCustomer)
         {

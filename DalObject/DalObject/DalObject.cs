@@ -2,9 +2,10 @@
 
 namespace Dal
 {
-    internal sealed partial class DalObject :IDal
+    partial class DalObject :IDal
     {
-        internal static readonly DalObject Instance = new DalObject();
+        internal static DalObject Instance { get; } = new DalObject();
+        static DalObject() { }
         private DalObject()
         {
             DataSource.Initialize();

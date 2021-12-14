@@ -27,7 +27,7 @@ namespace BL
             try
             {
                 //converting BL parcel to dal
-                DO.Parcel tempParcel = new();
+                DO.Parcel tempParcel = new DO.Parcel();
                 object obj = tempParcel;
                 newParcel.CopyPropertiesTo(obj);
                 tempParcel = (DO.Parcel)obj;
@@ -44,13 +44,13 @@ namespace BL
 
         public Parcel GetParcel(int parcelId)
         {
-            Parcel blParcel = new();
+            Parcel blParcel = new Parcel();
             try
             {
                 DO.Parcel dalParcel = dal.FindParcel(parcelId);//finding parcel
-                blParcel.Sender = new();
-                blParcel.Target = new();
-                blParcel.DroneParcel = new();
+                blParcel.Sender = new CustomerInParcel();
+                blParcel.Target = new CustomerInParcel();
+                blParcel.DroneParcel = new DroneInParcel();
                 dalParcel.CopyPropertiesTo(blParcel);//converting to BL
                 Customer target = GetCustomer(dalParcel.TargetId);//finding the target who will recieve parcel
                 target.CopyPropertiesTo(blParcel.Target);//converting to BL
@@ -61,7 +61,7 @@ namespace BL
                 else
                 {
                     DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == dalParcel.DroneId);
-                    blParcel.DroneParcel.CurrentLocation = new();
+                    blParcel.DroneParcel.CurrentLocation = new Location();
                     blParcel.DroneParcel.Id = dalParcel.DroneId;
                     blParcel.DroneParcel.Battery = droneToList.Battery;
                     blParcel.DroneParcel.CurrentLocation = droneToList.CurrentLocation;
@@ -80,9 +80,9 @@ namespace BL
 
         public IEnumerable<ParcelToList> GetAllParcels(Predicate<ParcelToList> predicate = null)
         {
-            Parcel tempParcel = new();
-            ParcelToList tempParcelToList = new();
-            List<ParcelToList> parcelToLists = new();
+            Parcel tempParcel = new Parcel();
+            ParcelToList tempParcelToList = new ParcelToList();
+            List<ParcelToList> parcelToLists = new List<ParcelToList>();
             List<DO.Parcel> parcelList = dal.GetAllParcels().ToList();
             foreach (var indexOfParcels in parcelList)//goes through dals list of parcels
             {
@@ -105,7 +105,7 @@ namespace BL
                     }
                 }
                 parcelToLists.Add(tempParcelToList);
-                tempParcelToList = new();
+                tempParcelToList = new ParcelToList();
             }
             return parcelToLists.FindAll(item => predicate == null ? true : predicate(item));
         }
@@ -115,7 +115,7 @@ namespace BL
             try
             {
                 DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
-                DO.Parcel parcel = new();
+                DO.Parcel parcel = new DO.Parcel();
                 int maxPriorities = 0, maxWeight = 0;
                 double maxDistance = 0.0;
                 bool flag = false;
@@ -179,7 +179,7 @@ namespace BL
                     int distance = (int)Distance.Haversine
                         (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude);
                     droneToList.Battery -= (int)(distance * PowerUsageEmpty);//updating battery according to distance and weight of the parcel
-                    droneToList.CurrentLocation = new();
+                    droneToList.CurrentLocation = new Location();
                     droneToList.CurrentLocation.Longitude = sender.Longitude;//updating location to sender location
                     droneToList.CurrentLocation.Latitude = sender.Latitude;
                     dal.UpdateParcelCollectionByDrone(parcel.Id);//sending to update in dal

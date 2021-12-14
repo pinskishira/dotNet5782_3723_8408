@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 namespace DalApi
@@ -10,17 +11,7 @@ namespace DalApi
     /// </summary>
     public static class DLFactory
     {
-        /// <summary>
-        /// The function creates Dal tier implementation object according to Dal type
-        /// as appears in "dal" element in the configuration file config.xml.<br/>
-        /// The configuration file also includes element "dal-packages" with list
-        /// of available packages (.dll files) per Dal type.<br/>
-        /// Each Dal package must use "Dal" namespace and it must include internal access
-        /// singleton class with the same name as package's name.<br/>
-        /// The singleton class must include public static property called "Instance"
-        /// which must contain the single instance of the class.
-        /// </summary>
-        /// <returns>Dal tier implementation object</returns>
+
 
         public static IDal GetDL()
         {
@@ -44,7 +35,7 @@ namespace DalApi
 
             try // Load into CLR the dal implementation assembly according to dll file name (taken above)
             {
-                _ = Assembly.Load(dlPackageName);
+                var temp = Assembly.Load(dlPackageName);
             }
             catch (Exception ex)
             {
@@ -81,7 +72,8 @@ namespace DalApi
             try
             {
                 // If the instance property is not initialized (i.e. it does not hold a real instance reference)...
-                IDal dal = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as IDal;
+                
+                IDal dal = (IDal)type.GetProperty("Instance", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
                 // If the instance property is not initialized (i.e. it does not hold a real instance reference)...
                 if (dal == null)
                 {

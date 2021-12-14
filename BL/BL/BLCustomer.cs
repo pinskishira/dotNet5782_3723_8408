@@ -24,7 +24,7 @@ namespace BL
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             try
             {
-                DO.Customer tempCustomer = new();
+                DO.Customer tempCustomer = new DO.Customer();
                 object obj = tempCustomer;
                 newCustomer.CopyPropertiesTo(obj);
                 tempCustomer = (DO.Customer)obj;
@@ -39,19 +39,19 @@ namespace BL
 
         public Customer GetCustomer(int customerId)
         {
-            Customer blCustomer = new();
+            Customer blCustomer = new Customer();
             try
             {
                 DO.Customer dalCustomer = dal.FindCustomer(customerId);//finding customer using inputted id
                 dalCustomer.CopyPropertiesTo(blCustomer);//converting dal->bl
                 blCustomer.CustomerLocation = CopyLocation(dalCustomer.Longitude, dalCustomer.Latitude);
-                blCustomer.ParcelsFromCustomers = new();
-                blCustomer.ParcelsToCustomers = new();
+                blCustomer.ParcelsFromCustomers = new List<ParcelAtCustomer>();
+                blCustomer.ParcelsToCustomers = new List<ParcelAtCustomer>();
                 //goes through the parcels with the sent condition
                 List<DO.Parcel> parcelList = dal.GetAllParcels(parcel => parcel.SenderId == customerId || parcel.TargetId == customerId).ToList();
                 foreach (var indexOfParcels in parcelList)
                 {
-                    ParcelAtCustomer parcelAtCustomer = new();
+                    ParcelAtCustomer parcelAtCustomer = new ParcelAtCustomer();
                     indexOfParcels.CopyPropertiesTo(parcelAtCustomer);// converting dal->bl
                     //If the customer we want is either the sender or the recipient of the package
                     if (indexOfParcels.SenderId == blCustomer.Id || indexOfParcels.TargetId == blCustomer.Id)
@@ -70,7 +70,7 @@ namespace BL
                         }
                         else
                             parcelAtCustomer.StateOfParcel = ParcelState.Created;
-                        parcelAtCustomer.SourceOrDestination = new();
+                        parcelAtCustomer.SourceOrDestination = new CustomerInParcel();
                         parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//Updates the source information of the parcel
                         parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//Updates the source information of the parcel
                         if (indexOfParcels.SenderId == blCustomer.Id)//If the customer sends the parcel
@@ -89,9 +89,9 @@ namespace BL
 
         public IEnumerable<CustomerToList> GetAllCustomers(Predicate<CustomerToList> predicate = null)
         {
-            Customer tempCustomer = new();
-            CustomerToList tempCustomerToList = new();
-            List<CustomerToList> customerToList = new();
+            Customer tempCustomer = new Customer();
+            CustomerToList tempCustomerToList = new CustomerToList();
+            List<CustomerToList> customerToList = new List<CustomerToList>();
             List<DO.Customer> customerList = dal.GetAllCustomers().ToList();
             foreach (var indexCustomer in customerList)//goes through list of customers
             {
@@ -114,7 +114,7 @@ namespace BL
                         tempCustomerToList.ParcelsOnTheWayToCustomer++;
                 }
                 customerToList.Add(tempCustomerToList);
-                tempCustomerToList = new();
+                tempCustomerToList = new CustomerToList();
             }
             return customerToList.FindAll(item => predicate == null ? true : predicate(item));
         }

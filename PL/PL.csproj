@@ -4,24 +4,42 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <OutputPath>C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\bin\‏‏תיקיה חדשה\</OutputPath>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="מיני.jpg" />
+    <None Remove="project\מיני.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bll\BL.csproj" />
+    <ProjectReference Include="..\BL\BL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="מיני.jpg" />
+    <Resource Include="project\מיני.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="project\DroneListWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="project\DroneWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="project\DroneListWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="project\DroneWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

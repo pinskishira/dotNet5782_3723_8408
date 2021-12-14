@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Dal
 {
-    internal partial class DalObject
+    partial class DalObject
     {
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {

@@ -22,14 +22,14 @@ namespace BL
             newDrone.Battery = rand.Next(20, 41);//battery status between 20 and 40
             newDrone.DroneStatus = DroneStatuses.Maintenance;//drone status -> maintanace
             DO.Station newStation = dal.FindStation(stationNumber);//finds the station by the ID number the user entered
-            newDrone.CurrentLocation = new();
+            newDrone.CurrentLocation = new Location();
             newDrone.CurrentLocation.Longitude = newStation.Longitude;//updates the longitude according to the longitude of the station
             newDrone.CurrentLocation.Latitude = newStation.Latitude;//updates the latitude according to the latitude of the station
-            DO.DroneCharge tempDroneCharge = new();//updates that the drone is charging
+            DO.DroneCharge tempDroneCharge = new DO.DroneCharge();//updates that the drone is charging
             tempDroneCharge.DroneId = newDrone.Id;
             tempDroneCharge.StationId = stationNumber;
-            DroneToList newDroneToList = new();//adding information to droneToLists
-            newDroneToList.CurrentLocation = new();
+            DroneToList newDroneToList = new DroneToList();//adding information to droneToLists
+            newDroneToList.CurrentLocation = new Location();
             newDrone.CopyPropertiesTo(newDroneToList);
             newDroneToList.CurrentLocation = newDrone.CurrentLocation;
             if (newDrone.ParcelInTransfer == null)
@@ -41,7 +41,7 @@ namespace BL
             {
                 dal.AddDroneCharge(tempDroneCharge);//sends to add to the drones in charging
                 //converting BL drone to dal
-                DO.Drone tempDrone = new();
+                DO.Drone tempDrone = new DO.Drone();
                 object obj = tempDrone;
                 newDrone.CopyPropertiesTo(obj);
                 tempDrone = (DO.Drone)obj;
@@ -63,8 +63,8 @@ namespace BL
             try
             {
                 DroneToList tempDroneToList = BlDrones.First(item => item.Id == droneId);//searches the list of drones by ID number of the drone
-                Drone blDrone = new();
-                blDrone.CurrentLocation = new();
+                Drone blDrone = new Drone();
+                blDrone.CurrentLocation = new Location();
                 tempDroneToList.CopyPropertiesTo(blDrone);//converting the drone in the list to a regular drone
                 blDrone.CurrentLocation = CopyLocation(tempDroneToList.CurrentLocation.Longitude, tempDroneToList.CurrentLocation.Latitude);
                 if (tempDroneToList.ParcelIdInTransfer == 0)//parcel wasnt assigned by drone
@@ -72,11 +72,11 @@ namespace BL
                 else//was assigned by drone
                 {
                     Parcel tempParcel = GetParcel(tempDroneToList.ParcelIdInTransfer);//searches for the parcel by ID number
-                    ParcelInTransfer tempParcelInTransfer = new();
-                    tempParcelInTransfer.Sender = new();
-                    tempParcelInTransfer.Target = new();
-                    tempParcelInTransfer.CollectionLocation = new();
-                    tempParcelInTransfer.DeliveryDestination = new();
+                    ParcelInTransfer tempParcelInTransfer = new ParcelInTransfer();
+                    tempParcelInTransfer.Sender = new CustomerInParcel();
+                    tempParcelInTransfer.Target = new CustomerInParcel();
+                    tempParcelInTransfer.CollectionLocation = new Location();
+                    tempParcelInTransfer.DeliveryDestination = new Location();
                     tempParcel.CopyPropertiesTo(tempParcelInTransfer);//converting from parcel to 
                     Customer Sender = GetCustomer(tempParcel.Sender.Id);//finding sender
                     Customer Target = GetCustomer(tempParcel.Target.Id);//finding target 
@@ -146,8 +146,8 @@ namespace BL
                 drone.CurrentLocation.Longitude = station.Longitude;//upating location
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = DroneStatuses.Maintenance;
-                DroneToList droneToList = new();//new drone to list
-                droneToList.CurrentLocation = new();
+                DroneToList droneToList = new DroneToList();//new drone to list
+                droneToList.CurrentLocation = new Location();
                 drone.CopyPropertiesTo(droneToList);//converting drone -> droneToList
                 droneToList.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
                 if (drone.ParcelInTransfer != null)
@@ -197,7 +197,7 @@ namespace BL
         public DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
-            DO.Station station = new();
+            DO.Station station = new DO.Station();
             station.Id = -1;
             double tempDistance = -1;
             List<DO.Station> stationList = dal.GetAllStations().ToList();

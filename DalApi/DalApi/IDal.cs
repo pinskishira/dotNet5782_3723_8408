@@ -25,7 +25,7 @@ namespace DalApi
         /// </summary>
         /// <param name="newDroneCharge">Adding A new drone charge variable to list of drone charges</param>
         /// <exception cref="IDAL.DO.ItemExistsException"></exception>
-        public void AddDroneCharge(DroneCharge newDroneCharge);
+        void AddDroneCharge(DroneCharge newDroneCharge);
 
         /// <summary>
         /// Adding a new parcel to the list of parcels
@@ -46,7 +46,7 @@ namespace DalApi
         /// </summary>
         /// <param name="idDrone">Drone released from charging</param>
         /// <exception cref="IDAL.DO.ItemDoesNotExistException"></exception>
-        public void DroneReleaseFromChargingStation(int idDrone);
+        void DroneReleaseFromChargingStation(int idDrone);
 
         /// <summary>
         /// Finding requested custmer according to its ID name
@@ -107,7 +107,7 @@ namespace DalApi
         /// Returns list of all the drones in charges
         /// </summary>
         /// <returns>List of drones in charging</returns>
-        public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null);
+        IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null);
 
         /// <summary>
         /// Assigning a parcel to a drone
@@ -137,7 +137,7 @@ namespace DalApi
         /// <param name="idDrone">Drone that needs charging</param>
         /// <param name="nameStation">Station with available charging stations</param>
         /// <exception cref="IDAL.DO.ItemDoesNotExistException"></exception>
-        public void UpdateSendDroneToChargingStation(int idDrone, string nameStation);
+        void UpdateSendDroneToChargingStation(int idDrone, string nameStation);
 
         /// <summary>
         /// Defines an array that holds the data of the amount of battery used per km.
@@ -166,7 +166,7 @@ namespace DalApi
         /// <param name="newName">Customers new name</param>
         /// <param name="customerPhone">Customers new phone</param>
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
-        public DroneCharge GetDroneCharge(int id);
+        DroneCharge GetDroneCharge(int id);
         
     }
 }

@@ -12,7 +12,7 @@ namespace ConsoleUI_BL
 {
     public enum BlMainSwitchFunctions { Add = 1, Update, Display, ListView, Exit };
     public enum AddingFunction { AddStation = 1, AddDrone, AddCustomer, AddParcel, MainMenu };
-    public enum UpdatingFunction { UpdateDrone = 1, UpdateStation, UpdateCustomer, SendDroneToChargingStation,  DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer, MainMenu };
+    public enum UpdatingFunction { UpdateDrone = 1, UpdateStation, UpdateCustomer, SendDroneToChargingStation, DroneReleaseFromChargingStation, AssignParcelToDrone, ParcelCollectionByDrone, ParcelDeliveryToCustomer, MainMenu };
     public enum DisplayingFunction { Station = 1, Drone, Customer, Parcel, MainMenu };
     public enum ListViewFunction { Stations = 1, Drones, Customers, Parcels, ParcelsWithNoDrone, StationWithAvailableChargingStation, MainMenu };
 
@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
-            BL.BL ibl = BL.BlFactory.GetBl();
+            BlApi.Ibl ibl = BL.BlFactory.GetBl();
             int ansFromUserInt, input;
             double ansFromUserDouble1;
             double ansFromUserDouble2;
@@ -48,7 +48,7 @@ namespace ConsoleUI_BL
                             switch (answerAdd)
                             {
                                 case AddingFunction.AddStation://case which adds a new station with data into the Stations list
-                                    Station newStation = new();
+                                    Station newStation = new Station();
                                     Console.Write("Enter a four-digit number in a new station ID number: ");
                                     int.TryParse(Console.ReadLine(), out input);
                                     newStation.Id = input;
@@ -57,7 +57,7 @@ namespace ConsoleUI_BL
                                     Console.Write("Please enter you location: ");
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
-                                    newStation.StationLocation = new();
+                                    newStation.StationLocation = new Location();
                                     newStation.StationLocation.Longitude = ansFromUserDouble1;
                                     newStation.StationLocation.Latitude = ansFromUserDouble2;
                                     Console.Write("Enter amount of availbale charge slots in new station: ");
@@ -67,7 +67,7 @@ namespace ConsoleUI_BL
                                     ibl.AddStation(newStation);
                                     break;
                                 case AddingFunction.AddDrone://case which adds a new drone with data into the Drones list
-                                    Drone newDrone = new();
+                                    Drone newDrone = new Drone();
                                     Console.Write("Enter drone Id: ");
                                     int.TryParse(Console.ReadLine(), out input);
                                     newDrone.Id = input;
@@ -82,7 +82,7 @@ namespace ConsoleUI_BL
                                     ibl.AddDrone(newDrone, stationNumber);
                                     break;
                                 case AddingFunction.AddCustomer://case which adds a new customer with data into the Customers list
-                                    Customer NewCustomer = new();
+                                    Customer NewCustomer = new Customer();
                                     Console.Write("Please enter ID: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
                                     NewCustomer.Id = ansFromUserInt;
@@ -93,21 +93,21 @@ namespace ConsoleUI_BL
                                     Console.Write("Please enter you location: ");
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble1);
                                     double.TryParse(Console.ReadLine(), out ansFromUserDouble2);
-                                    NewCustomer.CustomerLocation = new();
+                                    NewCustomer.CustomerLocation = new Location();
                                     NewCustomer.CustomerLocation.Longitude = ansFromUserDouble1;
                                     NewCustomer.CustomerLocation.Latitude = ansFromUserDouble2;
                                     ibl.AddCustomer(NewCustomer);
                                     break;
                                 case AddingFunction.AddParcel://case which adds a new parcel with data into the Parcels list
-                                    Parcel NewParcel = new();
+                                    Parcel NewParcel = new Parcel();
                                     NewParcel.Id = 0;
                                     Console.Write("Enter sender ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
-                                    NewParcel.Sender = new();
+                                    NewParcel.Sender = new CustomerInParcel();
                                     NewParcel.Sender.Id = ansFromUserInt;
                                     Console.Write("Enter target ID of 9 digits: ");
                                     int.TryParse(Console.ReadLine(), out ansFromUserInt);
-                                    NewParcel.Target = new();
+                                    NewParcel.Target = new CustomerInParcel();
                                     NewParcel.Target.Id = ansFromUserInt;
                                     Console.WriteLine("Enter the weight of your parcel:\n1 - Easy\n2 - Medium\n3 - Heavy");
                                     int.TryParse(Console.ReadLine(), out input);
@@ -130,7 +130,7 @@ namespace ConsoleUI_BL
                                 "Enter 7 for parcel collection by drone\nEnter 8 for parcel delivery to customer\nEnter 9 to return to main menu \n");
                             int.TryParse(Console.ReadLine(), out input);
                             answerUpdate = (UpdatingFunction)input;
-                            int timeInCharging, idDrone, idcustomer, chargingSlots, idStation;
+                            int idDrone, idcustomer, chargingSlots, idStation;
                             string name, customerPhone;
                             switch (answerUpdate)
                             {
@@ -244,7 +244,7 @@ namespace ConsoleUI_BL
                                         Console.WriteLine(parcel);
                                     break;
                                 case ListViewFunction.ParcelsWithNoDrone://case which views the parcel with no assigned drones
-                                    ((List<ParcelToList>)ibl.GetAllParcels(parcel => parcel.StateOfParcel==ParcelState.Created))
+                                    ((List<ParcelToList>)ibl.GetAllParcels(parcel => parcel.StateOfParcel == ParcelState.Created))
                                         .ForEach(parcel => Console.WriteLine(parcel));
                                     break;
                                 case ListViewFunction.StationWithAvailableChargingStation://case which views the station with available charging stations

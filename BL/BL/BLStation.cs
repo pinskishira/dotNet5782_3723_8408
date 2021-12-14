@@ -23,7 +23,7 @@ namespace BL
             try
             {
                 //converting BL station to dal
-                DO.Station tempStation = new();
+                DO.Station tempStation = new DO.Station();
                 object obj = tempStation;
                 newStation.CopyPropertiesTo(obj);
                 tempStation = (DO.Station)obj;
@@ -38,17 +38,17 @@ namespace BL
 
         public Station GetStation(int stationId) 
         {
-            Station blStation = new();
+            Station blStation = new Station();
             try
             {
                 DO.Station dalStation = dal.FindStation(stationId);//finding station
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
-                blStation.DronesInCharging = new();
+                blStation.DronesInCharging = new List<DroneInCharging>();
                 List<DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
                 foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
                 {
-                    DroneInCharging tempDroneInCharging = new();
+                    DroneInCharging tempDroneInCharging = new DroneInCharging();
                     tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
                     DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
                     if (tempDroneToList == default)
@@ -70,12 +70,12 @@ namespace BL
 
         public IEnumerable<StationToList> GetAllStations(Predicate<StationToList> predicate = null)
         {
-            Station tempStation = new();
-            List<StationToList> stationToList = new();
+            Station tempStation = new Station();
+            List<StationToList> stationToList = new List<StationToList>();
             List<DO.Station> stationList = dal.GetAllStations().ToList();
             foreach (var indexOfStations in stationList)//going through stations
             {
-                StationToList tempStationToList = new();
+                StationToList tempStationToList = new StationToList();
                 tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
                 tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
                 if (tempStation.DronesInCharging == null)
