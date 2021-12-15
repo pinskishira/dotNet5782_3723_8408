@@ -12,8 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DalApi\DalApi.csproj" />
     <ProjectReference Include="..\DalObject\DalObject.csproj" />
-    <ProjectReference Include="..\one\DalObject.csproj" />
-    <ProjectReference Include="..\two\DalApi.csproj" />
   </ItemGroup>
 
 </Project>

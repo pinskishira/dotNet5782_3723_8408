@@ -1,7 +1,7 @@
 {
   "profiles": {
-    "WpfApp1": {
-      "commandName": "Project",
+    "PL": {
+      "commandName": "Executable",
       "workingDirectory": "$(SolutionDir)"
     }
   }
