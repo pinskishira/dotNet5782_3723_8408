@@ -11,32 +11,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="project\מיני.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="project\מיני.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="project\DroneListWindow.xaml.cs">
+    <Compile Update="DroneListWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="project\DroneWindow.xaml.cs">
+    <Compile Update="DroneWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="project\DroneListWindow.xaml">
+    <Page Update="DroneListWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="project\DroneWindow.xaml">
+    <Page Update="DroneWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
