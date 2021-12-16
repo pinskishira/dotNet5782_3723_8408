@@ -7,7 +7,7 @@ using static BO.Enum;
 
 namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         public void AddParcel(Parcel newParcel)
         {
@@ -148,8 +148,6 @@ namespace BL
                     dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
                     droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
                     droneToList.ParcelIdInTransfer = parcel.Id;
-                    //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneId);//finding index
-                    //BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
                 }
             }
             catch (ParcelDeliveryException)

@@ -6,7 +6,7 @@ using BO;
 
 namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         public void AddStation(Station newStation)
         {

@@ -13,7 +13,7 @@ namespace BL
     /// <summary>
     /// Constructor BL that defines the fields.
     /// </summary>
-    public sealed partial class BL : Ibl
+    sealed partial class BL : Ibl
     {
         internal static BL Instance { get; } = new BL();
         static BL() { }
@@ -100,7 +100,14 @@ namespace BL
             }
         }
 
-        public int BatteryConsumption(DroneToList droneToList, DO.Parcel parcel)
+        /// <summary>
+        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
+        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
+        /// </summary>
+        /// <param name="droneToList">The drone performing delivery</param>
+        /// <param name="parcel">Parcel drone is carrying</param>
+        /// <returns>Amount of battery used during delivery</returns>
+        int BatteryConsumption(DroneToList droneToList, DO.Parcel parcel)
         {
             DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
             DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer
@@ -115,24 +122,27 @@ namespace BL
             return (int)Math.Ceiling(distanceFromTarget * Weight((WeightCategories)parcel.Weight) + distanceFromStation * PowerUsageEmpty);
         }
 
-        public double Weight(WeightCategories maxWeight)
+        /// <summary>
+        /// Returns the index to place in the elecUse array, that finds the amount of battery used per km
+        /// according to the weight of the parcel.
+        /// </summary>
+        /// <param name="maxWeight">Weight of parcel</param>
+        /// <returns>Index, in elecUse array</returns>
+        double Weight(WeightCategories maxWeight) => maxWeight switch
         {
-            if (maxWeight == WeightCategories.Easy)
-                return BatteryConsumptionLightWeight;
-            if (maxWeight ==  WeightCategories.Medium)
-                return BatteryConsumptionMediumWeight;
-            else
-                return BatteryConsumptionHeavyWeight;
-        }
-        //public double Weight(WeightCategories maxWeight) => maxWeight switch
-        //{
-        //    WeightCategories.Easy => BatteryConsumptionLightWeight,
-        //    WeightCategories.Medium => BatteryConsumptionMediumWeight,
-        //    WeightCategories.Heavy => BatteryConsumptionHeavyWeight,
-        //    _ => throw new ArgumentException()
-        //};
+            WeightCategories.Easy => BatteryConsumptionLightWeight,
+            WeightCategories.Medium => BatteryConsumptionMediumWeight,
+            WeightCategories.Heavy => BatteryConsumptionHeavyWeight,
+            _ => throw new ArgumentException()
+        };
 
-        public DO.Station smallestDistance(double longitude, double latitude)
+        /// <summary>
+        /// Finds the smallest distance between the given location and the closest station.
+        /// </summary>
+        /// <param name="longitude">Longitude in location</param>
+        /// <param name="latitude">Lattitude in location</param>
+        /// <returns>Closest station to sender</returns>
+        DO.Station smallestDistance(double longitude, double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
             DO.Station station = new DO.Station();
@@ -150,7 +160,13 @@ namespace BL
             return station;//returns closest station to sender
         }
 
-        public Location CopyLocation(double longitude, double latitude)
+        /// <summary>
+        /// Function that converts longitude and latitude into Location. 
+        /// </summary>
+        /// <param name="longitude">Longitude</param>
+        /// <param name="latitude">Lattitude</param>
+        /// <returns>Current Location</returns>
+        Location CopyLocation(double longitude, double latitude)
         {
             Location currentLocation = new Location();
             currentLocation.Longitude = longitude;

@@ -9,7 +9,7 @@ using DO;
 /// </summary>
 namespace Dal
 {
-    internal static class DataSource
+    static class DataSource
     {
         static Random rand = new Random();
         static internal List<Drone> Drones = new List<Drone>();//Defining a list for the drones

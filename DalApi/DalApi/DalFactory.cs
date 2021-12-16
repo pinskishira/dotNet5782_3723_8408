@@ -11,8 +11,6 @@ namespace DalApi
     /// </summary>
     public static class DLFactory
     {
-
-
         public static IDal GetDL()
         {
             // get dal implementation name from config.xml according to <data> element

@@ -7,7 +7,7 @@ using static BO.Enum;
 
 namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         public void AddDrone(Drone newDrone, int stationNumber)
         {
@@ -194,7 +194,12 @@ namespace BL
             }
         }
 
-        public DO.Station smallestDistanceFromDrone(Location CurrentLocation)
+        /// <summary>
+        /// Finds the smallest distance between sent location and closest station.
+        /// </summary>
+        /// <param name="CurrentLocation">Current location</param>
+        /// <returns>Returns smallest distance between drone and closest station</returns>
+        DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
             DO.Station station = new DO.Station();

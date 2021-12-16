@@ -124,38 +124,6 @@ namespace BlApi
         void UpdateStation(int idStation, string newName, int chargeSlots);
 
         /// <summary>
-        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
-        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
-        /// </summary>
-        /// <param name="droneToList">The drone performing delivery</param>
-        /// <param name="parcel">Parcel drone is carrying</param>
-        /// <returns>Amount of battery used during delivery</returns>
-        int BatteryConsumption(DroneToList droneToList, DO.Parcel parcel);
-
-        /// <summary>
-        /// Returns the index to place in the elecUse array, that finds the amount of battery used per km
-        /// according to the weight of the parcel.
-        /// </summary>
-        /// <param name="maxWeight">Weight of parcel</param>
-        /// <returns>Index, in elecUse array</returns>
-        double Weight(WeightCategories maxWeight);
-
-        /// <summary>
-        /// Finds the smallest distance between the given location and the closest station.
-        /// </summary>
-        /// <param name="longitude">Longitude in location</param>
-        /// <param name="latitude">Lattitude in location</param>
-        /// <returns>Closest station to sender</returns>
-        DO.Station smallestDistance(double longitude, double latitude);
-
-        /// <summary>
-        /// Finds the smallest distance between sent location and closest station.
-        /// </summary>
-        /// <param name="CurrentLocation">Current location</param>
-        /// <returns>Returns smallest distance between drone and closest station</returns>
-        DO.Station smallestDistanceFromDrone(Location CurrentLocation);
-
-        /// <summary>
         /// Releasing drone from a charging station and updating the drone released, and charging station
         /// and then sending to update in dal.
         /// </summary>
@@ -190,14 +158,6 @@ namespace BlApi
         /// <param name="droneId">Drone to assign to parcel</param>
         /// <exception cref="IBL.BO.ParcelDeliveryException"></exception>
         void UpdateAssignParcelToDrone(int droneId);
-
-        /// <summary>
-        /// Function that converts longitude and latitude into Location. 
-        /// </summary>
-        /// <param name="longitude">Longitude</param>
-        /// <param name="latitude">Lattitude</param>
-        /// <returns>Current Location</returns>
-        Location CopyLocation(double longitude, double latitude);
 
     }
 }

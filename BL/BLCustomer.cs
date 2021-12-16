@@ -7,7 +7,7 @@ using static BO.Enum;
 
 namespace BL
 {
-    public partial class BL
+    partial class BL
     {
         public void AddCustomer(Customer newCustomer)
         {
