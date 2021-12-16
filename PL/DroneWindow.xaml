@@ -11,7 +11,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\project\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"/>
+            <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Pictures\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg"/>
         </Grid.Background>
         <Grid x:Name="GridAddDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>

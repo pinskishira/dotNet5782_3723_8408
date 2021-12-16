@@ -40,7 +40,7 @@
         <ListView
             x:Name ="DronesListView" Margin="10,10,10,93" Grid.Row="1" MouseDoubleClick="DronesListView_SelectionChanged" >
             <ListView.Background>
-                <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\project\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg" Opacity="0.4"/>
+                <ImageBrush ImageSource="C:\Users\user\source\repos\pinskishira\dotNet5782_3723_8408\PL\Pictures\WhatsApp Image 2021-12-05 at 19.49.57 (1).jpeg" Opacity="0.4"/>
             </ListView.Background>
             <ListView.View>
                 <GridView>

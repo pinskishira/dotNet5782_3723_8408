@@ -2,10 +2,10 @@
 
 namespace Dal
 {
-    partial class DalObject :IDal
+    partial class DalObject : IDal
     {
         internal static DalObject Instance { get; } = new DalObject();
-        static DalObject() { }
+        static DalObject() { }//static ctor to ensure instance init is done just before first usage
         private DalObject()
         {
             DataSource.Initialize();
@@ -13,7 +13,7 @@ namespace Dal
 
         public double[] electricityUse()
         {
-            double []elecUse = new double[5];
+            double[] elecUse = new double[5];
             elecUse[0] = DataSource.Config.BatteryConsumptionPowerUsageEmpty;
             elecUse[1] = DataSource.Config.BatteryConsumptionLightWeight;
             elecUse[2] = DataSource.Config.BatteryConsumptionMediumWeight;
