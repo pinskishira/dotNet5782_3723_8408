@@ -2,7 +2,7 @@
 
 namespace Dal
 {
-    partial class DalObject : IDal
+    sealed partial class DalObject : IDal
     {
         internal static DalObject Instance { get; } = new DalObject();
         static DalObject() { }//static ctor to ensure instance init is done just before first usage
