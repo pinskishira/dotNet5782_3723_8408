@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="640" Width="800" Closing="window_closeing" >
     <Grid Name="MainGrid">
+
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FF347DE4" Offset="0"/>

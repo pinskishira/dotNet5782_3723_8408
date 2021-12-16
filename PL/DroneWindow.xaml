@@ -14,6 +14,8 @@
             <ImageBrush ImageSource="Pictures\drone.jpeg"/>
         </Grid.Background>
         <Grid x:Name="GridAddDrone" Visibility="Collapsed">
+            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
