@@ -40,11 +40,18 @@ namespace PL
             InitializeComponent();
             bl = ibl;
             droneToLists = new ObservableCollection<DroneToList>();
-            List<DroneToList> tempDroneToList = bl.GetAllDrones().ToList();//getting list of drones from bl
-            foreach (var indexOfDroneToList in tempDroneToList)//going through list and inserting it into drone to list of type ObservableCollection
-            {
-                droneToLists.Add(indexOfDroneToList);
-            }
+
+            //List<DroneToList> tempDroneToList = bl.GetAllDrones().ToList();//getting list of drones from bl
+
+            //foreach (var indexOfDroneToList in tempDroneToList)//going through list and inserting it into drone to list of type ObservableCollection
+            //{
+            //    droneToLists.Add(indexOfDroneToList);
+            //}
+
+            var droneToLiss = from item in bl.GetAllDrones().ToList()
+                           group new { item } by item.DroneStatus;
+            droneToLists = (ObservableCollection<DroneToList>)droneToLiss;
+
             DronesListView.ItemsSource = droneToLists;
             StatusSelection.ItemsSource = System.Enum.GetValues(typeof(DroneStatuses));//enum values of drone status
             WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));//enum values of weight
