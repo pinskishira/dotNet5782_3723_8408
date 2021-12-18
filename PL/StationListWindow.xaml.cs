@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 
 namespace PL
 {
+    public enum ChargeSlots { Available, Occupied, All };
+
     /// <summary>
     /// Interaction logic for StationListWindow.xaml
     /// </summary>
@@ -24,7 +26,7 @@ namespace PL
     {
         BlApi.Ibl bl;
         public ObservableCollection<StationToList> stationToLists;
-        public DroneToList CurrentStation { get; set; } = new();
+        public StationToList CurrentStation { get; set; } = new();
         private bool _close { get; set; } = false;
         public StationListWindow(BlApi.Ibl ibl)
         {
@@ -40,7 +42,7 @@ namespace PL
             }
 
             StationListView.ItemsSource = stationToLists;
-            //StatusSelection.ItemsSource = System.Enum.GetValues(typeof(DroneStatuses));//enum values of drone status
+            AvailableChargeSlots.ItemsSource = System.Enum.GetValues(typeof(ChargeSlots));//enum values of charge slots
             //WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));//enum values of weight
             //StatusSelection.SelectedIndex = 3;//prints full list
             //stationToLists.CollectionChanged += StationToLists_CollectionChanged;//updating event 
