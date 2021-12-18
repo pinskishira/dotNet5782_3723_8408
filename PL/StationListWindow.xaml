@@ -33,7 +33,7 @@
             </Grid.ColumnDefinitions>
             <ComboBox x:Name="AvailableChargeSlots" SelectionChanged="AvailableChargeSlots_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="0" Margin="10,26,27,10" />
             <Label  Content="List Of Stations" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" FontFamily="Britannic Bold" Foreground="White" FontSize="36"  Grid.Column="1"/>
-            <Label Content="Sort Station's Charge Slots by:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" Grid.Column="0"/>
+            <Label Content="Sort Station's Charge Slots by:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="17" Grid.Column="0" Width="240"/>
             <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" Foreground="White" Grid.Column="2" Height="49" Width="219"/>
         </Grid>
         <ListView
@@ -56,6 +56,5 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <Button x:Name="AddStationButton" Content="Add New Station" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF0F622A" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="AddStationButton_Click" HorizontalAlignment="Stretch"/>
-
     </Grid>
 </Window>

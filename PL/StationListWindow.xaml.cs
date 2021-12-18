@@ -34,19 +34,31 @@ namespace PL
             bl = ibl;
             stationToLists = new ObservableCollection<StationToList>();
 
-            List<StationToList> tempStationToList = bl.GetAllStations().ToList();//getting list of drones from bl
+            List<StationToList> tempStationToList = bl.GetAllStations().ToList();//getting list of stations from bl
 
-            foreach (var indexOfStationToList in tempStationToList)//going through list and inserting it into drone to list of type ObservableCollection
+            foreach (var indexOfStationToList in tempStationToList)//going through list and inserting it into statin to list of type ObservableCollection
             {
                 stationToLists.Add(indexOfStationToList);
             }
 
             StationListView.ItemsSource = stationToLists;
             AvailableChargeSlots.ItemsSource = System.Enum.GetValues(typeof(ChargeSlots));//enum values of charge slots
-            //WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));//enum values of weight
-            //StatusSelection.SelectedIndex = 3;//prints full list
-            //stationToLists.CollectionChanged += StationToLists_CollectionChanged;//updating event 
+            AvailableChargeSlots.SelectedIndex = 3;//prints full list
+            stationToLists.CollectionChanged += StationToLists_CollectionChanged;//updating event 
 
+        }
+
+        private void StationToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Selection();
+        }
+        private void Selection()
+        {
+        }
+
+        private void AvailableChargeSlots_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();
         }
 
         private void window_closeing(object sender, CancelEventArgs e)
@@ -66,18 +78,15 @@ namespace PL
 
         private void StationListView_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
-            //CurrentDrone = (DroneToList)DronesListView.SelectedItem;
-            //if (CurrentDrone != null)
-            //    new DroneWindow(bl, this).Show();
+            //CurrentStation = (StationToList)StationListView.SelectedItem;
+            //if (CurrentStation != null)
+            //   new DroneWindow(bl, this).Show();
         }
         private void AddStationButton_Click(object sender, RoutedEventArgs e)
         {
-            //new StationWindow(bl, this, 5).Show();
+            new StationWindow(bl, this, 5).Show();
         }
 
-        private void AvailableChargeSlots_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
     }
 }
