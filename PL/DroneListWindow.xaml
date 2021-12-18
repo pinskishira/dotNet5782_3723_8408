@@ -62,5 +62,6 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Stretch"/>
+
     </Grid>
 </Window>

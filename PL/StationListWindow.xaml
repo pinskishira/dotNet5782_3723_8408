@@ -18,8 +18,26 @@
             <RowDefinition Height="50*"/>
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
+        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+         VerticalAlignment="Stretch" Width="auto">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF0F622A" Offset="0.418"/>
+                    <GradientStop Color="#FFF4F7F6" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="AvailableChargeSlots" SelectionChanged="AvailableChargeSlots_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="0" Margin="10,26,27,10" />
+            <Label  Content="List Of Stations" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" FontFamily="Britannic Bold" Foreground="White" FontSize="36"  Grid.Column="1"/>
+            <Label Content="Sort Station's Charge Slots by:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" Grid.Column="0"/>
+            <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" Foreground="White" Grid.Column="2" Height="49" Width="219"/>
+        </Grid>
         <ListView
-            x:Name ="StationListView" Margin="10,10,10,93" Width ="auto" Grid.Row="1" MouseDoubleClick="StationListView_SelectionChanged" >
+            x:Name ="StationListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="StationListView_SelectionChanged" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" >
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.5"/>
             </ListView.Background>
@@ -37,26 +55,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-         VerticalAlignment="Stretch" Width="auto">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF0F622A" Offset="0.418"/>
-                    <GradientStop Color="#FFF4F7F6" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <ComboBox x:Name="AvailableChargeSlots" SelectionChanged="AvailableChargeSlots_SelectionChanged" Margin="37,28,163,10" FontFamily="Britannic Bold" FontSize="18" Grid.ColumnSpan="2" Width="auto"/>
-            <Label  Content="List Of Stations" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" Width="auto" FontFamily="Britannic Bold" Foreground="White" FontSize="36" Margin="0,6,0,0" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <Label Content="Sort Station's Charge Slots by:" HorizontalAlignment="Left" Height="35" Margin="24,0,0,0" VerticalAlignment="Top" Width="auto" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" Grid.ColumnSpan="2" FontSize="16"/>
+        <Button x:Name="AddStationButton" Content="Add New Station" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF0F622A" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="AddStationButton_Click" HorizontalAlignment="Stretch"/>
 
-        </Grid>
-        <Button x:Name="AddStationButton" Content="Add New Station" Margin="10,467,10,10" Click="AddStationButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FF0F622A" Background="Transparent" FontFamily="Britannic Bold" FontSize="36" Grid.Row="1" Width="auto"/>
-        <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Left" Margin="611,0,0,0" VerticalAlignment="Center" Height="49" Width="auto" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" Foreground="White" Grid.ColumnSpan="4"/>
     </Grid>
 </Window>
