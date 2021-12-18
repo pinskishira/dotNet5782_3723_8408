@@ -17,24 +17,28 @@ namespace Dal
 
         public Customer FindCustomer(int id)
         {
-            var customer = from item in DataSource.Customers
-                           where item.Id == id
-                           select item;
-            if(customer==null)
-                throw new ItemDoesNotExistException("The customer does not exist.\n");
-            return customer.First();
+            try
+            {
+                return DataSource.Customers.First(item => item.Id == id);//checks if customer exists
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ItemExistsException("The customer does not exist.\n");
+            }
         }
 
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
-            return DataSource.Customers.FindAll(item => predicate == null ? true : predicate(item));
+            return from itemCustomer in DataSource.Customers
+                   where predicate == null ? true : predicate(itemCustomer)
+                   select itemCustomer;
         }
 
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            if (!DataSource.Customers.Exists(item => item.Id == idCustomer))//checks if customer exists
-                throw new ItemDoesNotExistException("The customer does not exist.\n");
             int indexOfCustomer = DataSource.Customers.FindIndex(item => item.Id == idCustomer);//finds index where customer is
+            if (indexOfCustomer == -1)//checks if customer exists
+                throw new ItemDoesNotExistException("The customer does not exist.\n");
             Customer customer = DataSource.Customers[indexOfCustomer];
             if (newName != "")//if enter was entered instead of new name
                 customer.Name = newName;

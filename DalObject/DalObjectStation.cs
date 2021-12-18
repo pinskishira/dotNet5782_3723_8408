@@ -2,6 +2,7 @@
 using System;
 
 using DO;
+using System.Linq;
 
 namespace Dal
 {
@@ -9,27 +10,23 @@ namespace Dal
     {
         public void AddStation(Station newStation)
         {
-            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))//checks if station exists
+            if (DataSource.Stations.Any(item => item.Id == newStation.Id))//checks if station exists
                 throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
 
         public Station FindStation(int id)
         {
-            if (!DataSource.Stations.Exists(item => item.Id == id))//checks if station exists
+            int indexStation = DataSource.Stations.FindIndex(item => item.Id == id);
+            if(indexStation==-1)//checks if station exists
                 throw new ItemDoesNotExistException("The station does not exist.\n");
-            return DataSource.Stations[DataSource.Stations.FindIndex(item => item.Id == id)];//Going through stations list
+            return DataSource.Stations[indexStation];//Going through stations list
         }
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
-            //List<Station> tempStations = new List<Station>();
-            //foreach (var indexOfStations in DataSource.Stations)//goes through stations list
-            //{
-            //    tempStations.Add(indexOfStations);//adds to list
-            //}
-            //return tempStations;
-            return DataSource.Stations.FindAll(item => predicate == null ? true : predicate(item));
-
+            return from itemStation in DataSource.Stations
+                   where predicate == null ? true : predicate(itemStation)
+                   select itemStation;
         }
 
         /// <summary>
@@ -48,9 +45,9 @@ namespace Dal
 
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            if (!DataSource.Stations.Exists(item => item.Id == idStation))//checks if station exists
-                throw new ItemDoesNotExistException("The station does not exist.\n");
             int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);
+            if(indexOfStation==-1)//checks if station exists
+                throw new ItemDoesNotExistException("The station does not exist.\n");
             Station station = DataSource.Stations[indexOfStation];
             if (newName != "")//if enter wasnt inputted
                 station.Name = newName;
