@@ -54,7 +54,7 @@ namespace BL
                     if (tempDroneToList == default)
                         throw new FailedGetException("The Id number does not exist. \n");
                     tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
-                    blStation.DronesInCharging.Add(tempDroneInCharging);//adding to drones in charging
+                    blStation.DronesInCharging.Append(tempDroneInCharging);//adding to drones in charging
                 }
             }
             catch (DO.ItemDoesNotExistException ex)
@@ -81,7 +81,7 @@ namespace BL
                 if (tempStation.DronesInCharging == null)
                     tempStationToList.OccupiedChargeSlots = 0;
                 else
-                    tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count;//checks how many drones are in charging and counts them 
+                    tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count();//checks how many drones are in charging and counts them 
                 stationToList.Add(tempStationToList);//ading to StationToList
             }
             return stationToList.FindAll(item => predicate == null ? true : predicate(item));

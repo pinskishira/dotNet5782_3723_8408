@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="640" Width="800" Closing="window_closeing" >
     <Grid Name="MainGrid">
-
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FF347DE4" Offset="0"/>
@@ -32,26 +31,28 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="StatusSelection" Grid.Column="1" SelectionChanged="StatusSelection_SelectionChanged" Margin="32,29,42,9" Foreground="#FF0D0000" FontFamily="Britannic Bold" FontSize="18"/>
-            <ComboBox x:Name="WeightSelection" Grid.Column="2" SelectionChanged="WeightSelection_SelectionChanged" Margin="32,29,42,9" FontFamily="Britannic Bold" FontSize="18"/>
-            <Label  Content="List Of Drones" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Width="200" FontFamily="Britannic Bold" Foreground="#FF2B0303" FontSize="28" Grid.ColumnSpan="2" Margin="10,15,0,0"/>
-            <Label Content="      Sort by Status" Grid.Column="1" HorizontalAlignment="Left" Height="31" Margin="0,4,0,0" VerticalAlignment="Top" Width="158" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
-            <Label Content="      Sort by Weight" Grid.Column="2" HorizontalAlignment="Left" Height="31" Margin="0,4,0,0" VerticalAlignment="Top" Width="158" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
+            <!--The buttons at the top-->
+            <Label Content="List Of Drones" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
+            <Label Content="Sort by Status" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
+            <ComboBox x:Name="StatusSelection" Grid.Column="1" SelectionChanged="StatusSelection_SelectionChanged" Foreground="#FF0D0000" FontFamily="Britannic Bold" FontSize="18"  Margin="26,30,26,10"/>
+            <Label Content="Sort by Weight" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
+            <ComboBox x:Name="WeightSelection" Grid.Column="2" SelectionChanged="WeightSelection_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Margin="26,30,26,10"/>
+            <Button x:Name="AddDroneButton" Grid.Column="3" Content="Add New Drone" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20" Margin="10,10,10,10"/>
         </Grid>
         <ListView
-            x:Name ="DronesListView" Margin="10,10,10,93" Grid.Row="1" MouseDoubleClick="DronesListView_SelectionChanged" >
+            x:Name ="DronesListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="DronesListView_SelectionChanged" FontWeight="Bold" FontSize="16" FontFamily="Britannic Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="503.702222222222" >
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\drone.jpeg" Opacity="0.4"/>
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="134"/>
-                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="134"/>
-                    <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="134"/>
-                    <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="134"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="134"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="134"/>
-                    <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="134"/>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="auto"/>
+                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="auto"/>
+                    <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="auto"/>
+                    <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="auto"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="auto"/>
+                    <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -60,7 +61,6 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,26,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
-        <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" Margin="0,462,0,0" Grid.Row="1" VerticalAlignment="Top" Height="56" Width="780" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>
+        <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Stretch"/>
     </Grid>
 </Window>
