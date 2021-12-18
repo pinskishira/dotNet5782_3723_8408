@@ -10,39 +10,18 @@ namespace Dal
     {
         public void AddCustomer(Customer newCustomer)
         {
-            if (DataSource.Customers.Exists(item => item.Id == newCustomer.Id))//checks if customer exists
+            if (DataSource.Customers.Any(item => item.Id == newCustomer.Id))//checks if customer exists
                 throw new ItemExistsException("The customer already exists.\n");
             DataSource.Customers.Add(newCustomer);
         }
 
-        //public Customer FindCustomer(int id)
-        //{
-        //    if (!DataSource.Customers.Exists(item => item.Id == id))//checks if customer exists
-        //        throw new ItemDoesNotExistException("The customer does not exist.\n");
-        //    return DataSource.Customers[DataSource.Customers.FindIndex(indexOfCustomer => indexOfCustomer.Id == id)];//find customer
-        //}
-        //public void AddCustomer(Customer newCustomer)
-        //{
-        //    if (DataSource.Customers.Any(item => item.Id == newCustomer.Id))//checks if customer exists
-        //        throw new ItemExistsException("The customer already exists.\n");
-        //    DataSource.Customers.Add(newCustomer);
-        //}
-
         public Customer FindCustomer(int id)
         {
-
-            if (!DataSource.Customers.Any(item => item.Id == id))//checks if customer exists
-                throw new ItemDoesNotExistException("The customer does not exist.\n");
-            Customer customer1 = DataSource.Customers.FirstOrDefault(item => item.Id == id);
-            return customer1;
-
-
-
-            if (!DataSource.Customers.Any(item => item.Id == id))//checks if customer exists
-                throw new ItemDoesNotExistException("The customer does not exist.\n");
             var customer = from item in DataSource.Customers
                            where item.Id == id
                            select item;
+            if(customer==null)
+                throw new ItemDoesNotExistException("The customer does not exist.\n");
             return customer.First();
         }
 

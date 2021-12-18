@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "ConsoleUI": {
+    "ConsoleUI_BL": {
       "commandName": "Project",
       "workingDirectory": "$(SolutionDir)"
     }
