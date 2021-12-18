@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -41,16 +40,16 @@ namespace PL
             bl = ibl;
             droneToLists = new ObservableCollection<DroneToList>();
 
-            //List<DroneToList> tempDroneToList = bl.GetAllDrones().ToList();//getting list of drones from bl
+            List<DroneToList> tempDroneToList = bl.GetAllDrones().ToList();//getting list of drones from bl
 
-            //foreach (var indexOfDroneToList in tempDroneToList)//going through list and inserting it into drone to list of type ObservableCollection
-            //{
-            //    droneToLists.Add(indexOfDroneToList);
-            //}
+            foreach (var indexOfDroneToList in tempDroneToList)//going through list and inserting it into drone to list of type ObservableCollection
+            {
+                droneToLists.Add(indexOfDroneToList);
+            }
 
-            var droneToLiss = from item in bl.GetAllDrones().ToList()
-                           group new { item } by item.DroneStatus;
-            droneToLists = (ObservableCollection<DroneToList>)droneToLiss;
+            //var droneToLiss = from item in bl.GetAllDrones().ToList()
+            //               group new { item } by item.DroneStatus;
+            //droneToLists = (ObservableCollection<DroneToList>)droneToLiss;
 
             DronesListView.ItemsSource = droneToLists;
             StatusSelection.ItemsSource = System.Enum.GetValues(typeof(DroneStatuses));//enum values of drone status
@@ -140,7 +139,7 @@ namespace PL
             if (!_close)
             {
                 e.Cancel = true;
-                MessageBox.Show("You can't force the window to close");
+                MessageBox.Show("You can't force the window to close","ERROR");
             }
         }
     }

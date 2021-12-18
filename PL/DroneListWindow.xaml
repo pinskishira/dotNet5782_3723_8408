@@ -54,6 +54,11 @@
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="134"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
         <Button x:Name="AddDroneButton" Content="Add New Drone" Margin="596,8,26,10" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="20"/>
         <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" Margin="0,462,0,0" Grid.Row="1" VerticalAlignment="Top" Height="56" Width="780" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>

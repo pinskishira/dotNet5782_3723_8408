@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationListWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="StationListWindow" Height="640" Width="800" Closing="window_closeing" >
+    <Grid Name="MainGrid">
+
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF7CEAA0" Offset="0"/>
+                <GradientStop Color="#FFFFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <ListView
+            x:Name ="StationListView" Margin="10,10,10,93" Grid.Row="1" MouseDoubleClick="StationListView_SelectionChanged" >
+            <ListView.Background>
+                <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.5"/>
+            </ListView.Background>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Available Charge Slots" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="150"/>
+                    <GridViewColumn Header="Occupied Charge Slots" DisplayMemberBinding="{Binding OccupiedChargeSlots}" Width="150"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+         VerticalAlignment="Stretch" Width="auto">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7CEAA0" Offset="0"/>
+                    <GradientStop Color="#FFF4F7F6" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="AvailableChargeSlots" SelectionChanged="AvailableChargeSlots_SelectionChanged" Margin="50,28,176,10" FontFamily="Britannic Bold" FontSize="18" Grid.ColumnSpan="2"/>
+            <Label  Content="List Of Stations" HorizontalAlignment="Left" VerticalAlignment="Top" Height="51" Width="265" FontFamily="Britannic Bold" Foreground="#FF2B0303" FontSize="36" Margin="62,8,0,0" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <Label Content="Sort Stations by:" HorizontalAlignment="Left" Height="35" Margin="50,0,0,0" VerticalAlignment="Top" Width="174" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="22" Grid.ColumnSpan="2"/>
+
+        </Grid>
+        <Button x:Name="AddStationButton" Content="Add New Station" Margin="10,462,10,10" Click="AddStationButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FF7CEAA0" Background="Transparent" FontFamily="Britannic Bold" FontSize="36" Grid.Row="1"/>
+        <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Left" Margin="564,0,0,0" VerticalAlignment="Center" Height="49" Width="187" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click"/>
     </Grid>
 </Window>
