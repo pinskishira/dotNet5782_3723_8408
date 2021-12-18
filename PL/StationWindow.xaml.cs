@@ -55,8 +55,8 @@ namespace PL
                             throw new MissingInfoException("No station ID entered for this station");
                         if (Station.Name == default || Station.Name == null)
                             throw new MissingInfoException("No name entered for this station");
-                        //if (Station.StationLocation.Longitude == null || Station.StationLocation.Latitude==null)
-                        //    throw new MissingInfoException("No location was entered for this station");
+                        if (Station.StationLocation.Longitude == default || Station.StationLocation.Latitude==default)
+                            throw new MissingInfoException("No location was entered for this station");
                         if(Station.AvailableChargeSlots == default)
                             throw new MissingInfoException("No charge slots was entered for this station");
                         bl.AddStation(Station);//adding new station to list
