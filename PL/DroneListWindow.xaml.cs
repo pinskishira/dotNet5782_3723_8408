@@ -141,7 +141,7 @@ namespace PL
         /// </summary>
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(bl, this, 5).Show();
+            new DroneWindow(bl, this, 0).Show();
         }
 
         /// <summary>

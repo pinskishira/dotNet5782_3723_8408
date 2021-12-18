@@ -15,15 +15,14 @@ namespace BL
     /// </summary>
     sealed partial class BL : Ibl
     {
-        internal static BL Instance { get; } = new BL();
-        static BL() { }
+        readonly IDal dal = DalApi.DLFactory.GetDL();
+        private static readonly Lazy<BL> instance = new Lazy<BL>(() => new BL());
+        public static BL Instance { get { return instance.Value; } }
         static Random rand;
-        IDal dal;
         List<DroneToList> BlDrones = new List<DroneToList>();//new list of drones
         double PowerUsageEmpty, BatteryConsumptionLightWeight, BatteryConsumptionMediumWeight, BatteryConsumptionHeavyWeight, DroneChargingRatePH;
         private BL()
         {
-            dal = DalApi.DLFactory.GetDL();
             rand = new Random();
             PowerUsageEmpty = dal.electricityUse()[0];//When the drone is empty
             BatteryConsumptionLightWeight = dal.electricityUse()[1];//amount of battery used per km for light weight
@@ -82,7 +81,7 @@ namespace BL
                     }
                     if (indexOfDrones.DroneStatus == DroneStatuses.Available)//if the drone is available for delivery
                     {
-                        List<DO.Parcel> deliveredParcels = (List<DO.Parcel>)dal.GetAllParcels(indexOfParcels => indexOfParcels.Delivered != null);
+                        List<DO.Parcel> deliveredParcels = dal.GetAllParcels(indexOfParcels => indexOfParcels.Delivered != null).ToList();
                         int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())].TargetId;//finding a random index from the new list of deliveredParcels
                         DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
                         indexOfDrones.CurrentLocation = new Location();

@@ -1,10 +1,12 @@
-﻿using DalApi;
+﻿using System;
+using DalApi;
 
 namespace Dal
 {
     sealed partial class DalObject : IDal
     {
-        internal static DalObject Instance { get; } = new DalObject();
+        internal static DalObject Instance { get { return instance.Value; } }
+        private static readonly Lazy<DalObject> instance = new Lazy<DalObject>(() => new DalObject());
         static DalObject() { }//static ctor to ensure instance init is done just before first usage
         private DalObject()
         {
