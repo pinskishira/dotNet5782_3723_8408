@@ -51,7 +51,8 @@ namespace PL
             }
 
             //var droneToLiss = from itemStatus in bl.GetAllDrones().ToList()
-            //                  group new { itemStatus } by itemStatus.DroneStatus;
+            //                  group new { itemStatus } by itemStatus.DroneStatus into item2
+
             //droneToLists = (ObservableCollection<IGrouping<BO.Enum.DroneStatuses, DroneToList>>)droneToLiss;
 
             DronesListView.ItemsSource = droneToLists;
