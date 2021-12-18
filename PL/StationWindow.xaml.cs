@@ -44,7 +44,7 @@ namespace PL
 
         private void AddStationButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            var result1 = MessageBox.Show($"Are you sure you would like to add this drone? \n", "Request Review",
+            var result1 = MessageBox.Show($"Are you sure you would like to add this station? \n", "Request Review",
               MessageBoxButton.OKCancel, MessageBoxImage.Question);
             try
             {
@@ -55,44 +55,43 @@ namespace PL
                             throw new MissingInfoException("No station ID entered for this station");
                         if (Station.Name == default || Station.Name == null)
                             throw new MissingInfoException("No name entered for this station");
-                        if (Station.StationLocation.Longitude == default || Station.StationLocation.Longitude==default)
-                            throw new MissingInfoException("No name entered for this station");
-
-                        if (NumOfStationTxtAdd.SelectedItem == null)
-                            throw new MissingInfoException("No station ID was entered for this drone");
-                        bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));//adding new drone to list
-                        //adding drone to list in the window of drones
-                        DroneListWindow.droneToLists.Add(bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
-                        var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
+                        //if (Station.StationLocation.Longitude == null || Station.StationLocation.Latitude==null)
+                        //    throw new MissingInfoException("No location was entered for this station");
+                        if(Station.AvailableChargeSlots == default)
+                            throw new MissingInfoException("No charge slots was entered for this station");
+                        bl.AddStation(Station);//adding new station to list
+                        //adding station to list in the window of stations
+                        StationListWindow.stationToLists.Add(bl.GetAllStations().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
+                        var result2 = MessageBox.Show($"SUCCESSFULY ADDED STATION! \nThe new station is:\n" + Station.ToString(), "Successfuly Added",
                            MessageBoxButton.OK);
                         switch (result2)
                         {
                             case MessageBoxResult.OK:
                                 _close = true;
-                                this.Close();//closes current window after drone was added
+                                this.Close();//closes current window after station was added
                                 break;
                         }
                         break;
                     case MessageBoxResult.Cancel://if user presses cancel
-                        Drone = new();//scrathes fields
-                        DataContext = Drone;//updates event
+                        Station = new();//scrathes fields
+                        DataContext = Station;//updates event
                         break;
                 }
             }
             catch (FailedToAddException ex)
             {
-                var errorMessage = MessageBox.Show("Failed to add drone: " + ex.GetType().Name + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                var errorMessage = MessageBox.Show("Failed to add station: " + ex.GetType().Name + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
-                        Drone = new();
-                        DataContext = Drone;
+                        Station = new();
+                        DataContext = Station;
                         break;
                 }
             }
             catch (InvalidInputException ex)
             {
-                var errorMessage = MessageBox.Show("Failed to add drone: " + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
@@ -102,18 +101,18 @@ namespace PL
             }
             catch (FormatException)
             {
-                var errorMessage = MessageBox.Show("Failed to add drone: " + "\n" + "You need to enter information for all the given fields", "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + "You need to enter information for all the given fields", "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
-                        Drone = new();
-                        DataContext = Drone;
+                        Station = new();
+                        DataContext = Station;
                         break;
                 }
             }
             catch (MissingInfoException ex)
             {
-                var message = MessageBox.Show("Failed to add the drone: \n" + ex.Message, "Failed To Add",
+                var message = MessageBox.Show("Failed to add the station: \n" + ex.Message, "Failed To Add",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 switch (message)
                 {
