@@ -37,7 +37,7 @@ namespace Dal
             string[] stationArrayNames = new string[2];
             stationArrayNames[0] = "Bayit Vegan";
             stationArrayNames[1] = "Givat Shaul";
-            for (int loopStation = 0; loopStation < 1; loopStation++)//Updating 2 base stations
+            for (int loopStation = 0; loopStation < 2; loopStation++)//Updating 2 base stations
             {
                 newStation.Id = rand.Next(1000, 10000);//Updating 4-digit ID name                                   
                 for (int help = 0; help < loopStation; help++)//Checking if it already appears in array
@@ -45,17 +45,12 @@ namespace Dal
                     while (newStation.Id == Stations[help].Id)
                         newStation.Id = rand.Next(1000, 10000);
                 }
-                newStation.Longitude = rand.Next(29, 34) + rand.NextDouble();//U//Updating longitude   
+                newStation.Longitude = rand.Next(29, 34) + rand.NextDouble();//Updating longitude   
                 newStation.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude 
                 newStation.AvailableChargeSlots = rand.Next(10, 30);//Updating charging slots
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
-            newStation.Id = 1234;
-            newStation.Name = stationArrayNames[1];
-            newStation.Longitude = rand.Next(29, 34) + rand.NextDouble();//U//Updating longitude   
-            newStation.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude 
-            newStation.AvailableChargeSlots = rand.Next(10, 30);//Updating charging slots
             Stations.Add(newStation);
 
             Drone newDrone = new Drone();
