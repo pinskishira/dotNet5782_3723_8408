@@ -16,5 +16,6 @@
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
+        <Button x:Name="ShowStationsButtonClick" Content="View Stations" HorizontalAlignment="Left" Height="82" Margin="48,314,0,0" VerticalAlignment="Top" Width="295" Background="{x:Null}" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic" Click="ShowStationsButtonClick_Click"/>
     </Grid>
 </Window>

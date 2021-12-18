@@ -55,6 +55,11 @@
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
         <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Stretch"/>
     </Grid>

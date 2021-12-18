@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -171,7 +170,7 @@ namespace PL
             if (!_close)
             {
                 e.Cancel = true;
-                MessageBox.Show("You can't force the window to close");
+                MessageBox.Show("You can't force the window to close","ERROR");
             }
         }
     }
