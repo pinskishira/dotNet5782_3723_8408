@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using DO;
 
 namespace Dal
@@ -9,7 +9,7 @@ namespace Dal
     {
         public void AddParcel(Parcel newParcel)
         {
-            if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id))//checks if parcel exists
+            if (DataSource.Parcels.Any(item => item.Id == newParcel.Id))//checks if parcel exists
                 throw new ItemExistsException("The parcel already exists.\n");
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);
@@ -17,9 +17,9 @@ namespace Dal
 
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
-                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             int indexParcel = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel that was collected by drone
+            if(indexParcel==-1)//checks if parcel exists
+                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             Parcel newParcel = DataSource.Parcels[indexParcel];
             newParcel.PickedUp = DateTime.Now;
             DataSource.Parcels[indexParcel] = newParcel;//updating date and time
@@ -27,9 +27,9 @@ namespace Dal
 
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
-                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             int indexParcel = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
+            if(indexParcel==-1)//checks if parcel exists
+                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             Parcel newParcel = DataSource.Parcels[indexParcel];
             newParcel.Delivered = DateTime.Now;
             newParcel.DroneId = 0;//not assigned to drone anymore
@@ -39,20 +39,17 @@ namespace Dal
 
         public Parcel FindParcel(int id)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == id))//checks if parcel exists
+            int indexParcel = DataSource.Parcels.FindIndex(item => item.Id == id);
+            if(indexParcel==-1)//checks if parcel exists
                 throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            return DataSource.Parcels[DataSource.Parcels.FindIndex(item => item.Id == id)];//finding parcel
+            return DataSource.Parcels[indexParcel];//finding parcel
         }
 
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
-            //List<Parcel> tempParcels = new();
-            //foreach (var indexOfParcels in DataSource.Parcels)//going through parcels list
-            //{
-            //    tempParcels.Add(indexOfParcels);//adding to list
-            //}
-            //return tempParcels;
-            return DataSource.Parcels.FindAll(item => predicate == null ? true : predicate(item));
+            return from itemParcel in DataSource.Parcels
+                   where predicate == null ? true : predicate(itemParcel)
+                   select itemParcel;
         }
     }
 }

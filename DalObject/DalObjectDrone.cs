@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using DO;
 
 namespace Dal
@@ -9,30 +9,37 @@ namespace Dal
     {
         public void AddDrone(Drone newDrone)
         {
-            if (DataSource.Drones.Exists(item => item.Id == newDrone.Id))//checks if drone exists
+            if (DataSource.Drones.Any(item => item.Id == newDrone.Id))//checks if drone exists
                 throw new ItemExistsException("The drone already exists.\n");
             DataSource.Drones.Add(newDrone);
         }
 
         public Drone FindDrone(int id)
         {
-            if (!DataSource.Drones.Exists(item => item.Id == id))//checks if drone exists
-                throw new ItemDoesNotExistException("The drone does not exist.\n");
-            return DataSource.Drones[DataSource.Drones.FindIndex(item => item.Id == id)];//finding drone
+            try
+            {
+                return DataSource.Drones.First(item => item.Id == id);//checks if drone exists
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ItemExistsException("The drone does not exist.\n");
+            }
         }
 
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
-            return DataSource.Drones.FindAll(item => predicate == null ? true : predicate(item));
+            return from itemDrone in DataSource.Drones
+                   where predicate == null ? true : predicate(itemDrone)
+                   select itemDrone;
         }
 
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
-            if (!DataSource.Parcels.Exists(item => item.Id == idParcel))//checks if parcel exists
-                throw new ItemDoesNotExistException("The parcel does not exist.\n");
-            if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
+            if (!DataSource.Drones.Any(item => item.Id == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
+            if(indexAssign==-1)
+                throw new ItemDoesNotExistException("The parcel does not exist.\n");
             Parcel newParcel = DataSource.Parcels[indexAssign];
             newParcel.DroneId = idDrone;//giving parcel available drones' id
             newParcel.Scheduled = DateTime.Now;//updating date and time

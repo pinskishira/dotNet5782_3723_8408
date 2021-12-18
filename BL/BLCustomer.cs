@@ -49,6 +49,7 @@ namespace BL
                 blCustomer.ParcelsToCustomers = new List<ParcelAtCustomer>();
                 //goes through the parcels with the sent condition
                 List<DO.Parcel> parcelList = dal.GetAllParcels(parcel => parcel.SenderId == customerId || parcel.TargetId == customerId).ToList();
+                
                 foreach (var indexOfParcels in parcelList)
                 {
                     ParcelAtCustomer parcelAtCustomer = new ParcelAtCustomer();
