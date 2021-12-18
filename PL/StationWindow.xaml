@@ -7,6 +7,59 @@
         mc:Ignorable="d"
         Title="StationWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="Pictures\stationPic.jpg"/>
+        </Grid.Background>
+        <Grid x:Name="DeleteOrUpdate" Visibility="Collapsed">
+            <Label Content="What would you like to perform on this drone?" Margin="40,29,32,345" HorizontalContentAlignment="Center"  FontFamily="Britannic Bold" FontSize="35" FontWeight="Bold" Foreground="#FFB79393"/>
+            <Button x:Name="UpdateDroneQu" Content="Update Drone" HorizontalAlignment="Left" Height="97" Margin="40,298,0,0" VerticalAlignment="Top" Width="350"  Background="#FFB79393" FontFamily="Britannic Bold" FontSize="30"/>
+            <Button x:Name="DeleteDroneQu" Content="Delete Drone" HorizontalAlignment="Left" Height="97" Margin="404,298,0,0" VerticalAlignment="Top" Width="350"  Background="#FFB79393" FontFamily="Britannic Bold" FontSize="30"/>
+        </Grid>
+        <Grid x:Name="GridAddStation" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB79393" />
+                <Label x:Name="NameLblAdd" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB79393"/>
+                <Label x:Name="LocationLblAdd" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FFB79393"/>
+                <Label x:Name="LongitudeLblAdd" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,8,0,0" Foreground="#FFB79393"/>
+                <Label x:Name="LatitudeLblAdd" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FFB79393"/>
+                <Label x:Name="ChargeSlotsLblAdd" Content="Charge Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FFB79393"/>
+
+                <TextBox x:Name="IdTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FFB79393" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="NameTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FFB79393" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LatitudeTxtAdd" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFB79393" BorderThickness="2,2,2,2" Margin="10,36,0,0"/>
+                <TextBox x:Name="LongituteTxtAdd" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFB79393" BorderThickness="2,2,2,2" Margin="10,8,0,0"/>
+                <TextBox x:Name="ChargeSlotsTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FFB79393" BorderThickness="2,2,2,2"/>
+
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button x:Name="AddStationButtonAdd" Visibility="Visible" Content="Add Station" Width="400"  Background="#FFB79393" FontFamily="Britannic Bold" FontSize="24" Click="AddStationButtonAdd_Click"/>
+                <Button x:Name="CloseWindowButtonAdd" Visibility="Visible" Content="Close" Width="400"  Background="#FFB79393" FontFamily="Britannic Bold" FontSize="24"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

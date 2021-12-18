@@ -144,8 +144,6 @@ namespace PL
             new DroneWindow(bl, this, 5).Show();
         }
 
-
-
         /// <summary>
         /// closes current window
         /// </summary>
