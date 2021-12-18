@@ -74,9 +74,9 @@ namespace BL
                         parcelAtCustomer.SourceOrDestination.Id = blCustomer.Id;//Updates the source information of the parcel
                         parcelAtCustomer.SourceOrDestination.Name = blCustomer.Name;//Updates the source information of the parcel
                         if (indexOfParcels.SenderId == blCustomer.Id)//If the customer sends the parcel
-                            blCustomer.ParcelsFromCustomers.Add(parcelAtCustomer);
+                            blCustomer.ParcelsFromCustomers.Append(parcelAtCustomer);
                         else//If the customer receives the parcel
-                            blCustomer.ParcelsToCustomers.Add(parcelAtCustomer);
+                            blCustomer.ParcelsToCustomers.Append(parcelAtCustomer);
                     }
                 }
             }
@@ -97,7 +97,7 @@ namespace BL
             {
                 tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number
                 tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
-                List<ParcelAtCustomer> ParcelsFromCustomerList = tempCustomer.ParcelsFromCustomers;
+                IEnumerable<ParcelAtCustomer> ParcelsFromCustomerList = tempCustomer.ParcelsFromCustomers;
                 foreach (var parcelsFromCustomers in ParcelsFromCustomerList)//goes over the list of parcels from the customer
                 {
                     if (parcelsFromCustomers.StateOfParcel == ParcelState.Provided)//if parcel is delivered
@@ -105,7 +105,7 @@ namespace BL
                     else//if parcel was not delivered
                         tempCustomerToList.ParcelsSentButNotDelivered++;
                 }
-                List<ParcelAtCustomer> ParcelsToCustomersList = tempCustomer.ParcelsToCustomers;
+                IEnumerable<ParcelAtCustomer> ParcelsToCustomersList = tempCustomer.ParcelsToCustomers;
                 foreach (var parcelsToCustomers in ParcelsToCustomersList)//goes over the list of parcels to the customer
                 {
                     if (parcelsToCustomers.StateOfParcel == ParcelState.Provided)//if he recieved the parcel
