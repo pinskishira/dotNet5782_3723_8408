@@ -33,19 +33,15 @@ namespace PL
             InitializeComponent();
             bl = ibl;
             stationToLists = new ObservableCollection<StationToList>();
-
             List<StationToList> tempStationToList = bl.GetAllStations().ToList();//getting list of stations from bl
-
             foreach (var indexOfStationToList in tempStationToList)//going through list and inserting it into statin to list of type ObservableCollection
             {
                 stationToLists.Add(indexOfStationToList);
             }
-
             StationListView.ItemsSource = stationToLists;
             AvailableChargeSlots.ItemsSource = System.Enum.GetValues(typeof(ChargeSlots));//enum values of charge slots
-            AvailableChargeSlots.SelectedIndex = 3;//prints full list
+            AvailableChargeSlots.SelectedIndex = 2;//prints full list
             stationToLists.CollectionChanged += StationToLists_CollectionChanged;//updating event 
-
         }
 
         private void StationToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -84,7 +80,7 @@ namespace PL
         }
         private void AddStationButton_Click(object sender, RoutedEventArgs e)
         {
-            new StationWindow(bl, this, 5).Show();
+            new StationWindow(bl, this, 0).Show();
         }
 
         
