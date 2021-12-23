@@ -103,7 +103,13 @@ namespace PL
                             throw new MissingInfoException("No station ID was entered for this drone");
                         bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));//adding new drone to list
                         //adding drone to list in the window of drones
-                        DroneListWindow.droneToLists.Add((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
+                       // DroneListWindow.droneToLists.Add((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
+                        foreach (var item in DroneListWindow.droneToLists.Where(x => x.Key.DroneStatus == Drone.DroneStatus && x.Key.Weight == Drone.Weight))
+                        {
+                            item.Append(bl.GetAllDrones(i => i.Id == Drone.Id).First());
+                            break;
+                        }
+                        DroneListWindow.DronesListView.Items.Refresh();
                         var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
                            MessageBoxButton.OK);
                         switch (result2)
@@ -282,7 +288,7 @@ namespace PL
                             var request = MessageBox.Show($"Are you sure you would like to drone to deliver parcel? \n", "Request Review",
                            MessageBoxButton.OKCancel, MessageBoxImage.Question);
                             switch (request)
-                            { 
+                            {
                                 case MessageBoxResult.OK:
                                     bl.UpdateParcelDeliveryToCustomer(int.Parse(IDTxtUD.Text));//drone delivers parcel - updating in bl
                                     ChargeDroneUD.Visibility = Visibility.Visible;//showing neccessary buttons after update

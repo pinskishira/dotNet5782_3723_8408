@@ -120,7 +120,7 @@ namespace PL
             .SelectMany(x => x);
             //sorts list by chosen status and weight
             if (droneStatuses != DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories)
+                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories && item.Key.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses)
             .SelectMany(x => x);
         }
         /// <summary>

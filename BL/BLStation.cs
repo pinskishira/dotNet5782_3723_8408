@@ -44,7 +44,8 @@ namespace BL
                 DO.Station dalStation = dal.FindStation(stationId);//finding station
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
-                blStation.DronesInCharging = new List<DroneInCharging>();
+                //blStation.DronesInCharging = new IEnumerable<DroneInCharging>();
+                List<DroneInCharging> tempDroneInCharge = new();
                 List<DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
                 foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
                 {
@@ -54,8 +55,11 @@ namespace BL
                     if (tempDroneToList == default)
                         throw new FailedGetException("The Id number does not exist. \n");
                     tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
-                    blStation.DronesInCharging.Append(tempDroneInCharging);//adding to drones in charging
+                    // blStation.DronesInCharging.ToList().Add(tempDroneInCharging);//adding to drones in charging
+                    tempDroneInCharge.Add(tempDroneInCharging);
                 }
+                blStation.DronesInCharging = tempDroneInCharge;
+
             }
             catch (DO.ItemDoesNotExistException ex)
             {
