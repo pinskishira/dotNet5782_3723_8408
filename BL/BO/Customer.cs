@@ -19,7 +19,7 @@ namespace BO
             result += $"Name is {Name} \n";
             result += $"Phone is {Phone} \n";
             result += $"Customers' location is {CustomerLocation} \n";
-            if (ParcelsFromCustomers.Any())
+            if (ParcelsFromCustomers !=  null)
             {
                 result += $"Parcels from customers is:\n";
                 foreach (var indexOfParcelsFromCustomers in ParcelsFromCustomers)
@@ -27,7 +27,7 @@ namespace BO
                     result += $"{indexOfParcelsFromCustomers} \n";
                 }
             }
-            if (ParcelsToCustomers.Any())
+            if (ParcelsToCustomers != null)
             {
                 result += $"Parcels to customers is: \n";
                 foreach (var indexOfParcelsToCustomers in ParcelsToCustomers)

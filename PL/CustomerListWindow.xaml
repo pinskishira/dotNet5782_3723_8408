@@ -9,7 +9,7 @@
     <Grid Name="MainGrid">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFD68037" Offset="0"/>
+                <GradientStop Color="#FFB64DE6" Offset="0"/>
                 <GradientStop Color="#FFFFF9F9" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -21,8 +21,8 @@
          VerticalAlignment="Stretch" Width="auto">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFD68037" Offset="0"/>
-                    <GradientStop Color="#FFFFF9F9" Offset="1"/>
+                    <GradientStop  Color="White" Offset="0.942"/>
+                    <GradientStop  Color="#FFB64DE6" Offset="0.332"/>
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.ColumnDefinitions>
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <Label Content="List Of Customers" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="30"/>
-            <Button x:Name="AddCustomerButton" Grid.Column="1" Content="Add Customer" Click="CloseWindowButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Margin="10,10,10,10"/>
+            <Button x:Name="CloseWindowCustomer" Grid.Column="1" Content="Close Window" Click="CloseWindowButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Margin="10,10,10,10"/>
             </Grid>
         <ListView x:Name ="CustomerListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="CustomerListView_SelectionChanged" FontWeight="Bold" FontSize="16" FontFamily="Britannic Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="503.702222222222" >
             <ListView.Background>
@@ -38,13 +38,13 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="auto"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="auto"/>
-                    <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}" Width="auto"/>
-                    <GridViewColumn Header="Parcels Sent And Delivered" DisplayMemberBinding="{Binding  ParcelsSentAndDelivered}" Width="auto"/>
-                    <GridViewColumn Header="Parcels Sent But Not Delivered" DisplayMemberBinding="{Binding ParcelsSentButNotDelivered}" Width="auto"/>
-                    <GridViewColumn Header="Recieved Parcels" DisplayMemberBinding="{Binding RecievedParcels}" Width="auto"/>
-                    <GridViewColumn Header="Parcels On The Way" DisplayMemberBinding="{Binding ParcelsOnTheWayToCustomer}" Width="auto"/>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}" Width="150"/>
+                    <GridViewColumn Header="Parcels Sent And Delivered" DisplayMemberBinding="{Binding  ParcelsSentAndDelivered}" Width="200"/>
+                    <GridViewColumn Header="Parcels Sent But Not Delivered" DisplayMemberBinding="{Binding ParcelsSentButNotDelivered}" Width="230"/>
+                    <GridViewColumn Header="Recieved Parcels" DisplayMemberBinding="{Binding RecievedParcels}" Width="130"/>
+                    <GridViewColumn Header="Parcels On The Way" DisplayMemberBinding="{Binding ParcelsOnTheWayToCustomer}" Width="150"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -53,7 +53,6 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Button x:Name="CloseWindowCustomer" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FFC17300" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" HorizontalAlignment="Stretch"/>
-
+        <Button x:Name="AddCustomerButton" Content="Add Customer" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FFB64DE6" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" HorizontalAlignment="Stretch" Click="AddCustomerButton_Click"/>
     </Grid>
 </Window>

@@ -12,12 +12,16 @@
 
   <ItemGroup>
     <None Remove="Icon\delete.png" />
+    <None Remove="Pictures\customerPic.jpeg" />
     <None Remove="Pictures\drone.jpeg" />
     <None Remove="Pictures\parcelPic.jpeg" />
     <None Remove="Pictures\stationPic.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pictures\customerPic.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Pictures\drone.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

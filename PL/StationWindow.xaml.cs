@@ -50,7 +50,6 @@ namespace PL
             GridUpdateStation.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
             Station = ibl.GetStation(StationListWindow.CurrentStation.Id);//getting station with this id
             DataContext = Station;//updating event
-            Station visibleStationButton = Station;//equals chosen drone to update
             if (Station.DronesInCharging.Count() != 0)
                 ViewDronesInCharging.Visibility = Visibility.Visible;
         }
@@ -68,12 +67,10 @@ namespace PL
                             throw new MissingInfoException("No station ID entered for this station");
                         if (Station.Name == default || Station.Name == null)
                             throw new MissingInfoException("No name entered for this station");
-                     //  if (Station.StationLocation.Longitude == null || Station.StationLocation.Latitude==default)
-                     //      throw new MissingInfoException("No location was entered for this station");
+                        if (Station.StationLocation.Longitude == default || Station.StationLocation.Latitude==default)
+                         throw new MissingInfoException("No location was entered for this station");
                         if(Station.AvailableChargeSlots == default)
                             throw new MissingInfoException("No charge slots was entered for this station");
-                        //Station.StationLocation.Longitude = int.Parse(LongituteTxtAdd.Text);
-                        //Station.StationLocation.Latitude = int.Parse(LatitudeTxtAdd.Text);
                         bl.AddStation(Station);//adding new station to list
                         //adding station to list in the window of stations
                         StationListWindow.stationToLists.Add(bl.GetAllStations().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
@@ -162,7 +159,7 @@ namespace PL
                         StationListWindow.CurrentStation.Name = NameTxtUp.Text;//updating drone name
                         StationListWindow.CurrentStation.AvailableChargeSlots = int.Parse(ChargeSlotsTxtUp.Text);
                         StationListWindow.stationToLists[StationListWindow.StationListView.SelectedIndex] = StationListWindow.CurrentStation;//updating event
-                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The drones new model name is {NameTxtUp.Text}, and new amount of charge slots is {ChargeSlotsTxtUp.Text}", "Successfuly Updated",
+                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The stations new name is {NameTxtUp.Text}, and new amount of charge slots is {ChargeSlotsTxtUp.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         switch (result2)
                         {
@@ -197,6 +194,12 @@ namespace PL
         }
 
         private void CancelButtonUD_Click(object sender, RoutedEventArgs e)
+        {
+            _close = true;
+            this.Close();
+        }
+
+        private void CloseWindowButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
             this.Close();

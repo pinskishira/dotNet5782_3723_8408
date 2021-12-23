@@ -54,7 +54,7 @@
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button x:Name="AddStationButtonAdd" Visibility="Visible" Content="Add Station" Width="400"  Background="#FFFA0C4D" FontFamily="Britannic Bold" FontSize="24" Click="AddStationButtonAdd_Click"/>
-                <Button x:Name="CloseWindowButtonAdd" Visibility="Visible" Content="Close" Width="400"  Background="#FFFA0C4D" FontFamily="Britannic Bold" FontSize="24"/>
+                <Button x:Name="CloseWindowButtonAdd" Visibility="Visible" Content="Close" Width="400"  Background="#FFFA0C4D" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButtonAdd_Click"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="GridUpdateStation" Visibility="Collapsed">

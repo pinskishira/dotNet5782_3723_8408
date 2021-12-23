@@ -24,9 +24,9 @@ namespace PL
     {
         BlApi.Ibl bl;
         //  public ObservableCollection<IGrouping<BO.Enum.DroneStatuses, DroneToList>> droneToLists;
-        public ObservableCollection<CustomerToList> customerToList;
+        public ObservableCollection<CustomerToList> customerToLists;
 
-        public CustomerToList CurrentDrone { get; set; } = new();
+        public CustomerToList CurrentCustomer { get; set; } = new();
         private bool _close { get; set; } = false;
 
         /// <summary>
@@ -37,23 +37,15 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            customerToList = new ObservableCollection<CustomerToList>();
+            customerToLists = new ObservableCollection<CustomerToList>();
             List<CustomerToList> tempCustomerToList = bl.GetAllCustomers().ToList();//getting list of drones from bl
 
             foreach (var indexOfCustomerToList in tempCustomerToList)//going through list and inserting it into drone to list of type ObservableCollection
             {
-                customerToList.Add(indexOfCustomerToList);
+                customerToLists.Add(indexOfCustomerToList);
             }
-            CustomerListView.ItemsSource = customerToList;
+            CustomerListView.ItemsSource = customerToLists;
         }
-
-        /// <summary>
-        /// sends to add constructor, which adds drone
-        /// </summary>
-        //private void AddDroneButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    new DroneWindow(bl, this, 0).Show();
-        //}
 
         /// <summary>
         /// closes current window
@@ -63,16 +55,6 @@ namespace PL
             _close = true;
             this.Close();
         }
-
-        /// <summary>
-        /// Goes to the constructor of update 
-        /// </summary>
-        //private void DronesListView_SelectionChanged(object sender, MouseButtonEventArgs e)
-        //{
-        //    CurrentDrone = (DroneToList)DronesListView.SelectedItem;
-        //    if (CurrentDrone != null)
-        //        new DroneWindow(bl, this).Show();
-        //}
 
         private void window_closeing(object sender, CancelEventArgs e)
         {
@@ -88,10 +70,20 @@ namespace PL
         /// </summary>
         private void CustomerListView_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
-            //CurrentDrone = (DroneToList)StationListView.SelectedItem;
-            //if (CurrentDrone != null)
-            //    new DroneWindow(bl, this).Show();
+            CurrentCustomer = (CustomerToList)CustomerListView.SelectedItem;
+            if (CurrentCustomer != null)
+                new CustomerWindow(bl, this).Show();
         }
 
+        private void CloseWindowCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            _close = true;
+            this.Close();
+        }
+
+        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
+        {
+           new CustomerWindow(bl, this, 5).Show();
+        }
     }
 }
