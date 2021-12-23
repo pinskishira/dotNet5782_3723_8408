@@ -51,7 +51,6 @@ namespace Dal
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }
-            Stations.Add(newStation);
 
             Drone newDrone = new Drone();
             string[] droneArayNames = new string[5];
