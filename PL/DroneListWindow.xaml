@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="640" Width="800" Closing="window_closeing" >
+        Title="DroneListWindow" Height="600" Width="800" Closing="window_closeing" >
+    <Window.Resources>
+        <Style TargetType="Image">
+        </Style>
+    </Window.Resources>
     <Grid Name="MainGrid">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -46,13 +50,14 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="auto"/>
-                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="auto"/>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="100"/>
+                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="150"/>
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="auto"/>
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="auto"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="auto"/>
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
+                   
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -61,7 +66,8 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Stretch"/>
 
+        <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Stretch"/>
     </Grid>
 </Window>
+<!--*groupbox *tabitem-->

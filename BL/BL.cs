@@ -15,7 +15,7 @@ namespace BL
     /// </summary>
     sealed partial class BL : Ibl
     {
-        readonly IDal dal = DalApi.DLFactory.GetDL();
+        readonly IDal dal = DLFactory.GetDL();
         private static readonly Lazy<BL> instance = new Lazy<BL>(() => new BL());
         public static BL Instance { get { return instance.Value; } }
         static Random rand;

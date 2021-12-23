@@ -13,9 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\drone.jpeg"/>
         </Grid.Background>
-        <Grid x:Name="GridAddDrone" Visibility="Collapsed">
-            
-
+        <Grid x:Name="GridAddDrone" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -56,7 +54,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Visible">
+        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>

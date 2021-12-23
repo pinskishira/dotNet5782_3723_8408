@@ -40,8 +40,6 @@ namespace PL
             GridAddStation.Visibility = Visibility.Visible;//showing grid of fields needed for adding a station
         }
 
-      
-
         private void AddStationButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to add this station? \n", "Request Review",

@@ -18,6 +18,12 @@ using static BO.Enum;
 
 namespace PL
 {
+    public class DroneStatusesAndWeightCategories
+    {
+        public BO.Enum.WeightCategories Weight { get; set; }
+        public BO.Enum.DroneStatuses DroneStatus { get; set; }
+    }
+
     public enum DroneStatuses { Available, Maintenance, Delivery, All };
     public enum WeightCategories { Easy, Medium, Heavy, All };
     /// <summary>
@@ -26,8 +32,8 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         BlApi.Ibl bl;
-        //  public ObservableCollection<IGrouping<BO.Enum.DroneStatuses, DroneToList>> droneToLists;
-        public ObservableCollection<DroneToList> droneToLists;
+        public ObservableCollection<IGrouping<DroneStatusesAndWeightCategories, DroneToList>> droneToLists;
+        // public ObservableCollection<DroneToList> droneToLists;
 
         public DroneToList CurrentDrone { get; set; } = new();
         private bool _close { get; set; } = false;
@@ -40,22 +46,28 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            droneToLists = new ObservableCollection<DroneToList>();
-            // droneToLists = new ObservableCollection<IGrouping<BO.Enum.DroneStatuses,DroneToList>>();
+            droneToLists = new ObservableCollection<IGrouping<DroneStatusesAndWeightCategories, DroneToList>>();
 
-            List<DroneToList> tempDroneToList = bl.GetAllDrones().ToList();//getting list of drones from bl
+            (from droneToListItems in bl.GetAllDrones()
+             group droneToListItems by
+             new DroneStatusesAndWeightCategories()
+             {
+                 DroneStatus = droneToListItems.DroneStatus,
+                 Weight = droneToListItems.Weight
+             }).ToList().ForEach(x => droneToLists.Add(x));
 
-            foreach (var indexOfDroneToList in tempDroneToList)//going through list and inserting it into drone to list of type ObservableCollection
-            {
-                droneToLists.Add(indexOfDroneToList);
-            }
+            //(from droneToList in bl.GetAllDrones().ToList()
+            //                     group droneToList by droneToList.DroneStatus into Group
+            //                     select new 
+            //                     {
+            //                        sumOfGroup = Group.Sum(x => x.Battery),
+            //                        avg = Group.Average(x => x.Battery),
+            //                        min = (from l in Group
+            //                              where l.Battery > 3000 
+            //                               select l.Battery).Min()
+            //                     }).ToList().ForEach(x => MessageBox.Show(x.avg.ToString()));
 
-            //var droneToLiss = from itemStatus in bl.GetAllDrones().ToList()
-            //                  group new { itemStatus } by itemStatus.DroneStatus into item2
-
-            //droneToLists = (ObservableCollection<IGrouping<BO.Enum.DroneStatuses, DroneToList>>)droneToLiss;
-
-            DronesListView.ItemsSource = droneToLists;
+            DronesListView.ItemsSource = droneToLists.SelectMany(x => x);
             StatusSelection.ItemsSource = System.Enum.GetValues(typeof(DroneStatuses));//enum values of drone status
             WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));//enum values of weight
             StatusSelection.SelectedIndex = 3;//prints full list
@@ -75,6 +87,7 @@ namespace PL
             Selection();
         }
 
+
         /// <summary>
         /// sorts list by drone weight
         /// </summary>
@@ -83,37 +96,6 @@ namespace PL
             Selection();
         }
 
-        /// <summary>
-        /// Sorts list by chose status and weight of drone
-        /// </summary>
-        //private void Selection()
-        //{
-        //    DroneStatuses droneStatuses = (DroneStatuses)StatusSelection.SelectedItem;//gets what the user chose to sort by
-        //    if (WeightSelection.SelectedIndex == -1)//if weigh wasnt chosen 
-        //    {
-        //        WeightSelection.SelectedIndex = 3;//show all list 
-        //    }
-        //    WeightCategories weightCategories = (WeightCategories)WeightSelection.SelectedItem;//gets what the user chose to sort by
-        //    DronesListView.ItemsSource = null;
-        //    if (droneStatuses == DroneStatuses.All && weightCategories == WeightCategories.All)//if all was presses for both status and weight
-        //        DronesListView.ItemsSource = droneToLists;
-        //    sorts list by chosen weight
-        //    if (droneStatuses == DroneStatuses.All && weightCategories != WeightCategories.All)
-        //        DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.Key == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
-        //    DronesListView.ItemsSource = from item in droneToLists
-        //                                 select item.Key into item2
-        //                                 select item2.
-        //    sorts list by chosen status
-
-        //    if (droneStatuses != DroneStatuses.All && weightCategories == WeightCategories.All)
-        //        DronesListView.ItemsSource = from item in droneToLists
-        //                                     select item.Key == (BO.Enum.DroneStatuses)weightCategories;
-
-        //    sorts list by chosen status and weight
-        //    if (droneStatuses != DroneStatuses.All && weightCategories != WeightCategories.All)
-        //        DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (BO.Enum.DroneStatuses)StatusSelection.SelectedItem &&
-        //          item.Weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
-        //}
         private void Selection()
         {
             DroneStatuses droneStatuses = (DroneStatuses)StatusSelection.SelectedItem;//gets what the user chose to sort by
@@ -121,20 +103,25 @@ namespace PL
             {
                 WeightSelection.SelectedIndex = 3;//show all list 
             }
+
             WeightCategories weightCategories = (WeightCategories)WeightSelection.SelectedItem;//gets what the user chose to sort by
             DronesListView.ItemsSource = null;
             if (droneStatuses == DroneStatuses.All && weightCategories == WeightCategories.All)//if all was presses for both status and weight
-                DronesListView.ItemsSource = droneToLists;
+                DronesListView.ItemsSource = droneToLists.SelectMany(item => item);
+
             //sorts list by chosen weight
             if (droneStatuses == DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.Weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories)
+            .SelectMany(x => x);
+
             //sorts list by chosen status
             if (droneStatuses != DroneStatuses.All && weightCategories == WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (BO.Enum.DroneStatuses)StatusSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses)
+            .SelectMany(x => x);
             //sorts list by chosen status and weight
             if (droneStatuses != DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.ToList().FindAll(item => item.DroneStatus == (BO.Enum.DroneStatuses)StatusSelection.SelectedItem &&
-                  item.Weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem);
+                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories)
+            .SelectMany(x => x);
         }
         /// <summary>
         /// sends to add constructor, which adds drone
@@ -168,7 +155,7 @@ namespace PL
             if (!_close)
             {
                 e.Cancel = true;
-                MessageBox.Show("You can't force the window to close","ERROR");
+                MessageBox.Show("You can't force the window to close", "ERROR");
             }
         }
     }

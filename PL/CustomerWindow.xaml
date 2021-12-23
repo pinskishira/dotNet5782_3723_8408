@@ -6,7 +6,159 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="CustomerWindow" Height="450" Width="800">
+
     <Grid>
-        
+        <!--<Grid.Background>
+            <ImageBrush ImageSource="Pictures\customerPic.jpeg"/>
+        </Grid.Background>
+        <Grid x:Name="GridAddDrone" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FF00ABEC" BorderBrush="Black"/>
+                <Label x:Name="NameLblAdd" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FF00ABEC" BorderBrush="Black"/>
+                <Label x:Name="PhoneLblAdd" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FF00ABEC" BorderBrush="Black"/>
+                <Label x:Name="CustomerLocationLblAdd" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="25" Foreground="#FF00ABEC" BorderBrush="Black"/>
+
+                <TextBox x:Name="IdTxtAdd" HorizontalAlignment="Center" Text="{Binding Path=Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="0" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2" />
+                <TextBox x:Name="NameTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="PhoneCmbxAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="LongitudeTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="LatitudeTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button x:Name="AddCustomerButtonAdd" Visibility="Visible" Content="Add Customer" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
+                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="13*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid x:Name="GridParcelInTransfer" Grid.Column="2" Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="IdParcelLblUD" Content="ID Of Parcel" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="ParcelStateLblUD" Content="Parcel State" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="PriorityLblUD" Content="Priority" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="WeightParcelLblUD" Content="Weight Of Parcel" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="SenderIDLblUD" Content="Sender ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="SenderNameLblUD" Content="Sender Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="TargetIDLblUD" Content="Target ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="TargetNameLblUD" Content="Target Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+
+                <TextBox x:Name="IdParcelTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.Id, Mode=TwoWay, ValidatesOnDataErrors=True}" Width="90" Height="25" Grid.Column="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <CheckBox Content="" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" IsChecked="{Binding ParcelInTransfer.ParcelState}" Width="90" Height="25" Grid.Column="1" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="PriorityParcelTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.Priority, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="WeightParcelTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"  Text="{Binding ParcelInTransfer.Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="SenderIDTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"  Text="{Binding ParcelInTransfer.Sender.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="4" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="SenderNameTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"   Text="{Binding ParcelInTransfer.Sender.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="5" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="TargetIDTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"   Text="{Binding ParcelInTransfer.Target.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="6" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="TargetNameTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"    Text="{Binding ParcelInTransfer.Target.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+
+                <Label x:Name="TransportDistanceLblUP" Content="Transport Distance" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" FontFamily="Britannic Bold" FontWeight="Bold"/>
+                <Label x:Name="CollectionLocationLblUD" Content="Collection Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" Height="26"/>
+                <Label x:Name="LatitudeSenderLblUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="LongitutdeSenderLblUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="DeliveryDestinationLblUD" Content="Delivery Destination" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold"/>
+                <Label x:Name="LatitudeTargetLabelUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="LongitutdeTargetLabelUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+
+                <TextBox x:Name="TransportDistanceTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.TransportDistance, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2" />
+                <TextBox x:Name="LatitudeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CollectionLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LongitutdeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CollectionLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LatitudeTargetTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="5" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LongitutdeTargetTextBoxUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="6" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+            </Grid>
+
+
+            
+            <Grid Grid.ColumnSpan="2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="52.232"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+
+                <Label x:Name="IdLblUD" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="ModelLblUD" Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="WeightLblUD" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="BatteryLblUD" Content="Battery" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="StatusLblUD" Content="Status" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="LocationLblUD" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="LongitutdeLblUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14" Margin="-3,0,0,0"/>
+                <Label x:Name="LatitudeLblUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="7" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14"/>
+
+                <TextBox x:Name="IDTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2" />
+                <TextBox x:Name="ModelTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Model, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="WeightTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="BatteryTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding Battery, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="StatusTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding DroneStatus, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="4" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LatitudeTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding CurrentLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="6" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LongitutdeTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding CurrentLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+            </Grid>
+
+
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
+                <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
+                <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
+                <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+                <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
+            </StackPanel>
+        </Grid>-->
     </Grid>
 </Window>

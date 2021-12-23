@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BL;
+using BlApi;
 
 namespace PL
 {
@@ -21,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly BlApi.Ibl bl = BL.BlFactory.GetBl();
+        private static readonly Ibl bl = BlFactory.GetBl();
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +39,11 @@ namespace PL
         private void ShowStationsButtonClick_Click(object sender, RoutedEventArgs e)
         {
             new StationListWindow(bl).Show();
+        }
+
+        private void ShowCustomersButtonClick_Click(object sender, RoutedEventArgs e)
+        {
+            new CustomerListWindow(bl).Show();
         }
     }
 }

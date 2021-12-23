@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icon\delete.png" />
     <None Remove="Pictures\drone.jpeg" />
     <None Remove="Pictures\parcelPic.jpeg" />
     <None Remove="Pictures\stationPic.jpg" />
@@ -31,6 +32,12 @@
 
   <ItemGroup>
     <Content Include="Pictures\parcelPic.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icon\delete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

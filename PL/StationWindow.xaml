@@ -42,7 +42,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB79393" BorderBrush="#00000000" />
+                <Label x:Name="IdLblAdd" Content="ID"  HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1" FontFamily="Algerian" FontSize="25" FontWeight="Bold" Foreground="#FFB79393" FontStyle="Normal"  />
                 <Label x:Name="NameLblAdd" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB79393"/>
                 <Label x:Name="LocationLblAdd" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FFB79393"/>
                 <Label x:Name="LongitudeLblAdd" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,8,0,0" Foreground="#FFB79393" BorderBrush="Black"/>

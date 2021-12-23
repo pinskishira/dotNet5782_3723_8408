@@ -11,11 +11,8 @@
         <ImageBrush ImageSource="Pictures/drone.jpeg"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic">
-            <Button.Effect>
-                <DropShadowEffect/>
-            </Button.Effect>
-        </Button>
+        <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic"></Button>
         <Button x:Name="ShowStationsButtonClick" Content="View Stations" HorizontalAlignment="Left" Height="82" Margin="48,314,0,0" VerticalAlignment="Top" Width="295" Background="{x:Null}" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic" Click="ShowStationsButtonClick_Click"/>
+        <Button x:Name="ShowCustomersButtonClick" Content="View Customers"  HorizontalAlignment="Left" Margin="48,217,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="28" FontWeight="Bold" FontStyle="Italic" Click="ShowCustomersButtonClick_Click"></Button>
     </Grid>
 </Window>
