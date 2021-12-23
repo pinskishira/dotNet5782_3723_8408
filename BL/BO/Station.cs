@@ -21,7 +21,7 @@ namespace BO
             result += $"Name is {Name} \n";
             result += $"Location is {StationLocation} \n";
             result += $"Available charge slots is {AvailableChargeSlots} \n";
-            if (DronesInCharging.Any())
+            if (DronesInCharging != null)
             {
                 result += $"Drones in charging is:\n";
                 foreach (var indexOfDronesInCharging in DronesInCharging)

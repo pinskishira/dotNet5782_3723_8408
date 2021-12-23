@@ -74,13 +74,13 @@ namespace PL
 
         private void StationListView_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
-            //CurrentStation = (StationToList)StationListView.SelectedItem;
-            //if (CurrentStation != null)
-            //   new DroneWindow(bl, this).Show();
+           CurrentStation = (StationToList)StationListView.SelectedItem;
+           if (CurrentStation != null)
+               new StationWindow(bl, this).Show();
         }
         private void AddStationButton_Click(object sender, RoutedEventArgs e)
         {
-            new StationWindow(bl, this, 0).Show();
+            new StationWindow(bl, this, 5).Show();
         }
 
         

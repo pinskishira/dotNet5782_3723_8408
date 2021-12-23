@@ -43,10 +43,10 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="auto"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="auto"/>
-                    <GridViewColumn Header="Available Charge Slots" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="auto"/>
-                    <GridViewColumn Header="Occupied Charge Slots" DisplayMemberBinding="{Binding OccupiedChargeSlots}" Width="auto"/>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Available Charge Slots" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="225"/>
+                    <GridViewColumn Header="Occupied Charge Slots" DisplayMemberBinding="{Binding OccupiedChargeSlots}" Width="225"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
