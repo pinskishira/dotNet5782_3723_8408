@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="600" Width="800" Closing="window_closeing" >
+        Title="DroneListWindow" Height="600" Width="880" Closing="window_closeing" >
     <Window.Resources>
         <Style TargetType="Image">
         </Style>
@@ -50,6 +50,15 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\dronePic.png" Width="30"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="100"/>
                     <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="150"/>
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="auto"/>
@@ -57,7 +66,6 @@
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="auto"/>
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
-                   
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>

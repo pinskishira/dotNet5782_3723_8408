@@ -43,8 +43,17 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="150"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\station.png" Width="30"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="130"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="130"/>
                     <GridViewColumn Header="Available Charge Slots" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="225"/>
                     <GridViewColumn Header="Occupied Charge Slots" DisplayMemberBinding="{Binding OccupiedChargeSlots}" Width="225"/>
                 </GridView>

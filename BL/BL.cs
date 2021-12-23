@@ -48,7 +48,10 @@ namespace BL
                         //calculates the usage of battery of the drone according to the distance it travelled and the weight of its parcel
                         double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
                             (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
-                        indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
+                        if ((int)batteryConsumption > 100)
+                            indexOfDrones.Battery = 100;
+                        else
+                            indexOfDrones.Battery = rand.Next((int)batteryConsumption, 101);//random selection between battery consumption found and full charge
                     }
                     if (parcel.PickedUp != null)//if parcel was picked up but not delivered 
                     {
