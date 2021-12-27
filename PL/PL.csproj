@@ -19,6 +19,7 @@
     <None Remove="Pictures\customerPic.jpeg" />
     <None Remove="Pictures\drone.jpeg" />
     <None Remove="Pictures\parcelPic.jpeg" />
+    <None Remove="Pictures\SignUp.jpg" />
     <None Remove="Pictures\stationPic.jpg" />
   </ItemGroup>
 
@@ -39,6 +40,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Pictures\drone.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Pictures\SignUp.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Pictures\stationPic.jpg">

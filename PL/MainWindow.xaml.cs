@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BL;
+using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BL;
-using BlApi;
 
 namespace PL
 {
@@ -22,28 +21,14 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly Ibl bl = BlFactory.GetBl();
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Goes to constructor which shows all the drones  
-        /// </summary>
-        private void ShowDronesButtonClick_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new DroneListWindow(bl).Show();
-        }
-
-        private void ShowStationsButtonClick_Click(object sender, RoutedEventArgs e)
-        {
-            new StationListWindow(bl).Show();
-        }
-
-        private void ShowCustomersButtonClick_Click(object sender, RoutedEventArgs e)
-        {
-            new CustomerListWindow(bl).Show();
+           new MenuWindow().Show();
         }
     }
 }
