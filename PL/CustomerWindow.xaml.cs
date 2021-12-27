@@ -39,7 +39,8 @@ namespace PL
             CustomerListWindow = customerListWindow;//access to customer list
             Customer.CustomerLocation = new();
             DataContext = Customer;//updating event 
-            GridAddCustomer.Visibility = Visibility.Visible;//showing grid of fields needed for adding a customer
+            GridCustomerBoth.Visibility = Visibility.Visible;
+            GridCustomerADD.Visibility = Visibility.Visible;//showing grid of fields needed for adding a customer
         }
 
         public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow)
@@ -47,7 +48,9 @@ namespace PL
             InitializeComponent();
             bl = ibl;
             CustomerListWindow = customerListWindow;//access to station list
-            GridUpdateCustomer.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
+            CustomerButton.Content = "Update Customer";
+            GridCustomerBoth.Visibility = Visibility.Visible;
+            GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
             Customer = ibl.GetCustomer(CustomerListWindow.CurrentCustomer.Id);//getting station with this id
             DataContext = Customer;//updating event
         }
@@ -71,7 +74,7 @@ namespace PL
                             throw new MissingInfoException("No location was entered for this customer");
                         bl.AddCustomer(Customer);//adding new station to list
                         //adding station to list in the window of stations
-                        CustomerListWindow.customerToLists.Add(bl.GetAllCustomers().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
+                        CustomerListWindow.customerToLists.Add(bl.GetAllCustomers().ToList().Find(item => item.Id == int.Parse(IdTxtADD.Text)));
                         var result2 = MessageBox.Show($"SUCCESSFULY ADDED CUSTOMER! \nThe new customer is:\n" + Customer.ToString(), "Successfuly Added",
                            MessageBoxButton.OK);
                         switch (result2)
@@ -105,7 +108,7 @@ namespace PL
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
-                        IdTxtAdd.Text = "";
+                        IdTxtADD.Text = "";
                         break;
                 }
             }
@@ -143,12 +146,12 @@ namespace PL
                 {
                     case MessageBoxResult.OK:
                         int i = CustomerListWindow.CustomerListView.SelectedIndex;
-                        bl.UpdateCustomer(int.Parse(IdTxtUp.Text), NameTxtUp.Text, PhoneTxtUp.Text);//udating chosen station
-                        CustomerListWindow.CurrentCustomer.Name = NameTxtUp.Text;//updating drone name
-                        CustomerListWindow.CurrentCustomer.Phone = PhoneTxtUp.Text;
+                        bl.UpdateCustomer(int.Parse(IdTxtUP.Text), NameTxt.Text, PhoneTxt.Text);//udating chosen station
+                        CustomerListWindow.CurrentCustomer.Name = NameTxt.Text;//updating drone name
+                        CustomerListWindow.CurrentCustomer.Phone = PhoneTxt.Text;
                         CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
                         CustomerListWindow.CustomerListView.SelectedIndex = i;
-                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The customers new name is {NameTxtUp.Text}, and new phone is {PhoneTxtUp.Text}", "Successfuly Updated",
+                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The customers new name is {NameTxt.Text}, and new phone is {PhoneTxt.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         switch (result2)
                         {
@@ -166,8 +169,8 @@ namespace PL
                 switch (errorMessage)
                 {
                     case MessageBoxResult.OK:
-                        NameTxtUp.Text = "";
-                        PhoneTxtUp.Text = "";
+                        NameTxt.Text = "";
+                        PhoneTxt.Text = "";
                         break;
                 }
             }

@@ -44,7 +44,7 @@
                 <TextBox x:Name="NameTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="PhoneTxt" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
 
-                <Grid x:Name="GridCustomerADD" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerADD" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -70,6 +70,61 @@
                     <TextBlock x:Name="IdTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="1" />
                     <TextBlock x:Name="LatitudeTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Margin="0,41,0,0"/>
                     <TextBlock x:Name="LongituteTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4"/>
+
+                    <!--<Button x:Name ="ShowParcelsFromCustomer" Content="View Parcels From Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">-->
+                        <!--<Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"  Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>-->
+                    
+                    <ListView x:Name="ParcelsFromCustomer" Visibility="Visible" Margin="153,81,-447,2" Grid.RowSpan="3"
+                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
+                                <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding ParcelsFromCustomers.Weight}" Width="150"/>
+                                <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding ParcelsFromCustomers.Priority}" Width="150"/>
+                                <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.StateOfParcel}" Width="150"/>
+                                <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Id}" Width="150"/>
+                                <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Name}" Width="150"/>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
+                    <!--<Button x:Name ="ShowParcelsToCustomer" Content="View Parcels To Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"  Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>-->
+                    
+                    <ListView x:Name="ParcelsToCustomer" Visibility="Visible" Margin="153,81,-447,-1" Grid.RowSpan="3"
+                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="3" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
+                                <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding ParcelsFromCustomers.Weight}" Width="150"/>
+                                <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding ParcelsFromCustomers.Priority}" Width="150"/>
+                                <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.StateOfParcel}" Width="150"/>
+                                <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Id}" Width="150"/>
+                                <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Name}" Width="150"/>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
                 </Grid>
             </Grid>
             <Grid Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Bottom" >
