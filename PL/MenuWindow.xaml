@@ -1,0 +1,18 @@
+﻿<Window x:Class="PL.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="MenuWindow" Height="450" Width="800">
+
+    <Window.Background>
+        <ImageBrush ImageSource="Pictures/drone.jpeg"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <Button x:Name ="ShowDronesButtonClick" Content="View Drones" HorizontalAlignment="Left" Margin="478,314,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Click="ShowDronesButtonClick_Click" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic"></Button>
+        <Button x:Name="ShowStationsButtonClick" Content="View Stations" HorizontalAlignment="Left" Height="82" Margin="48,314,0,0" VerticalAlignment="Top" Width="295" Background="{x:Null}" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" FontStyle="Italic" Click="ShowStationsButtonClick_Click"/>
+        <Button x:Name="ShowCustomersButtonClick" Content="View Customers"  HorizontalAlignment="Left" Margin="48,217,0,0" VerticalAlignment="Top" Height="82" Width="277" Background="{x:Null}" Foreground="#FFC2F6FF" BorderBrush="#FFC2F6FF"  BorderThickness="5,5,5,5" SnapsToDevicePixels="True" FontFamily="Arial Black" FontSize="28" FontWeight="Bold" FontStyle="Italic" Click="ShowCustomersButtonClick_Click"></Button>
+    </Grid>
+</Window>
