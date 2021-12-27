@@ -60,7 +60,11 @@ namespace BL
                         indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
                         indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
                         //using random selection to calculate battery using distance the drone traveled and the parcel it collected and full charge
-                        indexOfDrones.Battery = rand.Next(BatteryConsumption(indexOfDrones, parcel), 101);
+                        int batteryConsumption = BatteryConsumption(indexOfDrones, parcel);
+                        if (batteryConsumption > 100)
+                            indexOfDrones.Battery = 100;
+                        else
+                            indexOfDrones.Battery = rand.Next(batteryConsumption, 101);
                     }
                 }
                 catch (InvalidOperationException)

@@ -45,6 +45,12 @@ namespace PL
                 customerToLists.Add(indexOfCustomerToList);
             }
             CustomerListView.ItemsSource = customerToLists;
+            customerToLists.CollectionChanged += CustomerToLists_CollectionChanged;
+        }
+
+        private void CustomerToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CustomerListView.Items.Refresh();
         }
 
         /// <summary>

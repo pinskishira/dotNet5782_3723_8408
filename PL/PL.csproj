@@ -11,9 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icon\customer.png" />
     <None Remove="Icon\delete.png" />
     <None Remove="Icon\dronePic.png" />
     <None Remove="Icon\station.png" />
+    <None Remove="Pictures\customer.jpg" />
     <None Remove="Pictures\customerPic.jpeg" />
     <None Remove="Pictures\drone.jpeg" />
     <None Remove="Pictures\parcelPic.jpeg" />
@@ -22,10 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Icon\customer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon\dronePic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon\station.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Pictures\customer.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Pictures\customerPic.jpeg">

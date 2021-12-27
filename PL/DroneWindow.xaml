@@ -106,10 +106,10 @@
                 <TextBox x:Name="TargetNameTxtUP" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"    Text="{Binding ParcelInTransfer.Target.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
 
                 <Label x:Name="TransportDistanceLblUP" Content="Transport Distance" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="12.5" Grid.ColumnSpan="3" Margin="107,0,0,0" Width="122"/>
-                <Label x:Name="CollectionLocationLblUD" Content="Collection Location" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Height="26" Grid.ColumnSpan="2" Margin="33,10,0,0"/>
+                <Label x:Name="CollectionLocationLblUD" Content="Collection Location" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Height="26" Grid.ColumnSpan="3" Margin="110,10,0,0"/>
                 <Label x:Name="LatitudeSenderLblUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
                 <Label x:Name="LongitutdeSenderLblUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
-                <Label x:Name="DeliveryDestinationLblUD" Content="Delivery Destination" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" Grid.ColumnSpan="2" Margin="30,7,0,0" FontSize="18"/>
+                <Label x:Name="DeliveryDestinationLblUD" Content="Delivery Destination" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" Grid.ColumnSpan="2" Margin="0,7,0,0" FontSize="18"/>
                 <Label x:Name="LatitudeTargetLabelUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
                 <Label x:Name="LongitutdeTargetLabelUD" Content="Longitutde" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
 
@@ -140,7 +140,7 @@
                 <Label x:Name="WeightLblUD" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
                 <Label x:Name="BatteryLblUD" Content="Battery" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
                 <Label x:Name="StatusLblUD" Content="Status" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18"/>
-                <Label x:Name="LocationLblUD" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="20" Margin="51,8,0,0"/>
+                <Label x:Name="LocationLblUD" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="20" Margin="-3,0,0,0"/>
                 <Label x:Name="LongitutdeLblUD" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="14.5" Margin="-3,0,0,0"/>
                 <Label x:Name="LatitudeLblUD" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="7" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="15"/>
 
