@@ -57,7 +57,7 @@
                 <Button x:Name="CloseWindowButtonAdd" Visibility="Visible" Content="Close" Width="400"  Background="#FFFA0C4D" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButtonAdd_Click"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="GridUpdateStation" Visibility="Visible">
+        <Grid x:Name="GridUpdateStation" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>

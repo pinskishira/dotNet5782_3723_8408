@@ -142,10 +142,12 @@ namespace PL
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
+                        int i = CustomerListWindow.CustomerListView.SelectedIndex;
                         bl.UpdateCustomer(int.Parse(IdTxtUp.Text), NameTxtUp.Text, PhoneTxtUp.Text);//udating chosen station
                         CustomerListWindow.CurrentCustomer.Name = NameTxtUp.Text;//updating drone name
                         CustomerListWindow.CurrentCustomer.Phone = PhoneTxtUp.Text;
-                        CustomerListWindow.customerToLists[CustomerListWindow.CustomerListView.SelectedIndex] = CustomerListWindow.CurrentCustomer;//updating event
+                        CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
+                        CustomerListWindow.CustomerListView.SelectedIndex = i;
                         var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The customers new name is {NameTxtUp.Text}, and new phone is {PhoneTxtUp.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         switch (result2)

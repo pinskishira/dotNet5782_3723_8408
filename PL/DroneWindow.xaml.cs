@@ -14,6 +14,7 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
+        DroneStatusesAndWeightCategories SAndW;
         BlApi.Ibl bl;
         private DroneListWindow DroneListWindow { get; }
         private Drone Drone { get; set; } = new();
@@ -28,6 +29,7 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
+            SAndW = new();
             DroneListWindow = droneListWindow;//access to drone list
             DataContext = Drone;//updating event 
             WeightCmbxAdd.ItemsSource = System.Enum.GetValues(typeof(BO.Enum.WeightCategories));//getting chosen weight
@@ -103,13 +105,12 @@ namespace PL
                             throw new MissingInfoException("No station ID was entered for this drone");
                         bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));//adding new drone to list
                         //adding drone to list in the window of drones
-                       // DroneListWindow.droneToLists.Add((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
-                        foreach (var item in DroneListWindow.droneToLists.Where(x => x.Key.DroneStatus == Drone.DroneStatus && x.Key.Weight == Drone.Weight))
-                        {
-                            item.Append(bl.GetAllDrones(i => i.Id == Drone.Id).First());
-                            break;
-                        }
-                        DroneListWindow.DronesListView.Items.Refresh();
+                        SAndW.DroneStatus = Drone.DroneStatus;
+                        SAndW.Weight = Drone.Weight;
+                        if (DroneListWindow.droneToLists.ContainsKey(SAndW))
+                            DroneListWindow.droneToLists[SAndW].Add(bl.GetAllDrones().First(x => x.Id == Drone.Id));
+                        else
+                            DroneListWindow.droneToLists.Add(SAndW, bl.GetAllDrones().TakeWhile(x => x.Id == Drone.Id).ToList());
                         var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
                            MessageBoxButton.OK);
                         switch (result2)
@@ -195,8 +196,8 @@ namespace PL
                 {
                     case MessageBoxResult.OK:
                         bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);//udating chosen drone
-                        DroneListWindow.CurrentDrone.Model = ModelTxtUD.Text;//updating drone name
-                        DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = (IGrouping<DroneStatusesAndWeightCategories, DroneToList>)DroneListWindow.CurrentDrone;//updating event
+                        //DroneListWindow.CurrentDrone.Model = ModelTxtUD.Text;//updating drone name
+                        //DroneListWindow.droneToLists[DroneListWindow.DronesListView.SelectedIndex] = DroneListWindow.CurrentDrone;//updating event
                         var result2 = MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         switch (result2)
@@ -305,10 +306,10 @@ namespace PL
                 switch (success)
                 {
                     case MessageBoxResult.OK:
-                        int indexOfNotUpdateDrone = DroneListWindow.droneToLists.IndexOf((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)DroneListWindow.CurrentDrone);
-                        DroneListWindow.droneToLists[indexOfNotUpdateDrone] = (IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().First(item => item.Id == Drone.Id);
-                        DataContext = bl.GetDrone(Drone.Id);
-                        DroneListWindow.CurrentDrone = (DroneToList)DroneListWindow.droneToLists[indexOfNotUpdateDrone];
+                        //int indexOfNotUpdateDrone = DroneListWindow.droneToLists.IndexOf((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)DroneListWindow.CurrentDrone);
+                        //DroneListWindow.droneToLists[indexOfNotUpdateDrone] = (IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().First(item => item.Id == Drone.Id);
+                        //DataContext = bl.GetDrone(Drone.Id);
+                        //DroneListWindow.CurrentDrone = (DroneToList)DroneListWindow.droneToLists[indexOfNotUpdateDrone];
                         break;
                 }
             }
@@ -377,10 +378,10 @@ namespace PL
                 switch (success)
                 {
                     case MessageBoxResult.OK:
-                        int indexOfNotUpdateDrone = DroneListWindow.droneToLists.IndexOf((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)DroneListWindow.CurrentDrone);
-                        DroneListWindow.droneToLists[indexOfNotUpdateDrone] = (IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().First(item => item.Id == Drone.Id);
-                        DataContext = bl.GetDrone(Drone.Id);
-                        DroneListWindow.CurrentDrone = (DroneToList)DroneListWindow.droneToLists[indexOfNotUpdateDrone];
+                        //int indexOfNotUpdateDrone = DroneListWindow.droneToLists.IndexOf((IGrouping<DroneStatusesAndWeightCategories, DroneToList>)DroneListWindow.CurrentDrone);
+                        //DroneListWindow.droneToLists[indexOfNotUpdateDrone] = (IGrouping<DroneStatusesAndWeightCategories, DroneToList>)bl.GetAllDrones().First(item => item.Id == Drone.Id);
+                        //DataContext = bl.GetDrone(Drone.Id);
+                        //DroneListWindow.CurrentDrone = (DroneToList)DroneListWindow.droneToLists[indexOfNotUpdateDrone];
                         break;
                 }
             }

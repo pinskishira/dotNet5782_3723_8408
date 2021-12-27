@@ -36,7 +36,7 @@ namespace BL
             }
         }
 
-        public Station GetStation(int stationId) 
+        public Station GetStation(int stationId)
         {
             Station blStation = new Station();
             try
@@ -44,21 +44,28 @@ namespace BL
                 DO.Station dalStation = dal.FindStation(stationId);//finding station
                 dalStation.CopyPropertiesTo(blStation);//converting to BL
                 blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
-                //blStation.DronesInCharging = new IEnumerable<DroneInCharging>();
-                List<DroneInCharging> tempDroneInCharge = new();
-                List<DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
-                foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
-                {
-                    DroneInCharging tempDroneInCharging = new DroneInCharging();
-                    tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
-                    DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
-                    if (tempDroneToList == default)
-                        throw new FailedGetException("The Id number does not exist. \n");
-                    tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
-                    // blStation.DronesInCharging.ToList().Add(tempDroneInCharging);//adding to drones in charging
-                    tempDroneInCharge.Add(tempDroneInCharging);
-                }
-                blStation.DronesInCharging = tempDroneInCharge;
+                blStation.DronesInCharging = from item in dal.GetAllDroneCharges(item => item.StationId == stationId)
+                                             let temp = BlDrones.FirstOrDefault(indexDroneToList => indexDroneToList.Id == item.DroneId)
+                                             select new DroneInCharging
+                                             {
+                                                 Id = item.DroneId,
+                                                 Battery = temp != default ? temp.Battery :
+                                              throw new FailedGetException("The Id number does not exist. \n")
+                                             };
+
+
+                //List <DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
+                //foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
+                //{
+                //    DroneInCharging tempDroneInCharging = new DroneInCharging();
+                //    tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
+                //    DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
+                //    if (tempDroneToList == default)
+                //        throw new FailedGetException("The Id number does not exist. \n");
+                //    tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
+                //    blStation.DronesInCharging.ToList().Add(tempDroneInCharging);//adding to drones in charging
+                //}
+
 
             }
             catch (DO.ItemDoesNotExistException ex)

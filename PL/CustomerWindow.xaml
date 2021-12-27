@@ -62,7 +62,7 @@
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Margin="0,0,0,-14" Grid.RowSpan="2">
+            <Grid Grid.RowSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -78,17 +78,17 @@
 
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="IdLblUp" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontFamily="Britannic Bold" FontSize="30" FontWeight="Bold" Foreground="Black" BorderBrush="#00000000"  />
-                <Label x:Name="NameLblUp" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="30" FontWeight="Bold" Foreground="Black"/>
-                <Label x:Name="LocationLblUp" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" FontFamily="Britannic Bold" FontSize="30" FontWeight="Bold" Foreground="Black"/>
-                <Label x:Name="LongitudeLblUp" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Margin="10,8,0,0" Foreground="Black" BorderBrush="Black" Height="38" Width="119"/>
-                <Label x:Name="LatitudeLblUp" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Margin="10,41,0,0" Foreground="Black" Height="38" Width="99"/>
-                <Label x:Name="PhoneLblUp" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" FontFamily="Britannic Bold" FontSize="30" FontWeight="Bold" Foreground="Black" Grid.Column="1"/>
+                <Label x:Name="IdLblUp" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontFamily="Britannic Bold" FontSize="28" FontWeight="Normal" Foreground="#FF5E0063" BorderBrush="#00000000"  />
+                <Label x:Name="NameLblUp" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="28" FontWeight="Normal" Foreground="#FF5E0063"/>
+                <Label x:Name="LocationLblUp" Content="Location" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" FontFamily="Britannic Bold" FontSize="35" FontWeight="Normal" Foreground="#FF5E0063"  Grid.Column="0"/>
+                <Label x:Name="LongitudeLblUp" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="28" FontWeight="Normal" Foreground="#FF5E0063" BorderBrush="Black"/>
+                <Label x:Name="LatitudeLblUp" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="28" FontWeight="Normal" Foreground="#FF5E0063"/>
+                <Label x:Name="PhoneLblUp" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" FontFamily="Britannic Bold" FontSize="28" FontWeight="Normal" Foreground="#FF5E0063" Grid.Column="1"/>
 
                 <TextBox x:Name="IdTxtUp" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="NameTxtUp" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="4,4,4,4"/>
-                <TextBox x:Name="LatitudeTxtUp" IsReadOnly="True"  HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB98BCE"  BorderThickness="2,2,2,2" Margin="0,46,0,0"/>
-                <TextBox x:Name="LongituteTxtUp" IsReadOnly="True"  HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB98BCE"  BorderThickness="2,2,2,2" Margin="0,8,0,0"/>
+                <TextBox x:Name="LatitudeTxtUp" IsReadOnly="True"  HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="4" BorderBrush="#FFB98BCE"  BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="LongituteTxtUp" IsReadOnly="True"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB98BCE"  BorderThickness="2,2,2,2" />
                 <TextBox x:Name="PhoneTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="140" Height="36" Grid.Column="2" Grid.Row="2"  BorderBrush="#FFB64DE6" BorderThickness="4,4,4,4"/>
 
                 <!--<ListView x:Name="DronesInCharging" Visibility="Collapsed" Grid.Column="3" Margin="10,10,29,21" Grid.RowSpan="3" Grid.Row="1"
@@ -114,10 +114,14 @@
                     </Button.Resources>
                 </Button>-->
 
-                <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.ColumnSpan="4">
-                    <Button x:Name="UpdateCustomerButtonUD" Visibility="Visible" Content="Update Customer" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}" Width="400" FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Height="40" Click="UpdateCustomerButtonUD_Click"/>
-                    <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="400" FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Height="40" Click="CancelButtonUD_Click"/>
-                </StackPanel>
+                <Grid Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Bottom" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="UpdateCustomerButtonUD" Grid.Column="0" Visibility="Visible" Content="Update Customer" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Click="UpdateCustomerButtonUD_Click"/>
+                    <Button x:Name="CancelButtonUD" Grid.Column="1" Visibility="Visible" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6"  Click="CancelButtonUD_Click" />
+                </Grid>
 
             </Grid>
         </Grid>
