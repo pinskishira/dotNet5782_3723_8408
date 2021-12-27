@@ -79,6 +79,7 @@ namespace PL
         ///// <summary>
         ///// sorts list by drone weight
         ///// </summary>
+        ///
         private void WeightSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Selection();

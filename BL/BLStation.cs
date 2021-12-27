@@ -52,21 +52,6 @@ namespace BL
                                                  Battery = temp != default ? temp.Battery :
                                               throw new FailedGetException("The Id number does not exist. \n")
                                              };
-
-
-                //List <DO.DroneCharge> DroneChargeList = dal.GetAllDroneCharges(item => item.StationId == stationId).ToList();
-                //foreach (var indexOfDroneCharges in DroneChargeList)//going through drone charges
-                //{
-                //    DroneInCharging tempDroneInCharging = new DroneInCharging();
-                //    tempDroneInCharging.Id = indexOfDroneCharges.DroneId;//id's will be equal
-                //    DroneToList tempDroneToList = BlDrones.First(indexDroneToList => indexDroneToList.Id == indexOfDroneCharges.DroneId);
-                //    if (tempDroneToList == default)
-                //        throw new FailedGetException("The Id number does not exist. \n");
-                //    tempDroneInCharging.Battery = tempDroneToList.Battery;//battery's will be equal
-                //    blStation.DronesInCharging.ToList().Add(tempDroneInCharging);//adding to drones in charging
-                //}
-
-
             }
             catch (DO.ItemDoesNotExistException ex)
             {
