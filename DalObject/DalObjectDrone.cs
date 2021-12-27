@@ -9,7 +9,7 @@ namespace Dal
     {
         public void AddDrone(Drone newDrone)
         {
-            if (DataSource.Drones.Any(item => item.Id == newDrone.Id))//checks if drone exists
+            if (DataSource.Drones.Exists(item => item.Id == newDrone.Id))//checks if drone exists
                 throw new ItemExistsException("The drone already exists.\n");
             DataSource.Drones.Add(newDrone);
         }
@@ -35,7 +35,7 @@ namespace Dal
 
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
-            if (!DataSource.Drones.Any(item => item.Id == idDrone))//checks if drone exists
+            if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
             if(indexAssign==-1)

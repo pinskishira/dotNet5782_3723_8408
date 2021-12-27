@@ -9,7 +9,7 @@ namespace Dal
     {
         public void AddParcel(Parcel newParcel)
         {
-            if (DataSource.Parcels.Any(item => item.Id == newParcel.Id))//checks if parcel exists
+            if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id))//checks if parcel exists
                 throw new ItemExistsException("The parcel already exists.\n");
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);

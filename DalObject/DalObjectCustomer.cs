@@ -10,7 +10,7 @@ namespace Dal
     {
         public void AddCustomer(Customer newCustomer)
         {
-            if (DataSource.Customers.Any(item => item.Id == newCustomer.Id))//checks if customer exists
+            if (DataSource.Customers.Exists(item => item.Id == newCustomer.Id))//checks if customer exists
                 throw new ItemExistsException("The customer already exists.\n");
             DataSource.Customers.Add(newCustomer);
         }

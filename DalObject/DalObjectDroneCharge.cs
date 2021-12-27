@@ -10,14 +10,14 @@ namespace Dal
     {
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {
-            if (DataSource.DroneCharges.Any(item => item.DroneId == newDroneCharge.DroneId))//checks if drone charge exists
+            if (DataSource.DroneCharges.Exists(item => item.DroneId == newDroneCharge.DroneId))//checks if drone charge exists
                 throw new ItemExistsException("The drone already exists.\n");
             DataSource.DroneCharges.Add(newDroneCharge);
         }
 
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
-            if (!DataSource.Drones.Any(item => item.Id == idDrone))//checks if drone exists
+            if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             DroneCharge newDroneCharge = new DroneCharge();
             //drone with low battery will go be charged here
