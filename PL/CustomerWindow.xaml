@@ -14,7 +14,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\customerPic.jpeg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridAddCustomer" Visibility="Collapsed">
+        <Grid x:Name="GridAddCustomer" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>

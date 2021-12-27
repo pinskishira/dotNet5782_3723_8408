@@ -18,7 +18,7 @@ using static BO.Enum;
 
 namespace PL
 {
-    public class DroneStatusesAndWeightCategories
+    public struct DroneStatusesAndWeightCategories
     {
         public BO.Enum.WeightCategories Weight { get; set; }
         public BO.Enum.DroneStatuses DroneStatus { get; set; }
@@ -62,10 +62,10 @@ namespace PL
             //droneToLists.CollectionChanged += DroneToLists_CollectionChanged;//updating event 
         }
 
-        private void DroneToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Selection();
-        }
+        //private void DroneToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{
+        //    Selection();
+        //}
 
         /// <summary>
         /// sorts list by drone status
@@ -84,7 +84,7 @@ namespace PL
             Selection();
         }
 
-        private void Selection()
+        public void Selection()
         {
             DroneStatuses droneStatuses = (DroneStatuses)StatusSelection.SelectedItem;//gets what the user chose to sort by
             if (WeightSelection.SelectedIndex == -1)//if weigh wasnt chosen 
@@ -133,9 +133,9 @@ namespace PL
         /// </summary>
         private void DronesListView_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
-            //    CurrentDrone = (DroneToList)DronesListView.SelectedItem;
-            // if (CurrentDrone != null)
-            new DroneWindow(bl, this).Show();
+            CurrentDrone = (DroneToList)DronesListView.SelectedItem;
+            if (CurrentDrone != null)
+                new DroneWindow(bl, this).Show();
         }
 
         private void window_closeing(object sender, CancelEventArgs e)

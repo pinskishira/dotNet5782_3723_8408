@@ -10,7 +10,7 @@ namespace Dal
     {
         public void AddStation(Station newStation)
         {
-            if (DataSource.Stations.Any(item => item.Id == newStation.Id))//checks if station exists
+            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))//checks if station exists
                 throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
