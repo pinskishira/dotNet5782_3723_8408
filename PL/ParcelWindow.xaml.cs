@@ -36,8 +36,11 @@ namespace PL
         public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow, int i = 0)
         {
             InitializeComponent();
-            ibl = bl;
+            bl=ibl;
             ParcelListWindow = parcelListWindow;
+            Parcel.Sender = new();
+            Parcel.Target = new();
+            Parcel.DroneParcel = new();
             DataContext = Parcel;//updating event 
             WeightADD.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));
             PriorityADD.ItemsSource = System.Enum.GetValues(typeof(Priorities));
@@ -135,15 +138,15 @@ namespace PL
                         case MessageBoxResult.OK:
                             if (Parcel.Id == default)
                                 throw new MissingInfoException("No information entered for the ID");
-                            if (Parcel.Sender == default)
+                            if (Parcel.Sender.Name ==default)
                                 throw new MissingInfoException("No information entered for the sender ID");
-                            if (Parcel.Target == default)
+                            if (Parcel.Target.Name == default)
                                 throw new MissingInfoException("No information entered for the target ID");
                             bl.AddParcel(Parcel);//adding new station to list
                             _StatusWeightAndPriorities.priorities = Parcel.Priority;
                             _StatusWeightAndPriorities.weight = Parcel.Weight;
                             _StatusWeightAndPriorities.status = BO.Enum.ParcelState.Created;
-                            Parcel = bl.GetParcel(Parcel.Id);
+                            //Parcel = bl.GetParcel(Parcel.Id);
                             if (ParcelListWindow.Parcels.ContainsKey(_StatusWeightAndPriorities))
                                 ParcelListWindow.Parcels[_StatusWeightAndPriorities].Add(bl.GetAllParcels().First(i => i.Id == Parcel.Id));
                             else
