@@ -128,7 +128,7 @@ namespace PL
         {
             CurrentDrone = (DroneToList)DronesListView.SelectedItem;
             if (CurrentDrone != null)
-                new DroneWindow(bl, this,0).Show();
+                new DroneWindow(bl, this, 0).Show();
         }
 
         private void window_closeing(object sender, CancelEventArgs e)

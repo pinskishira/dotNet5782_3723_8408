@@ -46,8 +46,7 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            if (DroneListWindow != null)
-                DroneListWindow = droneListWindow;//access to drone list
+            DroneListWindow = droneListWindow;//access to drone list
             GridUpdateDrone.Visibility = Visibility.Visible;//showing grid of fields needed for updating a drone
             if (idDrone == 0)
                 Drone = ibl.GetDrone(DroneListWindow.CurrentDrone.Id);//getting drone with this id
