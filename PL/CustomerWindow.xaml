@@ -13,7 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\customerPic.jpeg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridCustomerBoth" Visibility="Visible">
+        <Grid x:Name="GridCustomerBoth" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -73,7 +73,7 @@
                     <TextBox x:Name="LongituteTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 </Grid>
 
-                <Grid x:Name="GridCustomerUP" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerUP" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -86,9 +86,16 @@
                     <TextBlock x:Name="LatitudeTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Margin="0,41,0,0"/>
                     <TextBlock x:Name="LongituteTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4"/>
 
-
-                    <ListView x:Name="ViewParcelsFromCustomer" Visibility="Collapsed" Margin="153,5,-447,2" Grid.RowSpan="2"
-                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="1" >
+                    <!--<Button x:Name ="ShowParcelsFromCustomer" Content="View Parcels From Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">-->
+                        <!--<Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"  Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>-->
+                    
+                    <ListView x:Name="ParcelsFromCustomer" Visibility="Collapsed" Margin="153,81,-447,2" Grid.RowSpan="3"
+                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
@@ -106,7 +113,15 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
 
-                    <ListView x:Name="ViewParcelsToCustomer" Visibility="Collapsed" Margin="153,89,-447,0" Grid.RowSpan="3"
+                    <!--<Button x:Name ="ShowParcelsToCustomer" Content="View Parcels To Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius"  Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>-->
+                    
+                    <ListView x:Name="ParcelsToCustomer" Visibility="Collapsed" Margin="153,81,-447,-1" Grid.RowSpan="3"
                           Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="3" >
                         <ListView.View>
                             <GridView>
@@ -132,7 +147,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="CustomerButton" Grid.Column="0" Visibility="Visible" Content="Add Customer" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Click="UpdateCustomerButtonUD_Click"/>
+                <Button x:Name="CustomerButton" Grid.Column="0" Visibility="Visible" Content="Add Customer" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Click="CustomerButtonUD_Click"/>
                 <Button x:Name="CancelButton" Grid.Column="1" Visibility="Visible" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6"  Click="CancelButtonUD_Click" Grid.ColumnSpan="2" />
             </Grid>
         </Grid>

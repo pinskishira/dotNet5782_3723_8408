@@ -27,6 +27,7 @@ namespace PL
         private Station Station { get; set; } = new();
         private bool _close { get; set; } = false;
 
+
         /// <summary>
         /// Constructor to add a station
         /// </summary>
@@ -39,7 +40,8 @@ namespace PL
             StationListWindow = stationListWindow;//access to station list
             Station.StationLocation = new();
             DataContext = Station;//updating event 
-            GridAddStation.Visibility = Visibility.Visible;//showing grid of fields needed for adding a station
+            GridStationBoth.Visibility = Visibility.Visible;//showing grid of fields needed for adding a station
+            GridStationADD.Visibility = Visibility.Visible;
         }
 
         public StationWindow(BlApi.Ibl ibl, StationListWindow stationListWindow)
@@ -47,92 +49,16 @@ namespace PL
             InitializeComponent();
             bl = ibl;
             StationListWindow = stationListWindow;//access to station list
-            GridUpdateStation.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
+            GridStationBoth.Visibility = Visibility.Visible;
+            GridStationUp.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
             Station = ibl.GetStation(StationListWindow.CurrentStation.Id);//getting station with this id
             DataContext = Station;//updating event
             if (Station.DronesInCharging.Count() != 0)
                 ViewDronesInCharging.Visibility = Visibility.Visible;
-        }
-
-        private void AddStationButtonAdd_Click(object sender, RoutedEventArgs e)
-        {
-            var result1 = MessageBox.Show($"Are you sure you would like to add this station? \n", "Request Review",
-              MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            try
-            {
-                switch (result1)
-                {
-                    case MessageBoxResult.OK:
-                        if (Station.Id == default)
-                            throw new MissingInfoException("No station ID entered for this station");
-                        if (Station.Name == default || Station.Name == null)
-                            throw new MissingInfoException("No name entered for this station");
-                        if (Station.StationLocation.Longitude == default || Station.StationLocation.Latitude==default)
-                         throw new MissingInfoException("No location was entered for this station");
-                        if(Station.AvailableChargeSlots == default)
-                            throw new MissingInfoException("No charge slots was entered for this station");
-                        bl.AddStation(Station);//adding new station to list
-                        //adding station to list in the window of stations
-                        StationListWindow.stationToLists.Add(bl.GetAllStations().ToList().Find(item => item.Id == int.Parse(IdTxtAdd.Text)));
-                        var result2 = MessageBox.Show($"SUCCESSFULY ADDED STATION! \nThe new station is:\n" + Station.ToString(), "Successfuly Added",
-                           MessageBoxButton.OK);
-                        switch (result2)
-                        {
-                            case MessageBoxResult.OK:
-                                _close = true;
-                                this.Close();//closes current window after station was added
-                                break;
-                        }
-                        break;
-                    case MessageBoxResult.Cancel://if user presses cancel
-                        Station = new();//scrathes fields
-                        DataContext = Station;//updates event
-                        break;
-                }
-            }
-            catch (FailedToAddException ex)
-            {
-                var errorMessage = MessageBox.Show("Failed to add station: " + ex.GetType().Name + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        Station = new();
-                        DataContext = Station;
-                        break;
-                }
-            }
-            catch (InvalidInputException ex)
-            {
-                var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        IdTxtAdd.Text = "";
-                        break;
-                }
-            }
-            catch (FormatException)
-            {
-                var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + "You need to enter information for all the given fields", "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        Station = new();
-                        DataContext = Station;
-                        break;
-                }
-            }
-            catch (MissingInfoException ex)
-            {
-                var message = MessageBox.Show("Failed to add the station: \n" + ex.Message, "Failed To Add",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                switch (message)
-                {
-                    case MessageBoxResult.OK:
-                        break;
-                }
-            }
-
+            DronesInChargingListView.ItemsSource = Station.DronesInCharging;
+            StationButton.Content = "Update Station";
+            ChargeSlotsTxtUp.Visibility = Visibility.Visible;
+            ChargeSlotsTxtUp.Text = (stationListWindow.CurrentStation.AvailableChargeSlots + stationListWindow.CurrentStation.OccupiedChargeSlots).ToString();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -143,46 +69,13 @@ namespace PL
 
         private void ViewDronesInCharging_Click(object sender, RoutedEventArgs e)
         {
-            DronesInCharging.Visibility = Visibility.Visible;
+            if (DronesInChargingListView.Visibility == Visibility.Collapsed)
+                DronesInChargingListView.Visibility = Visibility.Visible;
+            else
+                DronesInChargingListView.Visibility = Visibility.Collapsed;
+
         }
 
-        private void UpdateStationButtonUD_Click(object sender, RoutedEventArgs e)
-        {
-            var result1 = MessageBox.Show($"Are you sure you would like to update this station? \n", "Request Review",
-               MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            try
-            {
-                switch (result1)
-                {
-                    case MessageBoxResult.OK:
-                        bl.UpdateStation(int.Parse(IdTxtUp.Text), NameTxtUp.Text, int.Parse(ChargeSlotsTxtUp.Text));//udating chosen station
-                        StationListWindow.CurrentStation.Name = NameTxtUp.Text;//updating drone name
-                        StationListWindow.CurrentStation.AvailableChargeSlots = int.Parse(ChargeSlotsTxtUp.Text);
-                        StationListWindow.stationToLists[StationListWindow.StationListView.SelectedIndex] = StationListWindow.CurrentStation;//updating event
-                        var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The stations new name is {NameTxtUp.Text}, and new amount of charge slots is {ChargeSlotsTxtUp.Text}", "Successfuly Updated",
-                           MessageBoxButton.OK);
-                        switch (result2)
-                        {
-                            case MessageBoxResult.OK:
-                                break;
-                        }
-                        break;
-                    case MessageBoxResult.Cancel:
-                        break;
-                }
-            }
-            catch (ItemDoesNotExistException ex)
-            {
-                var errorMessage = MessageBox.Show("Failed to update station: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        NameTxtUp.Text = "";
-                        ChargeSlotsTxtUp.Text = "";
-                        break;
-                }
-            }
-        }
 
         private void window_closeing(object sender, CancelEventArgs e)
         {
@@ -193,16 +86,139 @@ namespace PL
             }
         }
 
-        private void CancelButtonUD_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
             this.Close();
         }
 
-        private void CloseWindowButtonAdd_Click(object sender, RoutedEventArgs e)
+        private void DronesInCharging_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _close = true;
-            this.Close();
+            DroneListWindow droneListWindow = new DroneListWindow(bl);
+            DroneInCharging droneInCharging;
+            droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
+            new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
+        }
+
+        private void StationButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((string)StationButton.Content == "Add Station")
+            {
+                var result1 = MessageBox.Show($"Are you sure you would like to add this station? \n", "Request Review",
+                              MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                try
+                {
+                    switch (result1)
+                    {
+                        case MessageBoxResult.OK:
+                            if (Station.Id == default)
+                                throw new MissingInfoException("No station ID entered for this station");
+                            if (Station.Name == default || Station.Name == null)
+                                throw new MissingInfoException("No name entered for this station");
+                            if (Station.StationLocation.Longitude == default || Station.StationLocation.Latitude == default)
+                                throw new MissingInfoException("No location was entered for this station");
+                            if (Station.AvailableChargeSlots == default)
+                                throw new MissingInfoException("No charge slots was entered for this station");
+                            bl.AddStation(Station);//adding new station to list
+                            int keyStation = Station.AvailableChargeSlots;
+                            if (StationListWindow.stationToLists.ContainsKey(keyStation))
+                                StationListWindow.stationToLists[keyStation].Add(bl.GetAllStations().First(x => x.Id == Station.Id));
+                            else
+                                StationListWindow.stationToLists.Add(keyStation, bl.GetAllStations().Where(x => x.Id == Station.Id).ToList());
+                            StationListWindow.RefreshStations();
+                            var result2 = MessageBox.Show($"SUCCESSFULY ADDED STATION! \nThe new station is:\n" + Station.ToString(), "Successfuly Added",
+                               MessageBoxButton.OK);
+                            switch (result2)
+                            {
+                                case MessageBoxResult.OK:
+                                    _close = true;
+                                    this.Close();//closes current window after station was added
+                                    break;
+                            }
+                            break;
+                        case MessageBoxResult.Cancel://if user presses cancel
+                            Station = new();//scrathes fields
+                            DataContext = Station;//updates event
+                            break;
+                    }
+                }
+                catch (FailedToAddException ex)
+                {
+                    var errorMessage = MessageBox.Show("Failed to add station: " + ex.GetType().Name + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                    switch (errorMessage)
+                    {
+                        case MessageBoxResult.OK:
+                            Station = new();
+                            DataContext = Station;
+                            break;
+                    }
+                }
+                catch (InvalidInputException ex)
+                {
+                    var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                    switch (errorMessage)
+                    {
+                        case MessageBoxResult.OK:
+                            IdTxtAdd.Text = "";
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    var errorMessage = MessageBox.Show("Failed to add station: " + "\n" + "You need to enter information for all the given fields", "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
+                    switch (errorMessage)
+                    {
+                        case MessageBoxResult.OK:
+                            Station = new();
+                            DataContext = Station;
+                            break;
+                    }
+                }
+                catch (MissingInfoException ex)
+                {
+                    var message = MessageBox.Show("Failed to add the station: \n" + ex.Message, "Failed To Add",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    switch (message)
+                    {
+                        case MessageBoxResult.OK:
+                            break;
+                    }
+                }
+            }
+            if ((string)StationButton.Content == "Update Station")
+            {
+                var result1 = MessageBox.Show($"Are you sure you would like to update this station? \n", "Request Review",
+               MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                string oldName = StationListWindow.CurrentStation.Name;
+                try
+                {
+                    switch (result1)
+                    {
+                        case MessageBoxResult.OK:
+                            bl.UpdateStation(int.Parse(IdTxtUp.Text), NameTxtAdd.Text, int.Parse(ChargeSlotsTxtUp.Text));//udating chosen station
+                            StationListWindow.CurrentStation.Name = NameTxtAdd.Text;//updating drone name
+                            StationListWindow.CurrentStation.AvailableChargeSlots = int.Parse(ChargeSlotsTxtUp.Text) - StationListWindow.CurrentStation.OccupiedChargeSlots;
+                            StationListWindow.RefreshStations();
+                            MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The stations new name is {NameTxtAdd.Text}, and new amount of charge slots is {ChargeSlotsTxtUp.Text}", "Successfuly Updated", MessageBoxButton.OK);
+                            break;
+                        case MessageBoxResult.Cancel:
+                            NameTxtAdd.Text = oldName;
+                            ChargeSlotsTxtUp.Text = "";
+                            break;
+                    }
+                }
+                catch (ItemDoesNotExistException ex)
+                {
+                    var errorMessage = MessageBox.Show("Failed to update station: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                    switch (errorMessage)
+                    {
+                        case MessageBoxResult.OK:
+                            NameTxtAdd.Text = "";
+                            ChargeSlotsTxtUp.Text = "";
+                            break;
+                    }
+                }
+            }
         }
     }
 }
