@@ -11,10 +11,10 @@ namespace BL
     {
         public void AddParcel(Parcel newParcel)
         {
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
-                throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
-            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
-                throw new InvalidInputException("The identification number of target should be 9 digits long\n");
+            //if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
+            //    throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
+            //if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
+            //    throw new InvalidInputException("The identification number of target should be 9 digits long\n");
             if (newParcel.Weight != WeightCategories.Easy && newParcel.Weight != WeightCategories.Medium && newParcel.Weight != WeightCategories.Heavy)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
             if (newParcel.Priority != Priorities.Normal && newParcel.Priority != Priorities.Fast && newParcel.Priority != Priorities.Emergency)//if 1,2 or 3 were inputted

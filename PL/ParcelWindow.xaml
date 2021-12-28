@@ -47,7 +47,7 @@
                 <Label x:Name="TargetNameLbl" Content="Target Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Height="39" Width="123" Foreground="#FFD57B7B" />
                 <Label x:Name="SenderNameLbl" Content="Sender Name" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"  />
 
-                <Grid x:Name="GridParcelADD" Visibility="Visible" Grid.Column="1" Grid.RowSpan="5">
+                <Grid x:Name="GridParcelADD" Visibility="Collapsed" Grid.Column="1" Grid.RowSpan="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -59,8 +59,8 @@
                     <TextBox x:Name="IdTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="0" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
                     <ComboBox x:Name="PriorityADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Priority, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                     <ComboBox x:Name="WeightADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding  Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TargetName, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding SenderName, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Target.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sender.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
                 </Grid>
 
                
