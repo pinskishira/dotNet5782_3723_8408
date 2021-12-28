@@ -54,7 +54,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
+        <Grid x:Name="GridUpdateDrone" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>
@@ -118,6 +118,14 @@
                 <TextBox x:Name="LongitutdeSenderTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.CollectionLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="LatitudeTargetTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="5" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="LongitutdeTargetTextBoxUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding ParcelInTransfer.DeliveryDestination.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="6" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+
+                <Button x:Name ="ShowMore" Content="Show More" Grid.Column="5"  Background="#FF44BBF7" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Click="ShowMore_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius"  Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </Grid>
 
 

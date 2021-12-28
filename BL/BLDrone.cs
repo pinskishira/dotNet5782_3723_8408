@@ -146,17 +146,13 @@ namespace BL
                 drone.CurrentLocation.Longitude = station.Longitude;//upating location
                 drone.CurrentLocation.Latitude = station.Latitude;
                 drone.DroneStatus = DroneStatuses.Maintenance;
-                DroneToList droneToList = new DroneToList();//new drone to list
-                droneToList.CurrentLocation = new Location();
+                DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding drone using inputted id
                 drone.CopyPropertiesTo(droneToList);//converting drone -> droneToList
                 droneToList.CurrentLocation = CopyLocation(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
                 if (drone.ParcelInTransfer != null)
                     droneToList.ParcelIdInTransfer = drone.ParcelInTransfer.Id;
                 else
                     droneToList.ParcelIdInTransfer = 0;
-                int indexDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == droneToList.Id);//finds drone
-                BlDrones[indexDroneToList] = droneToList;//updated droneToList
-                //updates that the charging slots decreased and also adds the drone to the list of drones in the charge
                 dal.UpdateSendDroneToChargingStation(drone.Id, station.Name);
             }
             catch (DO.ItemExistsException ex)
@@ -185,8 +181,6 @@ namespace BL
                     droneToList.Battery += batteryCharge;
                 droneToList.DroneStatus = DroneStatuses.Available;//drone is now available
                 dal.DroneReleaseFromChargingStation(idDrone);//sending to update in dal
-                //int indexOfDroneToList = BlDrones.FindIndex(indexOfDroneToList => indexOfDroneToList.Id == idDrone);//finding index
-                //BlDrones[indexOfDroneToList] = droneToList;//inputs updated droneToList
             }
             catch (InvalidOperationException)
             {

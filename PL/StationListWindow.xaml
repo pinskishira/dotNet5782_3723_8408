@@ -27,17 +27,18 @@
                 </LinearGradientBrush>
             </Grid.Background>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="AvailableChargeSlots" SelectionChanged="AvailableChargeSlots_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="0" Margin="10,26,27,10" />
-            <Label  Content="List Of Stations" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" FontFamily="Britannic Bold" Foreground="White" FontSize="36"  Grid.Column="1"/>
-            <Label Content="Sort Station's Charge Slots by:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="17" Grid.Column="0" Width="240"/>
+            <Button x:Name="refersh" Width="50" Height="50" Click="refersh_Click">
+                <Image Source="Pictures/refresh.png"/>
+            </Button>
+            <Label  Content="List Of Stations" HorizontalAlignment="Center" VerticalAlignment="Top" Height="61" FontFamily="Britannic Bold" Foreground="White" FontSize="48"  Grid.Column="1" Margin="0,-1,0,0"/>
             <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" Foreground="White" Grid.Column="2" Height="49" Width="219"/>
         </Grid>
         <ListView
-            x:Name ="StationListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="StationListView_SelectionChanged" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" >
+            x:Name ="StationListView" Grid.Row="1" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" SelectionChanged="StationListView_SelectionChanged">
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.5"/>
             </ListView.Background>

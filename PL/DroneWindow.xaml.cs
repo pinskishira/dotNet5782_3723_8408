@@ -25,7 +25,7 @@ namespace PL
         /// </summary>
         /// <param name="ibl">Access to BL</param>
         /// <param name="droneListWindow">Access to Drone List Window</param>
-        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow, int i = 0)
+        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow)
         {
             InitializeComponent();
             bl = ibl;
@@ -42,20 +42,23 @@ namespace PL
         /// </summary>
         /// <param name="ibl">Access to BL</param>
         /// <param name="droneListWindow">Access to Drone List Window</param>
-        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow)
+        public DroneWindow(BlApi.Ibl ibl, DroneListWindow droneListWindow, int idDrone = 0)
         {
             InitializeComponent();
             bl = ibl;
-            DroneListWindow = droneListWindow;//access to drone list
+            if (DroneListWindow != null)
+                DroneListWindow = droneListWindow;//access to drone list
             GridUpdateDrone.Visibility = Visibility.Visible;//showing grid of fields needed for updating a drone
-            Drone = ibl.GetDrone(DroneListWindow.CurrentDrone.Id);//getting drone with this id
+            if (idDrone == 0)
+                Drone = ibl.GetDrone(DroneListWindow.CurrentDrone.Id);//getting drone with this id
+            else
+                Drone = ibl.GetDrone(idDrone);//getting drone with this id
             DataContext = Drone;//updating event
             Drone visibleDroneButton = Drone;//equals chosen drone to update
             if (Drone.ParcelInTransfer == null)//if its got no parcel assigned to it
             {
                 GridParcelInTransfer.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
             }
-
             if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Available)//if drone status is - available
             {
                 ChargeDroneUD.Content = "Send Drone to Charging";//input button content
@@ -112,15 +115,10 @@ namespace PL
                         else
                             DroneListWindow.droneToLists.Add(SAndW, bl.GetAllDrones().Where(x => x.Id == Drone.Id).ToList());
                         DroneListWindow.Selection();
-                        var result2 = MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
-                           MessageBoxButton.OK);
-                        switch (result2)
-                        {
-                            case MessageBoxResult.OK:
-                                _close = true;
-                                this.Close();//closes current window after drone was added
-                                break;
-                        }
+                        MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
+                          MessageBoxButton.OK);
+                        _close = true;
+                        this.Close();//closes current window after drone was added
                         break;
                     case MessageBoxResult.Cancel://if user presses cancel
                         Drone = new();//scrathes fields
@@ -191,14 +189,15 @@ namespace PL
         {
             var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "Request Review",
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            string oldName = DroneListWindow.CurrentDrone.Model;
+            string oldName = ModelTxtUD.Text;
+            oldName = DroneListWindow.CurrentDrone.Model;
             try
             {
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
                         bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);//udating chosen drone
-                        DroneListWindow.DronesListView.Items.Refresh();
+                        DroneListWindow.Selection();
                         MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         break;
@@ -315,8 +314,6 @@ namespace PL
                     var request = MessageBox.Show($"Are you sure you would like to send drone to charge? \n", "Request Review",
                    MessageBoxButton.OKCancel, MessageBoxImage.Question);
                     bl.SendDroneToChargingStation(int.Parse(IDTxtUD.Text));//send drone to charging - updating in bl
-                    DataContext = bl.GetDrone(Drone.Id);
-                    DroneListWindow.DronesListView.Items.Refresh();
                     DroneStatusChangeUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
                     ChargeDroneUD.Content = "Release Drone from Charging";//changing to button content to fit past update
                     MessageBox.Show($"SUCCESSFULY SENT DRONE TO CHARGE! \n", "Successfuly Updated", MessageBoxButton.OK);
@@ -328,8 +325,6 @@ namespace PL
                         var request = MessageBox.Show($"Are you sure you would like to release drone from charge? \n", "Request Review",
                     MessageBoxButton.OKCancel, MessageBoxImage.Question);
                         bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));//release drone from charging - updating in bl
-                        DataContext = bl.GetDrone(Drone.Id);
-                        DroneListWindow.DronesListView.Items.Refresh();
                         DroneStatusChangeUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
                         ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
                         DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
@@ -337,6 +332,8 @@ namespace PL
                         MessageBoxButton.OK);
                     }
                 }
+                DataContext = bl.GetDrone(Drone.Id);
+                DroneListWindow.Selection();
             }
             catch (DroneMaintananceException ex)
             {
@@ -349,6 +346,13 @@ namespace PL
             }
         }
 
+        private void ShowMore_Click(object sender, RoutedEventArgs e)
+        {
+            //parcel droneListWindow = new DroneListWindow(bl);
+            //DroneInCharging droneInCharging;
+            //droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
+            //new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
+        }
     }
 
 }

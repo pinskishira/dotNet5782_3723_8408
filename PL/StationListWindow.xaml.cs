@@ -17,44 +17,31 @@ using System.Windows.Shapes;
 
 namespace PL
 {
-    public enum ChargeSlots { Available, Occupied, All };
-
     /// <summary>
     /// Interaction logic for StationListWindow.xaml
     /// </summary>
     public partial class StationListWindow : Window
     {
         BlApi.Ibl bl;
-        public ObservableCollection<StationToList> stationToLists;
+        public Dictionary<int, List<StationToList>> stationToLists;
         public StationToList CurrentStation { get; set; } = new();
         private bool _close { get; set; } = false;
         public StationListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
             bl = ibl;
-            stationToLists = new ObservableCollection<StationToList>();
-            List<StationToList> tempStationToList = bl.GetAllStations().ToList();//getting list of stations from bl
-            foreach (var indexOfStationToList in tempStationToList)//going through list and inserting it into statin to list of type ObservableCollection
-            {
-                stationToLists.Add(indexOfStationToList);
-            }
-            StationListView.ItemsSource = stationToLists;
-            AvailableChargeSlots.ItemsSource = System.Enum.GetValues(typeof(ChargeSlots));//enum values of charge slots
-            AvailableChargeSlots.SelectedIndex = 2;//prints full list
-            stationToLists.CollectionChanged += StationToLists_CollectionChanged;//updating event 
+            stationToLists = new Dictionary<int, List<StationToList>>();
+            IEnumerable<StationToList> temp = bl.GetAllStations();
+            stationToLists = (from item in bl.GetAllStations()
+                              group item by item.AvailableChargeSlots).ToDictionary(x => x.Key, x => x.ToList());
+            RefreshStations();
         }
 
-        private void StationToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public void RefreshStations()
         {
-            Selection();
-        }
-        private void Selection()
-        {
-        }
-
-        private void AvailableChargeSlots_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Selection();
+            StationListView.ItemsSource = from item in stationToLists.Values.SelectMany(x => x)
+                                          orderby item.AvailableChargeSlots
+                                          select item;
         }
 
         private void window_closeing(object sender, CancelEventArgs e)
@@ -72,17 +59,25 @@ namespace PL
             this.Close();
         }
 
-        private void StationListView_SelectionChanged(object sender, MouseButtonEventArgs e)
-        {
-           CurrentStation = (StationToList)StationListView.SelectedItem;
-           if (CurrentStation != null)
-               new StationWindow(bl, this).Show();
-        }
+
         private void AddStationButton_Click(object sender, RoutedEventArgs e)
         {
             new StationWindow(bl, this, 5).Show();
         }
 
-        
+        private void StationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentStation = (StationToList)StationListView.SelectedItem;
+            if (CurrentStation != null)
+                new StationWindow(bl, this).Show();
+        }
+
+        private void refersh_Click(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<StationToList> temp = bl.GetAllStations();
+            stationToLists = (from item in bl.GetAllStations()
+                              group item by item.AvailableChargeSlots).ToDictionary(x => x.Key, x => x.ToList());
+            RefreshStations();
+        }
     }
 }
