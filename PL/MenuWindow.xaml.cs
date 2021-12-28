@@ -45,5 +45,10 @@ namespace PL
         {
             new CustomerListWindow(bl).Show();
         }
+
+        private void ShowParcelButtonClick_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelListWindow(bl).Show();
+        }
     }
 }

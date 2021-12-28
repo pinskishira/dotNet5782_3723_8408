@@ -5,6 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ParcelListWindow" Height="450" Width="800">
-  
+        Title="" Height="450" Width="800">
+    <Grid>
+
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFD57B7B" Offset="0.406"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="250*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+         VerticalAlignment="Stretch" Width="auto">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD57B7B" Offset="0.406"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="List Of&#10; Parcels" HorizontalAlignment="Center" VerticalAlignment="Top" Height="68" FontFamily="Britannic Bold" Foreground="White" FontSize="25" />
+            <Label Content="Sort by Weight:" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="20" Grid.Column="1"/>
+            <Label Content="Sort by Priority:" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="20" Grid.Column="2"/>
+            <Label Content="Sort by Status:" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="20" Grid.Column="3"/>
+            <ComboBox x:Name="WeightSelection" SelectionChanged="WeightSelection_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="1" Margin="9,32,11,4" />
+            <ComboBox x:Name="PrioritiesSelection" SelectionChanged="PrioritiesSelector_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="2" Margin="9,32,11,4" />
+            <ComboBox x:Name="StatusSelection" SelectionChanged="StatusSelection_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Grid.Column="3" Margin="9,32,11,4" />
+            <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="20" Click="CloseWindowButton_Click" Foreground="White" Grid.Column="4" Height="49" Width="140"/>
+        </Grid>
+        <ListView
+            x:Name ="ParcelsListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="ParcelsListView_SelectionChanged" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" >
+            <ListView.Background>
+                <ImageBrush ImageSource="Pictures\parcelPic.jpeg" Opacity="0.5"/>
+            </ListView.Background>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\station.png" Width="30"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="130"/>
+                    <GridViewColumn Header="Sender Name" DisplayMemberBinding="{Binding  SenderName}" Width="130"/>
+                    <GridViewColumn Header="Target Name" DisplayMemberBinding="{Binding TargetName}" Width="130"/>
+                    <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Weight}" Width="100"/>
+                    <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}" Width="100"/>
+                    <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding StateOfParcel}" Width="150"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <Button x:Name="AddParcelButton" Content="Add New Parcel" Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="4,4,4,3.8" BorderBrush="#FFD57B7B" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" HorizontalAlignment="Stretch" Click="AddParcelButton_Click"/>
+    </Grid>
 </Window>
+

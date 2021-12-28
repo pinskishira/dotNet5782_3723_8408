@@ -220,7 +220,7 @@ namespace BL
             }
             catch (InvalidOperationException)
             {
-                throw new ParcelDeliveryException("Does not exist.\n");
+                throw new ParcelDeliveryException("Parcel does not exist.\n");
             }
             catch (DO.ItemDoesNotExistException ex)
             {

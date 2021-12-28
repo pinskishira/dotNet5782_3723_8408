@@ -51,6 +51,10 @@ namespace PL
             CustomerButton.Content = "Update Customer";
             GridCustomerBoth.Visibility = Visibility.Visible;
             GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
+            if(Customer.ParcelsFromCustomers.Count() != 0)
+                ShowParcelsFromCustomer.Visibility = Visibility.Visible;
+            if(Customer.ParcelsToCustomers.Count() != 0)
+                ShowParcelsToCustomer.Visibility = Visibility.Visible;
             Customer = ibl.GetCustomer(CustomerListWindow.CurrentCustomer.Id);//getting station with this id
             DataContext = Customer;//updating event
         }
@@ -200,6 +204,16 @@ namespace PL
         {
             _close = true;
             this.Close();
+        }
+
+        private void ShowParcelsToCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            ViewParcelsToCustomer.Visibility = Visibility.Visible;
+        }
+
+        private void ShowParcelsFromCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            ViewParcelsFromCustomer.Visibility = Visibility.Visible;
         }
     }
 

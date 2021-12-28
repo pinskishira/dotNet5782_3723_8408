@@ -90,8 +90,16 @@
                 <TextBox x:Name="LongituteTxtUp" IsReadOnly="True"  HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="140" Height="30" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB79393" BorderThickness="2,2,2,2" Margin="0,8,0,0"/>
                 <TextBox x:Name="ChargeSlotsTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="140" Height="30" Grid.Column="2" Grid.Row="3"  BorderBrush="#FFFA0C4D" BorderThickness="4,4,4,4"/>
 
-                <ListView x:Name="DronesInCharging" Visibility="Visible" Grid.Column="3" Margin="23,22,29,21" Grid.RowSpan="3" Grid.Row="1"
-                          Background="#FFFA0C4D" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
+                <Button x:Name ="ViewDronesInCharging" Content="View Drones In Charging" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius"  Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                
+                <ListView x:Name="DronesInCharging" Visibility="Collapsed" Grid.Column="3" Margin="23,22,29,21" Grid.RowSpan="3" Grid.Row="1"
+                          Background="Transparent" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id Of Drone" DisplayMemberBinding="{Binding DronesInCharging.Id}" Width="150"/>
@@ -105,13 +113,7 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
                 
-                <Button x:Name ="ViewDronesInCharging" Content="View Drones In Charging" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius"  Value="50"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+               
 
                 <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.ColumnSpan="4" Width="auto" Margin="0,44,0,0">
                     <Button x:Name="UpdateStationButtonUD" Content="Update Station" Visibility="Visible" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}" Width="400" FontFamily="Britannic Bold" FontSize="24" Background="#FFFA0C4D" Height="45" Click="UpdateStationButtonUD_Click" VerticalAlignment="Bottom"/>

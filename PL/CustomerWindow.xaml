@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="CustomerWindow" Height="600" Width="850">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -34,6 +33,22 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
+
+                <Button x:Name ="ShowParcelsToCustomer" Content="Show Parcels To Customer" Grid.Row="3" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ShowParcelsToCustomer_Click" >
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius"  Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name ="ShowParcelsFromCustomer" Content="Show Parcels From Customer" Grid.Row="0" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ShowParcelsFromCustomer_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius"  Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
 
                 <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" BorderBrush="#00000000"/>
                 <Label x:Name="NameLbl" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" />
@@ -71,16 +86,9 @@
                     <TextBlock x:Name="LatitudeTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Margin="0,41,0,0"/>
                     <TextBlock x:Name="LongituteTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4"/>
 
-                    <!--<Button x:Name ="ShowParcelsFromCustomer" Content="View Parcels From Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">-->
-                        <!--<Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius"  Value="50"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>-->
-                    
-                    <ListView x:Name="ParcelsFromCustomer" Visibility="Visible" Margin="153,81,-447,2" Grid.RowSpan="3"
-                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
+
+                    <ListView x:Name="ViewParcelsFromCustomer" Visibility="Collapsed" Margin="153,5,-447,2" Grid.RowSpan="2"
+                          Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="1" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
@@ -98,15 +106,7 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
 
-                    <!--<Button x:Name ="ShowParcelsToCustomer" Content="View Parcels To Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius"  Value="50"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>-->
-                    
-                    <ListView x:Name="ParcelsToCustomer" Visibility="Visible" Margin="153,81,-447,-1" Grid.RowSpan="3"
+                    <ListView x:Name="ViewParcelsToCustomer" Visibility="Collapsed" Margin="153,89,-447,0" Grid.RowSpan="3"
                           Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="3" >
                         <ListView.View>
                             <GridView>
@@ -129,9 +129,8 @@
             </Grid>
             <Grid Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Bottom" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="425*"/>
-                    <ColumnDefinition Width="28*"/>
-                    <ColumnDefinition Width="397*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="CustomerButton" Grid.Column="0" Visibility="Visible" Content="Add Customer" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6" Click="UpdateCustomerButtonUD_Click"/>
                 <Button x:Name="CancelButton" Grid.Column="1" Visibility="Visible" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFB64DE6"  Click="CancelButtonUD_Click" Grid.ColumnSpan="2" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +13,159 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BO;
+using BlApi;
 
 namespace PL
 {
+    public struct StatusWeightAndPriorities
+    {
+        public BO.Enum.WeightCategories weight { get; set; }
+        public BO.Enum.ParcelState status { get; set; }
+        public BO.Enum.Priorities priorities { get; set; }
+    }
+
+    public enum WeightCategoriesParcel { Easy, Medium, Heavy, All };
+    public enum Priorities { Normal, Fast, Emergency, All };
+    public enum ParcelState { Created, Paired, PickedUp, Provided, All};
     /// <summary>
     /// Interaction logic for ParcelListWindow.xaml
     /// </summary>
     public partial class ParcelListWindow : Window
     {
-        public ParcelListWindow()
+        BlApi.Ibl bl;
+        public ParcelToList CurrentParcel { get; set; } = new();
+        public Dictionary<StatusWeightAndPriorities, List<ParcelToList>> Parcels;
+        private bool _close { get; set; } = false;
+
+        public ParcelListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
+            bl = ibl;
+            Parcels = new Dictionary<StatusWeightAndPriorities, List<ParcelToList>>();
+            Parcels = (from item in bl.GetAllParcels()
+                       group item by
+                       new StatusWeightAndPriorities()
+                       {
+                           status = item.StateOfParcel,
+                           weight = item.Weight,
+                           priorities = item.Priority,
+                       }).ToDictionary(item => item.Key, item => item.ToList());
+
+            ParcelsListView.ItemsSource = Parcels.SelectMany(item => item.Value);//to show all the drones 
+            StatusSelection.ItemsSource = System.Enum.GetValues(typeof(ParcelState));
+            WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));
+            PrioritiesSelection.ItemsSource = System.Enum.GetValues(typeof(Priorities));
+            StatusSelection.SelectedIndex = 4;//no filter
+
+        }
+
+        /// <summary>
+        /// filters the list of drones that was enterd according to what was filtterd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StatusSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();//to show the list according to the filter that was enterd
+        }
+
+        /// <summary>
+        ///  filters the list of drones that was enterd according to what was filtterd
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WeightSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();// to show the list according to the filter that was enterd
+        }
+
+        private void PrioritiesSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Selection();
+        }
+
+        /// <summary>
+        /// shows the list according to the filter that the user disided
+        /// </summary>
+        private void Selection()
+        {
+            ParcelState pStatus = (ParcelState)StatusSelection.SelectedItem;
+            if (WeightSelection.SelectedIndex == -1)//meens no filter was chosen
+                WeightSelection.SelectedIndex = 3;//no filter-shows all the drones
+            if (PrioritiesSelection.SelectedIndex == -1)
+                PrioritiesSelection.SelectedIndex = 3;
+            Priorities pPriorities = (Priorities)PrioritiesSelection.SelectedItem;
+            WeightCategories dWeight = (WeightCategories)WeightSelection.SelectedItem;
+            //if no filter was chosen-show the all list
+            if (pStatus == ParcelState.All && dWeight == WeightCategories.All && pPriorities == Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Values.SelectMany(item => item);//to show the all list
+            //if only he wants to filter the weight category
+            if (pStatus == ParcelState.All && dWeight == WeightCategories.All && pPriorities != Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.priorities == (BO.Enum.Priorities)PrioritiesSelection.SelectedItem).SelectMany(item => item.Value);
+            //if only he wants to filter the statuse category
+            if (pStatus == ParcelState.All && dWeight != WeightCategories.All && pPriorities == Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem).SelectMany(item => item.Value);
+            //if  he wants to filter both the weight category and the status category
+            if (pStatus != ParcelState.All && dWeight == WeightCategories.All && pPriorities == Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.status == (BO.Enum.ParcelState)StatusSelection.SelectedItem).SelectMany(item => item.Value);
+            if (pStatus == ParcelState.All && dWeight != WeightCategories.All && pPriorities != Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.priorities == (BO.Enum.Priorities)PrioritiesSelection.SelectedItem && item.Key.weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem).SelectMany(item => item.Value);
+            //if only he wants to filter the statuse category
+            if (pStatus != ParcelState.All && dWeight == WeightCategories.All && pPriorities != Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.priorities == (BO.Enum.Priorities)PrioritiesSelection.SelectedItem && item.Key.status == (BO.Enum.ParcelState)StatusSelection.SelectedItem).SelectMany(item => item.Value);
+            if (pStatus != ParcelState.All && dWeight != WeightCategories.All && pPriorities == Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem && item.Key.status == (BO.Enum.ParcelState)StatusSelection.SelectedItem).SelectMany(item => item.Value);
+            if (pStatus != ParcelState.All && dWeight != WeightCategories.All && pPriorities != Priorities.All)
+                ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.weight == (BO.Enum.WeightCategories)WeightSelection.SelectedItem && item.Key.priorities == (BO.Enum.Priorities)PrioritiesSelection.SelectedItem && item.Key.status == (BO.Enum.ParcelState)StatusSelection.SelectedItem).SelectMany(item => item.Value);
+            ParcelsListView.Items.Refresh();
+        }
+
+        /// <summary>
+        /// to add a new drone to the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddParcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            new ParcelWindow(bl, this, 5).Show();
+        }
+
+        /// <summary>
+        /// t opresent the drone that the mous double clicked  on
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ParcelsListView_SelectionChanged(object sender, MouseButtonEventArgs e)
+        {
+            CurrentParcel = (ParcelToList)ParcelsListView.SelectedItem;
+            if (CurrentParcel != null)
+                new ParcelWindow(bl, this).Show();
+        }
+
+        /// <summary>
+        /// to not be able to close the window with the x on the top
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WindowClose(object sender, CancelEventArgs e)
+        {
+            if (!_close)
+            {
+                e.Cancel = true;
+                MessageBox.Show("You can't force the window to close");
+            }
+        }
+
+        /// <summary>
+        /// to close the window of the drones list 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            _close = true;
+            Close();
         }
     }
 }

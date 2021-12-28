@@ -32,11 +32,10 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         BlApi.Ibl bl;
-        // public ObservableCollection<IGrouping<DroneStatusesAndWeightCategories, DroneToList>> droneToLists;
         public Dictionary<DroneStatusesAndWeightCategories, List<DroneToList>> droneToLists;
         public DroneToList CurrentDrone { get; set; } = new();
         private bool _close { get; set; } = false;
-        //public IGrouping<DroneStatusesAndWeightCategories, DroneToList> currentGroupingDrones;
+
         /// <summary>
         /// Initializes the list of all the drones
         /// </summary>
