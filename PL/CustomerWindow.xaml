@@ -93,8 +93,8 @@
                             </Style>
                         </Button.Resources>
                     </Button>-->
-                    
-                    <ListView x:Name="ParcelsFromCustomer" Visibility="Collapsed" Margin="153,81,-447,2" Grid.RowSpan="3"
+
+                    <ListView x:Name="ViewParcelsFromCustomer" Visibility="Collapsed" Margin="153,81,-447,2" Grid.RowSpan="3"
                           Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
                         <ListView.View>
                             <GridView>
@@ -120,8 +120,8 @@
                             </Style>
                         </Button.Resources>
                     </Button>-->
-                    
-                    <ListView x:Name="ParcelsToCustomer" Visibility="Collapsed" Margin="153,81,-447,-1" Grid.RowSpan="3"
+
+                    <ListView x:Name="ViewParcelsToCustomer" Visibility="Collapsed" Margin="153,81,-447,-1" Grid.RowSpan="3"
                           Background="Transparent"  Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Row="3" >
                         <ListView.View>
                             <GridView>
