@@ -91,12 +91,12 @@
                           Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="ViewParcelsFromCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
-                            <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding ParcelsFromCustomers.Weight}" Width="150"/>
-                            <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding ParcelsFromCustomers.Priority}" Width="150"/>
-                            <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.StateOfParcel}" Width="150"/>
-                            <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Id}" Width="150"/>
-                            <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Name}" Width="150"/>
+                            <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding Id}" Width="150"/>
+                            <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Weight}" Width="150"/>
+                            <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}" Width="150"/>
+                            <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding StateOfParcel}" Width="150"/>
+                            <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding SourceOrDestination.Id}" Width="150"/>
+                            <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding SourceOrDestination.Name}" Width="150"/>
                         </GridView>
                     </ListView.View>
                     <ListView.ItemContainerStyle>

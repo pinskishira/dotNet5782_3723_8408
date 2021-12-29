@@ -141,7 +141,7 @@ namespace PL
         {
             CurrentParcel = (ParcelToList)ParcelsListView.SelectedItem;
             if (CurrentParcel != null)
-                new ParcelWindow(bl, this,0).Show();
+                new ParcelWindow(bl, this, 0).Show();
         }
 
         private void window_closeing(object sender, CancelEventArgs e)
@@ -168,13 +168,19 @@ namespace PL
         {
             FrameworkElement framework = sender as FrameworkElement;
             CurrentParcel = framework.DataContext as ParcelToList;
-            bl.DeleteParcel(CurrentParcel.Id);
-            StatusWeightAndPriorities sAndWAndP=new();
-            sAndWAndP.priorities = CurrentParcel.Priority;
-            sAndWAndP.weight = CurrentParcel.Weight;
-            sAndWAndP.status = CurrentParcel.StateOfParcel;
-            Parcels[sAndWAndP].RemoveAll(i => i.Id == CurrentParcel.Id);
-            Selection();
+            if (CurrentParcel.StateOfParcel == BO.Enum.ParcelState.Created)
+            {
+                bl.DeleteParcel(CurrentParcel.Id);
+                StatusWeightAndPriorities sAndWAndP = new();
+                sAndWAndP.priorities = CurrentParcel.Priority;
+                sAndWAndP.weight = CurrentParcel.Weight;
+                sAndWAndP.status = CurrentParcel.StateOfParcel;
+                Parcels[sAndWAndP].RemoveAll(i => i.Id == CurrentParcel.Id);
+                Selection();
+            }
+            else
+                MessageBox.Show("can not delete parcel:\n","e",MessageBoxButton.OK);
+
         }
     }
 }

@@ -48,10 +48,15 @@
                 <ComboBox x:Name="NumOfStationTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=NumOfStation, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
 
             </Grid>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button x:Name="AddDroneButtonAdd" Visibility="Visible" Content="Add Drone" Width="400" Click="AddDroneButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
-                <Button x:Name="CloseWidowButtonAdd" Visibility="Visible" Content="Close" Width="400" Click="CloseWidowButtonAdd_Click" Background="#FF44BBF7" FontFamily="Britannic Bold" FontSize="24"/>
-            </StackPanel>
+
+            <Grid Grid.Row="5"  Grid.ColumnSpan="7" VerticalAlignment="Bottom" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="AddDroneButtonAdd" Grid.Column="0" Visibility="Visible" Content="Add Drone" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="AddDroneButtonAdd_Click"/>
+                <Button x:Name="CloseWidowButtonAdd" Grid.Column="2" Content="Close" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7"  Grid.ColumnSpan="2" Click="CloseWidowButtonAdd_Click" />
+            </Grid>
         </Grid>
 
         <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
@@ -160,15 +165,24 @@
                 <TextBox x:Name="LatitudeTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding CurrentLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="6" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="LongitutdeTxtUD" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" Text="{Binding CurrentLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="7" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
             </Grid>
-
-
-
             <StackPanel Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
                 <Button x:Name="DroneStatusChangeUD" Visibility="Visible" Content="" Width="200" Click="DroneStatusChangeUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
                 <Button x:Name="ChargeDroneUD" Visibility="Visible" Content="" Width="200" Click="ChargeDroneUD_Click" FontFamily="Britannic Bold" FontSize="15" Background="#FF44BBF7"/>
                 <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone Model" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
                 <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
             </StackPanel>
+            <!--<Grid Grid.Row="5"  Grid.ColumnSpan="3" VerticalAlignment="Bottom" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="DroneStatusChangeUD" Grid.Column="0" Visibility="Visible" Content=""  FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="DroneStatusChangeUD_Click"/>
+                <Button x:Name="ChargeDroneUD" Grid.Column="1" Content="" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="UpdateDroneButtonUD_Click" />
+                <Button x:Name="UpdateDroneButtonUD" Grid.Column="2" Visibility="Visible" Content="Update Drone Model" FontFamily="Britannic Bold" FontSize="22" Background="#FF44BBF7" Click="ChargeDroneUD_Click"/>
+                <Button x:Name="CancelButtonUD" Grid.Column="3" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="DroneStatusChangeUD_Click" />
+            </Grid>-->
         </Grid>
     </Grid>
 </Window>
