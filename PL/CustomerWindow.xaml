@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CustomerWindow" Height="600" Width="850">
+        Title="CustomerWindow" Height="600" Width="850"  Closing="window_closeing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
