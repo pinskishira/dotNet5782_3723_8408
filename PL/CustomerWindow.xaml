@@ -34,7 +34,7 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name ="ShowParcelsToCustomer" Content="Show Parcels To Customer" Grid.Row="3" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Visible" Click="ShowParcelsToCustomer_Click" Height="40" Width="400" >
+                <Button x:Name ="ShowParcelsToCustomer" Content="Show Parcels To Customer" Grid.Row="3" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ShowParcelsToCustomer_Click" Height="40" Width="400" >
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius"  Value="50"/>
@@ -42,7 +42,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button x:Name ="ShowParcelsFromCustomer" Content="Show Parcels From Customer" Grid.Row="0" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Visible" Click="ShowParcelsFromCustomer_Click" Height="40" Width="400">
+                <Button x:Name ="ShowParcelsFromCustomer" Content="Show Parcels From Customer" Grid.Row="0" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ShowParcelsFromCustomer_Click" Height="40" Width="400">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius"  Value="50"/>
@@ -59,7 +59,7 @@
                 <TextBox x:Name="NameTxt" ToolTip="Enter Name" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="PhoneTxt" ToolTip="Enter Phone Number" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
 
-                <Grid x:Name="GridCustomerADD" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerADD" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -73,7 +73,7 @@
                     <TextBox x:Name="LongituteTxtADD" ToolTip="Enter longitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 </Grid>
 
-                <Grid x:Name="GridCustomerUP" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerUP" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
