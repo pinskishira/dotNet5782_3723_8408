@@ -140,10 +140,6 @@ namespace PL
             }
         }
 
-        private void Image_MouseEnter(object sender, MouseEventArgs e)
-        {
-            FrameworkElement framework = sender as FrameworkElement;
-            CurrentDrone = framework.DataContext as DroneToList;
-        }
+        
     }
 }

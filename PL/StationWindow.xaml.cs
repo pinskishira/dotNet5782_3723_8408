@@ -198,6 +198,7 @@ namespace PL
                             bl.UpdateStation(int.Parse(IdTxtUp.Text), NameTxtAdd.Text, int.Parse(ChargeSlotsTxtUp.Text));//udating chosen station
                             StationListWindow.CurrentStation.Name = NameTxtAdd.Text;//updating drone name
                             StationListWindow.CurrentStation.AvailableChargeSlots = int.Parse(ChargeSlotsTxtUp.Text) - StationListWindow.CurrentStation.OccupiedChargeSlots;
+                            AvailableChargeSlotsTxtUp.Text = StationListWindow.CurrentStation.AvailableChargeSlots.ToString();
                             StationListWindow.RefreshStations();
                             MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The stations new name is {NameTxtAdd.Text}, and new amount of charge slots is {ChargeSlotsTxtUp.Text}", "Successfuly Updated", MessageBoxButton.OK);
                             break;

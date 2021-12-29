@@ -27,7 +27,7 @@ namespace PL
 
     public enum WeightCategoriesParcel { Easy, Medium, Heavy, All };
     public enum Priorities { Normal, Fast, Emergency, All };
-    public enum ParcelState { Created, Paired, PickedUp, Provided, All};
+    public enum ParcelState { Created, Paired, PickedUp, Provided, All };
     /// <summary>
     /// Interaction logic for ParcelListWindow.xaml
     /// </summary>
@@ -88,7 +88,7 @@ namespace PL
         /// <summary>
         /// shows the list according to the filter that the user disided
         /// </summary>
-        private void Selection()
+        public void Selection()
         {
             ParcelState pStatus = (ParcelState)StatusSelection.SelectedItem;
             if (WeightSelection.SelectedIndex == -1)//meens no filter was chosen
@@ -99,7 +99,10 @@ namespace PL
             WeightCategories dWeight = (WeightCategories)WeightSelection.SelectedItem;
             //if no filter was chosen-show the all list
             if (pStatus == ParcelState.All && dWeight == WeightCategories.All && pPriorities == Priorities.All)
-                ParcelsListView.ItemsSource = Parcels.Values.SelectMany(item => item);//to show the all list
+                //to show the all list
+                ParcelsListView.ItemsSource = from item in Parcels.Values.SelectMany(x => x)
+                                              orderby item.Weight, item.StateOfParcel, item.Priority
+                                              select item;
             //if only he wants to filter the weight category
             if (pStatus == ParcelState.All && dWeight == WeightCategories.All && pPriorities != Priorities.All)
                 ParcelsListView.ItemsSource = Parcels.Where(item => item.Key.priorities == (BO.Enum.Priorities)PrioritiesSelection.SelectedItem).SelectMany(item => item.Value);
@@ -166,6 +169,12 @@ namespace PL
         {
             _close = true;
             Close();
+        }
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //FrameworkElement framework = sender as FrameworkElement;
+            //CurrentDrone = framework.DataContext as DroneToList;
         }
     }
 }
