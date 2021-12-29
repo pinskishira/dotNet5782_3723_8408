@@ -13,7 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridStationBoth" Visibility="Collapsed">
+        <Grid x:Name="GridStationBoth" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -42,7 +42,7 @@
                 <Label x:Name="LatitudeLblAdd" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FFFA0C4D"/>
                 <Label x:Name="AvailableChargeSlotsLblAdd" Content="Available &#10;Charge Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="16" Foreground="#FFFA0C4D"/>
                 <Label x:Name="ChargeSlots" Content="Charge&#10;Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FFFA0C4D"/>
-                <TextBox x:Name="NameTxtAdd" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2" Visibility="Collapsed"/>
+                <TextBox x:Name="NameTxtAdd" ToolTip="Enter Station Name" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
 
                 <Grid x:Name="GridStationADD" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
@@ -53,10 +53,10 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox x:Name="IdTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="LatitudeTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2" Margin="0,36,0,0"/>
-                    <TextBox x:Name="LongituteTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="ChargeSlotsTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="IdTxtAdd" ToolTip="Enter ID" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="LatitudeTxtAdd"  ToolTip="Enter Latitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2" Margin="0,36,0,0"/>
+                    <TextBox x:Name="LongituteTxtAdd" ToolTip="Enter Longitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="ChargeSlotsTxtAdd" ToolTip="Enter Amount of Charge Slots" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
                 </Grid>
                 <Grid x:Name="GridStationUp" Visibility="Collapsed" Grid.Column="2"  Grid.RowSpan="6">
                     <Grid.RowDefinitions>
@@ -68,10 +68,10 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="IdTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" Background="#FFEAEAEA"/>
-                    <TextBlock x:Name="LatitudeTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" Background="#FFEAEAEA"  Margin="0,36,0,0"/>
-                    <TextBlock x:Name="LongituteTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" Background="#FFEAEAEA"/>
+                    <TextBlock x:Name="LatitudeTxtUp"  PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" Background="#FFEAEAEA"  Margin="0,36,0,0"/>
+                    <TextBlock x:Name="LongituteTxtUp"  PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" Background="#FFEAEAEA"/>
                     <TextBlock x:Name="AvailableChargeSlotsTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" Background="#FFEAEAEA" />
-                    <TextBox x:Name="ChargeSlotsTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="25" Grid.Column="3" Grid.Row="5" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="ChargeSlotsTxtUp"  PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="25" Grid.Column="3" Grid.Row="5" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
                 </Grid>
                 <ListView x:Name="DronesInChargingListView" Visibility="Collapsed" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3"
                           Background="#FFFA0C4D" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="DronesInChargingListView_MouseDoubleClick" >
@@ -87,6 +87,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
+                
                 <Button x:Name ="ViewDronesInCharging" Content="View Drones In Charging" Grid.Column="4" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
                     <Button.Resources>
                         <Style TargetType="Border">

@@ -61,7 +61,7 @@
                 </Grid>
 
             </Grid>
-            <Grid x:Name="GridParcelUP" Visibility="Visible" >
+            <Grid x:Name="GridParcelUP" Visibility="Collapsed" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>

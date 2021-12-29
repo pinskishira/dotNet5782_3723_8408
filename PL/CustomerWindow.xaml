@@ -50,14 +50,14 @@
                     </Button.Resources>
                 </Button>
 
-                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="24" FontWeight="Normal" Foreground="Black" BorderBrush="#00000000" FontStyle="Italic"/>
-                <Label x:Name="NameLbl" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="24" FontWeight="Normal" Foreground="Black" FontStyle="Italic" />
-                <Label x:Name="LocationLbl" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Normal" Height="39" Width="105" Foreground="Black" FontStyle="Italic" />
-                <Label x:Name="LongitudeLbl" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Normal" Margin="2,8,0,0" Foreground="Black"  BorderBrush="Black" FontStyle="Italic"/>
-                <Label x:Name="LatitudeLbl" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Normal" Margin="4,38,0,0" Foreground="Black" FontStyle="Italic" />
-                <Label x:Name="PhoneLbl" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Normal" FontSize="24" Foreground="Black" FontStyle="Italic" />
-                <TextBox x:Name="NameTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                <TextBox x:Name="PhoneTxt" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" BorderBrush="#00000000"/>
+                <Label x:Name="NameLbl" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" />
+                <Label x:Name="LocationLbl" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FFB98BCE" />
+                <Label x:Name="LongitudeLbl" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,8,0,0" Foreground="#FFB98BCE"  BorderBrush="Black"/>
+                <Label x:Name="LatitudeLbl" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FFB98BCE" />
+                <Label x:Name="PhoneLbl" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FFB98BCE" />
+                <TextBox x:Name="NameTxt" ToolTip="Enter Name" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="PhoneTxt" ToolTip="Enter Phone Number" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
 
                 <Grid x:Name="GridCustomerADD" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
@@ -68,9 +68,9 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox x:Name="IdTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="LatitudeTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2" Margin="0,41,0,0"/>
-                    <TextBox x:Name="LongituteTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="IdTxtADD" ToolTip="Enter ID" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="LatitudeTxtADD" ToolTip="Enter latitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2" Margin="0,41,0,0"/>
+                    <TextBox x:Name="LongituteTxtADD" ToolTip="Enter longitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 </Grid>
 
                 <Grid x:Name="GridCustomerUP" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
