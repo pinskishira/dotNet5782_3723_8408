@@ -227,5 +227,17 @@ namespace BL
                 throw new ParcelDeliveryException("ERROR.\n", ex);
             }
         }
+
+        public void DeleteParcel(int idParcel)
+        {
+            try
+            {
+                dal.DeleteParcel(idParcel);//delete parcel
+            }
+            catch (DO.ItemDoesNotExistException ex)
+            {
+                throw new ItemDoesNotExistException("ERROR.\n", ex);
+            }
+        }
     }
 }
