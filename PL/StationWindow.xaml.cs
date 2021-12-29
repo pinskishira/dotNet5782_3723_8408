@@ -92,14 +92,6 @@ namespace PL
             this.Close();
         }
 
-        private void DronesInCharging_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DroneListWindow droneListWindow = new DroneListWindow(bl);
-            DroneInCharging droneInCharging;
-            droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
-            new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
-        }
-
         private void StationButton_Click(object sender, RoutedEventArgs e)
         {
             if ((string)StationButton.Content == "Add Station")
@@ -220,6 +212,14 @@ namespace PL
                     }
                 }
             }
+        }
+
+        private void DronesInChargingListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DroneListWindow droneListWindow = new DroneListWindow(bl);
+            DroneInCharging droneInCharging;
+            droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
+            new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
         }
     }
 }

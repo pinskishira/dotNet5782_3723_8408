@@ -74,7 +74,7 @@
                     <TextBox x:Name="ChargeSlotsTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="90" Height="25" Grid.Column="3" Grid.Row="5" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
                 </Grid>
                 <ListView x:Name="DronesInChargingListView" Visibility="Collapsed" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3"
-                          Background="#FFFA0C4D" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" SelectionChanged="DronesInCharging_SelectionChanged" >
+                          Background="#FFFA0C4D" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="DronesInChargingListView_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id Of Drone" DisplayMemberBinding="{Binding Id}" Width="150"/>

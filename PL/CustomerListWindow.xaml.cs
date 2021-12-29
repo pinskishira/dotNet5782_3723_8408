@@ -78,7 +78,7 @@ namespace PL
         {
             CurrentCustomer = (CustomerToList)CustomerListView.SelectedItem;
             if (CurrentCustomer != null)
-                new CustomerWindow(bl, this).Show();
+                new CustomerWindow(bl, this,0).Show();
         }
 
         private void CloseWindowCustomer_Click(object sender, RoutedEventArgs e)
