@@ -131,7 +131,7 @@ namespace PL
         /// <param name="e"></param>
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
-            new ParcelWindow(bl, this, 5).Show();
+            new ParcelWindow(bl, this).Show();
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace PL
         {
             CurrentParcel = (ParcelToList)ParcelsListView.SelectedItem;
             if (CurrentParcel != null)
-                new ParcelWindow(bl, this).Show();
+                new ParcelWindow(bl, this,0).Show();
         }
 
         /// <summary>

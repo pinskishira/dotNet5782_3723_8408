@@ -26,6 +26,7 @@ namespace PL
         BlApi.Ibl bl;
         private ParcelListWindow ParcelListWindow { get; }
         private Parcel Parcel { get; set; } = new();
+        private Customer customer { get; set; } = new();
         private bool _close { get; set; } = false;
         StatusWeightAndPriorities _StatusWeightAndPriorities;
         /// <summary>
@@ -33,7 +34,7 @@ namespace PL
         /// </summary>
         /// <param name="bl">the accses to IBL</param>
         /// <param name="_windowParcels">the window with all the Parcel</param>
-        public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow, int i = 0)
+        public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow)
         {
             InitializeComponent();
             bl = ibl;
@@ -55,12 +56,15 @@ namespace PL
         /// <param name="bl">the accses to IBL</param>
         /// <param name="_windowParcels">the window with all the drones</param>
         /// <param name="i">the diffrence between the constractor of add to the constractor of update</param>
-        public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow)
+        public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow, int id = 0)
         {
             bl = ibl;
             InitializeComponent();
             ParcelListWindow = parcelListWindow;
-            Parcel = bl.GetParcel(parcelListWindow.CurrentParcel.Id);
+            if (id == 0)
+                Parcel = ibl.GetParcel(ParcelListWindow.CurrentParcel.Id);//getting parcel with this id
+            else
+                Parcel = ibl.GetParcel(id);//getting parcel with this id
             DataContext = Parcel;
             GridParcelUP.Visibility = Visibility.Visible;
             //to connect between the text box and the data
@@ -106,21 +110,19 @@ namespace PL
             }
         }
 
-        Customer _sender = new();
         private void SenderButton_click(object sender, RoutedEventArgs e)
         {
-            sender = bl.GetCustomer(int.Parse(SenderIDBlockA.Text));
+            customer = bl.GetCustomer(int.Parse(SenderIDBlockA.Text));
             CustomerListWindow windowCustomers = new CustomerListWindow(bl);
-            windowCustomers.CurrentCustomer.Id = _sender.Id;
+            windowCustomers.CurrentCustomer.Id = customer.Id;
             new CustomerWindow(bl, windowCustomers, 0).Show();
         }
 
-        Customer _target = new();
         private void TargetButton_Click(object sender, RoutedEventArgs e)
         {
-            _target = bl.GetCustomer(int.Parse(TargetIDBlockA.Text));
+            customer = bl.GetCustomer(int.Parse(TargetIDBlockA.Text));
             CustomerListWindow windowCustomers = new CustomerListWindow(bl);
-            windowCustomers.CurrentCustomer.Id = _target.Id;
+            windowCustomers.CurrentCustomer.Id = customer.Id;
             new CustomerWindow(bl, windowCustomers, 0).Show();
         }
 

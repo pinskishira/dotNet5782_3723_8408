@@ -222,7 +222,21 @@ namespace PL
             ViewParcelsFromCustomer.Visibility = Visibility.Visible;
         }
 
-      
+        private void ViewParcelsFromCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ParcelListWindow parcelListWindow = new ParcelListWindow(bl);
+            ParcelAtCustomer parcelAtCustomer;
+            parcelAtCustomer = (ParcelAtCustomer)ViewParcelsFromCustomer.SelectedItem;
+            new ParcelWindow(bl, parcelListWindow, parcelAtCustomer.Id).Show();
+        }
+
+        private void ViewParcelsToCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ParcelListWindow parcelListWindow = new ParcelListWindow(bl);
+            ParcelAtCustomer parcelAtCustomer;
+            parcelAtCustomer = (ParcelAtCustomer)ViewParcelsToCustomer.SelectedItem;
+            new ParcelWindow(bl, parcelListWindow, parcelAtCustomer.Id).Show();
+        }
     }
 
 }

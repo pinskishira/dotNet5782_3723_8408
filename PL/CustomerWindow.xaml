@@ -34,7 +34,7 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name ="ShowParcelsToCustomer" Content="Show Parcels To Customer" Grid.Row="3" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Visible" Click="ShowParcelsToCustomer_Click" Height="40" Width="400">
+                <Button x:Name ="ShowParcelsToCustomer" Content="Show Parcels To Customer" Grid.Row="3" Grid.Column="3" Background="#FFB64DE6" FontFamily="Britannic Bold" FontSize="20" Visibility="Visible" Click="ShowParcelsToCustomer_Click" Height="40" Width="400" >
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius"  Value="50"/>
@@ -104,7 +104,7 @@
 
                 </Grid>
                 <ListView x:Name="ViewParcelsFromCustomer" Visibility="Visible" Grid.RowSpan="3"  Grid.Column="4" Grid.Row="0" Height="135" Width="450"
-                          Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" >
+                          Background="{x:Null}" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="ViewParcelsFromCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
@@ -118,12 +118,13 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="Black"></Setter>
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
 
                 <ListView x:Name="ViewParcelsToCustomer" Visibility="Visible" Grid.RowSpan="4"
-                          Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Column="4" Grid.Row="3" Height="135" Width="450">
+                          Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Column="4" Grid.Row="3" Height="135" Width="450" MouseDoubleClick="ViewParcelsToCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
