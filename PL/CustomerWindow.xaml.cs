@@ -32,7 +32,7 @@ namespace PL
         /// </summary>
         /// <param name="ibl">Access to BL</param>
         /// <param name="stationListWindow">Access to Customer List Window</param>
-        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow, int i = 0)
+        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow)
         {
             InitializeComponent();
             bl = ibl;
@@ -43,7 +43,7 @@ namespace PL
             GridCustomerADD.Visibility = Visibility.Visible;//showing grid of fields needed for adding a customer
         }
 
-        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow)
+        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow, int id = 0)
         {
             InitializeComponent();
             bl = ibl;
@@ -51,17 +51,20 @@ namespace PL
             CustomerButton.Content = "Update Customer";
             GridCustomerBoth.Visibility = Visibility.Visible;
             GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
-            if(Customer.ParcelsFromCustomers.Count() != 0)
-                ShowParcelsFromCustomer.Visibility = Visibility.Visible;
-            if(Customer.ParcelsToCustomers.Count() != 0)
-                ShowParcelsToCustomer.Visibility = Visibility.Visible;
-            Customer = ibl.GetCustomer(CustomerListWindow.CurrentCustomer.Id);//getting station with this id
+            //if(Customer.ParcelsFromCustomers.Count() != 0)
+            //    ShowParcelsFromCustomer.Visibility = Visibility.Visible;
+            //if(Customer.ParcelsToCustomers.Count() != 0)
+            //    ShowParcelsToCustomer.Visibility = Visibility.Visible;
+            if (id == 0)
+                Customer = bl.GetCustomer(customerListWindow.CurrentCustomer.Id);
+            else
+                Customer = bl.GetCustomer(id);//getting station with this id
             DataContext = Customer;//updating event
         }
 
         private void CustomerButtonUD_Click(object sender, RoutedEventArgs e)
         {
-            if((string)CustomerButton.Content== "Add Customer")
+            if ((string)CustomerButton.Content == "Add Customer")
             {
                 var result1 = MessageBox.Show($"Are you sure you would like to add this customer? \n", "Request Review",
             MessageBoxButton.OKCancel, MessageBoxImage.Question);
@@ -140,7 +143,7 @@ namespace PL
                     }
                 }
             }
-            if((string)CustomerButton.Content== "Update Customer")
+            if ((string)CustomerButton.Content == "Update Customer")
             {
                 var result1 = MessageBox.Show($"Are you sure you would like to update this customer? \n", "Request Review",
               MessageBoxButton.OKCancel, MessageBoxImage.Question);

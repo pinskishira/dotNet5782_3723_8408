@@ -8,11 +8,12 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150*"/>
-            <RowDefinition Height="67*"/>
+            <RowDefinition Height="4*"/>
+
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="4,4,4,4" Margin="419,34,37,40" Grid.RowSpan="2" >
+        <Border BorderThickness="4,4,4,4" Margin="419,34,37,41" >
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -31,7 +32,7 @@
                     <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Label x:Name="SignInLblMain" HorizontalAlignment="Center" VerticalAlignment="Top" Content="SIGN IN" Margin="0,40,0,0" Background="Transparent" Foreground="DarkBlue"  FontSize="48" FontFamily="Britannic Bold" Width="179">
+            <Label x:Name="SignInLblMain" HorizontalAlignment="Center" VerticalAlignment="Top" Content="SIGN IN" Margin="0,35,0,0" Background="Transparent" Foreground="DarkBlue"  FontSize="48" FontFamily="Britannic Bold" Width="180" Height="60">
                 <Label.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -41,7 +42,7 @@
             </Label>
         </Border>
 
-        <Border BorderThickness="4,4,4,4" Margin="40,34,416,37" Grid.RowSpan="2" >
+        <Border BorderThickness="4,4,4,4" Margin="40,34,416,41" >
             <Border.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -60,7 +61,7 @@
                     <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Label x:Name="SignUpLblMain" HorizontalAlignment="Left" VerticalAlignment="Top" Content="SIGN UP" Margin="78,45,0,0" Background="Transparent" Foreground="DarkBlue"  FontSize="48" FontFamily="Britannic Bold"  Width="181">
+            <Label x:Name="SignUpLblMain" HorizontalAlignment="Center" VerticalAlignment="Top" Content="SIGN UP" Margin="0,34,0,0" Background="Transparent" Foreground="DarkBlue"  FontSize="48" FontFamily="Britannic Bold"  Width="180">
                 <Label.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -69,14 +70,14 @@
                 </Label.OpacityMask>
             </Label>
         </Border>
-        <Button x:Name="SignUpPicButtonMain"  Margin="124,180,500,80" Grid.RowSpan="2" >
+        <Button x:Name="SignUpPicButtonMain"  Margin="138,148,514,76" Background="Transparent" Click="SignUpPicButtonMain_Click">
             <Button.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
                     <GradientStop Color="#FFD7E8EA" Offset="1"/>
                 </LinearGradientBrush>
             </Button.OpacityMask>
-            <Image Source="Pictures/SignUp.jpg" Width="173" RenderTransformOrigin="0.628,0.587" >
+            <Image x:Name="signUpButton" Source="Pictures/SignUp.jpg" Width="145" RenderTransformOrigin="0.628,0.587" Height="123" >
                 <Image.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -85,7 +86,7 @@
                 </Image.OpacityMask>
             </Image>
         </Button>
-        <Label Content="User Name" HorizontalAlignment="Center" Margin="482,150,121,116" FontFamily="Britannic Bold" FontSize="24" Foreground="DarkBlue">
+        <Label Content="User ID" HorizontalAlignment="Left" Margin="547,134,0,154" FontFamily="Britannic Bold" FontSize="24" Foreground="DarkBlue">
             <Label.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -93,32 +94,21 @@
                 </LinearGradientBrush>
             </Label.OpacityMask>
         </Label>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="533,233,0,33" FontFamily="Britannic Bold" FontSize="24" Foreground="DarkBlue">
-            <Label.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFD7E8EA" Offset="1"/>
-                </LinearGradientBrush>
-            </Label.OpacityMask>
-        </Label>
-        <TextBox TextWrapping="Wrap" Margin="474,185,92,67">
-            <TextBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFD7E8EA" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.OpacityMask>
-        </TextBox>
-        <TextBox  TextWrapping="Wrap" Margin="474,272,92,114" Grid.RowSpan="2">
-            <TextBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFD7E8EA" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.OpacityMask>
-        </TextBox>
-        <Button Content="GO To Menu" Margin="305,67,286,10" Grid.Row="1" Click="Button_Click"/>
 
+        <TextBox x:Name="IdOfNewUser"  PreviewTextInput="NumberValidationTextBox" TextWrapping="Wrap" Margin="474,175,92,130" >
+            <TextBox.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFD7E8EA" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.OpacityMask>
+        </TextBox>
+
+        <Button x:Name="ManagerOrWorkerButton" Content="Manager or Worker" Margin="39,10,514,10" Grid.Row="1"  Background="DarkBlue" Foreground="White" FontFamily="Britannic Bold" FontSize="18" Click="ManagerOrWorkerButton_Click"/>
+        <Button  x:Name="SignInButton" Content="SIGN IN" Margin="435,217,52,56" Background="DarkBlue" Foreground="White" BorderBrush="White" BorderThickness="3,3,3,3"  Click="SignInButton_click" FontFamily="Britannic Bold" FontSize="22"/>
+        <Label x:Name="PasswordLbl" Content="Enter Password" Visibility="Collapsed" HorizontalAlignment="Left"  VerticalContentAlignment="Center" Height="29" Margin="368,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="158" FontFamily="Britannic Bold" FontSize="14"/>
+        <Button x:Name="ManagerOrWorkerSignInButton"  Content="LOG IN" Visibility="Collapsed" HorizontalAlignment="Left" Height="33" Margin="559,44,0,0" Grid.Row="1" VerticalAlignment="Top" Width="77" Click="ManagerOrWorkerSignInButton_Click"/>
+        <PasswordBox x:Name="CompanySecretPassword"  Visibility="Collapsed" HorizontalAlignment="Left" Height="33" Margin="368,44,0,0" Grid.Row="1" VerticalAlignment="Top" Width="158"/>
 
     </Grid>
 </Window>

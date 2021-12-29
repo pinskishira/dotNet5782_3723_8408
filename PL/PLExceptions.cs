@@ -32,6 +32,18 @@ namespace PL
             }
         }
 
-       
+        [Serializable]
+        public class InvalidInputExceptionPL : Exception
+        {
+            public InvalidInputExceptionPL() : base() { }
+            public InvalidInputExceptionPL(string message) : base(message) { }
+            public InvalidInputExceptionPL(string message, Exception innerException) : base(message, innerException) { }
+            public override string ToString()
+            {
+                return Message;
+            }
+        }
+
+
     }
 }

@@ -89,7 +89,7 @@ namespace PL
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-           new CustomerWindow(bl, this, 5).Show();
+           new CustomerWindow(bl, this).Show();
         }
     }
 }

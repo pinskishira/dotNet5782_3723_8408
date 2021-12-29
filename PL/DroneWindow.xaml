@@ -42,8 +42,8 @@
                 <Label x:Name="WeightLblAdd" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" FontFamily="Britannic Bold" FontSize="14" FontWeight="Bold"/>
                 <Label x:Name="NumOfStationLblAdd" Content="Number Of Station" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="12.5"/>
 
-                <TextBox x:Name="IdTxtAdd" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
-                <TextBox x:Name="ModelTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Model, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="IdTxtAdd" ToolTip="Enter Id" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
+                <TextBox x:Name="ModelTxtAdd" ToolTip="Enter Model" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Model, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="2" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <ComboBox x:Name="WeightCmbxAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
                 <ComboBox x:Name="NumOfStationTxtAdd" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=NumOfStation, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FF44BBF7" BorderThickness="2,2,2,2"/>
 

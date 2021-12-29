@@ -146,7 +146,7 @@ namespace PL
                             _StatusWeightAndPriorities.priorities = Parcel.Priority;
                             _StatusWeightAndPriorities.weight = Parcel.Weight;
                             _StatusWeightAndPriorities.status = BO.Enum.ParcelState.Created;
-                            //Parcel = bl.GetParcel(Parcel.Id);
+                            Parcel = bl.GetParcel(Parcel.Id);
                             if (ParcelListWindow.Parcels.ContainsKey(_StatusWeightAndPriorities))
                                 ParcelListWindow.Parcels[_StatusWeightAndPriorities].Add(bl.GetAllParcels().First(i => i.Id == Parcel.Id));
                             else
