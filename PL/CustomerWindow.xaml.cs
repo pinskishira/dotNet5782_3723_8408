@@ -51,15 +51,17 @@ namespace PL
             CustomerButton.Content = "Update Customer";
             GridCustomerBoth.Visibility = Visibility.Visible;
             GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
-            //if(Customer.ParcelsFromCustomers.Count() != 0)
-            //    ShowParcelsFromCustomer.Visibility = Visibility.Visible;
-            //if(Customer.ParcelsToCustomers.Count() != 0)
-            //    ShowParcelsToCustomer.Visibility = Visibility.Visible;
             if (id == 0)
                 Customer = bl.GetCustomer(customerListWindow.CurrentCustomer.Id);
             else
                 Customer = bl.GetCustomer(id);//getting station with this id
             DataContext = Customer;//updating event
+            ViewParcelsFromCustomer.ItemsSource = Customer.ParcelsFromCustomers;
+            ViewParcelsToCustomer.ItemsSource = Customer.ParcelsToCustomers;
+            if (Customer.ParcelsFromCustomers.Any())
+                ShowParcelsFromCustomer.Visibility = Visibility.Visible;
+            if (Customer.ParcelsToCustomers.Any())
+                ShowParcelsToCustomer.Visibility = Visibility.Visible;
         }
 
         private void CustomerButtonUD_Click(object sender, RoutedEventArgs e)
@@ -219,6 +221,8 @@ namespace PL
         {
             ViewParcelsFromCustomer.Visibility = Visibility.Visible;
         }
+
+      
     }
 
 }

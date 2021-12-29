@@ -74,7 +74,6 @@ namespace PL
 
         private void refersh_Click(object sender, RoutedEventArgs e)
         {
-            IEnumerable<StationToList> temp = bl.GetAllStations();
             stationToLists = (from item in bl.GetAllStations()
                               group item by item.AvailableChargeSlots).ToDictionary(x => x.Key, x => x.ToList());
             RefreshStations();
