@@ -216,40 +216,45 @@ namespace PL
                             DataContext = Parcel;
                             ParcelListWindow.Selection();
                             MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                            ParcelButton.Content = "Deliver Parcel";
                             break;
                     }
                 }
                 catch (FailedToCollectParcelException ex)
                 {
-                     MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            if ((string)ParcelButton.Content == "Deliver Parcel")
+            else
             {
-                var result1 = MessageBox.Show($"Are you sure you would like to update that this parcel has been picked up? \n", "Request Review",
-              MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                try
+                if ((string)ParcelButton.Content == "Deliver Parcel")
                 {
-                    switch (result1)
+                    var result1 = MessageBox.Show($"Are you sure you would like to update that this parcel has been picked up? \n", "Request Review",
+                  MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                    try
                     {
-                        case MessageBoxResult.OK:
-                            bl.UpdateParcelDeliveryToCustomer(Parcel.DroneParcel.Id);
-                            Parcel = bl.GetParcel(Parcel.Id);
-                            DataContext = Parcel;
-                            ParcelListWindow.Selection();
-                            MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-                            break;
+                        switch (result1)
+                        {
+                            case MessageBoxResult.OK:
+                                bl.UpdateParcelDeliveryToCustomer(Parcel.DroneParcel.Id);
+                                Parcel = bl.GetParcel(Parcel.Id);
+                                DataContext = Parcel;
+                                ParcelListWindow.Selection();
+                                MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                                ParcelButton.Visibility = Visibility.Collapsed;
+                                break;
+                        }
                     }
-                }
-                catch (ParcelDeliveryException ex)
-                {
-                    var errorMessage = MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-                    switch (errorMessage)
+                    catch (ParcelDeliveryException ex)
                     {
-                        case MessageBoxResult.OK:
-                            _close = true;
-                            this.Close();
-                            break;
+                        var errorMessage = MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
+                        switch (errorMessage)
+                        {
+                            case MessageBoxResult.OK:
+                                _close = true;
+                                this.Close();
+                                break;
+                        }
                     }
                 }
             }
