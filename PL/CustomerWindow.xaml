@@ -13,7 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\customerPic.jpeg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridCustomerBoth" Visibility="Visible">
+        <Grid x:Name="GridCustomerBoth" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -50,12 +50,12 @@
                     </Button.Resources>
                 </Button>
 
-                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" BorderBrush="#00000000"/>
-                <Label x:Name="NameLbl" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFB98BCE" />
-                <Label x:Name="LocationLbl" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FFB98BCE" />
-                <Label x:Name="LongitudeLbl" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,8,0,0" Foreground="#FFB98BCE"  BorderBrush="Black"/>
-                <Label x:Name="LatitudeLbl" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FFB98BCE" />
-                <Label x:Name="PhoneLbl" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FFB98BCE" />
+                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="24" FontWeight="Bold" Foreground="Black" BorderBrush="#00000000"/>
+                <Label x:Name="NameLbl" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="24" FontWeight="Bold" Foreground="Black" />
+                <Label x:Name="LocationLbl" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Bold" Height="39" Width="105" Foreground="Black" />
+                <Label x:Name="LongitudeLbl" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Bold" Margin="7,8,0,0" Foreground="Black"  BorderBrush="Black"/>
+                <Label x:Name="LatitudeLbl" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontSize="24" FontWeight="Bold" Margin="8,38,0,0" Foreground="Black" />
+                <Label x:Name="PhoneLbl" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="24" Foreground="Black" />
                 <TextBox x:Name="NameTxt" ToolTip="Enter Name" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 <TextBox x:Name="PhoneTxt" ToolTip="Enter Phone Number" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Phone, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="3" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
 
@@ -82,28 +82,12 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="IdTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="1" />
-                    <TextBlock x:Name="LatitudeTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Margin="0,41,0,0"/>
-                    <TextBlock x:Name="LongituteTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4"/>
-
-                    <!--<Button x:Name ="ShowParcelsFromCustomer" Content="View Parcels From Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">-->
-                    <!--<Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius"  Value="50"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>-->
-
-                    <!--<Button x:Name ="ShowParcelsToCustomer" Content="View Parcels To Customer" Grid.Column="3" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius"  Value="50"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>-->
+                    <TextBlock x:Name="IdTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="1" Background="#FFEAEAEA" />
+                    <TextBlock x:Name="LatitudeTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Latitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Margin="0,41,0,0" Background="#FFEAEAEA"/>
+                    <TextBlock x:Name="LongituteTxtUP" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25"  Grid.Row="4" Background="#FFEAEAEA"/>
 
                 </Grid>
-                <ListView x:Name="ViewParcelsFromCustomer" Visibility="Visible" Grid.RowSpan="3"  Grid.Column="4" Grid.Row="0" Height="135" Width="450"
+                <ListView x:Name="ViewParcelsFromCustomer" Visibility="Collapsed" Grid.RowSpan="3"  Grid.Column="4" Grid.Row="0" Height="135" Width="450"
                           Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="ViewParcelsFromCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
@@ -123,7 +107,7 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
 
-                <ListView x:Name="ViewParcelsToCustomer" Visibility="Visible" Grid.RowSpan="4"
+                <ListView x:Name="ViewParcelsToCustomer" Visibility="Collapsed" Grid.RowSpan="4"
                           Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" Grid.Column="4" Grid.Row="3" Height="135" Width="450" MouseDoubleClick="ViewParcelsToCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>

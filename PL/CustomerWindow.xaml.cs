@@ -214,12 +214,18 @@ namespace PL
 
         private void ShowParcelsToCustomer_Click(object sender, RoutedEventArgs e)
         {
-            ViewParcelsToCustomer.Visibility = Visibility.Visible;
+            if (ViewParcelsToCustomer.Visibility == Visibility.Collapsed)
+                ViewParcelsToCustomer.Visibility = Visibility.Visible;
+            else
+                ViewParcelsToCustomer.Visibility = Visibility.Collapsed;
         }
 
         private void ShowParcelsFromCustomer_Click(object sender, RoutedEventArgs e)
         {
-            ViewParcelsFromCustomer.Visibility = Visibility.Visible;
+            if (ViewParcelsFromCustomer.Visibility == Visibility.Collapsed)
+                ViewParcelsFromCustomer.Visibility = Visibility.Visible;
+            else
+                ViewParcelsFromCustomer.Visibility = Visibility.Collapsed;
         }
 
         private void ViewParcelsFromCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
