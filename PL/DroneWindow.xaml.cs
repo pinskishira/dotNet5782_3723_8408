@@ -17,6 +17,8 @@ namespace PL
         DroneStatusesAndWeightCategories SAndW;
         BlApi.Ibl bl;
         private DroneListWindow DroneListWindow { get; }
+
+        private Parcel parcel { get; set; } = new();
         private Drone Drone { get; set; } = new();
         private bool _close { get; set; } = false;
 
@@ -347,10 +349,10 @@ namespace PL
 
         private void ShowMore_Click(object sender, RoutedEventArgs e)
         {
-            //parcel droneListWindow = new DroneListWindow(bl);
-            //DroneInCharging droneInCharging;
-            //droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
-            //new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
+            parcel = bl.GetParcel(int.Parse(IdParcelTxtUD.Text));
+            ParcelListWindow windowParcels = new ParcelListWindow(bl);
+            windowParcels.CurrentParcel.Id = parcel.Id;
+            new ParcelWindow(bl, windowParcels, 0).Show();
         }
     }
 
