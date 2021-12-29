@@ -14,6 +14,7 @@
     <None Remove="Icon\customer.png" />
     <None Remove="Icon\delete.png" />
     <None Remove="Icon\dronePic.png" />
+    <None Remove="Icon\parcel.png" />
     <None Remove="Icon\station.png" />
     <None Remove="Pictures\customer.jpg" />
     <None Remove="Pictures\customerPic.jpeg" />
@@ -28,6 +29,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon\dronePic.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\parcel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon\station.png">
