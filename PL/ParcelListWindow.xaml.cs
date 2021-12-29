@@ -144,12 +144,7 @@ namespace PL
                 new ParcelWindow(bl, this,0).Show();
         }
 
-        /// <summary>
-        /// to not be able to close the window with the x on the top
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WindowClose(object sender, CancelEventArgs e)
+        private void window_closeing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {

@@ -260,6 +260,15 @@ namespace PL
             _close = true;
             Close();
         }
+
+        private void window_closeing(object sender, CancelEventArgs e)
+        {
+            if (!_close)
+            {
+                e.Cancel = true;
+                MessageBox.Show("You can't force the window to close");
+            }
+        }
     }
 }
 
