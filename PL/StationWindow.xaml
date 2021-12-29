@@ -13,7 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridStationBoth" Visibility="Visible">
+        <Grid x:Name="GridStationBoth" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -35,13 +35,13 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFFA0C4D" BorderBrush="#00000000" />
-                <Label x:Name="NameLblAdd" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFFA0C4D"/>
-                <Label x:Name="LocationLblAdd" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FFFA0C4D"/>
-                <Label x:Name="LongitudeLblAdd" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,2,0,0" Foreground="#FFFA0C4D" BorderBrush="Black"/>
-                <Label x:Name="LatitudeLblAdd" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FFFA0C4D"/>
-                <Label x:Name="AvailableChargeSlotsLblAdd" Content="Available &#10;Charge Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="16" Foreground="#FFFA0C4D"/>
-                <Label x:Name="ChargeSlots" Content="Charge&#10;Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FFFA0C4D"/>
+                <Label x:Name="IdLblAdd" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FF010800" BorderBrush="#00000000" />
+                <Label x:Name="NameLblAdd" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FF010800"/>
+                <Label x:Name="LocationLblAdd" Content="Location" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Height="39" Width="105" Foreground="#FF010800"/>
+                <Label x:Name="LongitudeLblAdd" Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,2,0,0" Foreground="#FF010800" BorderBrush="Black"/>
+                <Label x:Name="LatitudeLblAdd" Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" FontFamily="Britannic Bold" FontSize="16" FontWeight="Bold" Margin="10,38,0,0" Foreground="#FF010800"/>
+                <Label x:Name="AvailableChargeSlotsLblAdd" Content="Available &#10;Charge Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="16" Foreground="#FF010800"/>
+                <Label x:Name="ChargeSlots" Content="Charge&#10;Slots" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="18" Foreground="#FF010800" Visibility="Collapsed"/>
                 <TextBox x:Name="NameTxtAdd" ToolTip="Enter Station Name" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay}" Width="90" Height="25" Grid.Column="2" Grid.Row="2" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
 
                 <Grid x:Name="GridStationADD" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
@@ -87,7 +87,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
-                
+
                 <Button x:Name ="ViewDronesInCharging" Content="View Drones In Charging" Grid.Column="4" Margin="46,20,46,11" Background="#FFFA0C4D" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Visibility="Collapsed" Click="ViewDronesInCharging_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
