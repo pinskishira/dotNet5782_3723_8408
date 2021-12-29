@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="CustomerWindow" Height="600" Width="850"  Closing="window_closeing">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -116,7 +117,7 @@
                             <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding ParcelsFromCustomers.Priority}" Width="150"/>
                             <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.StateOfParcel}" Width="150"/>
                             <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Id}" Width="150"/>
-                            <GridViewColumn Header="Id of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Name}" Width="150"/>
+                            <GridViewColumn Header="Name of Customer" DisplayMemberBinding="{Binding ParcelsFromCustomers.CustomerInParcel.Name}" Width="150"/>
                         </GridView>
                     </ListView.View>
                     <ListView.ItemContainerStyle>

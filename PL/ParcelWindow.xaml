@@ -43,24 +43,38 @@
 
                 <Label x:Name="PriorityLbl" Content="Priority" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="25" Foreground="#FFD57B7B" />
                 <Label x:Name="WeightLbl" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" />
-
-                <Grid x:Name="GridParcelADD" Visibility="Collapsed" Grid.Column="1" Grid.RowSpan="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Label x:Name="TargetIdLbl" Content="Target Id" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Height="39" Width="123" Foreground="#FFD57B7B" />
-                    <Label x:Name="SenderIdLbl" Content="Sender Id" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"  />
-                    <ComboBox x:Name="PriorityADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Priority, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                    <ComboBox x:Name="WeightADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding  Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                    <ComboBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Target.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
-                    <ComboBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sender.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
-                </Grid>
-
             </Grid>
+            
+            <Grid x:Name="GridParcelADD" Visibility="Collapsed" Grid.Column="1" Grid.RowSpan="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="TargetIdLbl" Content="Target Id" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Height="39" Width="123" Foreground="#FFD57B7B" />
+                <Label x:Name="SenderIdLbl" Content="Sender Id" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"  />
+                <ComboBox x:Name="PriorityADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Priority, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" Grid.Column="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="WeightADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding  Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Row="2" Grid.Column="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Target.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" Grid.Column="1" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                <ComboBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sender.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" Grid.Column="1" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+            </Grid>
+            
+            
             <Grid x:Name="GridParcelUP" Visibility="Collapsed" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
