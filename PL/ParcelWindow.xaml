@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="" Height="450" Width="800">
+        Title="" Height="550" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -41,11 +41,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" BorderBrush="#00000000"/>
                 <Label x:Name="PriorityLbl" Content="Priority" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" FontFamily="Britannic Bold" FontWeight="Bold" FontSize="25" Foreground="#FFD57B7B" />
                 <Label x:Name="WeightLbl" Content="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" />
-                <Label x:Name="TargetNameLbl" Content="Target Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Height="39" Width="123" Foreground="#FFD57B7B" />
-                <Label x:Name="SenderNameLbl" Content="Sender Name" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"  />
 
                 <Grid x:Name="GridParcelADD" Visibility="Collapsed" Grid.Column="1" Grid.RowSpan="5">
                     <Grid.RowDefinitions>
@@ -55,17 +52,16 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-
-                    <TextBox x:Name="IdTxtADD" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="0" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                    <Label x:Name="TargetIdLbl" Content="Target Id" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Height="39" Width="123" Foreground="#FFD57B7B" />
+                    <Label x:Name="SenderIdLbl" Content="Sender Id" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"  />
                     <ComboBox x:Name="PriorityADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Priority, Mode=TwoWay}" Width="90" Height="25" Grid.Row="1" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                     <ComboBox x:Name="WeightADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding  Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Row="2" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Target.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sender.Name, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                    <ComboBox x:Name="TargetIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Target.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="3" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
+                    <ComboBox x:Name="SenderIDADD" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sender.Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFD57B7B" BorderThickness="2,2,2,2"/>
                 </Grid>
 
-               
             </Grid>
-            <Grid x:Name="GridParcelUP" Visibility="Collapsed" >
+            <Grid x:Name="GridParcelUP" Visibility="Visible" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -86,12 +82,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <Label Content="Status" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" />
-                <Label Content="Requested at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
-                <Label Content="Scheduled at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
-                <Label Content="Picked Up at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="8" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
-                <Label Content="Delivered at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
+                
+                <Label x:Name="IdLbl" Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" BorderBrush="#00000000"/>
+                <Label Content="Requested at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
+                <Label Content="Scheduled at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
+                <Label Content="Picked Up at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
+                <Label Content="Delivered at" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
                 <Label Content="Sender:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B"/>
                 <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1 " FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B"/>
                 <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B"/>
@@ -101,15 +97,17 @@
                 <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="6" FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B"/>
                 <Button x:Name="TargetButton" Content="Show more" VerticalAlignment="Center" Grid.Column="2" Grid.Row="7"  FontFamily="Britannic Bold" FontSize="25" FontWeight="Bold" Foreground="#FFD57B7B" Click="TargetButton_Click"/>
 
-                <TextBlock x:Name="SatusBlockA"  Text="{Binding StateOfParcel, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="RequestedBlockA"  Text="{Binding Requested, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="ScheduledBlockA"  Text="{Binding Scheduled, Mode=TwoWay}" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="PickedUpBlockA"  Text="{Binding PickedUp, Mode=TwoWay}" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="DeliverdBlockA"  Text="{Binding Delivered, Mode=TwoWay}" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="SenderIDBlockA"  Text="{Binding Sender.Id, Mode=TwoWay}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="SenderNameBlockA"  Text="{Binding Sender.Name, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="TargetIDBlockA"  Text="{Binding Target.Id, Mode=TwoWay}" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
-                <TextBlock x:Name="TargetNameBlockA"  Text="{Binding Target.Name, Mode=TwoWay}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"   Background="#FFEAEAEA" />
+                <TextBlock x:Name="PriorityUp" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Priority, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"  Width="90" Height="25" Background="#FFEAEAEA"/>
+                <TextBlock x:Name="WeightUp" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding  Weight, Mode=TwoWay}" Width="90" Height="25" Grid.Column="1" Grid.Row="2" Background="#FFEAEAEA"/>
+                <TextBlock x:Name="IdTxtUp" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Row="0" Grid.Column="1" Background="#FFEAEAEA" />
+                <TextBlock x:Name="RequestedBlockA"  Text="{Binding Requested, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="ScheduledBlockA"  Text="{Binding Scheduled, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="PickedUpBlockA"  Text="{Binding PickedUp, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="DeliverdBlockA"  Text="{Binding Delivered, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="SenderIDBlockA"  Text="{Binding Sender.Id, Mode=TwoWay}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Width="90" Height="25" Background="#FFEAEAEA" />
+                <TextBlock x:Name="SenderNameBlockA"  Text="{Binding Sender.Name, Mode=TwoWay}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="TargetIDBlockA"  Text="{Binding Target.Id, Mode=TwoWay}" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="90" Height="25"  Background="#FFEAEAEA" />
+                <TextBlock x:Name="TargetNameBlockA"  Text="{Binding Target.Name, Mode=TwoWay}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Width="90" Height="25" Background="#FFEAEAEA" />
             </Grid>
 
             <Grid x:Name="DroneInParcel" Grid.Column="4" Visibility="Collapsed">
@@ -141,10 +139,10 @@
                 <Label Content="Latitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="5"  FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B" />
                 <Label Content="Longitude" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="4" Grid.Row="4"  FontFamily="Britannic Bold" FontSize="20" FontWeight="Bold" Foreground="#FFD57B7B"/>
 
-                <TextBlock Text="{Binding DroneInParcel.Id, Mode=TwoWay}" Grid.Row="1" Grid.Column="6"  HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA" />
-                <TextBlock Text="{Binding DroneInParcel.Battery, Mode=TwoWay}" Grid.Row="2" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA"/>
-                <TextBlock Text="{Binding DroneInParcel.Latitude, Mode=TwoWay}" Grid.Row="5" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA"/>
-                <TextBlock Text="{Binding DroneInParcel.Longitude, Mode=TwoWay}" Grid.Row="4" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA"/>
+                <TextBlock Text="{Binding DroneParcel.Id, Mode=TwoWay}" Grid.Row="1" Grid.Column="6"  HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA" Width="90" Height="25"/>
+                <TextBlock Text="{Binding DroneParcel.Battery, Mode=TwoWay}" Grid.Row="2" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA" Width="90" Height="25"/>
+                <TextBlock Text="{Binding DroneParcel.CurrentLocation.Latitude, Mode=TwoWay}" Grid.Row="5" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA" Width="90" Height="25"/>
+                <TextBlock Text="{Binding DroneParcel.CurrentLocation.Longitude, Mode=TwoWay}" Grid.Row="4" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Background="#FFEAEAEA" Width="90" Height="25"/>
             </Grid>
             
             <Grid Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Bottom" >
@@ -153,7 +151,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="ParcelButton" Grid.Column="0" Visibility="Visible" Content="Add Parcel" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B" Click="ParcelButton_Click"/>
-                <Button x:Name="CancelButton" Grid.Column="2" Visibility="Visible" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B"  Grid.ColumnSpan="2" Click="CancelButton_Click" />
+                <Button x:Name="CancelButton" Grid.Column="2" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B"  Grid.ColumnSpan="2" Click="CancelButton_Click" />
             </Grid>
         </Grid>
     </Grid>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="" Height="450" Width="800">
+        Title="" Height="550" Width="800">
     <Grid>
 
         <Grid.Background>
@@ -54,7 +54,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <Image Source="Icon\station.png" Width="30"/>
+                                    <Image Source="Icon\parcel.png" Width="30"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -65,6 +65,15 @@
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Weight}" Width="100"/>
                     <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}" Width="100"/>
                     <GridViewColumn Header="State Of Parcel" DisplayMemberBinding="{Binding StateOfParcel}" Width="150"/>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\delete.png" Width="30" MouseEnter="Image_MouseEnter"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>

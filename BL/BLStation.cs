@@ -55,7 +55,7 @@ namespace BL
             }
             catch (DO.ItemDoesNotExistException ex)
             {
-                throw new FailedGetException("ERROR.\n", ex);
+                throw new FailedGetException("ERRORS.\n", ex);
             }
             catch (InvalidOperationException)
             {

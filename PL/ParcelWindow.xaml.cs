@@ -36,7 +36,7 @@ namespace PL
         public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow, int i = 0)
         {
             InitializeComponent();
-            bl=ibl;
+            bl = ibl;
             ParcelListWindow = parcelListWindow;
             Parcel.Sender = new();
             Parcel.Target = new();
@@ -45,6 +45,8 @@ namespace PL
             WeightADD.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));
             PriorityADD.ItemsSource = System.Enum.GetValues(typeof(Priorities));
             GridParcelADD.Visibility = Visibility.Visible;
+            TargetIDADD.ItemsSource = bl.GetAllCustomers().Select(item => item.Id);
+            SenderIDADD.ItemsSource = bl.GetAllCustomers().Select(item => item.Id);
         }
 
         /// <summary>
@@ -55,29 +57,26 @@ namespace PL
         /// <param name="i">the diffrence between the constractor of add to the constractor of update</param>
         public ParcelWindow(BlApi.Ibl ibl, ParcelListWindow parcelListWindow)
         {
-            ibl = bl;
+            bl = ibl;
             InitializeComponent();
             ParcelListWindow = parcelListWindow;
+            Parcel = bl.GetParcel(parcelListWindow.CurrentParcel.Id);
             DataContext = Parcel;
             GridParcelUP.Visibility = Visibility.Visible;
-           //to connect between the text box and the data
+            //to connect between the text box and the data
             ParcelButton.Visibility = Visibility.Collapsed;
-            //if (Parcel.Scheduled == null)
-            //{
-            //    ParcelButton.Content = "Delete the parcel";
-            //    ParcelButton.Visibility = Visibility.Visible;
-            //}
             if (Parcel.Scheduled != null)//if the parcel  has a drone 
             {
                 if (Parcel.Delivered == null && Parcel.PickedUp == null)
                 {
-                    ParcelButton.Content = "Pick Up Parcel ";
+                    ParcelButton.Content = "Pick Up Parcel";
+                    ParcelButton.Visibility = Visibility.Visible;
                 }
                 if (Parcel.Delivered == null && Parcel.PickedUp != null)
                 {
                     ParcelButton.Content = "Deliver Parcel";
+                    ParcelButton.Visibility = Visibility.Visible;
                 }
-                ParcelButton.Visibility = Visibility.Visible;
                 DroneInParcel.Visibility = Visibility.Visible;//show the grid of the parcels drone
             }
         }
@@ -116,7 +115,7 @@ namespace PL
             new CustomerWindow(bl, windowCustomers, 0).Show();
         }
 
-        Customer _target= new();
+        Customer _target = new();
         private void TargetButton_Click(object sender, RoutedEventArgs e)
         {
             _target = bl.GetCustomer(int.Parse(TargetIDBlockA.Text));
@@ -136,21 +135,20 @@ namespace PL
                     switch (result1)
                     {
                         case MessageBoxResult.OK:
-                            if (Parcel.Id == default)
-                                throw new MissingInfoException("No information entered for the ID");
-                            if (Parcel.Sender.Name ==default)
+                            if (Parcel.Sender.Id == default)
                                 throw new MissingInfoException("No information entered for the sender ID");
-                            if (Parcel.Target.Name == default)
+                            if (Parcel.Target.Id == default)
                                 throw new MissingInfoException("No information entered for the target ID");
                             bl.AddParcel(Parcel);//adding new station to list
                             _StatusWeightAndPriorities.priorities = Parcel.Priority;
                             _StatusWeightAndPriorities.weight = Parcel.Weight;
                             _StatusWeightAndPriorities.status = BO.Enum.ParcelState.Created;
-                            //Parcel = bl.GetParcel(Parcel.Id);
+                            int idParcel = bl.GetAllParcels().Last().Id;
                             if (ParcelListWindow.Parcels.ContainsKey(_StatusWeightAndPriorities))
-                                ParcelListWindow.Parcels[_StatusWeightAndPriorities].Add(bl.GetAllParcels().First(i => i.Id == Parcel.Id));
+                                ParcelListWindow.Parcels[_StatusWeightAndPriorities].Add(bl.GetAllParcels().First(i => i.Id == idParcel));
                             else
-                                ParcelListWindow.Parcels.Add(_StatusWeightAndPriorities, bl.GetAllParcels().Where(i => i.Id == Parcel.Id).ToList());
+                                ParcelListWindow.Parcels.Add(_StatusWeightAndPriorities, bl.GetAllParcels().Where(i => i.Id == idParcel).ToList());
+                            ParcelListWindow.Selection();
                             //adding station to list in the window of stations
                             var result2 = MessageBox.Show($"SUCCESSFULY ADDED PARCEL! \nThe new parcel is:\n" + Parcel.ToString(), "Successfuly Added",
                                MessageBoxButton.OK);
@@ -174,20 +172,9 @@ namespace PL
                     switch (errorMessage)
                     {
                         case MessageBoxResult.OK:
-                            IdTxtADD.Text = "";
                             SenderIDADD.Text = "";
                             TargetIDADD.Text = "";
                             DataContext = Parcel;
-                            break;
-                    }
-                }
-                catch (InvalidInputException ex)
-                {
-                    var errorMessage = MessageBox.Show("Failed to add parcel: " + "\n" + ex.Message, "Failed To Add", MessageBoxButton.OK, MessageBoxImage.Error);
-                    switch (errorMessage)
-                    {
-                        case MessageBoxResult.OK:
-                            IdTxtADD.Text = "";
                             break;
                     }
                 }
@@ -223,30 +210,19 @@ namespace PL
                     {
                         case MessageBoxResult.OK:
                             bl.UpdateParcelCollectionByDrone(Parcel.DroneParcel.Id);
-                            var result2 = MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-                            switch (result2)
-                            {
-                                case MessageBoxResult.OK:
-                                    _close = true;
-                                    this.Close();//closes current window after station was added
-                                    break;
-                            }
+                            Parcel = bl.GetParcel(Parcel.Id);
+                            DataContext = Parcel;
+                            ParcelListWindow.Selection();
+                            MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
                             break;
                     }
                 }
                 catch (FailedToCollectParcelException ex)
                 {
-                    var errorMessage = MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-                    switch (errorMessage)
-                    {
-                        case MessageBoxResult.OK:
-                            _close = true;
-                            this.Close();//closes current window after station was added
-                            break;
-                    }
+                     MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            if((string)ParcelButton.Content == "Deliver Parcel")
+            if ((string)ParcelButton.Content == "Deliver Parcel")
             {
                 var result1 = MessageBox.Show($"Are you sure you would like to update that this parcel has been picked up? \n", "Request Review",
               MessageBoxButton.OKCancel, MessageBoxImage.Question);
@@ -256,14 +232,10 @@ namespace PL
                     {
                         case MessageBoxResult.OK:
                             bl.UpdateParcelDeliveryToCustomer(Parcel.DroneParcel.Id);
-                            var result2 = MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-                            switch (result2)
-                            {
-                                case MessageBoxResult.OK:
-                                    _close = true;
-                                    this.Close();
-                                    break;
-                            }
+                            Parcel = bl.GetParcel(Parcel.Id);
+                            DataContext = Parcel;
+                            ParcelListWindow.Selection();
+                            MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
                             break;
                     }
                 }
