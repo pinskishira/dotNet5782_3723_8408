@@ -75,7 +75,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Button x:Name="AddDroneButton"  Grid.Row="1"  Height="50" Content="Add New Drone" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="20" Margin="0,459,0,10" />
+        <Button x:Name="AddDroneButton"  Grid.Row="1"  Height="50" Content="Add New Drone" Click="AddDroneButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FF347DE4" Background="Transparent" FontFamily="Britannic Bold" FontSize="20" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>
