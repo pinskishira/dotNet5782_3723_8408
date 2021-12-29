@@ -37,7 +37,6 @@ namespace PL
         public ParcelToList CurrentParcel { get; set; } = new();
         public Dictionary<StatusWeightAndPriorities, List<ParcelToList>> Parcels;
         private bool _close { get; set; } = false;
-
         public ParcelListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
@@ -57,7 +56,6 @@ namespace PL
             WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));
             PrioritiesSelection.ItemsSource = System.Enum.GetValues(typeof(Priorities));
             StatusSelection.SelectedIndex = 4;//no filter
-
         }
 
         /// <summary>
@@ -171,10 +169,17 @@ namespace PL
             Close();
         }
 
-        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //FrameworkElement framework = sender as FrameworkElement;
-            //CurrentDrone = framework.DataContext as DroneToList;
+            FrameworkElement framework = sender as FrameworkElement;
+            CurrentParcel = framework.DataContext as ParcelToList;
+            bl.DeleteParcel(CurrentParcel.Id);
+            StatusWeightAndPriorities sAndWAndP=new();
+            sAndWAndP.priorities = CurrentParcel.Priority;
+            sAndWAndP.weight = CurrentParcel.Weight;
+            sAndWAndP.status = CurrentParcel.StateOfParcel;
+            Parcels[sAndWAndP].RemoveAll(i => i.Id == CurrentParcel.Id);
+            Selection();
         }
     }
 }

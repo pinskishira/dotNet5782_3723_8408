@@ -69,7 +69,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <Image Source="Icon\delete.png" Width="30" MouseEnter="Image_MouseEnter"/>
+                                    <Image Source="Icon\delete.png" Width="30" MouseDown="Image_MouseDown"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

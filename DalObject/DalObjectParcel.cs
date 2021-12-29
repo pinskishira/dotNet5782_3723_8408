@@ -51,5 +51,13 @@ namespace Dal
                    where predicate == null ? true : predicate(itemParcel)
                    select itemParcel;
         }
+
+        public void DeleteParcel(int id)
+        {
+            int indexOfParcel= DataSource.Parcels.FindIndex(item => item.Id == id);//checks if parcel exists
+            if (indexOfParcel==-1)
+                throw new ItemDoesNotExistException("The parcel does not exist.\n");
+            DataSource.Parcels.RemoveAt(indexOfParcel);
+        }
     }
 }
