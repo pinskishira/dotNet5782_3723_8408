@@ -57,7 +57,7 @@ namespace PL
                 ViewDronesInCharging.Visibility = Visibility.Visible;
             DronesInChargingListView.ItemsSource = Station.DronesInCharging;
             StationButton.Content = "Update Station";
-            ChargeSlotsTxtUp.Visibility = Visibility.Visible;
+            ChargeSlots.Visibility = Visibility.Visible;
             ChargeSlotsTxtUp.Text = (stationListWindow.CurrentStation.AvailableChargeSlots + stationListWindow.CurrentStation.OccupiedChargeSlots).ToString();
         }
 

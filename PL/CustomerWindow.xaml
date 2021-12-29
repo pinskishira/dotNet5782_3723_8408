@@ -104,7 +104,7 @@
 
                 </Grid>
                 <ListView x:Name="ViewParcelsFromCustomer" Visibility="Visible" Grid.RowSpan="3"  Grid.Column="4" Grid.Row="0" Height="135" Width="450"
-                          Background="{x:Null}" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="ViewParcelsFromCustomer_MouseDoubleClick" >
+                          Background="#FFF6BCFF" Foreground="black" Opacity="0.8" FontSize="20" FontFamily="Britannic Bold" MouseDoubleClick="ViewParcelsFromCustomer_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id Of Parcel" DisplayMemberBinding="{Binding ParcelsFromCustomers.Id}" Width="150"/>
@@ -118,7 +118,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            <Setter Property="Foreground" Value="Black"></Setter>
+                            <Setter Property="Foreground" Value="red"></Setter>
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
@@ -138,6 +138,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Foreground" Value="red"></Setter>
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
