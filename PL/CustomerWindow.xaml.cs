@@ -1,6 +1,7 @@
 ﻿using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,9 @@ namespace PL
         private CustomerListWindow CustomerListWindow { get; }
         private Customer Customer { get; set; } = new();
         private bool _close { get; set; } = false;
+        public ObservableCollection<ParcelAtCustomer> parcelsFromCustomers { get; set; } = new();
+        public ObservableCollection<ParcelAtCustomer> parcelsToCustomers { get; set; } = new();
+
 
         /// <summary>
         /// Constructor to add a customer
@@ -56,12 +60,20 @@ namespace PL
             else
                 Customer = bl.GetCustomer(id);//getting station with this id
             DataContext = Customer;//updating event
-            ViewParcelsFromCustomer.ItemsSource = Customer.ParcelsFromCustomers;
-            ViewParcelsToCustomer.ItemsSource = Customer.ParcelsToCustomers;
             if (Customer.ParcelsFromCustomers.Any())
                 ShowParcelsFromCustomer.Visibility = Visibility.Visible;
             if (Customer.ParcelsToCustomers.Any())
                 ShowParcelsToCustomer.Visibility = Visibility.Visible;
+            foreach (var item in Customer.ParcelsFromCustomers)
+            {
+                parcelsFromCustomers.Add(item);
+            }
+            foreach (var item in Customer.ParcelsToCustomers)
+            {
+                parcelsToCustomers.Add(item);
+            }
+            ViewParcelsFromCustomer.ItemsSource = parcelsFromCustomers;
+            ViewParcelsToCustomer.ItemsSource = parcelsToCustomers;
         }
 
         private void CustomerButtonUD_Click(object sender, RoutedEventArgs e)
@@ -230,18 +242,16 @@ namespace PL
 
         private void ViewParcelsFromCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelListWindow parcelListWindow = new ParcelListWindow(bl);
             ParcelAtCustomer parcelAtCustomer;
             parcelAtCustomer = (ParcelAtCustomer)ViewParcelsFromCustomer.SelectedItem;
-            new ParcelWindow(bl, parcelListWindow, parcelAtCustomer.Id).Show();
+            new ParcelWindow(bl, this, parcelAtCustomer.Id, ViewParcelsFromCustomer.SelectedIndex).Show();
         }
 
         private void ViewParcelsToCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelListWindow parcelListWindow = new ParcelListWindow(bl);
             ParcelAtCustomer parcelAtCustomer;
             parcelAtCustomer = (ParcelAtCustomer)ViewParcelsToCustomer.SelectedItem;
-            new ParcelWindow(bl, parcelListWindow, parcelAtCustomer.Id).Show();
+            new ParcelWindow(bl, this, parcelAtCustomer.Id, ViewParcelsToCustomer.SelectedIndex).Show();
         }
     }
 

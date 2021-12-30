@@ -29,6 +29,19 @@ namespace PL
         private Customer customer { get; set; } = new();
         private bool _close { get; set; } = false;
         StatusWeightAndPriorities _StatusWeightAndPriorities;
+        private CustomerWindow Customer;
+        private int Index { get; set; }
+        public ParcelWindow(BlApi.Ibl ibl, CustomerWindow customer, int id, int index) : this(ibl, null, id)
+        {
+            Customer = customer;
+            Index = index;
+            if (ibl.GetAllParcels(x => x.Id == id).First().StateOfParcel == BO.Enum.ParcelState.Created)
+            {
+                ParcelButton.Visibility = Visibility.Visible;
+                ParcelButton.Content = "Delete Parcel";
+            }
+        }
+
         /// <summary>
         /// constructer-adds a new Parcel   
         /// </summary>
@@ -48,6 +61,7 @@ namespace PL
             GridParcelADD.Visibility = Visibility.Visible;
             TargetIDADD.ItemsSource = bl.GetAllCustomers().Select(item => item.Id);
             SenderIDADD.ItemsSource = bl.GetAllCustomers().Select(item => item.Id);
+            ParcelButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -68,7 +82,6 @@ namespace PL
             DataContext = Parcel;
             GridParcelUP.Visibility = Visibility.Visible;
             //to connect between the text box and the data
-            //ParcelButton.Visibility = Visibility.Collapsed;
             if (Parcel.Scheduled != null)//if the parcel  has a drone 
             {
                 //if (Parcel.Delivered == null && Parcel.PickedUp == null)
@@ -202,57 +215,27 @@ namespace PL
                     }
                 }
             }
-            //if ((string)ParcelButton.Content == "Pick Up Parcel")
-            //{
-            //    var result1 = MessageBox.Show($"Are you sure you would like to update that this parcel has been picked up? \n", "Request Review",
-            //   MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            //    try
-            //    {
-            //        switch (result1)
-            //        {
-            //            case MessageBoxResult.OK:
-            //                bl.UpdateParcelCollectionByDrone(Parcel.DroneParcel.Id);
-            //                Parcel = bl.GetParcel(Parcel.Id);
-            //                DataContext = Parcel;
-            //                ParcelListWindow.Selection();
-            //                MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-            //                break;
-            //        }
-            //    }
-            //    catch (FailedToCollectParcelException ex)
-            //    {
-            //         MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    }
-            //}
-            //if ((string)ParcelButton.Content == "Deliver Parcel")
-            //{
-            //    var result1 = MessageBox.Show($"Are you sure you would like to update that this parcel has been picked up? \n", "Request Review",
-            //  MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            //    try
-            //    {
-            //        switch (result1)
-            //        {
-            //            case MessageBoxResult.OK:
-            //                bl.UpdateParcelDeliveryToCustomer(Parcel.DroneParcel.Id);
-            //                Parcel = bl.GetParcel(Parcel.Id);
-            //                DataContext = Parcel;
-            //                ParcelListWindow.Selection();
-            //                MessageBox.Show($"SUCCESSFULY UPDATED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-            //                break;
-            //        }
-            //    }
-            //    catch (ParcelDeliveryException ex)
-            //    {
-            //        var errorMessage = MessageBox.Show("Failed to update parcel: " + ex.GetType().Name + "\n" + ex.Message, "Failed Warning", MessageBoxButton.OK, MessageBoxImage.Error);
-            //        switch (errorMessage)
-            //        {
-            //            case MessageBoxResult.OK:
-            //                _close = true;
-            //                this.Close();
-            //                break;
-            //        }
-            //    }
-            //}
+            else
+            {
+                bl.DeleteParcel(Parcel.Id);
+                StatusWeightAndPriorities sAndWAndP = new();
+                sAndWAndP.priorities = Parcel.Priority;
+                sAndWAndP.weight = Parcel.Weight;
+                if (Parcel.Scheduled != null)//if parcel is assigned a drones
+                {
+                    if (Parcel.PickedUp != null)//if parcel is picked up by drone
+                    {
+                        if (Parcel.Delivered != null)//parcel is delivered
+                            sAndWAndP.status = BO.Enum.ParcelState.Provided;
+                        else
+                            sAndWAndP.status = BO.Enum.ParcelState.PickedUp;
+                    }
+                    else
+                        sAndWAndP.status = BO.Enum.ParcelState.Paired;
+                }
+                sAndWAndP.status = BO.Enum.ParcelState.Created;
+                Customer.Close();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

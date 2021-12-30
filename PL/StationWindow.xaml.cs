@@ -56,7 +56,6 @@ namespace PL
             DataContext = Station;//updating event
             if (Station.DronesInCharging.Count() != 0)
                 ViewDronesInCharging.Visibility = Visibility.Visible;
-            
             StationButton.Content = "Update Station";
             ChargeSlots.Visibility = Visibility.Visible;
             ChargeSlotsTxtUp.Text = (stationListWindow.CurrentStation.AvailableChargeSlots + stationListWindow.CurrentStation.OccupiedChargeSlots).ToString();

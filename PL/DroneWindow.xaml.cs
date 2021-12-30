@@ -22,12 +22,10 @@ namespace PL
         private Drone Drone { get; set; } = new();
         private bool _close { get; set; } = false;
         private StationWindow Station { get; set; }
-        private int Id { get; set; }
         private int Index { get; set; }
         public DroneWindow(BlApi.Ibl ibl, StationWindow station, int id, int index) : this(ibl, null, id)
         {
             Station = station;
-            Id = id;
             Index = index;
         }
 

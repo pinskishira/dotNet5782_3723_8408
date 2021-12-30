@@ -37,6 +37,7 @@ namespace BL
             }
         }
 
+
         private ParcelAtCustomer NewMethod(DO.Parcel indexOfParcels, Customer blCustomer)
         {
             ParcelAtCustomer parcelAtCustomer = new ParcelAtCustomer();

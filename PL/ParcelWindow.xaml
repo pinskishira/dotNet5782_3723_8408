@@ -164,7 +164,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="ParcelButton" Grid.Column="0" Visibility="Visible" Content="Add Parcel" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B" Click="ParcelButton_Click"/>
+                <Button x:Name="ParcelButton" Grid.Column="0" Visibility="Collapsed" Content="Add Parcel" IsEnabled="{Binding NameTxtUD, Mode=TwoWay, XPath=Value}"  FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B" Click="ParcelButton_Click"/>
                 <Button x:Name="CancelButton" Grid.Column="2" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FFD57B7B"  Grid.ColumnSpan="2" Click="CancelButton_Click" />
             </Grid>
         </Grid>

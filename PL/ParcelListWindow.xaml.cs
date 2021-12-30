@@ -179,8 +179,7 @@ namespace PL
                 Selection();
             }
             else
-                MessageBox.Show("can not delete parcel:\n","e",MessageBoxButton.OK);
-
+                MessageBox.Show("can not delete parcel:\n", "e", MessageBoxButton.OK);
         }
     }
 }
