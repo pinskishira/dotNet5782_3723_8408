@@ -43,6 +43,7 @@ namespace Dal
         {
             return from itemParcel in DataSource.Parcels
                    where predicate == null ? true : predicate(itemParcel)
+                   where !itemParcel.DeletedParcel
                    select itemParcel;
         }
 
