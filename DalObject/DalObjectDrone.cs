@@ -37,9 +37,7 @@ namespace Dal
         {
             if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
-            int indexAssign = DataSource.Parcels.FindIndex(item => item.Id == idParcel);//finding parcel
-            if(indexAssign==-1)
-                throw new ItemDoesNotExistException("The parcel does not exist.\n");
+            int indexAssign = CheckExistingParcel(idParcel);//finding parcel
             Parcel newParcel = DataSource.Parcels[indexAssign];
             newParcel.DroneId = idDrone;//giving parcel available drones' id
             newParcel.Scheduled = DateTime.Now;//updating date and time
