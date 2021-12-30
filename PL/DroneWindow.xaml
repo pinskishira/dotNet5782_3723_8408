@@ -59,7 +59,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="GridUpdateDrone" Visibility="Collapsed">
+        <Grid x:Name="GridUpdateDrone" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="13*"/>
                 <RowDefinition Height="*"/>

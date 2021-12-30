@@ -1,6 +1,7 @@
 ﻿using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,8 @@ namespace PL
         private StationListWindow StationListWindow { get; }
         private Station Station { get; set; } = new();
         private bool _close { get; set; } = false;
-
-
+        public ObservableCollection<DroneInCharging> dronesInCharging { get; set; } = new();
+            
         /// <summary>
         /// Constructor to add a station
         /// </summary>
@@ -55,10 +56,15 @@ namespace PL
             DataContext = Station;//updating event
             if (Station.DronesInCharging.Count() != 0)
                 ViewDronesInCharging.Visibility = Visibility.Visible;
-            DronesInChargingListView.ItemsSource = Station.DronesInCharging;
+            
             StationButton.Content = "Update Station";
             ChargeSlots.Visibility = Visibility.Visible;
             ChargeSlotsTxtUp.Text = (stationListWindow.CurrentStation.AvailableChargeSlots + stationListWindow.CurrentStation.OccupiedChargeSlots).ToString();
+            foreach (var item in Station.DronesInCharging)
+            {
+                dronesInCharging.Add(item);
+            }
+            DronesInChargingListView.ItemsSource = dronesInCharging;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -216,10 +222,9 @@ namespace PL
 
         private void DronesInChargingListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneListWindow droneListWindow = new DroneListWindow(bl);
             DroneInCharging droneInCharging;
             droneInCharging = (DroneInCharging)DronesInChargingListView.SelectedItem;
-            new DroneWindow(bl, droneListWindow, droneInCharging.Id).Show();
+            new DroneWindow(bl, this, droneInCharging.Id, DronesInChargingListView.SelectedIndex).Show();
         }
     }
 }
