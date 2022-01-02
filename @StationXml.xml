@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
+    <Id>2475</Id>
+    <Name>Bayit Vegan</Name>
+    <Longitude>32.3398479127045</Longitude>
+    <Latitude>33.56638749528974</Latitude>
+    <AvailableChargeSlots>12</AvailableChargeSlots>
+  </Station>
+  <Station>
+    <Id>3287</Id>
+    <Name>Givat Shaul</Name>
+    <Longitude>30.166223922356135</Longitude>
+    <Latitude>35.83780274951728</Latitude>
+    <AvailableChargeSlots>17</AvailableChargeSlots>
+  </Station>
+</ArrayOfStation>
