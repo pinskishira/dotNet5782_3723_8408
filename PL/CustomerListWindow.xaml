@@ -29,6 +29,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
+            <Button x:Name="Refersh" HorizontalAlignment="Left"  Width="50" Height="50" Click="Refresh_Click" >
+                <Image Source="Pictures/refresh.png"/>
+            </Button>
             <Label Content="List Of Customers" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="30"/>
             <Button x:Name="CloseWindowCustomer" Grid.Column="1" Content="Close Window" Click="CloseWindowButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Margin="10,10,10,10"/>
             </Grid>

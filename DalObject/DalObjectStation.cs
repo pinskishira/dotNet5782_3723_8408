@@ -17,10 +17,14 @@ namespace Dal
 
         public Station FindStation(int id)
         {
-            int indexStation = DataSource.Stations.FindIndex(item => item.Id == id);
-            if(indexStation==-1)//checks if station exists
-                throw new ItemDoesNotExistException("The station does not exist.\n");
-            return DataSource.Stations[indexStation];//Going through stations list
+            try
+            {
+                return DataSource.Stations.First(item => item.Id == id);//checks if station exists
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ItemExistsException("The station does not exist.\n");
+            }
         }
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {

@@ -48,5 +48,35 @@ namespace Dal
             int indexOfDrone = DataSource.Drones.FindIndex(index => index.Id == drone.Id);//finding index
             DataSource.Drones[indexOfDrone] = drone;//placing updated drone in place of index
         }
+
+        public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
+        {
+            if (!DataSource.Drones.Exists(item => item.Id == idDrone))//checks if drone exists
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
+            DroneCharge newDroneCharge = new DroneCharge();
+            //drone with low battery will go be charged here
+            int indexOfStation = DataSource.Stations.FindIndex(indexOfStation => indexOfStation.Name == nameStation);
+            if (indexOfStation == -1)//checks if station exists
+                throw new ItemDoesNotExistException("The station does not exist.\n");
+            newDroneCharge.DroneId = idDrone;//putting id of low battery drone into its charging station
+            newDroneCharge.StationId = DataSource.Stations[indexOfStation].Id;
+            newDroneCharge.TimeDroneInCharging = DateTime.Now;
+            AddDroneCharge(newDroneCharge);//updating that a drone is charging
+            Station newStation = DataSource.Stations[indexOfStation];
+            newStation.AvailableChargeSlots--;//less available charge slots in station
+            DataSource.Stations[indexOfStation] = newStation;
+        }
+
+        public void DroneReleaseFromChargingStation(int idDrone)
+        {
+            int indexDC = DataSource.DroneCharges.FindIndex(indexOfDroneCharges => indexOfDroneCharges.DroneId == idDrone);//finds index where drone is
+            if (indexDC == -1)//checks if drone exists
+                throw new ItemDoesNotExistException("The drone does not exist.\n");
+            int indexS = DataSource.Stations.FindIndex(indexOfStations => indexOfStations.Id == DataSource.DroneCharges[indexDC].StationId);//finds index where station is
+            Station newStation = DataSource.Stations[indexS];
+            newStation.AvailableChargeSlots++;//increasing amount of places left to charge
+            DataSource.Stations[indexS] = newStation;
+            DataSource.DroneCharges.RemoveAt(indexDC);//removes drone from charging
+        }
     }
 }

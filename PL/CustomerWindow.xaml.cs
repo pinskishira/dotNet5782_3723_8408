@@ -167,12 +167,17 @@ namespace PL
                     {
                         case MessageBoxResult.OK:
                             int i = CustomerListWindow.CustomerListView.SelectedIndex;
-                            bl.UpdateCustomer(int.Parse(IdTxtUP.Text), NameTxt.Text, PhoneTxt.Text);//udating chosen station
-                            CustomerListWindow.CurrentCustomer.Name = NameTxt.Text;//updating drone name
-                            CustomerListWindow.CurrentCustomer.Phone = PhoneTxt.Text;
-                            CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
-                            CustomerListWindow.CustomerListView.SelectedIndex = i;
-                            var result2 = MessageBox.Show($"SUCCESSFULY UPDATED STATION! \n The customers new name is {NameTxt.Text}, and new phone is {PhoneTxt.Text}", "Successfuly Updated",
+                            if (i == -1)
+                                CustomerListWindow.MyRefresh();
+                            else
+                            {
+                                bl.UpdateCustomer(int.Parse(IdTxtUP.Text), NameTxt.Text, PhoneTxt.Text);//udating chosen station
+                                CustomerListWindow.CurrentCustomer.Name = NameTxt.Text;//updating drone name
+                                CustomerListWindow.CurrentCustomer.Phone = PhoneTxt.Text;
+                                CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
+                                CustomerListWindow.CustomerListView.SelectedIndex = i;
+                            }
+                            var result2 = MessageBox.Show($"SUCCESSFULY UPDATED CUSTOMER! \n The customers new name is {NameTxt.Text}, and new phone is {PhoneTxt.Text}", "Successfuly Updated",
                                MessageBoxButton.OK);
                             switch (result2)
                             {

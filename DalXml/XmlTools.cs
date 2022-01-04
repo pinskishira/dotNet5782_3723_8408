@@ -14,7 +14,7 @@ namespace Dal
         //{
         //    if (!Directory.Exists(dir))
         //        Directory.CreateDirectory(dir);
-        //}
+        //} 
 
         #region SaveLoadWithXElement
         public static void SaveListToXMLElement(XElement rootElem, string filePath)

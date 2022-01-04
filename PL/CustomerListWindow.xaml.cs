@@ -91,5 +91,17 @@ namespace PL
         {
            new CustomerWindow(bl, this).Show();
         }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            customerToLists.OrderBy(customer => customer.Id);
+        }
+
+        public void MyRefresh()
+        {
+            customerToLists.OrderBy(customer => customer.Id);
+            CustomerListView.Items.Refresh();
+        }
+
     }
 }
