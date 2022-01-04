@@ -17,23 +17,28 @@ namespace Dal
 
         internal static DalXml Instance { get { return instance.Value; } }
         private static readonly Lazy<DalXml> instance = new Lazy<DalXml>(() => new DalXml());
-        static DalXml() { }//static ctor to ensure instance init is done just before first usage
+        static DalXml() { XMLTools.SaveListToXMLSerializer(new List<int> { 0 }, "RunParcelNum.xml"); }//static ctor to ensure instance init is done just before first usage
         private DalXml()
         {
-            //DataSource.Initialize();
-            //List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
-            //foreach (var item in droneCharge)
-            //{
-            //    UpdateClearChargeSlotsAStations(item.StationId);
-            //}
-            //droneCharge.Clear();
-            //XMLTools.SaveListToXMLSerializer(droneCharge, DroneChargeXml);
+            List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
+            foreach (var item in droneCharge)
+            {
+                UpdateChargeSlotsAStations(item.StationId);
+            }
+            droneCharge.Clear();
+            XMLTools.SaveListToXMLSerializer(droneCharge, DroneChargeXml);
         }
 
-        //private void UpdateClearChargeSlotsAStations(int stationId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private void UpdateChargeSlotsAStations(int stationId)
+        {
+            List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
+            //BaseStation update.
+            int indexaforBaseStationId = stations.FindIndex(x => x.Id == stationId);
+            Station temp = stations[indexaforBaseStationId];
+            temp.AvailableChargeSlots++;
+            stations[indexaforBaseStationId] = temp;
+            XMLTools.SaveListToXMLSerializer(stations, StationXml);
+        }
 
         public double[] electricityUse()
         {
@@ -79,9 +84,11 @@ namespace Dal
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id && !newParcel.DeletedParcel))//checks if parcel exists
                 throw new ItemExistsException("The parcel already exists.\n");
-            newParcel.Id = DataSource.Config.NextParcelNumber++;
+            XElement runningNum = XElement.Load(@"RunParcelNum.xml");
+            newParcel.Id = 1 +int.Parse(runningNum.Element("Id").Value);
             parcels.Add(newParcel);
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
+            XMLTools.SaveListToXMLElement(runningNum, "RunParcelNum.xml");
         }
 
         public void AddStation(Station newStation)
