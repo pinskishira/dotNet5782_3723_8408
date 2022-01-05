@@ -14,10 +14,16 @@ namespace Dal
         private static string CustomerXml = "@CustomerXml.xml";
         private static string ParcelXml = "@ParcelXml.xml";
         private static string DroneChargeXml = "@DroneChargeXml.xml";
+        private static string RunParcelNumXml = "@RunParcelNum.xml";
 
-        internal static DalXml Instance { get { return instance.Value; } }
+
+        internal static DalXml Instance { get { return instance.Value; } }  
         private static readonly Lazy<DalXml> instance = new Lazy<DalXml>(() => new DalXml());
-        static DalXml() { XMLTools.SaveListToXMLSerializer(new List<int> { 0 }, "RunParcelNum.xml"); }//static ctor to ensure instance init is done just before first usage
+        static DalXml() 
+        {
+            //XElement runNum = XMLTools.LoadListFromXMLElement("RunParcelNum.xml");
+            //XMLTools.SaveListToXMLElement(runNum, "RunParcelNum.xml");
+        }//static ctor to ensure instance init is done just before first usage
         private DalXml()
         {
             List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
@@ -84,7 +90,7 @@ namespace Dal
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id && !newParcel.DeletedParcel))//checks if parcel exists
                 throw new ItemExistsException("The parcel already exists.\n");
-            XElement runningNum = XElement.Load(@"RunParcelNum.xml");
+            XElement runningNum = XMLTools.LoadListFromXMLElement(RunParcelNumXml);
             newParcel.Id = 1 +int.Parse(runningNum.Element("Id").Value);
             parcels.Add(newParcel);
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
