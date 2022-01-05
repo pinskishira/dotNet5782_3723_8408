@@ -193,6 +193,34 @@ namespace BL
         /// </summary>
         /// <param name="CurrentLocation">Current location</param>
         /// <returns>Returns smallest distance between drone and closest station</returns>
+        //    DO.Station smallestDistanceFromDrone(Location CurrentLocation)
+        //    {
+
+        //    //    double minDistance = double.PositiveInfinity;//starting with an unlimited value
+        //    //    DO.Station station = new DO.Station();
+        //    //    station.Id = -1;
+        //    //    double tempDistance = -1;
+        //    //    List<DO.Station> stationList = dal.GetAllStations().ToList();
+        //    //    void func(double tempDistance, DO.Station indexOfStations)
+        //    //    {
+        //    //        tempDistance = Distance.Haversine(indexOfStations.Longitude, indexOfStations.Latitude, CurrentLocation.Longitude, CurrentLocation.Latitude);
+
+        //    //    }
+        //    //    var t=from indexOfStations in stationList
+        //    //          select tempDistance < minDistance && indexOfStations.AvailableChargeSlots > 0?func(tempDistance, indexOfStations)?
+
+        //    //    foreach (var indexOfStations in stationList)//goes through all the stations 
+        //    //    {
+        //    //        //calculating the distance between the sender and the station
+        //    //        if (tempDistance < minDistance && indexOfStations.AvailableChargeSlots > 0)//compares which distance is smaller
+        //    //        {
+        //    //            minDistance = tempDistance;
+        //    //            station = indexOfStations;
+        //    //        }
+        //    //    }
+        //    //    return station;//returns closest station to sender
+        //    //}
+        /// <returns>Returns smallest distance between drone and closest station</returns>
         DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value

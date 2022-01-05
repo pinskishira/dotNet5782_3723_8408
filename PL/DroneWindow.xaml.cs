@@ -334,7 +334,8 @@ namespace PL
                         var request = MessageBox.Show($"Are you sure you would like to release drone from charge? \n", "Request Review",
                     MessageBoxButton.OKCancel, MessageBoxImage.Question);
                         bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));//release drone from charging - updating in bl
-                        Station.dronesInCharging.RemoveAt(Index);
+                        if (Station != null)
+                            Station.dronesInCharging.RemoveAt(Index);
                         DroneStatusChangeUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
                         ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
                         DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
