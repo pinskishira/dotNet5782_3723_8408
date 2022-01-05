@@ -130,4 +130,30 @@
     <Delivered>2021-02-01T22:05:07</Delivered>
     <DeletedParcel>false</DeletedParcel>
   </Parcel>
+  <Parcel>
+    <Id>10010</Id>
+    <SenderId>145662044</SenderId>
+    <TargetId>597614178</TargetId>
+    <Weight>Easy</Weight>
+    <Priority>Normal</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-01-05T11:35:54.9476826+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <DeletedParcel>true</DeletedParcel>
+  </Parcel>
+  <Parcel>
+    <Id>10011</Id>
+    <SenderId>818756558</SenderId>
+    <TargetId>503010261</TargetId>
+    <Weight>Easy</Weight>
+    <Priority>Normal</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-01-05T11:36:23.4301387+02:00</Requested>
+    <Scheduled xsi:nil="true" />
+    <PickedUp xsi:nil="true" />
+    <Delivered xsi:nil="true" />
+    <DeletedParcel>false</DeletedParcel>
+  </Parcel>
 </ArrayOfParcel>

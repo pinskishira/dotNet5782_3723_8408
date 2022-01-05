@@ -47,7 +47,7 @@ namespace Dal
                 }
                 newStation.Longitude = rand.Next(29, 34) + rand.NextDouble();//Updating longitude   
                 newStation.Latitude = rand.Next(33, 37) + rand.NextDouble();//Updating latitude 
-                newStation.AvailableChargeSlots = rand.Next(10, 30);//Updating charging slots
+                newStation.AvailableChargeSlots = rand.Next(10, 31);//Updating charging slots
                 newStation.Name = stationArrayNames[loopStation];
                 Stations.Add(newStation);
             }

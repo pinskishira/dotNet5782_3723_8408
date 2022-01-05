@@ -69,16 +69,14 @@ namespace BL
                 }
                 catch (InvalidOperationException)
                 {
-                    if (indexOfDrones.DroneStatus != DroneStatuses.Delivery)//if the drone is not performing a delivery
-                        indexOfDrones.DroneStatus = (DroneStatuses)rand.Next(0, 2);//his status will be found using random selection  
-                    if (indexOfDrones.DroneStatus == DroneStatuses.Maintenance)//if the drone is in maintanance
+                    try//if the drone is in maintanance
                     {
+                        dal.GetDroneCharge(indexOfDrones.Id);
+                        indexOfDrones.DroneStatus = DroneStatuses.Maintenance;
                         List<DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
                         int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
                         DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
-                        indexOfDrones.CurrentLocation = new Location();
-                        indexOfDrones.CurrentLocation.Longitude = station.Longitude;//updating the location of the drone
-                        indexOfDrones.CurrentLocation.Latitude = station.Latitude;
+                        indexOfDrones.CurrentLocation = new() { Latitude = station.Latitude, Longitude = station.Longitude };//updating the location of the drone
                         indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
                         DO.DroneCharge droneCharge = new DO.DroneCharge();
                         droneCharge.DroneId = indexOfDrones.Id;
@@ -86,14 +84,13 @@ namespace BL
                         droneCharge.TimeDroneInCharging = DateTime.Now;
                         dal.AddDroneCharge(droneCharge);
                     }
-                    if (indexOfDrones.DroneStatus == DroneStatuses.Available)//if the drone is available for delivery
+                    catch (ItemDoesNotExistException)//if the drone is available for delivery
                     {
+                        indexOfDrones.DroneStatus = DroneStatuses.Available;
                         List<DO.Parcel> deliveredParcels = dal.GetAllParcels(indexOfParcels => indexOfParcels.Delivered != null).ToList();
                         int idCustomer = deliveredParcels[rand.Next(0, deliveredParcels.Count())].TargetId;//finding a random index from the new list of deliveredParcels
                         DO.Customer customer = dal.FindCustomer(idCustomer);//finding the customer with the index found with random selection
-                        indexOfDrones.CurrentLocation = new Location();
-                        indexOfDrones.CurrentLocation.Longitude = customer.Longitude;//updating the location of the drone
-                        indexOfDrones.CurrentLocation.Latitude = customer.Latitude;
+                        indexOfDrones.CurrentLocation = new() { Latitude = customer.Latitude, Longitude = customer.Longitude };//updating the location of the drone
                         //finding the closest station to the current location of the drone
                         DO.Station smallestDistanceStation = smallestDistance(indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude);
                         //finding the distance from closest station and the drones current location

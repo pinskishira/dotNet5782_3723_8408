@@ -30,7 +30,7 @@ namespace Dal
             }
             catch (InvalidOperationException)
             {
-                throw new ItemExistsException("The drone does not exists.\n");
+                throw new ItemDoesNotExistException("The drone does not exists.\n");
             }
             
         }

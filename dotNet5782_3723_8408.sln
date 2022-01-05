@@ -31,11 +31,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B0972624-4E57-47A5-A12C-D78D2A616998}"
 	ProjectSection(SolutionItems) = preProject
-		@CustomerXml.xml = @CustomerXml.xml
-		@DroneChargeXml.xml = @DroneChargeXml.xml
-		@DroneXml.xml = @DroneXml.xml
-		@ParcelXml.xml = @ParcelXml.xml
-		@StationXml.xml = @StationXml.xml
+		config.xml = config.xml
+		CustomerXml.xml = CustomerXml.xml
+		DroneChargeXml.xml = DroneChargeXml.xml
+		DroneXml.xml = DroneXml.xml
+		ParcelXml.xml = ParcelXml.xml
+		StationXml.xml = StationXml.xml
 	EndProjectSection
 EndProject
 Global
