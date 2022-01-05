@@ -30,8 +30,6 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            stationToLists = new Dictionary<int, List<StationToList>>();
-            IEnumerable<StationToList> temp = bl.GetAllStations();
             stationToLists = (from item in bl.GetAllStations()
                               group item by item.AvailableChargeSlots).ToDictionary(x => x.Key, x => x.ToList());
             RefreshStations();
@@ -40,7 +38,7 @@ namespace PL
         public void RefreshStations()
         {
             StationListView.ItemsSource = from item in stationToLists.Values.SelectMany(x => x)
-                                          orderby item.AvailableChargeSlots
+                                          //orderby item.AvailableChargeSlots
                                           select item;
         }
 
