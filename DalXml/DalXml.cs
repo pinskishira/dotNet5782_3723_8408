@@ -28,11 +28,11 @@ namespace Dal
         {
             XElement p = XMLTools.LoadListFromXMLElement(@"config.xml");
             double[] elecUse = new double[5];
-            elecUse[0] = int.Parse(p.Element("BatteryConsumptionPowerUsageEmpty").Value);
-            elecUse[1] = int.Parse(p.Element("BatteryConsumptionLightWeight").Value);
-            elecUse[2] = int.Parse(p.Element("BatteryConsumptionMediumWeight").Value);
-            elecUse[3] = int.Parse(p.Element("BatteryConsumptionHeavyWeight").Value);
-            elecUse[4] = int.Parse(p.Element("DroneChargingRatePH").Value);
+            elecUse[0] = double.Parse(p.Element("BatteryConsumptionPowerUsageEmpty").Value);
+            elecUse[1] = double.Parse(p.Element("BatteryConsumptionLightWeight").Value);
+            elecUse[2] = double.Parse(p.Element("BatteryConsumptionMediumWeight").Value);
+            elecUse[3] = double.Parse(p.Element("BatteryConsumptionHeavyWeight").Value);
+            elecUse[4] = double.Parse(p.Element("DroneChargingRatePH").Value);
             return elecUse;
         }
 

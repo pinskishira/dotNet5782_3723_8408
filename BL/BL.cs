@@ -69,9 +69,9 @@ namespace BL
                 }
                 catch (InvalidOperationException)
                 {
-                    DO.DroneCharge drone=dal.GetDroneCharge(indexOfDrones.Id);
-                    if (drone.DroneId!=default)//if the drone is in maintanance
-                    {  
+                    DO.DroneCharge drone = dal.GetDroneCharge(indexOfDrones.Id);
+                    if (drone.DroneId != default)//if the drone is in maintanance
+                    {
                         indexOfDrones.DroneStatus = DroneStatuses.Maintenance;
                         List<DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
                         int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
