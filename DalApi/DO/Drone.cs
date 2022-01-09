@@ -7,6 +7,7 @@ namespace DO
         public int Id { get; set; }
         public string Model { get; set; }//The drone model
         public WeightCategories Weight { get; set; }
+        public bool DeletedDrone { get; set; }
         public override string ToString()
         {
             String result = "";

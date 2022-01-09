@@ -18,7 +18,7 @@ namespace Dal
         public Customer FindCustomer(int id)
         {
             int indexCustomer = CheckExistingCustomer(id);//checks if customer exists
-            return DataSource.Customers[indexCustomer];//finding parcel
+            return DataSource.Customers[indexCustomer];//finding customer
         }
 
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)

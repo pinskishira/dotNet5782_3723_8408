@@ -7,6 +7,7 @@ namespace Dal
 {
     partial class DalObject
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
             if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id && !newParcel.DeletedParcel))//checks if parcel exists
@@ -15,6 +16,7 @@ namespace Dal
             DataSource.Parcels.Add(newParcel);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
             int indexParcel = CheckExistingParcel(idParcel);//finding parcel that was collected by drone
@@ -23,6 +25,7 @@ namespace Dal
             DataSource.Parcels[indexParcel] = newParcel;//updating date and time
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
             int indexParcel = CheckExistingParcel(idParcel);//finding parcel
@@ -33,12 +36,14 @@ namespace Dal
             DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel FindParcel(int id)
         {
             int indexParcel = CheckExistingParcel(id);
             return DataSource.Parcels[indexParcel];//finding parcel
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             return from itemParcel in DataSource.Parcels
@@ -46,7 +51,6 @@ namespace Dal
                    where !itemParcel.DeletedParcel
                    select itemParcel;
         }
-
         private int CheckExistingParcel(int id)
         {
             int index = DataSource.Parcels.FindIndex(parcel => parcel.Id == id);
@@ -57,7 +61,7 @@ namespace Dal
             return index;
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             int indexOfParcel = CheckExistingParcel(id);//checks if parcel exists

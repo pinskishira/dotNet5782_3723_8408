@@ -140,6 +140,21 @@ namespace PL
             }
         }
 
-        
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement framework = sender as FrameworkElement;
+            CurrentDrone = framework.DataContext as DroneToList;
+            if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
+            {
+                bl.DeleteDrone(CurrentDrone.Id);
+                DroneStatusesAndWeightCategories dStatusAWeight = new();
+                dStatusAWeight.DroneStatus = CurrentDrone.DroneStatus;
+                dStatusAWeight.Weight = CurrentDrone.Weight;
+                droneToLists[dStatusAWeight].RemoveAll(i => i.Id == CurrentDrone.Id);
+                Selection();
+            }
+            else
+                MessageBox.Show("can not delete drone:\n", "CANNOT DELETE", MessageBoxButton.OK);
+        }
     }
 }

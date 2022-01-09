@@ -8,6 +8,7 @@ namespace Dal
 {
     partial class DalObject
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge newDroneCharge)
         {
             if (DataSource.DroneCharges.Exists(item => item.DroneId == newDroneCharge.DroneId))//checks if drone charge exists
@@ -15,6 +16,7 @@ namespace Dal
             DataSource.DroneCharges.Add(newDroneCharge);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null)
         {
             return from itemDroneCharges in DataSource.DroneCharges
@@ -22,6 +24,7 @@ namespace Dal
                    select itemDroneCharges;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             try

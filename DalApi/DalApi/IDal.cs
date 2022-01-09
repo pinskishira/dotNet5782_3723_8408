@@ -186,5 +186,11 @@ namespace DalApi
         /// <param name="id">The id of the customer to delete</param>
         void DeleteCustomer(int id);
 
+        /// <summary>
+        /// Deletes a drone
+        /// </summary>
+        /// <param name="id">The id of the drone to delete</param>
+        void DeleteDrone(int id);
+
     }
 }

@@ -67,6 +67,15 @@
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="auto"/>
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\delete.png" Width="30" MouseDown="Image_MouseDown"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>

@@ -158,16 +158,23 @@ namespace BlApi
         /// <param name="droneId">Drone to assign to parcel</param>
         /// <exception cref="IBL.BO.ParcelDeliveryException"></exception>
         void UpdateAssignParcelToDrone(int droneId);
+
         /// <summary>
         /// Delete parcel
         /// </summary>
-        /// <param name="parcel">parcel to delete</param>
+        /// <param name="idParcel">parcel to delete</param>
         void DeleteParcel(int idParcel);
 
         /// <summary>
         /// Delete customer
         /// </summary>
-        /// <param name="parcel">customer to delete</param>
+        /// <param name="idCustomer">customer to delete</param>
         void DeleteCustomer(int idCustomer);
+
+        /// <summary>
+        ///  Delete drone
+        /// </summary>
+        /// <param name="idDrone">drone to delete</param>
+        void DeleteDrone(int idDrone);
     }
 }

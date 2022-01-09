@@ -8,6 +8,7 @@ namespace Dal
 {
     partial class DalObject
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station newStation)
         {
             if (DataSource.Stations.Exists(item => item.Id == newStation.Id))//checks if station exists
@@ -15,6 +16,7 @@ namespace Dal
             DataSource.Stations.Add(newStation);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
             try
@@ -26,6 +28,8 @@ namespace Dal
                 throw new ItemExistsException("The station does not exist.\n");
             }
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
             return from itemStation in DataSource.Stations
@@ -47,6 +51,7 @@ namespace Dal
             return chargeSlotsInUse;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
             int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);

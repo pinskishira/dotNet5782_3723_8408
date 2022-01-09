@@ -151,7 +151,7 @@ namespace Dal
         public void AddDrone(Drone newDrone)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-            if (drones.Exists(item => item.Id == newDrone.Id))//checks if drone exists
+            if (drones.Exists(item => item.Id == newDrone.Id) && !newDrone.DeletedDrone)//checks if drone exists
                 throw new ItemExistsException("The drone already exists.\n");
             drones.Add(newDrone);
             XMLTools.SaveListToXMLSerializer(drones, DroneXml);
@@ -160,14 +160,12 @@ namespace Dal
         public Drone FindDrone(int id)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-            try
-            {
-                return drones.First(item => item.Id == id);//checks if drone exists
-            }
-            catch (InvalidOperationException)
-            {
-                throw new ItemExistsException("The drone does not exist.\n");
-            }
+            int index = drones.FindIndex(parcel => parcel.Id == id);
+            if (index == -1)
+                throw new ItemDoesNotExistException("No drone found with this id");
+            if (drones[index].DeletedDrone)
+                throw new ItemDoesNotExistException("This drone is deleted");
+            return drones[index];//finding drone
         }
 
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
@@ -175,6 +173,7 @@ namespace Dal
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             return from itemDrone in drones
                    where predicate == null ? true : predicate(itemDrone)
+                   where !itemDrone.DeletedDrone
                    select itemDrone;
         }
 
@@ -182,8 +181,9 @@ namespace Dal
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-            if (!drones.Exists(item => item.Id == idDrone))//checks if drone exists
-                throw new ItemDoesNotExistException("The drone does not exist.\n");
+            int index = DataSource.Drones.FindIndex(drone => drone.Id == idDrone);
+            if (!drones.Exists(item => item.Id == idDrone) && DataSource.Drones[index].DeletedDrone)//checks if drone exists
+                throw new ItemDoesNotExistException("The drone does not exist or it is deleted.\n");
             int indexAssign = parcels.FindIndex(parcel => parcel.Id == idParcel);
             if (indexAssign == -1)
                 throw new ItemDoesNotExistException("No parcel found with this id");
@@ -214,7 +214,8 @@ namespace Dal
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
-            if (!drones.Exists(item => item.Id == idDrone))//checks if drone exists
+            int index = DataSource.Drones.FindIndex(drone => drone.Id == idDrone);
+            if (!drones.Exists(item => item.Id == idDrone) && DataSource.Drones[index].DeletedDrone)//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             DroneCharge newDroneCharge = new DroneCharge();
             //drone with low battery will go be charged here
@@ -254,10 +255,24 @@ namespace Dal
             drones[indexOfDrone] = drone;//placing updated drone in place of index
             XMLTools.SaveListToXMLSerializer(drones, DroneXml);
         }
-        #endregion Drones
 
-        #region Stations
-        public void AddStation(Station newStation)
+        public void DeleteDrone(int id)
+        {
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+            int indexDrone = drones.FindIndex(drone => drone.Id == id);//finding parcel that was collected by drone
+            if (indexDrone == -1)
+                throw new ItemDoesNotExistException("No parcel found with this id");
+            if (drones[indexDrone].DeletedDrone)
+                throw new ItemDoesNotExistException("This parcel is deleted");
+            Drone drone = drones[indexDrone];
+            drone.DeletedDrone = true;
+            drones[indexDrone] = drone;
+            XMLTools.SaveListToXMLSerializer(drones, ParcelXml);
+        }
+            #endregion Drones
+
+            #region Stations
+            public void AddStation(Station newStation)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
             if (stations.Exists(item => item.Id == newStation.Id))//checks if station exists
