@@ -38,7 +38,7 @@ namespace PL
         public void RefreshStations()
         {
             StationListView.ItemsSource = from item in stationToLists.Values.SelectMany(x => x)
-                                          //orderby item.AvailableChargeSlots
+                                          orderby item.AvailableChargeSlots
                                           select item;
         }
 
