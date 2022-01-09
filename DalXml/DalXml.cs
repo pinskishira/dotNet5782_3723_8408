@@ -16,7 +16,6 @@ namespace Dal
         private static string DroneChargeXml = @"DroneChargeXml.xml";
 
 
-
         internal static DalXml Instance { get { return instance.Value; } }
         private static readonly Lazy<DalXml> instance = new Lazy<DalXml>(() => new DalXml());
         static DalXml() { }//static ctor to ensure instance init is done just before first usage
@@ -26,13 +25,14 @@ namespace Dal
         {
             XElement p = XMLTools.LoadListFromXMLElement(@"config.xml");
             double[] elecUse = new double[5];
-            elecUse[0] = double.Parse(p.Element("BatteryConsumptionPowerUsageEmpty").Value);
-            elecUse[1] = double.Parse(p.Element("BatteryConsumptionLightWeight").Value);
-            elecUse[2] = double.Parse(p.Element("BatteryConsumptionMediumWeight").Value);
-            elecUse[3] = double.Parse(p.Element("BatteryConsumptionHeavyWeight").Value);
-            elecUse[4] = double.Parse(p.Element("DroneChargingRatePH").Value);
+            elecUse[0] = int.Parse(p.Element("BatteryConsumptionPowerUsageEmpty").Value);
+            elecUse[1] = int.Parse(p.Element("BatteryConsumptionLightWeight").Value);
+            elecUse[2] = int.Parse(p.Element("BatteryConsumptionMediumWeight").Value);
+            elecUse[3] = int.Parse(p.Element("BatteryConsumptionHeavyWeight").Value);
+            elecUse[4] = int.Parse(p.Element("DroneChargingRatePH").Value);
             return elecUse;
         }
+
         #region Customers
         public void AddCustomer(Customer newCustomer)
         {
@@ -40,7 +40,7 @@ namespace Dal
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             XElement customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == newCustomer.Id.ToString()
+                                 where cus.Element("Id").Value == newCustomer.Id.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
                                  select cus).FirstOrDefault();
             if (customer != null)
             {
@@ -52,8 +52,8 @@ namespace Dal
                                  new XElement("Name", newCustomer.Name),
                                  new XElement("Phone", newCustomer.Phone),
                                  new XElement("Longitude", newCustomer.Longitude),
-                                 new XElement("Latitude", newCustomer.Latitude));
-
+                                 new XElement("Latitude", newCustomer.Latitude),
+                                 new XElement("DeletedCustomer", newCustomer.DeletedCustomer));
             customerXml.Add(CustomerElem);
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
         }
@@ -63,24 +63,25 @@ namespace Dal
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             Customer customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == id.ToString()
+                                 where cus.Element("Id").Value == id.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
                                  select new Customer()
                                  {
                                      Id = int.Parse(cus.Element("Id").Value),
                                      Name = cus.Element("Name").Value,
                                      Phone = cus.Element("Phone").Value,
                                      Longitude = double.Parse(cus.Element("Longitude").Value),
-                                     Latitude = double.Parse(cus.Element("Latitude").Value)
+                                     Latitude = double.Parse(cus.Element("Latitude").Value),
+                                     DeletedCustomer = bool.Parse(cus.Element("DeletedCustomer").Value)
                                  }
                         ).FirstOrDefault();
 
-            if (customer.Id != 0)
-            {
+            if (customer.Id != 0 && !customer.DeletedCustomer)
+            { 
                 return customer;
             }
             else
             {
-                throw new ItemExistsException("The customer does not exist.\n");
+                throw new ItemExistsException("The customer does not exist or it has been deleted\n");
 
             }
         }
@@ -95,7 +96,8 @@ namespace Dal
                                                  Name = cus.Element("Name").Value,
                                                  Phone = cus.Element("Phone").Value,
                                                  Longitude = double.Parse(cus.Element("Longitude").Value),
-                                                 Latitude = double.Parse(cus.Element("Latitude").Value)
+                                                 Latitude = double.Parse(cus.Element("Latitude").Value),
+                                                 DeletedCustomer = bool.Parse(cus.Element("DeletedCustomer").Value)
                                              };
             return customer.Select(item => item);
         }
@@ -105,7 +107,7 @@ namespace Dal
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             XElement customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == idCustomer.ToString()
+                                 where cus.Element("Id").Value == idCustomer.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
                                  select cus).FirstOrDefault();
             if (customer == null)
                 throw new ItemDoesNotExistException("The customer does not exist.\n");
@@ -115,9 +117,34 @@ namespace Dal
             customer.Element("PhoneNumber").Value = customerPhone;
             customer.Element("Longitude").Value = customer.Element("Longitude").ToString();
             customer.Element("Latitude").Value = customer.Element("Latitude").ToString();
+            customer.Element("DeletedCustomer").Value = customer.Element("DeletedCustomer").ToString();
 
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
         }
+
+        public void DeleteCustomer(int id)
+        {
+
+            XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
+
+            XElement customer = (from cus in customerXml.Elements()
+                                 where cus.Element("Id").Value == id.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
+                                 select cus).FirstOrDefault();
+            if (customer == null)
+                throw new ItemDoesNotExistException("The customer does not exist or it has been deleted.\n");
+
+            customer.Element("Id").Value = id.ToString();
+            customer.Element("Name").Value = customer.Element("Name").ToString();
+            customer.Element("PhoneNumber").Value = customer.Element("PhoneNumber").ToString();
+            customer.Element("Longitude").Value = customer.Element("Longitude").ToString();
+            customer.Element("Latitude").Value = customer.Element("Latitude").ToString();
+            customer.Element("DeletedCustomer").Value = true.ToString();
+
+            XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
+
+
+        }
+
         #endregion Customers
 
         #region Drones
@@ -143,13 +170,13 @@ namespace Dal
             }
         }
 
-    public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
-    {
-        List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-        return from itemDrone in drones
-               where predicate == null ? true : predicate(itemDrone)
-               select itemDrone;
-    }
+        public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
+        {
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+            return from itemDrone in drones
+                   where predicate == null ? true : predicate(itemDrone)
+                   select itemDrone;
+        }
 
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
@@ -169,19 +196,19 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
         }
 
-    public void UpdateParcelCollectionByDrone(int idParcel)
-    {
-        List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
-        int indexParcel = parcels.FindIndex(parcel => parcel.Id == idParcel);//finding parcel that was collected by drone
-        if (indexParcel == -1)
-            throw new ItemDoesNotExistException("No parcel found with this id");
-        if (parcels[indexParcel].DeletedParcel)
-            throw new ItemDoesNotExistException("This parcel is deleted");
-        Parcel newParcel = parcels[indexParcel];
-        newParcel.PickedUp = DateTime.Now;
-        parcels[indexParcel] = newParcel;//updating date and time
-        XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
-    }
+        public void UpdateParcelCollectionByDrone(int idParcel)
+        {
+            List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
+            int indexParcel = parcels.FindIndex(parcel => parcel.Id == idParcel);//finding parcel that was collected by drone
+            if (indexParcel == -1)
+                throw new ItemDoesNotExistException("No parcel found with this id");
+            if (parcels[indexParcel].DeletedParcel)
+                throw new ItemDoesNotExistException("This parcel is deleted");
+            Parcel newParcel = parcels[indexParcel];
+            newParcel.PickedUp = DateTime.Now;
+            parcels[indexParcel] = newParcel;//updating date and time
+            XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
+        }
 
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
@@ -383,7 +410,7 @@ namespace Dal
             }
         }
         #endregion DroneCharge
+
+      
     }
 }
-
-

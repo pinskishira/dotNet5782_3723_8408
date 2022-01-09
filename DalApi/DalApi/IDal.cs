@@ -166,18 +166,25 @@ namespace DalApi
         /// <param name="newName">Customers new name</param>
         /// <param name="customerPhone">Customers new phone</param>
         void UpdateCustomer(int idCustomer, string newName, string customerPhone);
+
         /// <summary>
         /// Returns a drone charge accorging to a specific id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         DroneCharge GetDroneCharge(int id);
+
         /// <summary>
         /// Deletes a parcel
         /// </summary>
         /// <param name="id">The id of the parcel to delete</param>
         void DeleteParcel(int id);
 
+        /// <summary>
+        /// Deletes a customer
+        /// </summary>
+        /// <param name="id">The id of the customer to delete</param>
+        void DeleteCustomer(int id);
 
     }
 }

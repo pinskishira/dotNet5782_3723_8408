@@ -164,5 +164,10 @@ namespace BlApi
         /// <param name="parcel">parcel to delete</param>
         void DeleteParcel(int idParcel);
 
+        /// <summary>
+        /// Delete customer
+        /// </summary>
+        /// <param name="parcel">customer to delete</param>
+        void DeleteCustomer(int idCustomer);
     }
 }
