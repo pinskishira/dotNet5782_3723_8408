@@ -107,7 +107,9 @@ namespace PL
         {
             FrameworkElement framework = sender as FrameworkElement;
             CurrentCustomer= framework.DataContext as CustomerToList;
-            bl.DeleteCustomer(CurrentCustomer.Id);     
+            bl.DeleteCustomer(CurrentCustomer.Id);
+            customerToLists.Remove(CurrentCustomer);
+            MyRefresh();
         }
     }
 }

@@ -63,18 +63,18 @@ namespace PL
             new StationWindow(bl, this, 5).Show();
         }
 
-        private void MouseDoubleClick_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CurrentStation = (StationToList)StationListView.SelectedItem;
-            if (CurrentStation != null)
-                new StationWindow(bl, this).Show();
-        }
-
         private void refersh_Click(object sender, RoutedEventArgs e)
         {
             stationToLists = (from item in bl.GetAllStations()
                               group item by item.AvailableChargeSlots).ToDictionary(x => x.Key, x => x.ToList());
             RefreshStations();
+        }
+
+        private void MouseDoubleClick_SelectionChanged(object sender, MouseButtonEventArgs e)
+        {
+            CurrentStation = (StationToList)StationListView.SelectedItem;
+            if (CurrentStation != null)
+                new StationWindow(bl, this).Show();
         }
     }
 }
