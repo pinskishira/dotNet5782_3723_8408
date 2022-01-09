@@ -153,5 +153,17 @@ namespace BL
             }
         }
 
+        public void DeleteCustomer(int idCustomer)
+        {
+            try
+            {
+                dal.DeleteCustomer(idCustomer);//delete customer
+            }
+            catch (DO.ItemDoesNotExistException ex)
+            {
+                throw new ItemDoesNotExistException("ERROR.\n", ex);
+            }
+        }
+
     }
 }

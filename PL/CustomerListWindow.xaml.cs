@@ -103,5 +103,11 @@ namespace PL
             CustomerListView.Items.Refresh();
         }
 
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement framework = sender as FrameworkElement;
+            CurrentCustomer= framework.DataContext as CustomerToList;
+            bl.DeleteCustomer(CurrentCustomer.Id);     
+        }
     }
 }

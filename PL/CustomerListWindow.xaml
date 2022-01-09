@@ -34,7 +34,7 @@
             </Button>
             <Label Content="List Of Customers" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="30"/>
             <Button x:Name="CloseWindowCustomer" Grid.Column="1" Content="Close Window" Click="CloseWindowButton_Click" BorderThickness="4,4,4,4" BorderBrush="#FFF7F3F3" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Margin="10,10,10,10"/>
-            </Grid>
+        </Grid>
         <ListView x:Name ="CustomerListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="CustomerListView_SelectionChanged" FontWeight="Bold" FontSize="16" FontFamily="Britannic Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="503.702222222222" >
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\customerPic.jpeg" Opacity="0.7"/>
@@ -57,6 +57,15 @@
                     <GridViewColumn Header="Parcels Sent But Not Delivered" DisplayMemberBinding="{Binding ParcelsSentButNotDelivered}" Width="230"/>
                     <GridViewColumn Header="Recieved Parcels" DisplayMemberBinding="{Binding RecievedParcels}" Width="130"/>
                     <GridViewColumn Header="Parcels On The Way" DisplayMemberBinding="{Binding ParcelsOnTheWayToCustomer}" Width="150"/>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\delete.png" Width="30" MouseDown="Image_MouseDown"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
