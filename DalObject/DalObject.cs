@@ -1,5 +1,6 @@
 ﻿using System;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -13,6 +14,7 @@ namespace Dal
             DataSource.Initialize();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] electricityUse()
         {
             double[] elecUse = new double[5];

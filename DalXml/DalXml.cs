@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -21,6 +22,7 @@ namespace Dal
         static DalXml() { }//static ctor to ensure instance init is done just before first usage
         private DalXml() { }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] electricityUse()
         {
             XElement p = XMLTools.LoadListFromXMLElement(@"config.xml");
@@ -34,6 +36,8 @@ namespace Dal
         }
 
         #region Customers
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer newCustomer)
         {
 
@@ -58,12 +62,13 @@ namespace Dal
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer FindCustomer(int id)
         {
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             Customer customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == id.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
+                                 where cus.Element("Id").Value == id.ToString()
                                  select new Customer()
                                  {
                                      Id = int.Parse(cus.Element("Id").Value),
@@ -86,6 +91,7 @@ namespace Dal
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
@@ -99,45 +105,40 @@ namespace Dal
                                                  Latitude = double.Parse(cus.Element("Latitude").Value),
                                                  DeletedCustomer = bool.Parse(cus.Element("DeletedCustomer").Value)
                                              };
-            return customer.Select(item => item);
+            return customer.Where(item => item.DeletedCustomer==false);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             XElement customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == idCustomer.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
+                                 where cus.Element("Id").Value == idCustomer.ToString()
                                  select cus).FirstOrDefault();
             if (customer == null)
                 throw new ItemDoesNotExistException("The customer does not exist.\n");
 
             customer.Element("Id").Value = idCustomer.ToString();
             customer.Element("Name").Value = newName;
-            customer.Element("PhoneNumber").Value = customerPhone;
-            customer.Element("Longitude").Value = customer.Element("Longitude").ToString();
-            customer.Element("Latitude").Value = customer.Element("Latitude").ToString();
-            customer.Element("DeletedCustomer").Value = customer.Element("DeletedCustomer").ToString();
+            customer.Element("Phone").Value = customerPhone;
 
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
 
             XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
 
             XElement customer = (from cus in customerXml.Elements()
-                                 where cus.Element("Id").Value == id.ToString() && cus.Element("DeletedCustomer").Value == false.ToString()
+                                 where cus.Element("Id").Value == id.ToString()
                                  select cus).FirstOrDefault();
             if (customer == null)
                 throw new ItemDoesNotExistException("The customer does not exist or it has been deleted.\n");
 
             customer.Element("Id").Value = id.ToString();
-            customer.Element("Name").Value = customer.Element("Name").ToString();
-            customer.Element("PhoneNumber").Value = customer.Element("PhoneNumber").ToString();
-            customer.Element("Longitude").Value = customer.Element("Longitude").ToString();
-            customer.Element("Latitude").Value = customer.Element("Latitude").ToString();
             customer.Element("DeletedCustomer").Value = true.ToString();
 
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
@@ -148,6 +149,8 @@ namespace Dal
         #endregion Customers
 
         #region Drones
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone newDrone)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -157,6 +160,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(drones, DroneXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -168,6 +172,7 @@ namespace Dal
             return drones[index];//finding drone
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -177,6 +182,7 @@ namespace Dal
                    select itemDrone;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -196,6 +202,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcelCollectionByDrone(int idParcel)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -210,6 +217,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -232,6 +240,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(stations, StationXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneReleaseFromChargingStation(int idDrone)
         {
             List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
@@ -248,6 +257,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(droneCharges, DroneChargeXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
@@ -271,8 +281,9 @@ namespace Dal
         }
             #endregion Drones
 
-            #region Stations
-            public void AddStation(Station newStation)
+        #region Stations
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddStation(Station newStation)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
             if (stations.Exists(item => item.Id == newStation.Id))//checks if station exists
@@ -281,6 +292,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(stations, StationXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -294,6 +306,7 @@ namespace Dal
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -302,6 +315,7 @@ namespace Dal
                    select itemStation;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int idStation, string newName, int chargingSlots)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
@@ -325,6 +339,7 @@ namespace Dal
         #endregion Stations
 
         #region Parcels
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -338,6 +353,7 @@ namespace Dal
             XMLTools.SaveListToXMLElement(runNumber, "config.xml");
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel FindParcel(int id)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -349,6 +365,7 @@ namespace Dal
             return parcels[index];//finding parcel
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -358,6 +375,7 @@ namespace Dal
                    select itemParcel;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcelDeliveryToCustomer(int idParcel)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -374,6 +392,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -391,6 +410,7 @@ namespace Dal
         #endregion Parcels
 
         #region DroneCharge
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge droneCharge)
         {
             List<DroneCharge> droneChargeRoot = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
@@ -402,6 +422,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer(droneChargeRoot, DroneChargeXml);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetAllDroneCharges(Predicate<DroneCharge> predicate = null)
         {
             List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
@@ -410,6 +431,7 @@ namespace Dal
                    select item;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             try
@@ -424,8 +446,6 @@ namespace Dal
 
             }
         }
-        #endregion DroneCharge
-
-      
+        #endregion DroneCharge      
     }
 }

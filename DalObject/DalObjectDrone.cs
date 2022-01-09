@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     partial class DalObject
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone newDrone)
         {
             if (DataSource.Drones.Exists(item => item.Id == newDrone.Id && !newDrone.DeletedDrone))//checks if drone exists
@@ -14,12 +16,14 @@ namespace Dal
             DataSource.Drones.Add(newDrone);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
             int indexDrone = CheckExistingDrone(id);//checks if customer exists
             return DataSource.Drones[indexDrone];//finding parcel
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             return from itemDrone in DataSource.Drones
@@ -28,6 +32,7 @@ namespace Dal
                    select itemDrone;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             if (!DataSource.Drones.Exists(item => item.Id == idDrone) && CheckIfDroneIsDeleted(idDrone))//checks if drone exists
@@ -38,12 +43,15 @@ namespace Dal
             newParcel.Scheduled = DateTime.Now;//updating date and time
             DataSource.Parcels[indexAssign] = newParcel;
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             int indexOfDrone = CheckExistingDrone(drone.Id);//finding index
             DataSource.Drones[indexOfDrone] = drone;//placing updated drone in place of index
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
 
@@ -63,6 +71,7 @@ namespace Dal
             DataSource.Stations[indexOfStation] = newStation;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneReleaseFromChargingStation(int idDrone)
         {
             int indexDC = CheckExistingDrone(idDrone);//finds drone

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Runtime.CompilerServices;
 
 using DO;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace Dal
 {
     partial class DalObject
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer newCustomer)
         {
             if (DataSource.Customers.Exists(item => item.Id == newCustomer.Id && !newCustomer.DeletedCustomer))//checks if customer exists
@@ -15,12 +17,14 @@ namespace Dal
             DataSource.Customers.Add(newCustomer);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer FindCustomer(int id)
         {
             int indexCustomer = CheckExistingCustomer(id);//checks if customer exists
             return DataSource.Customers[indexCustomer];//finding customer
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
             return from itemCustomer in DataSource.Customers
@@ -29,6 +33,7 @@ namespace Dal
                    select itemCustomer;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
             int indexOfCustomer = CheckExistingParcel(idCustomer);//finds if customer exists
@@ -40,6 +45,7 @@ namespace Dal
             DataSource.Customers[indexOfCustomer] = customer;//updated customer into list of customers
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private int CheckExistingCustomer(int id)
         {
             int index = DataSource.Customers.FindIndex(customer => customer.Id == id);
@@ -50,7 +56,7 @@ namespace Dal
             return index;
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
             int indexOfCustomer = CheckExistingCustomer(id);//checks if parcel exists
