@@ -63,7 +63,7 @@ namespace PL
             new StationWindow(bl, this, 5).Show();
         }
 
-        private void StationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MouseDoubleClick_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentStation = (StationToList)StationListView.SelectedItem;
             if (CurrentStation != null)

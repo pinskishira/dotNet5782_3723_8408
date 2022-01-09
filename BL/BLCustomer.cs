@@ -101,6 +101,20 @@ namespace BL
             CustomerToList tempCustomerToList = new CustomerToList();
             List<CustomerToList> customerToList = new List<CustomerToList>();
             List<DO.Customer> customerList = dal.GetAllCustomers().ToList();
+            //customerToList = from item in customerList
+            //                 let tempCustomer = GetCustomer(item.Id)
+
+            //                 select new CustomerToList()
+            //                 {
+            //                     tempCustomer.CopyPropertiesTo(tempCustomerToList)
+            //                     from item2 in tempCustomer.ParcelsFromCustomers
+            //                     select tempCustomerToList=(item2.StateOfParcel==ParcelState.Provided)?(tempCustomerToList.ParcelsSentAndDelivered++):(tempCustomerToList.ParcelsSentButNotDelivered++)
+            //                     from item3 in tempCustomer.ParcelsToCustomers
+            //                     select tempCustomerToList=(item3.StateOfParcel==ParcelState.Provided)?(tempCustomerToList.ParcelsSentAndDelivered++):(tempCustomerToList.ParcelsSentButNotDelivered++)
+
+            //                 };
+
+
             foreach (var indexCustomer in customerList)//goes through list of customers
             {
                 tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number

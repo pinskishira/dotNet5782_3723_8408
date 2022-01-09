@@ -38,7 +38,7 @@
             <Button x:Name="CloseWindowButton" Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="4,4,4,4" BorderBrush="#FFEFFFFF" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" Foreground="White" Grid.Column="2" Height="49" Width="219"/>
         </Grid>
         <ListView
-            x:Name ="StationListView" Grid.Row="1" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" SelectionChanged="StationListView_SelectionChanged">
+            x:Name ="StationListView" Grid.Row="1" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="16" MouseDoubleClick="MouseDoubleClick_SelectionChanged">
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\stationPic.jpg" Opacity="0.5"/>
             </ListView.Background>
