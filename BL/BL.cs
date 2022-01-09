@@ -78,11 +78,11 @@ namespace BL
                         DO.Station station = tempStations[idStation];//placing the index returned into the stations list 
                         indexOfDrones.CurrentLocation = new() { Latitude = station.Latitude, Longitude = station.Longitude };//updating the location of the drone
                         indexOfDrones.Battery = rand.Next(0, 21);//battery will be between 0 and 20 using random selection
-                        DO.DroneCharge droneCharge = new DO.DroneCharge();
-                        droneCharge.DroneId = indexOfDrones.Id;
-                        droneCharge.StationId = station.Id;
-                        droneCharge.TimeDroneInCharging = DateTime.Now;
-                        dal.AddDroneCharge(droneCharge);
+                        //DO.DroneCharge droneCharge = new DO.DroneCharge();
+                        //droneCharge.DroneId = indexOfDrones.Id;
+                        //droneCharge.StationId = station.Id;
+                        //droneCharge.TimeDroneInCharging = DateTime.Now;
+                        ////dal.AddDroneCharge(droneCharge);
                     }
                     else//if the drone is available for delivery
                     {
