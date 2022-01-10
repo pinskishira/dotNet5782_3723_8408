@@ -26,7 +26,7 @@
   </Customer>
   <Customer>
     <Id>503010261</Id>
-    <Name>Dasi</Name>
+    <Name>D</Name>
     <Phone>0506561043</Phone>
     <Longitude>31.916321145331636</Longitude>
     <Latitude>36.10498914220603</Latitude>
@@ -62,7 +62,7 @@
     <Phone>0503782099</Phone>
     <Longitude>32.986321935889464</Longitude>
     <Latitude>34.70122416350116</Latitude>
-    <DeletedCustomer>True</DeletedCustomer>
+    <DeletedCustomer>false</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>195437411</Id>
@@ -70,7 +70,7 @@
     <Phone>0504310431</Phone>
     <Longitude>32.217031203777076</Longitude>
     <Latitude>34.99197336053102</Latitude>
-    <DeletedCustomer>True</DeletedCustomer>
+    <DeletedCustomer>false</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>818756558</Id>
@@ -78,11 +78,11 @@
     <Phone>0506929115</Phone>
     <Longitude>33.077857905103755</Longitude>
     <Latitude>34.72556915959603</Latitude>
-    <DeletedCustomer> false </DeletedCustomer>
+    <DeletedCustomer>false</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>123456789</Id>
-    <Name>r</Name>
+    <Name>r4455</Name>
     <Phone>4444444444</Phone>
     <Longitude>0</Longitude>
     <Latitude>0</Latitude>
@@ -94,6 +94,6 @@
     <Phone>2222222222</Phone>
     <Longitude>0</Longitude>
     <Latitude>0</Latitude>
-    <DeletedCustomer>True</DeletedCustomer>
+    <DeletedCustomer>false</DeletedCustomer>
   </Customer>
 </ArrayOfCustomer>

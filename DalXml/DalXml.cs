@@ -80,7 +80,7 @@ namespace Dal
                                  }
                         ).FirstOrDefault();
 
-            if (customer.Id != 0 && !customer.DeletedCustomer)
+            if (customer.Id != 0  /*!customer.DeletedCustomer*/)
             { 
                 return customer;
             }
@@ -105,7 +105,7 @@ namespace Dal
                                                  Latitude = double.Parse(cus.Element("Latitude").Value),
                                                  DeletedCustomer = bool.Parse(cus.Element("DeletedCustomer").Value)
                                              };
-            return customer.Where(item => item.DeletedCustomer==false);
+            return customer.Where(item => !item.DeletedCustomer);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -360,8 +360,8 @@ namespace Dal
             int index = parcels.FindIndex(parcel => parcel.Id == id);
             if (index == -1)
                 throw new ItemDoesNotExistException("No parcel found with this id");
-            if (parcels[index].DeletedParcel)
-                throw new ItemDoesNotExistException("This parcel is deleted");
+            //if (parcels[index].DeletedParcel)
+            //    throw new ItemDoesNotExistException("This parcel is deleted");
             return parcels[index];//finding parcel
         }
 
@@ -369,10 +369,9 @@ namespace Dal
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
-            return from itemParcel in parcels
-                   where predicate == null ? true : predicate(itemParcel)
-                   where !itemParcel.DeletedParcel
-                   select itemParcel;
+            return (from itemParcel in parcels
+                    where predicate == null ? true : predicate(itemParcel)
+                    select itemParcel).Where(item => !item.DeletedParcel);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

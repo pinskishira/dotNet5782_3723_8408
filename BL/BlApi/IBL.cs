@@ -176,5 +176,13 @@ namespace BlApi
         /// </summary>
         /// <param name="idDrone">drone to delete</param>
         void DeleteDrone(int idDrone);
+
+        /// <summary>
+        /// Fution that starts simulation
+        /// </summary>
+        /// <param name="droneId">drone to start simulation on</param>
+        /// <param name="action">delegate to update the display</param>
+        /// <param name="stop">delegate to stop simulation</param>
+        void StartSimulator(int droneId, Action action, Func<bool> stop);
     }
 }

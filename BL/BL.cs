@@ -7,6 +7,7 @@ using BO;
 using static BO.Enum;
 
 using DalApi;
+using BL.BlApi;
 
 namespace BL
 {
@@ -15,7 +16,7 @@ namespace BL
     /// </summary>
     sealed partial class BL : Ibl
     {
-        readonly IDal dal = DLFactory.GetDL();
+        internal readonly IDal dal = DLFactory.GetDL();
         private static readonly Lazy<BL> instance = new Lazy<BL>(() => new BL());
         public static BL Instance { get { return instance.Value; } }
         static Random rand;
@@ -175,6 +176,10 @@ namespace BL
             currentLocation.Longitude = longitude;
             currentLocation.Latitude = latitude;
             return currentLocation;
+        }
+        public void StartSimulator(int droneId, Action action, Func<bool> stop)
+        {
+            Simulation simulation = new Simulation(Instance ,droneId, action, stop);
         }
     }
 }
