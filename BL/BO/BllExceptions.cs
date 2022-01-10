@@ -97,4 +97,28 @@ namespace BO
             return Message;
         }
     }
+
+    [Serializable]
+    public class ThreadErrorException : Exception
+    {
+        public ThreadErrorException() : base() { }
+        public ThreadErrorException(string message) : base(message) { }
+        public ThreadErrorException(string message, Exception innerException) : base(message, innerException) { }
+        public override string ToString()
+        {
+            return Message;
+        }
+    }
+
+    [Serializable]
+    public class WrongStatusException : Exception
+    {
+        public WrongStatusException() : base() { }
+        public WrongStatusException(string message) : base(message) { }
+        public WrongStatusException(string message, Exception innerException) : base(message, innerException) { }
+        public override string ToString()
+        {
+            return Message;
+        }
+    }
 }                       

@@ -184,5 +184,22 @@ namespace BlApi
         /// <param name="action">delegate to update the display</param>
         /// <param name="stop">delegate to stop simulation</param>
         void StartSimulator(int droneId, Action action, Func<bool> stop);
+
+        /// <summary>
+        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
+        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
+        /// </summary>
+        /// <param name="droneToList">The drone performing delivery</param>
+        /// <param name="parcel">Parcel drone is carrying</param>
+        /// <returns>Amount of battery used during delivery</returns>
+        int BatteryConsumption(int droneId, DO.Parcel parcel);
+
+        /// <summary>
+        /// Finds the smallest distance between the given location and the closest station.
+        /// </summary>
+        /// <param name="longitude">Longitude in location</param>
+        /// <param name="latitude">Lattitude in location</param>
+        /// <returns>Closest station to sender</returns>
+        DO.Station smallestDistance(double longitude, double latitude);
     }
 }
