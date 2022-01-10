@@ -10,6 +10,7 @@ using static BO.Enum;
 
 namespace BL.BlApi
 {
+
     class Simulation
     {
         enum Maintenance { Starting, Going, Charging }
@@ -17,6 +18,7 @@ namespace BL.BlApi
         private const double SpeedTime = 1;
         private const double TimeStep = Delay / 1000.00;
         private const double Step = SpeedTime / TimeStep;
+
         public Simulation(BL ibl, int droneId, Action action, Func<bool> stop)
         {
             var bl = ibl;
@@ -48,26 +50,23 @@ namespace BL.BlApi
                     case DroneStatuses.Available:
                         if (!TimeSleep())
                             break;
-                        lock (bl)
+                        parcelId = dal.GetAllParcels(p => p.Scheduled == null
+                        && (WeightCategories)p.Weight <= drone.Weight
+                        && bl.BatteryConsumption(drone.Id, p) < drone.Battery)
+                            .OrderByDescending(x => x.Priority)
+                            .ThenByDescending(x => x.Weight)
+                            .FirstOrDefault().Id;
+                        if (parcelId == default && drone.Battery != 100)
                         {
-                            parcelId = dal.GetAllParcels(p => p.Scheduled == null
-                            && (WeightCategories)p.Weight <= drone.Weight
-                            && bl.BatteryConsumption(drone.Id, p) < drone.Battery)
-                                .OrderByDescending(x => x.Priority)
-                                .ThenByDescending(x => x.Weight)
-                                .FirstOrDefault().Id;
-                            if (parcelId == default && drone.Battery != 100)
+                            DO.Station tmpStation = bl.smallestDistance(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
+                            stationId = tmpStation.Id;
+                            if (stationId != default)
                             {
-                                DO.Station tmpStation = bl.smallestDistance(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
-                                stationId = tmpStation.Id;
-                                if (stationId != default)
-                                {
-                                    drone.DroneStatus = DroneStatuses.Maintenance;
-                                    maintenance = Maintenance.Starting;
-                                    dal.UpdateSendDroneToChargingStation(droneId, tmpStation.Name);
-                                    DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId };
-                                    dal.AddDroneCharge(droneCharge);
-                                }
+                                drone.DroneStatus = DroneStatuses.Maintenance;
+                                maintenance = Maintenance.Starting;
+                                dal.UpdateSendDroneToChargingStation(droneId, tmpStation.Name);
+                                DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId };
+                                dal.AddDroneCharge(droneCharge);
                             }
                             if (parcelId != default && drone.Battery != 100)
                             {
@@ -83,8 +82,6 @@ namespace BL.BlApi
                                     throw new WrongStatusException("Error getting parcel", ex);
                                 }
                             }
-
-
                         }
                         break;
                     case DroneStatuses.Maintenance:
@@ -93,7 +90,10 @@ namespace BL.BlApi
                             case Maintenance.Starting:
                                 lock (bl)
                                 {
-                                    station = bl.GetStation(stationId);
+                                    if (stationId != default)
+                                        station = bl.GetStation(stationId);
+                                    else
+                                        station = bl.GetStation(dal.GetDroneCharge(droneId).StationId);
                                     distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.StationLocation.Longitude, station.StationLocation.Latitude);
                                     maintenance = Maintenance.Going;
                                 }

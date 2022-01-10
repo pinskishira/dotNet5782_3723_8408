@@ -375,10 +375,9 @@ namespace PL
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             worker.DoWork += (sender, args) => bl.StartSimulator((int)args.Argument, updateDrone, checkStop);
             worker.RunWorkerCompleted += (sender, args) => Auto = false;
-            //worker.ProgressChanged += (sender, args) => updateDrone();
+            worker.ProgressChanged += (sender, args) => updateDrone();
             worker.RunWorkerAsync(Drone.Id);
         }
         private void Regular_Click(object sender, RoutedEventArgs e) => worker.CancelAsync();
     }
-
 }
