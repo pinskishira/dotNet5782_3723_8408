@@ -87,10 +87,58 @@ namespace BL.BlApi
 
                         }
                         break;
+
+                    case DroneStatuses.Delivery:
+                        lock (bl)
+                        {
+                            try
+                            {
+                                if (parcelId == default)
+                                    Deliver(drone.ParcelInTransfer.Id);
+                            }
+                            catch (DO.ItemDoesNotExistException ex)
+                            {
+                                throw new WrongStatusException("Error getting parcel", ex);
+                            }
+                            distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, customer.CustomerLocation.Longitude, customer.CustomerLocation.Latitude);
+                        }
+
+                        if(distance < 0.01 || drone.Battery == 0.0)
+                        {
+                            lock(bl)
+                            {
+                                drone.CurrentLocation = customer.CustomerLocation;
+                                if (pickUp)
+                                {
+                                    dal.UpdateParcelDeliveryToCustomer(parcelId);
+                                    drone.DroneStatus = DroneStatuses.Available;
+                                }
+                                else
+                                    dal.UpdateParcelCollectionByDrone(parcelId);
+                            }
+                        }
+                        else
+                        {
+                            if (!TimeSleep())
+                                break;
+                            lock(bl)
+                            {
+                                double diffs = distance < Step ? distance : Step;
+                                double quantity = diffs / distance;
+                                drone.Battery = (int)Math.Max(0.0, drone.Battery - diffs * dal.electricityUse()[pickUp ? (int)batteryUsage : 0]);
+                                double latitude = drone.CurrentLocation.Latitude + (customer.CustomerLocation.Latitude - drone.CurrentLocation.Latitude) * quantity;
+                                double longitude = drone.CurrentLocation.Longitude + (customer.CustomerLocation.Longitude - drone.CurrentLocation.Longitude) * quantity;
+                                drone.CurrentLocation = new() { Longitude = longitude, Latitude = latitude };
+                            }
+                        }
+                        break;
+
+                    default:
+                        throw new WrongStatusException("Error: Drone now not available");
                 }
+                updateDrone();
 
-
-            } while ()
+            } while (!checkStop())
 
             //while (stop())
             //{
@@ -141,4 +189,4 @@ namespace BL.BlApi
 
 
     }
-
+}
