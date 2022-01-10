@@ -171,18 +171,14 @@
                 <Button x:Name="UpdateDroneButtonUD" Visibility="Visible" Content="Update Drone Model" IsEnabled="{Binding ModelTxtUD, XPath=Value, Mode=TwoWay}" Width="200" Click="UpdateDroneButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
                 <Button x:Name="CancelButtonUD" Visibility="Visible" Content="Cancel" Width="200" Click="CancelButtonUD_Click" FontFamily="Britannic Bold" FontSize="18" Background="#FF44BBF7"/>
             </StackPanel>
-            <!--<Grid Grid.Row="5"  Grid.ColumnSpan="3" VerticalAlignment="Bottom" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="DroneStatusChangeUD" Grid.Column="0" Visibility="Visible" Content=""  FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="DroneStatusChangeUD_Click"/>
-                <Button x:Name="ChargeDroneUD" Grid.Column="1" Content="" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="UpdateDroneButtonUD_Click" />
-                <Button x:Name="UpdateDroneButtonUD" Grid.Column="2" Visibility="Visible" Content="Update Drone Model" FontFamily="Britannic Bold" FontSize="22" Background="#FF44BBF7" Click="ChargeDroneUD_Click"/>
-                <Button x:Name="CancelButtonUD" Grid.Column="3" Content="Cancel" FontFamily="Britannic Bold" FontSize="24" Background="#FF44BBF7" Click="DroneStatusChangeUD_Click" />
-            </Grid>-->
+            <Button x:Name ="Automatic" Content="Automatic" Grid.Column="2"  Background="#FF44BBF7" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Click="Automatic_Click" Margin="460,330,0,18">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius"  Value="50"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
+
     </Grid>
 </Window>

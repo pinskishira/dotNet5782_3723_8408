@@ -88,28 +88,63 @@ namespace BL.BlApi
                         }
                         break;
                     case DroneStatuses.Maintenance:
-                        switch(maintenance)
+                        switch (maintenance)
                         {
                             case Maintenance.Starting:
-                                lock(bl)
+                                lock (bl)
                                 {
-                                    bs=bl.GetStation()
-                                    distance=drone
+                                    station = bl.GetStation(stationId);
+                                    distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.StationLocation.Longitude, station.StationLocation.Latitude);
+                                    maintenance = Maintenance.Going;
                                 }
                                 break;
                             case Maintenance.Going:
-                                lock (bl)
+                                if (distance < 1)
+                                    lock (bl)
+                                    {
+                                        drone.CurrentLocation = station.StationLocation;
+                                        maintenance = Maintenance.Charging;
+                                    }
+                                else
                                 {
-                                    distance = drone
+                                    if (!TimeSleep())
+                                        break;
+                                    lock(bl)
+                                    {
+                                        double del= distance < Step ? distance : Step;
+                                        distance -= del;
+                                        if (drone.Battery - del * dal.electricityUse()[0] < 0)
+                                            drone.Battery = 0;
+                                        else
+                                            drone.Battery = (int)(drone.Battery - del * dal.electricityUse()[0]);
+                                    }
+
                                 }
                                 break;
-
+                            case Maintenance.Charging:
+                                if(drone.Battery==100)
+                                    lock(bl)
+                                    {
+                                        drone.DroneStatus = DroneStatuses.Available;
+                                        bl.DroneReleaseFromChargingStation(drone.Id);
+                                    }
+                                else
+                                {
+                                    if (!TimeSleep())
+                                        break;
+                                    lock(bl)
+                                    {
+                                        drone.Battery = (int)Math.Min(100, drone.Battery + dal.electricityUse()[0] * TimeStep);
+                                    }
+                                }
+                                break;
                         }
-
                         break;
 
+                }
 
-            } while ()
+
+            } while (true);
 
             //while (stop())
             //{
@@ -140,24 +175,20 @@ namespace BL.BlApi
             //    //    throw;
             //    //}
             //    }
-
-            private static bool TimeSleep()
+        }
+        private static bool TimeSleep()
+        {
+            try
             {
-                try
-                {
-                    Thread.Sleep(Delay);
-                }
-                catch (ThreadErrorException)
-                {
-                    return false;
-                }
-
-                return true;
+                Thread.Sleep(Delay);
+            }
+            catch (ThreadErrorException)
+            {
+                return false;
             }
 
-
+            return true;
         }
-
-
     }
+}
 
