@@ -51,6 +51,26 @@ namespace BL.BlApi
                             && drone.bat
                         }
                         break;
+                    case DroneStatuses.Maintenance:
+                        switch(maintenance)
+                        {
+                            case Maintenance.Starting:
+                                lock(bl)
+                                {
+                                    bs=bl.GetStation()
+                                    distance=drone
+                                }
+                                break;
+                            case Maintenance.Going:
+                                lock (bl)
+                                {
+                                    distance = drone
+                                }
+                                break;
+
+                        }
+
+                        break;
 
 
                 }
