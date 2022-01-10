@@ -47,7 +47,7 @@ namespace BL
                         indexOfDrones.CurrentLocation.Longitude = closestStation.Longitude;//updating the loaction of the drone 
                         indexOfDrones.CurrentLocation.Latitude = closestStation.Latitude;
                         //calculates the usage of battery of the drone according to the distance it travelled and the weight of its parcel
-                        double batteryConsumption = BatteryConsumption(indexOfDrones, parcel) + Distance.Haversine
+                        double batteryConsumption = BatteryConsumption(indexOfDrones.Id, parcel) + Distance.Haversine
                             (indexOfDrones.CurrentLocation.Longitude, indexOfDrones.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
                         if ((int)batteryConsumption > 100)
                             indexOfDrones.Battery = 100;
@@ -61,7 +61,7 @@ namespace BL
                         indexOfDrones.CurrentLocation.Longitude = tempCustomer.Longitude;//updating the location  of the drone
                         indexOfDrones.CurrentLocation.Latitude = tempCustomer.Latitude;
                         //using random selection to calculate battery using distance the drone traveled and the parcel it collected and full charge
-                        int batteryConsumption = BatteryConsumption(indexOfDrones, parcel);
+                        int batteryConsumption = BatteryConsumption(indexOfDrones.Id, parcel);
                         if (batteryConsumption > 100)
                             indexOfDrones.Battery = 100;
                         else
@@ -111,7 +111,7 @@ namespace BL
         /// <param name="droneToList">The drone performing delivery</param>
         /// <param name="parcel">Parcel drone is carrying</param>
         /// <returns>Amount of battery used during delivery</returns>
-        int BatteryConsumption(DroneToList droneToList, DO.Parcel parcel)
+        public int BatteryConsumption(int droneId, DO.Parcel parcel)
         {
             DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
             DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer

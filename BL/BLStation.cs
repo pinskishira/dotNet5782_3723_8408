@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Runtime.CompilerServices;
 using BO;
 
 namespace BL
 {
     partial class BL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station newStation)
         {
             if ((Math.Round(Math.Floor(Math.Log10(newStation.Id))) + 1) != 4)//if id inputted is not 4 digits long
@@ -20,80 +21,95 @@ namespace BL
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
             if (newStation.AvailableChargeSlots < 0)
                 throw new InvalidInputException("The number of charging stations of the station is less than 0\n");
-            try
+            lock (dal)
             {
-                //converting BL station to dal
-                DO.Station tempStation = new DO.Station();
-                object obj = tempStation;
-                newStation.CopyPropertiesTo(obj);
-                tempStation = (DO.Station)obj;
-                newStation.CopyPropertiesTo(tempStation);
-                dal.AddStation(tempStation);//adding to station list in dal
-            }
-            catch (DO.ItemExistsException ex)
-            {
-                throw new FailedToAddException("ERROR.\n", ex);
+                try
+                {
+                    //converting BL station to dal
+                    DO.Station tempStation = new DO.Station();
+                    object obj = tempStation;
+                    newStation.CopyPropertiesTo(obj);
+                    tempStation = (DO.Station)obj;
+                    newStation.CopyPropertiesTo(tempStation);
+                    dal.AddStation(tempStation);//adding to station list in dal
+                }
+                catch (DO.ItemExistsException ex)
+                {
+                    throw new FailedToAddException("ERROR.\n", ex);
+                }
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int stationId)
         {
-            Station blStation = new Station();
-            try
+            lock (dal)
             {
-                DO.Station dalStation = dal.FindStation(stationId);//finding station
-                dalStation.CopyPropertiesTo(blStation);//converting to BL
-                blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
-                blStation.DronesInCharging = from item in dal.GetAllDroneCharges(item => item.StationId == stationId)
-                                             let temp = BlDrones.FirstOrDefault(indexDroneToList => indexDroneToList.Id == item.DroneId)
-                                             select new DroneInCharging
-                                             {
-                                                 Id = item.DroneId,
-                                                 Battery = temp != default ? temp.Battery :
-                                              throw new FailedGetException("The Id number does not exist. \n")
-                                             };
+                Station blStation = new Station();
+                try
+                {
+                    DO.Station dalStation = dal.FindStation(stationId);//finding station
+                    dalStation.CopyPropertiesTo(blStation);//converting to BL
+                    blStation.StationLocation = CopyLocation(dalStation.Longitude, dalStation.Latitude);
+                    blStation.DronesInCharging = from item in dal.GetAllDroneCharges(item => item.StationId == stationId)
+                                                 let temp = BlDrones.FirstOrDefault(indexDroneToList => indexDroneToList.Id == item.DroneId)
+                                                 select new DroneInCharging
+                                                 {
+                                                     Id = item.DroneId,
+                                                     Battery = temp != default ? temp.Battery :
+                                                  throw new FailedGetException("The Id number does not exist. \n")
+                                                 };
+                }
+                catch (DO.ItemDoesNotExistException ex)
+                {
+                    throw new FailedGetException("ERRORS.\n", ex);
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new FailedGetException("The drone does not exist.\n");
+                }
+                return blStation;
             }
-            catch (DO.ItemDoesNotExistException ex)
-            {
-                throw new FailedGetException("ERRORS.\n", ex);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new FailedGetException("The drone does not exist.\n");
-            }
-            return blStation;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetAllStations(Predicate<StationToList> predicate = null)
         {
-            Station tempStation = new Station();
-            List<StationToList> stationToList = new List<StationToList>();
-            List<DO.Station> stationList = dal.GetAllStations().ToList();
-            foreach (var indexOfStations in stationList)//going through stations
+            lock (dal)
             {
-                StationToList tempStationToList = new StationToList();
-                tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
-                tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
-                if (tempStation.DronesInCharging == null)
-                    tempStationToList.OccupiedChargeSlots = 0;
-                else
-                    tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count();//checks how many drones are in charging and counts them 
-                stationToList.Add(tempStationToList);//ading to StationToList
+                Station tempStation = new Station();
+                List<StationToList> stationToList = new List<StationToList>();
+                List<DO.Station> stationList = dal.GetAllStations().ToList();
+                foreach (var indexOfStations in stationList)//going through stations
+                {
+                    StationToList tempStationToList = new StationToList();
+                    tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
+                    tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
+                    if (tempStation.DronesInCharging == null)
+                        tempStationToList.OccupiedChargeSlots = 0;
+                    else
+                        tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count();//checks how many drones are in charging and counts them 
+                    stationToList.Add(tempStationToList);//ading to StationToList
+                }
+                return stationToList.FindAll(item => predicate == null ? true : predicate(item));
             }
-            return stationToList.FindAll(item => predicate == null ? true : predicate(item));
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            try
+            lock (dal)
             {
-                if (chargeSlots < 0)//if invalid number was inputted
-                    throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
-                dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal
-            }
-            catch (DO.ItemDoesNotExistException ex)
-            {
-                throw new FailedToAddException("ERROR.\n", ex);
+                try
+                {
+                    if (chargeSlots < 0)//if invalid number was inputted
+                        throw new InvalidInputException("The inputted number of empty charges is incorrect. \n");
+                    dal.UpdateStation(idStation, newName, chargeSlots);//sends to update in dal
+                }
+                catch (DO.ItemDoesNotExistException ex)
+                {
+                    throw new FailedToAddException("ERROR.\n", ex);
+                }
             }
         }
     }
