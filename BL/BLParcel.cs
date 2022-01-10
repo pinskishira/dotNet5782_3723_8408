@@ -146,7 +146,7 @@ namespace BL
                             if ((int)indexOfParcel.Priority > maxPriorities || (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight > maxWeight ||
                             (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight >= maxWeight && distance < maxDistance)
                             {
-                                double batteryConsumption = BatteryConsumption(droneToList, indexOfParcel) + Distance.Haversine
+                                double batteryConsumption = BatteryConsumption(droneToList.Id, indexOfParcel) + Distance.Haversine
                                     (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
                                 if (droneToList.Battery >= batteryConsumption && (int)droneToList.Weight >= (int)indexOfParcel.Weight)//Checks if the drone can make the sending
                                 {

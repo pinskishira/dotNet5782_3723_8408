@@ -73,7 +73,7 @@ namespace Dal
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneReleaseFromChargingStation(int idDrone)
-        {S
+        {
             int indexDC = CheckExistingDrone(idDrone);//finds drone
             int indexS = DataSource.Stations.FindIndex(indexOfStations => indexOfStations.Id == DataSource.DroneCharges[indexDC].StationId);//finds index where station is
             Station newStation = DataSource.Stations[indexS];

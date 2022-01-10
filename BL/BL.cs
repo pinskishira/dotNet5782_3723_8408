@@ -169,7 +169,7 @@ namespace BL
         }
         public void StartSimulator(int droneId, Action action, Func<bool> stop)
         {
-            Simulation simulation = new Simulation(Instance ,droneId, action, stop);
+            Simulation simulation = new Simulation(this ,droneId, action, stop);
         }
     }
 }

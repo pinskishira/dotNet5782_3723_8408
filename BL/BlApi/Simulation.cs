@@ -52,7 +52,7 @@ namespace BL.BlApi
                         {
                             parcelId = dal.GetAllParcels(p => p.Scheduled == null
                             && (WeightCategories)p.Weight <= drone.Weight
-                            && bl.BatteryConsumption(drone.Id, parcel) < drone.Battery)
+                            && bl.BatteryConsumption(drone.Id, p) < drone.Battery)
                                 .OrderByDescending(x => x.Priority)
                                 .ThenByDescending(x => x.Weight)
                                 .FirstOrDefault().Id;
@@ -65,7 +65,7 @@ namespace BL.BlApi
                                     drone.DroneStatus = DroneStatuses.Maintenance;
                                     maintenance = Maintenance.Starting;
                                     dal.UpdateSendDroneToChargingStation(droneId, tmpStation.Name);
-                                    DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId }
+                                    DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId };
                                     dal.AddDroneCharge(droneCharge);
                                 }
                             }
@@ -109,9 +109,9 @@ namespace BL.BlApi
                                 {
                                     if (!TimeSleep())
                                         break;
-                                    lock(bl)
+                                    lock (bl)
                                     {
-                                        double del= distance < Step ? distance : Step;
+                                        double del = distance < Step ? distance : Step;
                                         distance -= del;
                                         if (drone.Battery - del * dal.electricityUse()[0] < 0)
                                             drone.Battery = 0;
@@ -122,8 +122,8 @@ namespace BL.BlApi
                                 }
                                 break;
                             case Maintenance.Charging:
-                                if(drone.Battery==100)
-                                    lock(bl)
+                                if (drone.Battery == 100)
+                                    lock (bl)
                                     {
                                         drone.DroneStatus = DroneStatuses.Available;
                                         bl.DroneReleaseFromChargingStation(drone.Id);
@@ -132,7 +132,7 @@ namespace BL.BlApi
                                 {
                                     if (!TimeSleep())
                                         break;
-                                    lock(bl)
+                                    lock (bl)
                                     {
                                         drone.Battery = (int)Math.Min(100, drone.Battery + dal.electricityUse()[0] * TimeStep);
                                     }
@@ -156,9 +156,9 @@ namespace BL.BlApi
                             distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, customer.CustomerLocation.Longitude, customer.CustomerLocation.Latitude);
                         }
 
-                        if(distance < 0.01 || drone.Battery == 0.0)
+                        if (distance < 0.01 || drone.Battery == 0.0)
                         {
-                            lock(bl)
+                            lock (bl)
                             {
                                 drone.CurrentLocation = customer.CustomerLocation;
                                 if (pickUp)
@@ -174,7 +174,7 @@ namespace BL.BlApi
                         {
                             if (!TimeSleep())
                                 break;
-                            lock(bl)
+                            lock (bl)
                             {
                                 double diffs = distance < Step ? distance : Step;
                                 double quantity = diffs / distance;
@@ -189,39 +189,9 @@ namespace BL.BlApi
                     default:
                         throw new WrongStatusException("Error: Drone now not available");
                 }
-                updateDrone();
+                action();
 
-            } while (!checkStop())
-
-            //while (stop())
-            //{
-
-            //    //try
-            //    //{
-            //    //    switch (drone.Status)
-            //    //    {
-            //    //        case DroneStatus.available:
-            //    //            bl.ScheduledAParcelToADrone(drone.Id);
-            //    //            break;
-            //    //        case DroneStatus.inFix:
-            //    //            if (drone.Battery == 100)
-            //    //                bl.FreeDroneFromeCharger(drone.Id);
-            //    //            break;
-            //    //        case DroneStatus.delivery:
-            //    //            if (drone.ParcelInTransfer.StatusParcel == false)
-            //    //                bl.PickUpParcel(drone.Id);
-            //    //            else
-            //    //                bl.DeliverParcel(drone.Id);
-            //    //            break;
-            //    //    }
-            //    //}
-            //    //catch (FailToUpdateException ex)
-            //    //{
-            //    //    if (drone.Battery != 100)
-            //    //        bl.SendDroneToCharging(drone.Id);
-            //    //    throw;
-            //    //}
-            //    }
+            } while (!stop());
         }
         private static bool TimeSleep()
         {
