@@ -103,27 +103,22 @@ namespace BL
                 }
             }
         }
-
-        /// <summary>
-        /// Calculates the battery usage used during delivery by calculating the distance between the target, its closest
-        /// station and the sender, and according to the weight of the parcel and the amount of battery it uses per km.
-        /// </summary>
-        /// <param name="droneToList">The drone performing delivery</param>
-        /// <param name="parcel">Parcel drone is carrying</param>
-        /// <returns>Amount of battery used during delivery</returns>
         public int BatteryConsumption(int droneId, DO.Parcel parcel)
         {
-            DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
-            DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer
-            //finding distance between the sender and the target 
-            double distanceFromTarget = Distance.Haversine(sender.Longitude, sender.Latitude, target.Longitude, target.Latitude);
-            //finding the station closest to the target to perform delivery
-            DO.Station smallestStation = smallestDistance(target.Longitude, target.Latitude);
-            //finding the distance between the closest station to target and the target destination
-            double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
-            //calculates distance by multiplying by its weight and the amount of battery it uses per km.
-            //return (int)(distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
-            return (int)Math.Ceiling(distanceFromTarget * Weight((WeightCategories)parcel.Weight) + distanceFromStation * PowerUsageEmpty);
+            lock (dal)
+            {
+                DO.Customer target = dal.FindCustomer(parcel.TargetId);//finding the target customer
+                DO.Customer sender = dal.FindCustomer(parcel.SenderId);//finding the sender customer
+                                                                       //finding distance between the sender and the target 
+                double distanceFromTarget = Distance.Haversine(sender.Longitude, sender.Latitude, target.Longitude, target.Latitude);
+                //finding the station closest to the target to perform delivery
+                DO.Station smallestStation = smallestDistance(target.Longitude, target.Latitude);
+                //finding the distance between the closest station to target and the target destination
+                double distanceFromStation = Distance.Haversine(target.Longitude, target.Latitude, smallestStation.Longitude, smallestStation.Latitude);
+                //calculates distance by multiplying by its weight and the amount of battery it uses per km.
+                //return (int)(distanceFromTarget * Weight(droneToList.MaxWeight) + distanceFromStation * PowerUsageEmpty);
+                return (int)Math.Ceiling(distanceFromTarget * Weight((WeightCategories)parcel.Weight) + distanceFromStation * PowerUsageEmpty);
+            }
         }
 
         /// <summary>
@@ -140,13 +135,8 @@ namespace BL
             _ => throw new ArgumentException()
         };
 
-        /// <summary>
-        /// Finds the smallest distance between the given location and the closest station.
-        /// </summary>
-        /// <param name="longitude">Longitude in location</param>
-        /// <param name="latitude">Lattitude in location</param>
-        /// <returns>Closest station to sender</returns>
-        DO.Station smallestDistance(double longitude, double latitude)
+      
+        public DO.Station smallestDistance(double longitude, double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
             DO.Station station = new DO.Station();

@@ -27,16 +27,18 @@ namespace BL.BlApi
             Station station = null;
             Customer customer = null;
             double distance = 0.0;
-            int batteryUsage = 0;
+            double batteryUsage = 0;
             DO.Parcel parcel = default;
             bool pickUp = false;
             Maintenance maintenance = Maintenance.Starting;
 
             void Deliver(int idDrone)
             {
-                //parcel = dal.FindParcel(idDrone);
-                //batteryUsage = dal.electricityUse()[pa]
-
+                parcel = dal.FindParcel(idDrone);
+                int weightOfParcel = (int)parcel.Weight + 1;
+                batteryUsage = dal.electricityUse()[weightOfParcel];
+                pickUp = parcel.PickedUp is not null;
+                customer = bl.GetCustomer(pickUp ? parcel.TargetId : parcel.SenderId);
             }
 
             do
@@ -44,11 +46,45 @@ namespace BL.BlApi
                 switch (drone.DroneStatus)
                 {
                     case DroneStatuses.Available:
-                        lock(bl)
+                        if (!TimeSleep())
+                            break;
+                        lock (bl)
                         {
-                            parcelId = dal.GetAllParcels(p=> p?.Scheduled == null
-                            && (WeightCategories)(p?.Weight) <= drone.Weight
-                            && drone.bat
+                            parcelId = dal.GetAllParcels(p => p.Scheduled == null
+                            && (WeightCategories)p.Weight <= drone.Weight
+                            && bl.BatteryConsumption(drone.Id, parcel) < drone.Battery)
+                                .OrderByDescending(x => x.Priority)
+                                .ThenByDescending(x => x.Weight)
+                                .FirstOrDefault().Id;
+                            if (parcelId == default && drone.Battery != 100)
+                            {
+                                DO.Station tmpStation = bl.smallestDistance(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
+                                stationId = tmpStation.Id;
+                                if (stationId != default)
+                                {
+                                    drone.DroneStatus = DroneStatuses.Maintenance;
+                                    maintenance = Maintenance.Starting;
+                                    dal.UpdateSendDroneToChargingStation(droneId, tmpStation.Name);
+                                    DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId }
+                                    dal.AddDroneCharge(droneCharge);
+                                }
+                            }
+                            if (parcelId != default && drone.Battery != 100)
+                            {
+                                try
+                                {
+                                    dal.UpdateAssignParcelToDrone(droneId, parcelId);
+                                    drone.ParcelInTransfer.Id = parcelId;
+                                    Deliver(parcelId);
+                                    drone.DroneStatus = DroneStatuses.Delivery;
+                                }
+                                catch (DO.ItemDoesNotExistException ex)
+                                {
+                                    throw new WrongStatusException("Error getting parcel", ex);
+                                }
+                            }
+
+
                         }
                         break;
                     case DroneStatuses.Maintenance:
@@ -73,8 +109,7 @@ namespace BL.BlApi
                         break;
 
 
-                }
-            }while()
+            } while ()
 
             //while (stop())
             //{
@@ -105,10 +140,24 @@ namespace BL.BlApi
             //    //    throw;
             //    //}
             //    }
-           
-          
-     }
+
+            private static bool TimeSleep()
+            {
+                try
+                {
+                    Thread.Sleep(Delay);
+                }
+                catch (ThreadErrorException)
+                {
+                    return false;
+                }
+
+                return true;
+            }
 
 
-}
+        }
+
+
+    }
 
