@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="" Height="550" Width="800"  Closing="window_closeing">
-    <Grid>
+    <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

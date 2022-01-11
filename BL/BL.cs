@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using BlApi;
 using BO;
@@ -21,7 +22,7 @@ namespace BL
         public static BL Instance { get { return instance.Value; } }
         static Random rand;
         List<DroneToList> BlDrones = new List<DroneToList>();//new list of drones
-        double PowerUsageEmpty, BatteryConsumptionLightWeight, BatteryConsumptionMediumWeight, BatteryConsumptionHeavyWeight, DroneChargingRatePH;
+        internal double PowerUsageEmpty, BatteryConsumptionLightWeight, BatteryConsumptionMediumWeight, BatteryConsumptionHeavyWeight, DroneChargingRatePH;
         private BL()
         {
             rand = new Random();
@@ -70,9 +71,9 @@ namespace BL
                 }
                 catch (InvalidOperationException)
                 {
-                    DO.DroneCharge drone = dal.GetDroneCharge(indexOfDrones.Id);
-                    if (drone.DroneId != default)//if the drone is in maintanance
+                    try//if the drone is in maintanance
                     {
+                        DO.DroneCharge drone = dal.GetDroneCharge(indexOfDrones.Id);
                         indexOfDrones.DroneStatus = DroneStatuses.Maintenance;
                         List<DO.Station> tempStations = dal.GetAllStations().ToList();//temporary array with all the stations
                         int idStation = rand.Next(0, tempStations.Count());//finding a random index from the array of stations
@@ -85,7 +86,7 @@ namespace BL
                         //droneCharge.TimeDroneInCharging = DateTime.Now;
                         ////dal.AddDroneCharge(droneCharge);
                     }
-                    else//if the drone is available for delivery
+                    catch (DO.ItemDoesNotExistException)//if the drone is available for delivery
                     {
                         indexOfDrones.DroneStatus = DroneStatuses.Available;
                         List<DO.Parcel> deliveredParcels = dal.GetAllParcels(indexOfParcels => indexOfParcels.Delivered != null).ToList();
@@ -103,6 +104,8 @@ namespace BL
                 }
             }
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int BatteryConsumption(int droneId, DO.Parcel parcel)
         {
             lock (dal)
@@ -135,7 +138,7 @@ namespace BL
             _ => throw new ArgumentException()
         };
 
-      
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DO.Station smallestDistance(double longitude, double latitude)
         {
             double minDistance = double.PositiveInfinity;//starting with an unlimited value
@@ -167,9 +170,10 @@ namespace BL
             currentLocation.Latitude = latitude;
             return currentLocation;
         }
+
         public void StartSimulator(int droneId, Action action, Func<bool> stop)
         {
-            Simulation simulation = new Simulation(this ,droneId, action, stop);
+            new Simulation(this, droneId, action, stop);
         }
     }
 }

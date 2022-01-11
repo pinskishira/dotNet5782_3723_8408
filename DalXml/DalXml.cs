@@ -80,7 +80,7 @@ namespace Dal
                                  }
                         ).FirstOrDefault();
 
-            if (customer.Id != 0  /*!customer.DeletedCustomer*/)
+            if (customer.Id != 0 )
             { 
                 return customer;
             }
@@ -142,8 +142,6 @@ namespace Dal
             customer.Element("DeletedCustomer").Value = true.ToString();
 
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
-
-
         }
 
         #endregion Customers
@@ -187,7 +185,7 @@ namespace Dal
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-            int index = DataSource.Drones.FindIndex(drone => drone.Id == idDrone);
+            int index = drones.FindIndex(drone => drone.Id == idDrone);
             if (!drones.Exists(item => item.Id == idDrone) && DataSource.Drones[index].DeletedDrone)//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist or it is deleted.\n");
             int indexAssign = parcels.FindIndex(parcel => parcel.Id == idParcel);
@@ -369,9 +367,9 @@ namespace Dal
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
-            return (from itemParcel in parcels
-                    where predicate == null ? true : predicate(itemParcel)
-                    select itemParcel).Where(item => !item.DeletedParcel);
+            return from itemParcel in parcels
+                   where (predicate == null ? true : predicate(itemParcel))&& !itemParcel.DeletedParcel
+                   select itemParcel;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -442,7 +440,6 @@ namespace Dal
             catch (InvalidOperationException)
             {
                 throw new ItemDoesNotExistException("The drone does not exists.\n");
-
             }
         }
         #endregion DroneCharge      

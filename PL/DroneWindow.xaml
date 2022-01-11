@@ -178,6 +178,13 @@
                     </Style>
                 </Button.Resources>
             </Button>
+            <Button x:Name ="Regular" Content="Regular" Grid.Column="2"  Background="#FF44BBF7" BorderBrush="#FF621818" Foreground="Black" FontFamily="Britannic Bold" FontSize="20" Click="Regular_Click" Margin="460,272,0,76">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius"  Value="50"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
 
     </Grid>

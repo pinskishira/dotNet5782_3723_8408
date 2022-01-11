@@ -213,7 +213,7 @@ namespace BL
             }
         }
 
-        DO.Station smallestDistanceFromDrone(Location CurrentLocation)
+        public DO.Station smallestDistanceFromDrone(Location CurrentLocation)
         {
             lock (dal)
             {

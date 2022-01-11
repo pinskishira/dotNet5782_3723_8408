@@ -13,198 +13,158 @@ namespace BL.BlApi
 
     class Simulation
     {
-        enum Maintenance { Starting, Going, Charging }
-        private const int Delay = 500;
-        private const double SpeedTime = 1;
-        private const double TimeStep = Delay / 1000.00;
-        private const double Step = SpeedTime / TimeStep;
+        BL bl;
 
-        public Simulation(BL ibl, int droneId, Action action, Func<bool> stop)
+        private const double kmh = 3600;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
+
+        public Simulation(BL _bl, int droneID, Action Progress, Func<bool> stopSim)
         {
-            var bl = ibl;
-            var dal = bl.dal;
-            Drone drone = bl.GetDrone(droneId);
-            int parcelId = 0;
-            int stationId = 0;
-            Station station = null;
-            Customer customer = null;
-            double distance = 0.0;
-            double batteryUsage = 0;
-            DO.Parcel parcel = default;
-            bool pickUp = false;
-            Maintenance maintenance = Maintenance.Starting;
+            DalApi.IDal Idal = DalApi.DLFactory.GetDL();
+            bl = _bl;
+            var dal = bl;
+            //area for seting puse time
+            double distance;
+            int tempBattery;
 
-            void Deliver(int idDrone)
-            {
-                parcel = dal.FindParcel(idDrone);
-                int weightOfParcel = (int)parcel.Weight + 1;
-                batteryUsage = dal.electricityUse()[weightOfParcel];
-                pickUp = parcel.PickedUp is not null;
-                customer = bl.GetCustomer(pickUp ? parcel.TargetId : parcel.SenderId);
-            }
+            DroneToList droneToList = bl.GetAllDrones().First(x => x.Id == droneID);
 
-            do
+            while (!stopSim())
             {
-                switch (drone.DroneStatus)
+                switch (droneToList.DroneStatus)
                 {
                     case DroneStatuses.Available:
-                        if (!TimeSleep())
-                            break;
-                        parcelId = dal.GetAllParcels(p => p.Scheduled == null
-                        && (WeightCategories)p.Weight <= drone.Weight
-                        && bl.BatteryConsumption(drone.Id, p) < drone.Battery)
-                            .OrderByDescending(x => x.Priority)
-                            .ThenByDescending(x => x.Weight)
-                            .FirstOrDefault().Id;
-                        if (parcelId == default && drone.Battery != 100)
+                        try
                         {
-                            DO.Station tmpStation = bl.smallestDistance(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
-                            stationId = tmpStation.Id;
-                            if (stationId != default)
+                            bl.UpdateAssignParcelToDrone(droneID);
+                            Progress();
+                        }
+                        catch
+                        {
+                            if (droneToList.Battery < 100)
                             {
-                                drone.DroneStatus = DroneStatuses.Maintenance;
-                                maintenance = Maintenance.Starting;
-                                dal.UpdateSendDroneToChargingStation(droneId, tmpStation.Name);
-                                DO.DroneCharge droneCharge = new() { DroneId = drone.Id, StationId = stationId };
-                                dal.AddDroneCharge(droneCharge);
-                            }
-                            if (parcelId != default && drone.Battery != 100)
-                            {
-                                try
+                                tempBattery = droneToList.Battery;
+                                DO.Station station = bl.smallestDistanceFromDrone(droneToList.CurrentLocation);
+                                distance = Distance.Haversine(droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, station.Longitude, station.Latitude);
+                                while (distance > 0)
                                 {
-                                    dal.UpdateAssignParcelToDrone(droneId, parcelId);
-                                    drone.ParcelInTransfer.Id = parcelId;
-                                    Deliver(parcelId);
-                                    drone.DroneStatus = DroneStatuses.Delivery;
+                                    droneToList.Battery -= (int)bl.PowerUsageEmpty;
+                                    Progress();
+                                    distance -= 1;
+                                    Thread.Sleep(1500);
                                 }
-                                catch (DO.ItemDoesNotExistException ex)
-                                {
-                                    throw new WrongStatusException("Error getting parcel", ex);
-                                }
+                                droneToList.Battery = tempBattery;//הפונקציה שליחה לטעינה בודקת את המרחק ההתחלתי ולפי זה מחשבת את הסוללה ולכן צריך להחזיר למצב ההתחלתי
+                                bl.SendDroneToChargingStation(droneID);
+                                Progress();
                             }
                         }
                         break;
-                    case DroneStatuses.Maintenance:
-                        switch (maintenance)
+                    case DroneStatuses.Maintenance: //
+
+                        while (droneToList.Battery < 100)
                         {
-                            case Maintenance.Starting:
-                                lock (bl)
-                                {
-                                    if (stationId != default)
-                                        station = bl.GetStation(stationId);
-                                    else
-                                        station = bl.GetStation(dal.GetDroneCharge(droneId).StationId);
-                                    distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.StationLocation.Longitude, station.StationLocation.Latitude);
-                                    maintenance = Maintenance.Going;
-                                }
-                                break;
-                            case Maintenance.Going:
-                                if (distance < 1)
-                                    lock (bl)
-                                    {
-                                        drone.CurrentLocation = station.StationLocation;
-                                        maintenance = Maintenance.Charging;
-                                    }
-                                else
-                                {
-                                    if (!TimeSleep())
-                                        break;
-                                    lock (bl)
-                                    {
-                                        double del = distance < Step ? distance : Step;
-                                        distance -= del;
-                                        if (drone.Battery - del * dal.electricityUse()[0] < 0)
-                                            drone.Battery = 0;
-                                        else
-                                            drone.Battery = (int)(drone.Battery - del * dal.electricityUse()[0]);
-                                    }
-
-                                }
-                                break;
-                            case Maintenance.Charging:
-                                if (drone.Battery == 100)
-                                    lock (bl)
-                                    {
-                                        drone.DroneStatus = DroneStatuses.Available;
-                                        bl.DroneReleaseFromChargingStation(drone.Id);
-                                    }
-                                else
-                                {
-                                    if (!TimeSleep())
-                                        break;
-                                    lock (bl)
-                                    {
-                                        drone.Battery = (int)Math.Min(100, drone.Battery + dal.electricityUse()[0] * TimeStep);
-                                    }
-                                }
-                                break;
+                            if (droneToList.Battery + 10 > 100)//בדיקה אם כבר עברנו את ה100%
+                                bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery = 100;
+                            else
+                                bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery += 10;
+                            Progress();
+                            Thread.Sleep(1500);
                         }
-                        break;
 
+                        bl.DroneReleaseFromChargingStation(droneID); //שחרור מטעינה ברגע שהרחפן מגיע ל100
+                        Progress();
+                        break;
                     case DroneStatuses.Delivery:
-                        lock (bl)
+                        Drone MyDrone = bl.GetDrone(droneID);
+                        if (bl.GetParcel(MyDrone.ParcelInTransfer.Id).PickedUp == null)
                         {
-                            try
+                            tempBattery = droneToList.Battery;
+                            Location droneLocation = new Location { Longitude = droneToList.CurrentLocation.Longitude, Latitude = droneToList.CurrentLocation.Latitude };
+                            distance = MyDrone.ParcelInTransfer.TransportDistance;
+                            while (distance > 1)
                             {
-                                if (parcelId == default)
-                                    Deliver(drone.ParcelInTransfer.Id);
+                                droneToList.Battery -= (int)bl.PowerUsageEmpty;
+                                distance -= 1;
+                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone);
+                                droneToList.CurrentLocation = MyDrone.CurrentLocation;
+                                Progress();
+                                Thread.Sleep(1500);
                             }
-                            catch (DO.ItemDoesNotExistException ex)
-                            {
-                                throw new WrongStatusException("Error getting parcel", ex);
-                            }
-                            distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, customer.CustomerLocation.Longitude, customer.CustomerLocation.Latitude);
+                            droneToList.CurrentLocation = droneLocation;
+                            droneToList.Battery = tempBattery;
+                            bl.UpdateParcelCollectionByDrone(MyDrone.Id);
+                            Progress();
                         }
-
-                        if (distance < 0.01 || drone.Battery == 0.0)
+                        else // PickedUp != null
                         {
-                            lock (bl)
+                            tempBattery = droneToList.Battery;
+                            distance = MyDrone.ParcelInTransfer.TransportDistance;
+                            while (distance > 1)
                             {
-                                drone.CurrentLocation = customer.CustomerLocation;
-                                if (pickUp)
+                                switch (MyDrone.ParcelInTransfer.Weight)
                                 {
-                                    dal.UpdateParcelDeliveryToCustomer(parcelId);
-                                    drone.DroneStatus = DroneStatuses.Available;
+                                    case WeightCategories.Easy:
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionLightWeight;
+                                        break;
+                                    case WeightCategories.Medium:
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionMediumWeight;
+                                        break;
+                                    case WeightCategories.Heavy:
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionHeavyWeight;
+                                        break;
+                                    default:
+                                        break;
                                 }
-                                else
-                                    dal.UpdateParcelCollectionByDrone(parcelId);
+
+                                Progress();
+                                distance -= 1;
+                                Thread.Sleep(1500);
                             }
-                        }
-                        else
-                        {
-                            if (!TimeSleep())
-                                break;
-                            lock (bl)
-                            {
-                                double diffs = distance < Step ? distance : Step;
-                                double quantity = diffs / distance;
-                                drone.Battery = (int)Math.Max(0.0, drone.Battery - diffs * dal.electricityUse()[pickUp ? (int)batteryUsage : 0]);
-                                double latitude = drone.CurrentLocation.Latitude + (customer.CustomerLocation.Latitude - drone.CurrentLocation.Latitude) * quantity;
-                                double longitude = drone.CurrentLocation.Longitude + (customer.CustomerLocation.Longitude - drone.CurrentLocation.Longitude) * quantity;
-                                drone.CurrentLocation = new() { Longitude = longitude, Latitude = latitude };
-                            }
+
+                            droneToList.Battery = tempBattery;
+                            bl.UpdateParcelDeliveryToCustomer(MyDrone.Id);
+                            Progress();
                         }
                         break;
-
                     default:
-                        throw new WrongStatusException("Error: Drone now not available");
+                        break;
                 }
-                action();
+                //ReportProgressInSimultor();
+                Thread.Sleep(1500);
+            }
 
-            } while (!stop());
+
         }
-        private static bool TimeSleep()
+        private void locationSteps(Location locationOfDrone, Location locationOfNextStep, Drone myDrone)
         {
-            try
+            double droneLatitude = locationOfDrone.Latitude;
+            double droneLongitude = locationOfDrone.Longitude;
+
+            double senderLatitude = locationOfNextStep.Latitude;
+            double senderLongitude = locationOfNextStep.Longitude;
+
+            if (droneLatitude < senderLatitude)// ++++++
             {
-                Thread.Sleep(Delay);
+                double step = (senderLatitude - droneLatitude) / myDrone.ParcelInTransfer.TransportDistance;
+                myDrone.CurrentLocation.Latitude += step;
             }
-            catch (ThreadErrorException)
+            else
             {
-                return false;
+                double step = (droneLatitude - senderLatitude) / myDrone.ParcelInTransfer.TransportDistance;
+                myDrone.CurrentLocation.Latitude -= step;
+
             }
 
-            return true;
+            if (droneLongitude < senderLongitude)//+++++++
+            {
+                double step = (senderLongitude - droneLongitude) / myDrone.ParcelInTransfer.TransportDistance;
+                myDrone.CurrentLocation.Longitude += step;
+            }
+            else
+            {
+                double step = (droneLongitude - senderLongitude) / myDrone.ParcelInTransfer.TransportDistance;
+                myDrone.CurrentLocation.Longitude -= step;
+
+            }
         }
     }
 }
