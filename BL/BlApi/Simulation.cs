@@ -14,9 +14,14 @@ namespace BL.BlApi
     {
         enum Maintenance { Starting, Going, Charging }
         private const int Delay = 500;
-        private const double SpeedTime = 1;
-        private const double TimeStep = Delay / 1000.00;
-        private const double Step = SpeedTime / TimeStep;
+        private const double Speed = 100;
+        private const double TimePassed = Delay / 1000.00;
+        private const double TraveledPath = Speed * TimePassed;
+
+        private BL bl;
+        private Func<bool> stop;
+        private int droneId;
+        private Action progress;
         public Simulation(BL ibl, int droneId, Action action, Func<bool> stop)
         {
             var bl = ibl;
@@ -50,12 +55,17 @@ namespace BL.BlApi
                             break;
                         lock (bl)
                         {
-                            parcelId = dal.GetAllParcels(p => p.Scheduled == null
-                            && (WeightCategories)p.Weight <= drone.Weight
-                            && bl.BatteryConsumption(drone.Id, p) < drone.Battery)
-                                .OrderByDescending(x => x.Priority)
-                                .ThenByDescending(x => x.Weight)
-                                .FirstOrDefault().Id;
+                            //parcelId = dal.GetAllParcels(p => p.Scheduled == null
+                            //&& (WeightCategories)p.Weight <= drone.Weight
+                            //&& bl.BatteryConsumption(drone.Id, p) < drone.Battery)
+                            //    .OrderByDescending(x => x.Priority)
+                            //    .ThenByDescending(x => x.Weight)
+                            //    .FirstOrDefault().Id;
+                            bl.UpdateAssignParcelToDrone(drone.Id);
+                            parcelId = drone.ParcelInTransfer.Id;
+                            if(parcelId == default && drone.Battery == 100)
+                                drone.DroneStatus = DroneStatuses.Available;
+                            break;
                             if (parcelId == default && drone.Battery != 100)
                             {
                                 DO.Station tmpStation = bl.smallestDistance(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude);
@@ -73,8 +83,8 @@ namespace BL.BlApi
                             {
                                 try
                                 {
-                                    dal.UpdateAssignParcelToDrone(droneId, parcelId);
-                                    drone.ParcelInTransfer.Id = parcelId;
+                                    //dal.UpdateAssignParcelToDrone(droneId, parcelId);
+                                    //drone.ParcelInTransfer.Id = parcelId;
                                     Deliver(parcelId);
                                     drone.DroneStatus = DroneStatuses.Delivery;
                                 }
@@ -93,7 +103,8 @@ namespace BL.BlApi
                             case Maintenance.Starting:
                                 lock (bl)
                                 {
-                                    station = bl.GetStation(stationId);
+                                    
+                                    station = bl.GetStation(stationId ?? dal.GetAllDroneCharges(dC => dC.DroneId == drone.Id).First().StationId);
                                     distance = Distance.Haversine(drone.CurrentLocation.Longitude, drone.CurrentLocation.Latitude, station.StationLocation.Longitude, station.StationLocation.Latitude);
                                     maintenance = Maintenance.Going;
                                 }
