@@ -24,7 +24,7 @@ namespace BL
                 throw new InvalidInputException("The identification number should be 4 digits long\n");
             newDrone.Battery = rand.Next(20, 41);//battery status between 20 and 40
             newDrone.DroneStatus = DroneStatuses.Maintenance;//drone status -> maintanace
-            lock(dal)
+            lock (dal)
             {
                 DO.Station newStation = dal.FindStation(stationNumber);//finds the station by the ID number the user entered
                 newDrone.CurrentLocation = new Location();
@@ -117,7 +117,7 @@ namespace BL
         {
             lock (dal)
             {
-                return BlDrones.FindAll(item => predicate == null ? true : predicate(item));
+                return BlDrones.FindAll(item => (predicate == null ? true : predicate(item)) && !item.DeletedDrone);
             }
         }
 

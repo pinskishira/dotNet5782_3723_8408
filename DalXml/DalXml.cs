@@ -80,8 +80,8 @@ namespace Dal
                                  }
                         ).FirstOrDefault();
 
-            if (customer.Id != 0 )
-            { 
+            if (customer.Id != 0)
+            {
                 return customer;
             }
             else
@@ -165,8 +165,8 @@ namespace Dal
             int index = drones.FindIndex(parcel => parcel.Id == id);
             if (index == -1)
                 throw new ItemDoesNotExistException("No drone found with this id");
-            if (drones[index].DeletedDrone)
-                throw new ItemDoesNotExistException("This drone is deleted");
+            //if (drones[index].DeletedDrone)
+            //    throw new ItemDoesNotExistException("This drone is deleted");
             return drones[index];//finding drone
         }
 
@@ -175,8 +175,7 @@ namespace Dal
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             return from itemDrone in drones
-                   where predicate == null ? true : predicate(itemDrone)
-                   where !itemDrone.DeletedDrone
+                   where (predicate == null ? true : predicate(itemDrone)) && !itemDrone.DeletedDrone
                    select itemDrone;
         }
 
@@ -186,7 +185,7 @@ namespace Dal
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             int index = drones.FindIndex(drone => drone.Id == idDrone);
-            if (!drones.Exists(item => item.Id == idDrone) && DataSource.Drones[index].DeletedDrone)//checks if drone exists
+            if ((!drones.Exists(item => item.Id == idDrone)) && drones[index].DeletedDrone)//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist or it is deleted.\n");
             int indexAssign = parcels.FindIndex(parcel => parcel.Id == idParcel);
             if (indexAssign == -1)
@@ -220,8 +219,8 @@ namespace Dal
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
-            int index = DataSource.Drones.FindIndex(drone => drone.Id == idDrone);
-            if (!drones.Exists(item => item.Id == idDrone) && DataSource.Drones[index].DeletedDrone)//checks if drone exists
+            int index = drones.FindIndex(drone => drone.Id == idDrone);
+            if ((!drones.Exists(item => item.Id == idDrone)) && drones[index].DeletedDrone)//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist.\n");
             DroneCharge newDroneCharge = new DroneCharge();
             //drone with low battery will go be charged here
@@ -277,7 +276,7 @@ namespace Dal
             drones[indexDrone] = drone;
             XMLTools.SaveListToXMLSerializer(drones, ParcelXml);
         }
-            #endregion Drones
+        #endregion Drones
 
         #region Stations
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -358,8 +357,6 @@ namespace Dal
             int index = parcels.FindIndex(parcel => parcel.Id == id);
             if (index == -1)
                 throw new ItemDoesNotExistException("No parcel found with this id");
-            //if (parcels[index].DeletedParcel)
-            //    throw new ItemDoesNotExistException("This parcel is deleted");
             return parcels[index];//finding parcel
         }
 
@@ -368,7 +365,7 @@ namespace Dal
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
             return from itemParcel in parcels
-                   where (predicate == null ? true : predicate(itemParcel))&& !itemParcel.DeletedParcel
+                   where (predicate == null ? true : predicate(itemParcel)) && !itemParcel.DeletedParcel
                    select itemParcel;
         }
 
@@ -385,7 +382,6 @@ namespace Dal
             newParcel.Delivered = DateTime.Now;
             newParcel.DroneId = 0;//not assigned to drone anymore
             parcels[indexParcel] = newParcel;
-            //DataSource.Config.NextParcelNumber--;//updating that theres one less parcel to deliver
             XMLTools.SaveListToXMLSerializer(parcels, ParcelXml);
         }
 
