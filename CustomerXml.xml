@@ -81,19 +81,27 @@
     <DeletedCustomer>false</DeletedCustomer>
   </Customer>
   <Customer>
-    <Id>123456789</Id>
-    <Name>r4455</Name>
-    <Phone>4444444444</Phone>
-    <Longitude>0</Longitude>
-    <Latitude>0</Latitude>
-    <DeletedCustomer> false </DeletedCustomer>
+    <Id>232625789</Id>
+    <Name>Gal</Name>
+    <Phone>0587615678</Phone>
+    <Longitude>31</Longitude>
+    <Latitude>34</Latitude>
+    <DeletedCustomer>false</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>122222222</Id>
-    <Name>w</Name>
+    <Name>Devora</Name>
     <Phone>2222222222</Phone>
-    <Longitude>0</Longitude>
-    <Latitude>0</Latitude>
+    <Longitude>31</Longitude>
+    <Latitude>34</Latitude>
+    <DeletedCustomer>false</DeletedCustomer>
+  </Customer>
+  <Customer>
+    <Id>123456789</Id>
+    <Name>rut</Name>
+    <Phone>4444444444</Phone>
+    <Longitude>31</Longitude>
+    <Latitude>34</Latitude>
     <DeletedCustomer>false</DeletedCustomer>
   </Customer>
 </ArrayOfCustomer>

@@ -201,5 +201,11 @@ namespace BlApi
         /// <param name="latitude">Lattitude in location</param>
         /// <returns>Closest station to sender</returns>
         DO.Station smallestDistance(double longitude, double latitude);
+        /// <summary>
+        ///  Finds the smallest distance between the given location and the closest station.
+        /// </summary>
+        /// <param name="CurrentLocation">Location of drone</param>
+        /// <returns></returns>
+        DO.Station smallestDistanceFromDrone(Location CurrentLocation);
     }
 }

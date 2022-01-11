@@ -34,6 +34,8 @@ namespace BL
                     newCustomer.CopyPropertiesTo(obj);
                     tempCustomer = (DO.Customer)obj;
                     newCustomer.CopyPropertiesTo(tempCustomer);
+                    tempCustomer.Longitude = newCustomer.CustomerLocation.Longitude;
+                    tempCustomer.Latitude = newCustomer.CustomerLocation.Latitude;
                     dal.AddCustomer(tempCustomer);//adding to station list in dal
                 }
                 catch (DO.ItemExistsException ex)

@@ -129,40 +129,62 @@ namespace BL
             {
                 try
                 {
-                    DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
-                    DO.Parcel parcel = new DO.Parcel();
-                    int maxPriorities = 0, maxWeight = 0;
-                    double maxDistance = 0.0;
-                    bool flag = false;
-                    if (droneToList.DroneStatus == DroneStatuses.Available)//Check that the drone is free
+                    DroneToList drone = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
+                    if (drone.DroneStatus == DroneStatuses.Available)//Check that the drone is free
                     {
-                        List<DO.Parcel> parcelList = dal.GetAllParcels(item => item.DroneId == 0).ToList();
-                        foreach (var indexOfParcel in parcelList)//Go through all the parcel to look for a suitable parcel
+
+                        DO.Parcel parcel = default;
+                        parcel.Id = 0;
+                        parcel = dal.GetAllParcels(p => p.Scheduled == null
+                                               && (int)p.Weight <= (int)drone.Weight
+                                               && BatteryConsumption(drone.Id, p) < drone.Battery)
+                                               .OrderByDescending(x => x.Priority)
+                                               .ThenByDescending(x => x.Weight)
+                                               .FirstOrDefault();
+                        if (parcel.Id != 0)
                         {
-                            DO.Customer sender = dal.GetAllCustomers().First(index => index.Id == indexOfParcel.SenderId);//Looking for the customer of the parcle
-                                                                                                                          //Finds the distance between the drone and the sender
-                            double distance = Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
-                            //Looking for a parcel with high priority Maximum weight and close to the drone
-                            if ((int)indexOfParcel.Priority > maxPriorities || (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight > maxWeight ||
-                            (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight >= maxWeight && distance < maxDistance)
-                            {
-                                double batteryConsumption = BatteryConsumption(droneToList.Id, indexOfParcel) + Distance.Haversine
-                                    (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
-                                if (droneToList.Battery >= batteryConsumption && (int)droneToList.Weight >= (int)indexOfParcel.Weight)//Checks if the drone can make the sending
-                                {
-                                    maxPriorities = (int)indexOfParcel.Priority;
-                                    maxWeight = (int)indexOfParcel.Weight;
-                                    maxDistance = distance;
-                                    parcel = indexOfParcel;//Updating the parcel
-                                    flag = true;
-                                }
-                            }
+                            BlDrones.Find(item => item.Id == drone.Id).DroneStatus = DroneStatuses.Delivery;
+                            dal.UpdateAssignParcelToDrone(parcel.Id, drone.Id);//Updating the parcel
+                            drone.ParcelIdInTransfer = parcel.Id;
                         }
-                        if (flag == false)//No suitable drone found
-                            throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
-                        dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
-                        droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
-                        droneToList.ParcelIdInTransfer = parcel.Id;
+                        else
+                            throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
+
+
+                        //    DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
+                        //DO.Parcel parcel = new DO.Parcel();
+                        //int maxPriorities = 0, maxWeight = 0;
+                        //double maxDistance = 0.0;
+                        //bool flag = false;
+                        //if (droneToList.DroneStatus == DroneStatuses.Available)//Check that the drone is free
+                        //{
+                        //    List<DO.Parcel> parcelList = dal.GetAllParcels(item => item.DroneId == 0).ToList();
+                        //    foreach (var indexOfParcel in parcelList)//Go through all the parcel to look for a suitable parcel
+                        //    {
+                        //        DO.Customer sender = dal.GetAllCustomers().First(index => index.Id == indexOfParcel.SenderId);//Looking for the customer of the parcle
+                        //                                                                                                      //Finds the distance between the drone and the sender
+                        //        double distance = Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
+                        //        //Looking for a parcel with high priority Maximum weight and close to the drone
+                        //        if ((int)indexOfParcel.Priority > maxPriorities || (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight > maxWeight ||
+                        //        (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight >= maxWeight && distance < maxDistance)
+                        //        {
+                        //            double batteryConsumption = BatteryConsumption(droneToList.Id, indexOfParcel) + Distance.Haversine
+                        //                (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
+                        //            if (droneToList.Battery >= batteryConsumption && (int)droneToList.Weight >= (int)indexOfParcel.Weight)//Checks if the drone can make the sending
+                        //            {
+                        //                maxPriorities = (int)indexOfParcel.Priority;
+                        //                maxWeight = (int)indexOfParcel.Weight;
+                        //                maxDistance = distance;
+                        //                parcel = indexOfParcel;//Updating the parcel
+                        //                flag = true;
+                        //            }
+                        //        }
+                        //    }
+                        //    if (flag == false)//No suitable drone found
+                        //        throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
+                        //    dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
+                        //    droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
+                        //    droneToList.ParcelIdInTransfer = parcel.Id;
                     }
                 }
                 catch (ParcelDeliveryException)

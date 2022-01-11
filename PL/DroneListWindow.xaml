@@ -45,7 +45,7 @@
 
         </Grid>
         <ListView
-            x:Name ="DronesListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="DronesListView_SelectionChanged" FontWeight="Bold" FontSize="16" FontFamily="Britannic Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="503" >
+            x:Name ="DronesListView" Margin="10,10,10,41" Grid.Row="1" MouseDoubleClick="DronesListView_SelectionChanged" FontWeight="Bold" FontSize="16" >
             <ListView.Background>
                 <ImageBrush ImageSource="Pictures\drone.jpeg" Opacity="0.4"/>
             </ListView.Background>

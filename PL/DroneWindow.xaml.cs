@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Controls;
 using BO;
@@ -62,18 +63,22 @@ namespace PL
             else
                 Drone = ibl.GetDrone(idDrone);//getting drone with this id
             DataContext = Drone;//updating event
-            Drone visibleDroneButton = Drone;//equals chosen drone to update
+            WindowUp();
+        }
+
+        private void WindowUp()
+        {
             if (Drone.ParcelInTransfer == null)//if its got no parcel assigned to it
             {
                 GridParcelInTransfer.Visibility = Visibility.Collapsed;//all the fields linked to parcel are hidden - because are not needed
             }
-            if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Available)//if drone status is - available
+            if (Drone.DroneStatus == BO.Enum.DroneStatuses.Available)//if drone status is - available
             {
                 ChargeDroneUD.Content = "Send Drone to Charging";//input button content
                 DroneStatusChangeUD.Content = "Assign drone to a parcel";//input button content
             }
 
-            if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Maintenance)//if drone status is - maintanance
+            if (Drone.DroneStatus == BO.Enum.DroneStatuses.Maintenance)//if drone status is - maintanance
             {
                 ChargeDroneUD.Content = "Release Drone from Charging";//input button content
                 DroneStatusChangeUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
@@ -82,18 +87,19 @@ namespace PL
             else
             {
                 //if drone status is - Delivery, and parcel has not yet been delivered 
-                if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == false)
+                if (Drone.DroneStatus == BO.Enum.DroneStatuses.Delivery && Drone.ParcelInTransfer.ParcelState == false)
                 {
                     DroneStatusChangeUD.Content = "Drone Collects Parcel";//input button content
                     ChargeDroneUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
                 }
                 //if drone status is - Delivery, and parcel has been deliveerd
-                if (visibleDroneButton.DroneStatus == BO.Enum.DroneStatuses.Delivery && visibleDroneButton.ParcelInTransfer.ParcelState == true)
+                if (Drone.DroneStatus == BO.Enum.DroneStatuses.Delivery && Drone.ParcelInTransfer.ParcelState == true)
                 {
                     DroneStatusChangeUD.Content = "Drone Delivers Parcel";//input button content
                     ChargeDroneUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
                 }
             }
+            DroneListWindow.Selection();
         }
 
         /// <summary>
@@ -365,20 +371,28 @@ namespace PL
             windowParcels.CurrentParcel.Id = parcel.Id;
             new ParcelWindow(bl, windowParcels, 0).Show();
         }
-        bool Auto;
+        //bool Auto;
         BackgroundWorker worker;
-        private void updateDrone() => worker.ReportProgress(0);
+        private void updateDrone() => worker.ReportProgress(0);//מדווח על שינויים
         private bool checkStop() => worker.CancellationPending;
+        private void UpdateWidowDrone()
+        {
+            Drone = bl.GetDrone(Drone.Id);
+            DataContext = Drone;
+            WindowUp();
+        }
         private void Automatic_Click(object sender, RoutedEventArgs e)
         {
-            Auto = true;
+            //Auto = true;
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
-            worker.DoWork += (sender, args) => bl.StartSimulator((int)args.Argument, updateDrone, checkStop);
-            worker.RunWorkerCompleted += (sender, args) => Auto = false;
-            //worker.ProgressChanged += (sender, args) => updateDrone();
-            worker.RunWorkerAsync(Drone.Id);
+            worker.DoWork += (sender, args) => bl.StartSimulator((int)args.Argument, updateDrone, checkStop);//2
+            //worker.RunWorkerCompleted += (sender, args) => Auto = false;
+            worker.ProgressChanged += (sender, args) => UpdateWidowDrone();
+            worker.RunWorkerAsync(Drone.Id);//מריץ את התהילכון1
         }
-        private void Regular_Click(object sender, RoutedEventArgs e) => worker.CancelAsync();
+        private void Regular_Click(object sender, RoutedEventArgs e)
+        {
+            worker.CancelAsync();
+        }
     }
-
 }
