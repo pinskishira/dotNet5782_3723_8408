@@ -46,7 +46,6 @@ namespace PL
                 droneToLists.Add(drones);
             }
 
-
             DronesListView.ItemsSource = droneToLists;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");

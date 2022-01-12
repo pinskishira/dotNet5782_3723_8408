@@ -222,7 +222,7 @@ namespace PL
         private void CloseWindowButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
         private void window_closeing(object sender, CancelEventArgs e)
         {
@@ -236,7 +236,7 @@ namespace PL
         private void CancelButtonUD_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
         private void ShowParcelsToCustomer_Click(object sender, RoutedEventArgs e)
