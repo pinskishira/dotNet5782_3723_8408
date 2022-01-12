@@ -10,11 +10,11 @@ namespace BO
 {
     public class Parcel
     {
-        public int Id { get; set; }//
-        public CustomerInParcel Sender { get; set; }//
-        public CustomerInParcel Target { get; set; }//
-        public WeightCategories Weight { get; set; }//
-        public Priorities Priority { get; set; }//
+        public int Id { get; set; }
+        public CustomerInParcel Sender { get; set; }
+        public CustomerInParcel Target { get; set; }
+        public WeightCategories Weight { get; set; }
+        public Priorities Priority { get; set; }
         public DroneInParcel DroneParcel { get; set; }
         public DateTime? Requested { get; set; }//Time parcel is created  
         public DateTime? Scheduled { get; set; }//Time parcel is assigned to drone

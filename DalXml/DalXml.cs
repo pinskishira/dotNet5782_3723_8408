@@ -152,7 +152,7 @@ namespace Dal
         public void AddDrone(Drone newDrone)
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
-            if (drones.Exists(item => item.Id == newDrone.Id) && !newDrone.DeletedDrone)//checks if drone exists
+            if (drones.Exists(item => item.Id == newDrone.Id) && (!newDrone.DeletedDrone))//checks if drone exists
                 throw new ItemExistsException("The drone already exists.\n");
             drones.Add(newDrone);
             XMLTools.SaveListToXMLSerializer(drones, DroneXml);
@@ -165,8 +165,6 @@ namespace Dal
             int index = drones.FindIndex(parcel => parcel.Id == id);
             if (index == -1)
                 throw new ItemDoesNotExistException("No drone found with this id");
-            //if (drones[index].DeletedDrone)
-            //    throw new ItemDoesNotExistException("This drone is deleted");
             return drones[index];//finding drone
         }
 
@@ -290,7 +288,7 @@ namespace Dal
         public void AddStation(Station newStation)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
-            if (stations.Exists(item => item.Id == newStation.Id))//checks if station exists
+            if (stations.Exists(item => (item.Id == newStation.Id) && (!item.DeletedStation)))//checks if station exists
                 throw new ItemExistsException("The station already exists.\n");
             stations.Add(newStation);
             XMLTools.SaveListToXMLSerializer(stations, StationXml);

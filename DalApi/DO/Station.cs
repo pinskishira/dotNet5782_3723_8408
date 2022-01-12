@@ -18,8 +18,6 @@ namespace DO
             result += $"ID is {Id} \n";
             result += $"Name is {Name} \n";
             result += $"Location is {Util.SexagesimalCoordinate(Longitude, Latitude)} \n";
-            //result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
-            //result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
             result += $"ChargeSlots is {AvailableChargeSlots} \n";
             return result;
         }

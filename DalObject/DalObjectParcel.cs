@@ -11,7 +11,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
-            if (DataSource.Parcels.Exists(item => item.Id == newParcel.Id && !newParcel.DeletedParcel))//checks if parcel exists
+            if (DataSource.Parcels.Exists(item => (item.Id == newParcel.Id) && (!newParcel.DeletedParcel)))//checks if parcel exists
                 throw new ItemExistsException("The parcel already exists.\n");
             newParcel.Id = DataSource.Config.NextParcelNumber++;
             DataSource.Parcels.Add(newParcel);
@@ -40,7 +40,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel FindParcel(int id)
         {
-            int indexParcel = CheckExistingParcel(id);
+            int indexParcel = DataSource.Parcels.FindIndex(parcel => parcel.Id == id);
+            if (indexParcel == -1)
+                throw new ItemDoesNotExistException("No parcel found with this id");
             return DataSource.Parcels[indexParcel];//finding parcel
         }
 
@@ -48,8 +50,7 @@ namespace Dal
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             return from itemParcel in DataSource.Parcels
-                   where predicate == null ? true : predicate(itemParcel)
-                   where !itemParcel.DeletedParcel
+                   where (predicate == null ? true : predicate(itemParcel)) && (!itemParcel.DeletedParcel)
                    select itemParcel;
         }
         private int CheckExistingParcel(int id)

@@ -8,15 +8,12 @@ using System.Threading;
 using static BL.BL;
 using static BO.Enum;
 
-namespace BL.BlApi
+namespace BL
 {
 
     class Simulation
     {
         BL bl;
-
-        private const double kmh = 3600;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
-
         private const int sleep = 1000;
 
         public Simulation(BL _bl, int droneID, Action Progress, Func<bool> stopSim)

@@ -20,7 +20,7 @@ namespace ConsoleUI_BL
     {
         public static void Main(string[] args)
         {
-            BlApi.Ibl ibl = BL.BlFactory.GetBl();
+            BlApi.Ibl ibl = BlApi.BlFactory.GetBl();
             int ansFromUserInt, input;
             double ansFromUserDouble1;
             double ansFromUserDouble2;

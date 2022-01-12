@@ -23,7 +23,6 @@ namespace PL
     public partial class CustomerListWindow : Window
     {
         BlApi.Ibl bl;
-        //  public ObservableCollection<IGrouping<BO.Enum.DroneStatuses, DroneToList>> droneToLists;
         public ObservableCollection<CustomerToList> customerToLists;
 
         public CustomerToList CurrentCustomer { get; set; } = new();
@@ -39,7 +38,6 @@ namespace PL
             bl = ibl;
             customerToLists = new ObservableCollection<CustomerToList>();
             List<CustomerToList> tempCustomerToList = bl.GetAllCustomers().ToList();//getting list of drones from bl
-
             foreach (var indexOfCustomerToList in tempCustomerToList)//going through list and inserting it into drone to list of type ObservableCollection
             {
                 customerToLists.Add(indexOfCustomerToList);
@@ -59,7 +57,7 @@ namespace PL
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
         private void window_closeing(object sender, CancelEventArgs e)
@@ -84,7 +82,7 @@ namespace PL
         private void CloseWindowCustomer_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)

@@ -77,21 +77,15 @@ namespace BL
         {
             lock (dal)
             {
-                Station tempStation = new Station();
-                List<StationToList> stationToList = new List<StationToList>();
-                List<DO.Station> stationList = dal.GetAllStations().ToList();
-                foreach (var indexOfStations in stationList)//going through stations
-                {
-                    StationToList tempStationToList = new StationToList();
-                    tempStation = GetStation(indexOfStations.Id);//getting station with inputted index
-                    tempStation.CopyPropertiesTo(tempStationToList);//converting to StationToList
-                    if (tempStation.DronesInCharging == null)
-                        tempStationToList.OccupiedChargeSlots = 0;
-                    else
-                        tempStationToList.OccupiedChargeSlots = tempStation.DronesInCharging.Count();//checks how many drones are in charging and counts them 
-                    stationToList.Add(tempStationToList);//ading to StationToList
-                }
-                return stationToList.FindAll(item => predicate == null ? true : predicate(item));
+                return (from itemStation in dal.GetAllStations()
+                        let tempStation = GetStation(itemStation.Id)//getting station with inputted index
+                        select new StationToList
+                        {
+                            Id = tempStation.Id,
+                            Name = tempStation.Name,
+                            AvailableChargeSlots = tempStation.AvailableChargeSlots,
+                            OccupiedChargeSlots = tempStation.DronesInCharging != null ? tempStation.DronesInCharging.Count() : 0
+                        }).Where(item => predicate == null ? true : predicate(item));
             }
         }
 

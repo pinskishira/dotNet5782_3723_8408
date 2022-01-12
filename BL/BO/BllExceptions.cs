@@ -18,7 +18,7 @@ namespace BO
         }
     }
     [Serializable]
-    public class FailedToAddException : Exception//הוספה נכשלה
+    public class FailedToAddException : Exception//Failed To Add
     {
         public FailedToAddException() : base() { }
         public FailedToAddException(string message) : base(message) { }
@@ -29,7 +29,7 @@ namespace BO
         }
     }
     [Serializable]
-    public class FailedGetException : Exception//יצוג ישות נכשל
+    public class FailedGetException : Exception//Failed To Get
     {
         public FailedGetException() : base() { }
         public FailedGetException(string message) : base(message) { }
@@ -41,7 +41,7 @@ namespace BO
     }
 
     [Serializable]
-    public class DroneMaintananceException : Exception//בעיה בלשלוח רחפן לטעינה
+    public class DroneMaintananceException : Exception
     {
         public DroneMaintananceException() : base() { }
         public DroneMaintananceException(string message) : base(message) { }
@@ -53,7 +53,7 @@ namespace BO
     }
 
     [Serializable]
-    public class FailedToCollectParcelException : Exception//בעיה באיסוף חבילה
+    public class FailedToCollectParcelException : Exception
     {
         public FailedToCollectParcelException() : base() { }
         public FailedToCollectParcelException(string message) : base(message) { }
@@ -65,7 +65,7 @@ namespace BO
     }
 
     [Serializable]
-    public class ParcelDeliveryException : Exception//בעיה בשחרור רחפן מטעינה
+    public class ParcelDeliveryException : Exception
     {
         public ParcelDeliveryException() : base() { }
         public ParcelDeliveryException(string message) : base(message) { }

@@ -1,4 +1,5 @@
 ﻿using System;
+using static DO.Enum;
 
 namespace DO
 {

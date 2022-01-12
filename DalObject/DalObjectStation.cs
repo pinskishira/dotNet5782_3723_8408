@@ -20,7 +20,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
-            int indexStation = CheckExistingStation(id);//checks if station exists
+            int indexStation = DataSource.Stations.FindIndex(customer => customer.Id == id);//checks if station exists
+            if (indexStation == -1)
+                throw new ItemDoesNotExistException("No station found with this id");
             return DataSource.Stations[indexStation];//finding station
         }
 
