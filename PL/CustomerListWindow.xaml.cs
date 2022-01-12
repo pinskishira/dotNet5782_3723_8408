@@ -78,7 +78,7 @@ namespace PL
         {
             CurrentCustomer = (CustomerToList)CustomerListView.SelectedItem;
             if (CurrentCustomer != null)
-                new CustomerWindow(bl, this,0).Show();
+                new CustomerWindow(bl, this, 0).Show();
         }
 
         private void CloseWindowCustomer_Click(object sender, RoutedEventArgs e)
@@ -89,7 +89,7 @@ namespace PL
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-           new CustomerWindow(bl, this).Show();
+            new CustomerWindow(bl, this).Show();
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -105,11 +105,20 @@ namespace PL
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            FrameworkElement framework = sender as FrameworkElement;
-            CurrentCustomer= framework.DataContext as CustomerToList;
-            bl.DeleteCustomer(CurrentCustomer.Id);
-            customerToLists.Remove(CurrentCustomer);
-            MyRefresh();
+            var result1 = MessageBox.Show($"Are you sure you would like to delete this customer? \n", "Request Review",
+            MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            switch (result1)
+            {
+                case MessageBoxResult.OK:
+                    FrameworkElement framework = sender as FrameworkElement;
+                    CurrentCustomer = framework.DataContext as CustomerToList;
+                    bl.DeleteCustomer(CurrentCustomer.Id);
+                    customerToLists.Remove(CurrentCustomer);
+                    MyRefresh();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
     }
 }

@@ -112,5 +112,21 @@ namespace BL
                 }
             }
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(int idStation)
+        {
+            lock (dal)
+            {
+                try
+                {
+                    dal.DeleteStation(idStation);//delete parcel
+                }
+                catch (DO.ItemDoesNotExistException ex)
+                {
+                    throw new ItemDoesNotExistException("ERROR.\n", ex);
+                }
+            }
+        }
     }
 }

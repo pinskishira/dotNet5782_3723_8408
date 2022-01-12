@@ -9,6 +9,8 @@ namespace DO
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public int AvailableChargeSlots { get; set; }//Number of available charging stations
+        public bool DeletedStation { get; set; }
+
         public override string ToString()
         {
             String result = "";

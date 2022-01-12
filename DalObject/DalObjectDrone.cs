@@ -27,8 +27,7 @@ namespace Dal
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             return from itemDrone in DataSource.Drones
-                   where predicate == null ? true : predicate(itemDrone)
-                   where !itemDrone.DeletedDrone
+                   where (predicate == null ? true : predicate(itemDrone)) && (!itemDrone.DeletedDrone)
                    select itemDrone;
         }
 

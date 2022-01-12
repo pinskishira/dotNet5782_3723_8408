@@ -342,6 +342,21 @@ namespace Dal
             stations[indexOfStation] = station;//placing updated station in list of stations
             XMLTools.SaveListToXMLSerializer(stations, StationXml);
         }
+
+
+        public void DeleteStation(int id)
+        {
+            List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
+            int indexStation = stations.FindIndex(station => station.Id == id);//finding parcel that was collected by drone
+            if (indexStation == -1)
+                throw new ItemDoesNotExistException("No station found with this id");
+            if (stations[indexStation].DeletedStation)
+                throw new ItemDoesNotExistException("This parcel is deleted");
+            Station station = stations[indexStation];
+            station.DeletedStation = true;
+            stations[indexStation] = station;
+            XMLTools.SaveListToXMLSerializer(stations, StationXml);
+        }
         #endregion Stations
 
         #region Parcels
