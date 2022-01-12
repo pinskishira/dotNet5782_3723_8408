@@ -33,14 +33,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <!--The buttons at the top-->
-            <Label Content="List Of Drones" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
-            <Label Content="Sort by Status" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
+            <Label Content="List Of Drones" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="35"/>
+            <Label Content="Sort by Status" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Foreground="Black"  FontWeight="Bold" FontFamily="Britannic Bold" FontSize="25"/>
             <ComboBox x:Name="StatusSelection" Grid.Column="1" SelectionChanged="StatusSelection_SelectionChanged" Foreground="#FF0D0000" FontFamily="Britannic Bold" FontSize="18"  Margin="26,30,26,10"/>
-            <Label Content="Sort by Weight" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Black" FontWeight="Bold" FontFamily="Britannic Bold" FontSize="18"/>
-            <ComboBox x:Name="WeightSelection" Grid.Column="2" SelectionChanged="WeightSelection_SelectionChanged" FontFamily="Britannic Bold" FontSize="18" Margin="26,30,26,10"/>
             <Button x:Name="CloseWindowButton" Content="Close Window" Grid.Column="3" VerticalAlignment="Center" BorderThickness="4,4,4,3.8" BorderBrush="White" Background="Transparent" FontFamily="Britannic Bold" FontSize="24" Click="CloseWindowButton_Click" HorizontalAlignment="Center"/>
 
         </Grid>
@@ -62,11 +59,12 @@
                     </GridViewColumn>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="100"/>
                     <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="150"/>
-                    <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="auto"/>
-                    <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="auto"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="auto"/>
-                    <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="auto"/>
+                    <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="100"/>
+                    <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="100"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="150"/>
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="100"/>
+                    <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="150"/>
+
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -78,6 +76,42 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
+
+            <!--<ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>-->
+            
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
