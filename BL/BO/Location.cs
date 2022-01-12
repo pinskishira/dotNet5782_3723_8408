@@ -14,10 +14,6 @@ namespace BO
         public override string ToString()
         {
             return Util.SexagesimalCoordinate(Longitude, Latitude);
-            //String result = "";
-            //result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
-            //result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
-            //return result;
         }
     }
 }

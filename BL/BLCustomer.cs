@@ -25,7 +25,7 @@ namespace BL
                 throw new InvalidInputException("The longitude is not valid, enter a longitude point between 29.3 and 33.5\n");
             if (newCustomer.CustomerLocation.Latitude < 33.7 || newCustomer.CustomerLocation.Latitude > 36.3)
                 throw new InvalidInputException("The Latitude is not valid, enter a Latitude point between 33.7 and 36.3\n");
-            lock(dal)
+            lock (dal)
             {
                 try
                 {
@@ -116,43 +116,27 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetAllCustomers(Predicate<CustomerToList> predicate = null)
         {
-            Customer tempCustomer = new Customer();
-            CustomerToList tempCustomerToList = new CustomerToList();
-            List<CustomerToList> customerToList = new List<CustomerToList>();
-            lock(dal)
+            lock (dal)
             {
-                List<DO.Customer> customerList = dal.GetAllCustomers().ToList();
-                foreach (var indexCustomer in customerList)//goes through list of customers
-                {
-                    tempCustomer = GetCustomer(indexCustomer.Id);//brings the customer by the ID number
-                    tempCustomer.CopyPropertiesTo(tempCustomerToList);//converting dal->bll
-                    IEnumerable<ParcelAtCustomer> ParcelsFromCustomerList = tempCustomer.ParcelsFromCustomers;
-                    foreach (var parcelsFromCustomers in ParcelsFromCustomerList)//goes over the list of parcels from the customer
-                    {
-                        if (parcelsFromCustomers.StateOfParcel == ParcelState.Provided)//if parcel is delivered
-                            tempCustomerToList.ParcelsSentAndDelivered++;
-                        else//if parcel was not delivered
-                            tempCustomerToList.ParcelsSentButNotDelivered++;
-                    }
-                    IEnumerable<ParcelAtCustomer> ParcelsToCustomersList = tempCustomer.ParcelsToCustomers;
-                    foreach (var parcelsToCustomers in ParcelsToCustomersList)//goes over the list of parcels to the customer
-                    {
-                        if (parcelsToCustomers.StateOfParcel == ParcelState.Provided)//if he recieved the parcel
-                            tempCustomerToList.RecievedParcels++;
-                        else//if the parcel is on the way
-                            tempCustomerToList.ParcelsOnTheWayToCustomer++;
-                    }
-                    customerToList.Add(tempCustomerToList);
-                    tempCustomerToList = new CustomerToList();
-                }
-                return customerToList.FindAll(item => predicate == null ? true : predicate(item));
+                return (from itemCustomer in dal.GetAllCustomers()
+                        let tempCustomer = GetCustomer(itemCustomer.Id)//brings the customer by the ID number
+                        select new CustomerToList
+                        {
+                            Id = tempCustomer.Id,
+                            Name = tempCustomer.Name,
+                            Phone = tempCustomer.Phone,
+                            ParcelsSentAndDelivered = dal.GetAllParcels(item => item.SenderId == tempCustomer.Id && item.Delivered != null).Count(),
+                            ParcelsSentButNotDelivered = dal.GetAllParcels(item => item.SenderId == tempCustomer.Id && item.Delivered == null).Count(),
+                            RecievedParcels = dal.GetAllParcels(item => item.TargetId == tempCustomer.Id && item.Delivered != null).Count(),
+                            ParcelsOnTheWayToCustomer = dal.GetAllParcels(item => item.TargetId == tempCustomer.Id && item.Delivered == null).Count(),
+                        }).Where(item => predicate == null ? true : predicate(item));
             }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int idCustomer, string newName, string customerPhone)
         {
-            lock(dal)
+            lock (dal)
             {
                 try
                 {
@@ -168,7 +152,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int idCustomer)
         {
-            lock(dal)
+            lock (dal)
             {
                 try
                 {

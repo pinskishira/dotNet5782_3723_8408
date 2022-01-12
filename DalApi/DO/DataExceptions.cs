@@ -35,7 +35,6 @@ namespace DO
         public XMLFileLoadCreateException(string xmlPath, string message, Exception innerException) :
             base(message, innerException)
         { xmlFilePath = xmlPath; }
-
         public override string ToString()
         {
             return base.ToString() + $", fail to load or create xml file: {xmlFilePath}";

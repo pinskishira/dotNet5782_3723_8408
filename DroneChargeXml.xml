@@ -10,9 +10,4 @@
     <StationId>2475</StationId>
     <TimeDroneInCharging>2022-01-12T20:05:51.5814703+02:00</TimeDroneInCharging>
   </DroneCharge>
-  <DroneCharge>
-    <DroneId>12387</DroneId>
-    <StationId>2475</StationId>
-    <TimeDroneInCharging>2022-01-12T20:08:41.2489131+02:00</TimeDroneInCharging>
-  </DroneCharge>
 </ArrayOfDroneCharge>

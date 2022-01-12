@@ -19,8 +19,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone FindDrone(int id)
         {
-            int indexDrone = CheckExistingDrone(id);//checks if customer exists
-            return DataSource.Drones[indexDrone];//finding parcel
+            int indexDrone = DataSource.Drones.FindIndex(drone => drone.Id == id);//checks if drone exists
+            if (indexDrone == -1)
+                throw new ItemDoesNotExistException("No drone found with this id");
+            return DataSource.Drones[indexDrone];
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -34,7 +36,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
-            if (!DataSource.Drones.Exists(item => item.Id == idDrone) && CheckIfDroneIsDeleted(idDrone))//checks if drone exists
+            if (!DataSource.Drones.Exists(item => (item.Id == idDrone) && (!item.DeletedDrone)))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist or it had been deleted.\n");
             int indexAssign = CheckExistingParcel(idParcel);//finding parcel
             Parcel newParcel = DataSource.Parcels[indexAssign];
@@ -54,7 +56,7 @@ namespace Dal
         public void UpdateSendDroneToChargingStation(int idDrone, string nameStation)
         {
 
-            if (!DataSource.Drones.Exists(item => item.Id == idDrone) && CheckIfDroneIsDeleted(idDrone))//checks if drone exists
+            if (!DataSource.Drones.Exists(item => (item.Id == idDrone) && (!item.DeletedDrone)))//checks if drone exists
                 throw new ItemDoesNotExistException("The drone does not exist or it has been deleted.\n");
             DroneCharge newDroneCharge = new DroneCharge();
             //drone with low battery will go be charged here
@@ -83,20 +85,12 @@ namespace Dal
 
         private int CheckExistingDrone(int id)
         {
-            int index = DataSource.Drones.FindIndex(customer => customer.Id == id);
+            int index = DataSource.Drones.FindIndex(drone => drone.Id == id);
             if (index == -1)
                 throw new ItemDoesNotExistException("No drone found with this id");
             if (DataSource.Drones[index].DeletedDrone)
                 throw new ItemDoesNotExistException("This drone is deleted");
             return index;
-        }
-        
-        private bool CheckIfDroneIsDeleted(int id)
-        {
-            int index = DataSource.Drones.FindIndex(drone => drone.Id == id);
-            if (DataSource.Drones[index].DeletedDrone)
-                return false;
-            return true;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DO;
+using static DO.Enum;
 
 /// <summary>
 /// DalObject defines lists for the stations, drones, customers, parcels and drone charges and then updates them and fills them with data.

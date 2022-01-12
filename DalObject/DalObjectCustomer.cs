@@ -20,7 +20,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer FindCustomer(int id)
         {
-            int indexCustomer = CheckExistingCustomer(id);//checks if customer exists
+            int indexCustomer = DataSource.Customers.FindIndex(customer => customer.Id == id);//checks if customer exists
+            if (indexCustomer == -1)
+                throw new ItemDoesNotExistException("No customer found with this id");
             return DataSource.Customers[indexCustomer];//finding customer
         }
 
@@ -28,8 +30,7 @@ namespace Dal
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
             return from itemCustomer in DataSource.Customers
-                   where predicate == null ? true : predicate(itemCustomer)
-                   where !itemCustomer.DeletedCustomer
+                   where (predicate == null ? true : predicate(itemCustomer))&&!itemCustomer.DeletedCustomer
                    select itemCustomer;
         }
 

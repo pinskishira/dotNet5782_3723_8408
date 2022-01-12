@@ -12,10 +12,10 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
-            //if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
-            //    throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
-            //if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
-            //    throw new InvalidInputException("The identification number of target should be 9 digits long\n");
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Sender.Id))) + 1) != 9)//if id inputted is not 9 digits long
+                throw new InvalidInputException("The identification number of sender should be 9 digits long\n");
+            if ((Math.Round(Math.Floor(Math.Log10(newParcel.Target.Id))) + 1) != 9)//if id inputted is not 9 digits long
+                throw new InvalidInputException("The identification number of target should be 9 digits long\n");
             if (newParcel.Weight != WeightCategories.Easy && newParcel.Weight != WeightCategories.Medium && newParcel.Weight != WeightCategories.Heavy)//if 1,2 or 3 werent inputted
                 throw new InvalidInputException("You need to select 1- for Easy 2- for Medium 3- for Heavy\n");
             if (newParcel.Priority != Priorities.Normal && newParcel.Priority != Priorities.Fast && newParcel.Priority != Priorities.Emergency)//if 1,2 or 3 were inputted
@@ -91,34 +91,18 @@ namespace BL
         {
             lock (dal)
             {
-                Parcel tempParcel = new Parcel();
-                ParcelToList tempParcelToList = new ParcelToList();
-                List<ParcelToList> parcelToLists = new List<ParcelToList>();
-                List<DO.Parcel> parcelList = dal.GetAllParcels().ToList();
-                foreach (var indexOfParcels in parcelList)//goes through dals list of parcels
-                {
-                    tempParcel = GetParcel(indexOfParcels.Id);//finding parcel
-                    tempParcel.CopyPropertiesTo(tempParcelToList);//converting to parcelToList
-                    tempParcelToList.SenderName = tempParcel.Sender.Name;
-                    tempParcelToList.TargetName = tempParcel.Target.Name;
-                    if (tempParcel.Delivered != null)//if parcel was delivered
-                        tempParcelToList.StateOfParcel = ParcelState.Provided;//state -> provided
-                    else
-                    {
-                        if (tempParcel.PickedUp != null)//if parcel was picked up by drone
-                            tempParcelToList.StateOfParcel = ParcelState.PickedUp;//state -> picked up
-                        else
+                return (from item in dal.GetAllParcels()
+                        select new ParcelToList
                         {
-                            if (tempParcel.Scheduled != null)//if if parcel was assigned to drone
-                                tempParcelToList.StateOfParcel = ParcelState.Paired;//state -> paired
-                            else//if parcel was requested
-                                tempParcelToList.StateOfParcel = ParcelState.Created;//state -> created
-                        }
-                    }
-                    parcelToLists.Add(tempParcelToList);
-                    tempParcelToList = new ParcelToList();
-                }
-                return parcelToLists.FindAll(item => predicate == null ? true : predicate(item));
+                            Id = item.Id,
+                            SenderName = dal.FindCustomer(item.SenderId).Name,
+                            TargetName = dal.FindCustomer(item.TargetId).Name,
+                            Weight = (WeightCategories)item.Weight,
+                            Priority = (Priorities)item.Priority,
+                            StateOfParcel = item.Delivered != null ? ParcelState.Provided :
+                              (item.PickedUp != null ? ParcelState.PickedUp :
+                              (item.Scheduled != null ? ParcelState.Paired : ParcelState.Created))
+                        }).Where(item => predicate == null ? true : predicate(item));
             }
         }
 
@@ -149,42 +133,6 @@ namespace BL
                         }
                         else
                             throw new FailedToCollectParcelException("The drone must meet the condition that it is associated but has not yet been collected.\n");
-
-
-                        //    DroneToList droneToList = BlDrones.First(indexOfDroneToList => indexOfDroneToList.Id == droneId);//Looking for the drone you want to associate
-                        //DO.Parcel parcel = new DO.Parcel();
-                        //int maxPriorities = 0, maxWeight = 0;
-                        //double maxDistance = 0.0;
-                        //bool flag = false;
-                        //if (droneToList.DroneStatus == DroneStatuses.Available)//Check that the drone is free
-                        //{
-                        //    List<DO.Parcel> parcelList = dal.GetAllParcels(item => item.DroneId == 0).ToList();
-                        //    foreach (var indexOfParcel in parcelList)//Go through all the parcel to look for a suitable parcel
-                        //    {
-                        //        DO.Customer sender = dal.GetAllCustomers().First(index => index.Id == indexOfParcel.SenderId);//Looking for the customer of the parcle
-                        //                                                                                                      //Finds the distance between the drone and the sender
-                        //        double distance = Distance.Haversine(sender.Longitude, sender.Latitude, droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude);
-                        //        //Looking for a parcel with high priority Maximum weight and close to the drone
-                        //        if ((int)indexOfParcel.Priority > maxPriorities || (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight > maxWeight ||
-                        //        (int)indexOfParcel.Priority >= maxPriorities && (int)indexOfParcel.Weight >= maxWeight && distance < maxDistance)
-                        //        {
-                        //            double batteryConsumption = BatteryConsumption(droneToList.Id, indexOfParcel) + Distance.Haversine
-                        //                (droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, sender.Longitude, sender.Latitude) * PowerUsageEmpty;
-                        //            if (droneToList.Battery >= batteryConsumption && (int)droneToList.Weight >= (int)indexOfParcel.Weight)//Checks if the drone can make the sending
-                        //            {
-                        //                maxPriorities = (int)indexOfParcel.Priority;
-                        //                maxWeight = (int)indexOfParcel.Weight;
-                        //                maxDistance = distance;
-                        //                parcel = indexOfParcel;//Updating the parcel
-                        //                flag = true;
-                        //            }
-                        //        }
-                        //    }
-                        //    if (flag == false)//No suitable drone found
-                        //        throw new ParcelDeliveryException("There is no parcel that can belong to this drone.\n");
-                        //    dal.UpdateAssignParcelToDrone(parcel.Id, droneToList.Id);//Updating the parcel
-                        //    droneToList.DroneStatus = DroneStatuses.Delivery;//Update the drone status
-                        //    droneToList.ParcelIdInTransfer = parcel.Id;
                     }
                 }
                 catch (ParcelDeliveryException)
