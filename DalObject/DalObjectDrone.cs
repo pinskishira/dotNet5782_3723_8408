@@ -99,12 +99,21 @@ namespace Dal
             return true;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             int indexOfDrones = CheckExistingDrone(id);//checks if parcel exists
             Drone drone = DataSource.Drones[indexOfDrones];
             drone.DeletedDrone = true;
             DataSource.Drones[indexOfDrones] = drone;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> GetAllDronesToBlDrones(Predicate<Drone> predicate = null)
+        {
+            return from itemDrone in DataSource.Drones
+                   where predicate == null ? true : predicate(itemDrone)
+                   select itemDrone;
         }
     }
 }

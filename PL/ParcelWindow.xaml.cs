@@ -84,16 +84,6 @@ namespace PL
             //to connect between the text box and the data
             if (Parcel.Scheduled != null)//if the parcel  has a drone 
             {
-                //if (Parcel.Delivered == null && Parcel.PickedUp == null)
-                //{
-                //    ParcelButton.Content = "Pick Up Parcel";
-                //    ParcelButton.Visibility = Visibility.Visible;
-                //}
-                //if (Parcel.Delivered == null && Parcel.PickedUp != null)
-                //{
-                //    ParcelButton.Content = "Deliver Parcel";
-                //    ParcelButton.Visibility = Visibility.Visible;
-                //}
                 DroneInParcel.Visibility = Visibility.Visible;//show the grid of the parcels drone
             }
         }

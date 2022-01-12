@@ -5,7 +5,7 @@
     <Name>Bayit Vegan</Name>
     <Longitude>32.3398479127045</Longitude>
     <Latitude>33.56638749528974</Latitude>
-    <AvailableChargeSlots>44</AvailableChargeSlots>
+    <AvailableChargeSlots>45</AvailableChargeSlots>
     <DeletedStation>false</DeletedStation>
   </Station>
   <Station>
@@ -15,5 +15,13 @@
     <Latitude>35.83780274951728</Latitude>
     <AvailableChargeSlots>41</AvailableChargeSlots>
     <DeletedStation>true</DeletedStation>
+  </Station>
+  <Station>
+    <Id>2569</Id>
+    <Name>netivot</Name>
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>25</AvailableChargeSlots>
+    <DeletedStation>false</DeletedStation>
   </Station>
 </ArrayOfStation>

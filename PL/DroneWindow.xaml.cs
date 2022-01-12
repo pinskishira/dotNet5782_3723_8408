@@ -16,7 +16,7 @@ namespace PL
     public partial class DroneWindow : Window
     { 
         BlApi.Ibl bl;
-        private DroneListWindow DroneListWindow { get; }
+        private DroneListWindow DroneListWindow { get; set; }
         private Parcel parcel { get; set; } = new();
         private Drone Drone { get; set; } = new();
         private bool _close { get; set; } = false;
@@ -206,7 +206,7 @@ namespace PL
                         IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
                         if (items != null)
                         {
-                            items.EditItem(DroneListWindow.droneToLists);
+                            items.EditItem(DroneListWindow.CurrentDrone);
                             items.CommitEdit();
                         }
                         MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
@@ -295,7 +295,7 @@ namespace PL
                 IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
                 if (items != null)
                 {
-                    items.EditItem(DroneListWindow.droneToLists);
+                    items.EditItem(DroneListWindow.CurrentDrone);
                     items.CommitEdit();
                 }
                 DroneListWindow.Selection();
@@ -353,10 +353,10 @@ namespace PL
                     }
                 }
                 DataContext = bl.GetDrone(Drone.Id);
-                IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;//רשימת תצוגה
                 if (items != null)
                 {
-                    items.EditItem(DroneListWindow.droneToLists);
+                    items.EditItem(DroneListWindow.CurrentDrone);
                     items.CommitEdit();
                 }
                 if (DroneListWindow != null)

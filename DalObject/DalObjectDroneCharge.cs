@@ -35,8 +35,13 @@ namespace Dal
             catch (InvalidOperationException)
             {
                 throw new ItemDoesNotExistException("The drone does not exists.\n");
-            }
-            
+            }   
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDroneCharge(int id)
+        {
+           
         }
     }
 }
