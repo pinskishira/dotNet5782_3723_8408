@@ -15,7 +15,7 @@ namespace BL.BlApi
     {
         BL bl;
 
-        private const double kmh = 3600;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
+        private const int sleep = 1000;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
 
         public Simulation(BL _bl, int droneID, Action Progress, Func<bool> stopSim)
         {
@@ -50,7 +50,7 @@ namespace BL.BlApi
                                     droneToList.Battery -= (int)bl.PowerUsageEmpty;
                                     Progress();
                                     distance -= 1;
-                                    Thread.Sleep(1500);
+                                    Thread.Sleep(sleep);
                                 }
                                 droneToList.Battery = tempBattery;//הפונקציה שליחה לטעינה בודקת את המרחק ההתחלתי ולפי זה מחשבת את הסוללה ולכן צריך להחזיר למצב ההתחלתי
                                 bl.SendDroneToChargingStation(droneID);
@@ -58,7 +58,7 @@ namespace BL.BlApi
                             }
                         }
                         break;
-                    case DroneStatuses.Maintenance: //
+                    case DroneStatuses.Maintenance: 
                         bool flag = true;
                         while (droneToList.Battery < 100 && flag)
                         {
@@ -69,7 +69,7 @@ namespace BL.BlApi
                             else
                                 bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery += 10;
                             Progress();
-                            Thread.Sleep(1500);
+                            Thread.Sleep(sleep);
                         }
                         if (flag == true)
                         {
@@ -93,7 +93,7 @@ namespace BL.BlApi
                                 locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone);
                                 droneToList.CurrentLocation = MyDrone.CurrentLocation;
                                 Progress();
-                                Thread.Sleep(1500);
+                                Thread.Sleep(sleep);
                             }
                             droneToList.CurrentLocation = droneLocation;
                             droneToList.Battery = tempBattery;
@@ -123,7 +123,7 @@ namespace BL.BlApi
 
                                 Progress();
                                 distance -= 1;
-                                Thread.Sleep(1500);
+                                Thread.Sleep(sleep);
                             }
 
                             droneToList.Battery = tempBattery;
@@ -135,7 +135,7 @@ namespace BL.BlApi
                         break;
                 }
                 //ReportProgressInSimultor();
-                Thread.Sleep(1500);
+                Thread.Sleep(sleep);
             }
 
 

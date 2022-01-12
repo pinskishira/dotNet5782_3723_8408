@@ -16,4 +16,12 @@
     <AvailableChargeSlots>41</AvailableChargeSlots>
     <DeletedStation>true</DeletedStation>
   </Station>
+  <Station>
+    <Id>1234</Id>
+    <Name>Pisgat Zeev</Name>
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>8</AvailableChargeSlots>
+    <DeletedStation>true</DeletedStation>
+  </Station>
 </ArrayOfStation>

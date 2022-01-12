@@ -123,10 +123,6 @@ namespace PL
                     if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
                     {
                         bl.DeleteDrone(CurrentDrone.Id);
-                        //DroneStatusesAndWeightCategories dStatusAWeight = new();
-                        //dStatusAWeight.DroneStatus = CurrentDrone.DroneStatus;
-                        //dStatusAWeight.Weight = CurrentDrone.Weight;
-                        //droneToLists[dStatusAWeight].RemoveAll(i => i.Id == CurrentDrone.Id);
                         droneToLists.Remove(CurrentDrone);
                         Selection();
                     }

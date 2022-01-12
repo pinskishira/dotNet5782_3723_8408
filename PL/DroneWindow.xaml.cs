@@ -96,7 +96,8 @@ namespace PL
                     ChargeDroneUD.Visibility = Visibility.Hidden;//hiding button uneeded for this status
                 }
             }
-            DroneListWindow.Selection();
+            if (DroneListWindow != null)
+                DroneListWindow.Selection();
         }
 
         /// <summary>
@@ -195,19 +196,25 @@ namespace PL
             var result1 = MessageBox.Show($"Are you sure you would like to update this drone? \n", "Request Review",
                MessageBoxButton.OKCancel, MessageBoxImage.Question);
             string oldName = ModelTxtUD.Text;
-            oldName = DroneListWindow.CurrentDrone.Model;
+            if (DroneListWindow == null)
+                oldName = Drone.Model;
+            else
+                oldName = DroneListWindow.CurrentDrone.Model;
             try
             {
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
                         bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);//updating chosen drone
-                        DroneListWindow.Selection();
-                        IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
-                        if (items != null)
+                        if (DroneListWindow != null)
                         {
-                            items.EditItem(DroneListWindow.droneToLists);
-                            items.CommitEdit();
+                            DroneListWindow.Selection();
+                            IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                            if (items != null)
+                            {
+                                items.EditItem(DroneListWindow.droneToLists);
+                                items.CommitEdit();
+                            }
                         }
                         MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
@@ -353,14 +360,18 @@ namespace PL
                     }
                 }
                 DataContext = bl.GetDrone(Drone.Id);
-                IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
-                if (items != null)
-                {
-                    items.EditItem(DroneListWindow.droneToLists);
-                    items.CommitEdit();
-                }
                 if (DroneListWindow != null)
+                {
+                    IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                    if (items != null)
+                    {
+                        items.EditItem(DroneListWindow.droneToLists);
+                        items.CommitEdit();
+                    }
                     DroneListWindow.Selection();
+
+                }
+
             }
             catch (DroneMaintananceException ex)
             {

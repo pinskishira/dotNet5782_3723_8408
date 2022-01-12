@@ -201,11 +201,11 @@
     <TargetId>689598570</TargetId>
     <Weight>Easy</Weight>
     <Priority>Normal</Priority>
-    <DroneId>36856</DroneId>
+    <DroneId>0</DroneId>
     <Requested>2022-01-12T09:58:02.941841+02:00</Requested>
     <Scheduled>2022-01-12T11:25:55.190533+02:00</Scheduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <PickedUp>2022-01-12T17:10:08.1691813+02:00</PickedUp>
+    <Delivered>2022-01-12T17:10:12.2503756+02:00</Delivered>
     <DeletedParcel>false</DeletedParcel>
   </Parcel>
 </ArrayOfParcel>
