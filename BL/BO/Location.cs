@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace BO
 {
@@ -12,10 +13,11 @@ namespace BO
         public double Latitude { get; set; }
         public override string ToString()
         {
-            String result = "";
-            result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
-            result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
-            return result;
+            return Util.SexagesimalCoordinate(Longitude, Latitude);
+            //String result = "";
+            //result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
+            //result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
+            //return result;
         }
     }
 }

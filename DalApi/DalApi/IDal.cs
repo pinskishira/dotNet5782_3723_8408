@@ -90,6 +90,7 @@ namespace DalApi
         /// </summary>
         /// <returns>List of drones</returns>
         IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null);
+        IEnumerable<Drone> GetAllDronesToBlDrones(Predicate<Drone> predicate = null);
 
         /// <summary>
         /// Gives a view of the list of parcels
@@ -197,6 +198,11 @@ namespace DalApi
         /// </summary>
         /// <param name="id">The id of the station to delete</param>
         void DeleteStation(int id);
+        /// <summary>
+        /// Delete Drone Charge
+        /// </summary>
+        /// <param name="id">The id of the drone</param>
+        void DeleteDroneCharge(int id);
 
     }
 }

@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DalApi\DalApi.csproj" />
     <ProjectReference Include="..\DalXml\DalXml.csproj" />
+    <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
 </Project>

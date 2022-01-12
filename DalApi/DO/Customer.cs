@@ -1,4 +1,5 @@
 ﻿using System;
+using Utilities;
 
 namespace DO
 {
@@ -17,8 +18,9 @@ namespace DO
             result += $"ID is {Id} \n";
             result += $"Name is {Name} \n";
             result += $"Telephone is {Phone.Substring(0, 3) + '-' + Phone.Substring(3)} \n";
-            result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
-            result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
+            result += $"Location is {Util.SexagesimalCoordinate(Longitude, Latitude)} \n";
+            //result += $"Longitude is {string.Format("{0:0.00}", Math.Round(Longitude, 2))} \n";
+            //result += $"Latitude is {string.Format("{0:0.00}", Math.Round(Latitude, 2))}";
             return result;
         }
     }

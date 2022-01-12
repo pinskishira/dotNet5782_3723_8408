@@ -100,7 +100,7 @@ namespace BL
                             tempParcelInTransfer.ParcelState = true;
                         //finding distance between sender and target
                         tempParcelInTransfer.TransportDistance = Distance.Haversine
-                        (Sender.CustomerLocation.Latitude, Sender.CustomerLocation.Longitude, Target.CustomerLocation.Latitude, Target.CustomerLocation.Longitude);
+                        (Sender.CustomerLocation.Longitude, Sender.CustomerLocation.Latitude, Target.CustomerLocation.Longitude, Target.CustomerLocation.Latitude);
                         blDrone.ParcelInTransfer = tempParcelInTransfer;
                     }
                     return blDrone;
@@ -243,6 +243,10 @@ namespace BL
             {
                 try
                 {
+                    DroneToList droneToList = BlDrones.Find(item => item.Id == idDrone);
+                    droneToList.DeletedDrone = true;
+                    if (droneToList.DroneStatus == DroneStatuses.Maintenance)
+                        dal.DeleteDroneCharge(droneToList.Id);
                     dal.DeleteDrone(idDrone);//delete parcel
                 }
                 catch (DO.ItemDoesNotExistException ex)

@@ -2,9 +2,9 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <Id>14742</Id>
-    <Model>123</Model>
+    <Model>123EST</Model>
     <Weight>Easy</Weight>
-    <DeletedDrone>false</DeletedDrone>
+    <DeletedDrone>true</DeletedDrone>
   </Drone>
   <Drone>
     <Id>36856</Id>
@@ -16,7 +16,7 @@
     <Id>25602</Id>
     <Model>345EST</Model>
     <Weight>Easy</Weight>
-    <DeletedDrone>false</DeletedDrone>
+    <DeletedDrone>true</DeletedDrone>
   </Drone>
   <Drone>
     <Id>39959</Id>
@@ -28,12 +28,6 @@
     <Id>46785</Id>
     <Model>567EST</Model>
     <Weight>Medium</Weight>
-    <DeletedDrone>false</DeletedDrone>
-  </Drone>
-  <Drone>
-    <Id>12345</Id>
-    <Model>EST444</Model>
-    <Weight>Easy</Weight>
-    <DeletedDrone>false</DeletedDrone>
+    <DeletedDrone>true</DeletedDrone>
   </Drone>
 </ArrayOfDrone>

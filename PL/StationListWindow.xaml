@@ -57,6 +57,15 @@
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="130"/>
                     <GridViewColumn Header="Available Charge Slots" DisplayMemberBinding="{Binding AvailableChargeSlots}" Width="225"/>
                     <GridViewColumn Header="Occupied Charge Slots" DisplayMemberBinding="{Binding OccupiedChargeSlots}" Width="225"/>
+                    <GridViewColumn Header="" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="Icon\delete.png" Width="30" MouseDown="Image_MouseDown"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
