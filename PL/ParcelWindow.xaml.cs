@@ -91,8 +91,6 @@ namespace PL
         /// <summary>
         /// to only allow to enter int in a text box
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -100,10 +98,8 @@ namespace PL
         }
 
         /// <summary>
-        /// to not be able to close the window with the x on the top
+        /// Not be able to close the window with the x on the top
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void WindowClose(object sender, CancelEventArgs e)
         {
             if (!_close)
@@ -113,16 +109,25 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Goes to the window of the sender customer
+        /// </summary>
         private void SenderButton_click(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(bl, this,Parcel.Sender.Id, 0).Show();
         }
 
+        /// <summary>
+        /// Goes to the window of the target customer
+        /// </summary>
         private void TargetButton_Click(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(bl, this, Parcel.Target.Id, 0).Show();
         }
 
+        /// <summary>
+        /// Button that allows user to add a parcel or in some cases to delete it
+        /// </summary>
         private void ParcelButton_Click(object sender, RoutedEventArgs e)
         {
             if ((string)ParcelButton.Content == "Add Parcel")
@@ -222,13 +227,20 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Cancels action
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
             Close();
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+
+        /// <summary>
+        /// Cant force window to close with x icon
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -237,6 +249,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Refreshes Page
+        /// </summary>
         public void MyRefresh()
         {
             Parcel = bl.GetParcel(Parcel.Id);

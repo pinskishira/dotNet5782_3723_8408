@@ -28,6 +28,7 @@ namespace PL
     public enum WeightCategoriesParcel { Easy, Medium, Heavy, All };
     public enum Priorities { Normal, Fast, Emergency, All };
     public enum ParcelState { Created, Paired, PickedUp, Provided, All };
+
     /// <summary>
     /// Interaction logic for ParcelListWindow.xaml
     /// </summary>
@@ -37,6 +38,11 @@ namespace PL
         public ParcelToList CurrentParcel { get; set; } = new();
         public Dictionary<StatusWeightAndPriorities, List<ParcelToList>> Parcels;
         private bool _close { get; set; } = false;
+
+        /// <summary>
+        /// Initializes the list of all the parcels
+        /// </summary>
+        /// <param name="ibl">From type bl</param>
         public ParcelListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
@@ -59,32 +65,31 @@ namespace PL
         }
 
         /// <summary>
-        /// filters the list of drones that was enterd according to what was filtterd
+        /// filters the list of drones that was enterd according to status
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void StatusSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Selection();//to show the list according to the filter that was enterd
         }
 
         /// <summary>
-        ///  filters the list of drones that was enterd according to what was filtterd
+        ///  filters the list of parcels that was enterd according to weight
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void WeightSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Selection();// to show the list according to the filter that was enterd
         }
 
+        /// <summary>
+        ///  filters the list of parcels that was enterd according to priority
+        /// </summary>
         private void PrioritiesSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Selection();
         }
 
         /// <summary>
-        /// shows the list according to the filter that the user disided
+        /// Shows the list according to the filter that the user chose
         /// </summary>
         public void Selection()
         {
@@ -123,20 +128,16 @@ namespace PL
         }
 
         /// <summary>
-        /// to add a new drone to the list
+        /// Adds a new drone to the list
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
             new ParcelWindow(bl, this).Show();
         }
 
         /// <summary>
-        /// t opresent the drone that the mous double clicked  on
+        /// Presents the drone that the mouse double clicked  on
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ParcelsListView_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
             CurrentParcel = (ParcelToList)ParcelsListView.SelectedItem;
@@ -144,7 +145,10 @@ namespace PL
                 new ParcelWindow(bl, this, 0).Show();
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Can't force the window to close
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -154,16 +158,17 @@ namespace PL
         }
 
         /// <summary>
-        /// to close the window of the drones list 
+        /// Closes current window
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
             Close();
         }
 
+        /// <summary>
+        /// Refreshes page
+        /// </summary>
         public void MyRefresh()
         {
             Parcels = new Dictionary<StatusWeightAndPriorities, List<ParcelToList>>();
@@ -180,6 +185,10 @@ namespace PL
                                           select item;
         }
 
+
+        /// <summary>
+        /// Allows user to delete parcel using an icon 
+        /// </summary>
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (CurrentParcel.StateOfParcel == BO.Enum.ParcelState.Created)
@@ -211,4 +220,4 @@ namespace PL
 
     }
 }
-}
+

@@ -46,6 +46,9 @@ namespace PL
             customerToLists.CollectionChanged += CustomerToLists_CollectionChanged;
         }
 
+        /// <summary>
+        /// Refreshes list
+        /// </summary>
         private void CustomerToLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             CustomerListView.Items.Refresh();
@@ -60,7 +63,10 @@ namespace PL
             Close();
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Cant press closing icon 
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -79,28 +85,43 @@ namespace PL
                 new CustomerWindow(bl, this, 0).Show();
         }
 
+        /// <summary>
+        /// Closes window
+        /// </summary>
         private void CloseWindowCustomer_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
             Close();
         }
 
+        /// <summary>
+        /// Goes to constructor off add
+        /// </summary>
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             new CustomerWindow(bl, this).Show();
         }
 
+        /// <summary>
+        /// Refreshes data
+        /// </summary>
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             customerToLists.OrderBy(customer => customer.Id);
         }
 
+        /// <summary>
+        /// Refreshes data
+        /// </summary>
         public void MyRefresh()
         {
             customerToLists.OrderBy(customer => customer.Id);
             CustomerListView.Items.Refresh();
         }
 
+        /// <summary>
+        /// Allows user to delete customer using an icon 
+        /// </summary>
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to delete this customer? \n", "Request Review",

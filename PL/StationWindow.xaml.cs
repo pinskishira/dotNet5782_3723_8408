@@ -45,6 +45,11 @@ namespace PL
             GridStationADD.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Constructor to add a station
+        /// </summary>
+        /// <param name="ibl">Access to BL</param>
+        /// <param name="stationListWindow">Access to Station List Window</param>
         public StationWindow(BlApi.Ibl ibl, StationListWindow stationListWindow)
         {
             InitializeComponent();
@@ -72,6 +77,9 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        /// <summary>
+        /// View drones charging in station
+        /// </summary>
         private void ViewDronesInCharging_Click(object sender, RoutedEventArgs e)
         {
             if (DronesInChargingListView.Visibility == Visibility.Collapsed)
@@ -81,8 +89,10 @@ namespace PL
 
         }
 
-
-        private void window_closeing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Cant force window to close
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -91,12 +101,18 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Cancels action
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
+        /// <summary>
+        /// Button that allows user to add a station
+        /// </summary>
         private void StationButton_Click(object sender, RoutedEventArgs e)
         {
             if ((string)StationButton.Content == "Add Station")
@@ -219,6 +235,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Goes to window of a drone in charging 
+        /// </summary>
         private void DronesInChargingListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DroneInCharging droneInCharging;

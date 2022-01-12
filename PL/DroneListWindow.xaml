@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="600" Width="880" Closing="window_closeing" >
+        Title="DroneListWindow" Height="600" Width="880" Closing="Window_closing" >
     <Window.Resources>
         <Style TargetType="Image">
         </Style>

@@ -40,7 +40,7 @@ namespace PL
         /// Constructor to add a customer
         /// </summary>
         /// <param name="ibl">Access to BL</param>
-        /// <param name="stationListWindow">Access to Customer List Window</param>
+        /// <param name="customerListWindow">Access to Customer List Window</param>
         public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow)
         {
             InitializeComponent();
@@ -52,6 +52,12 @@ namespace PL
             GridCustomerADD.Visibility = Visibility.Visible;//showing grid of fields needed for adding a customer
         }
 
+        /// <summary>
+        /// constructor to update customer
+        /// </summary>
+        /// <param name="ibl">Access to BL</param>
+        /// <param name="customerListWindow">Access to Customer List Window</param>
+        /// <param name="id">temp</param>
         public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow, int id = 0)
         {
             InitializeComponent();
@@ -81,6 +87,9 @@ namespace PL
             ViewParcelsToCustomer.ItemsSource = parcelsToCustomers;
         }
 
+        /// <summary>
+        /// Button that allows user to add or update a customer according to his choice
+        /// </summary>
         private void CustomerButtonUD_Click(object sender, RoutedEventArgs e)
         {
             if ((string)CustomerButton.Content == "Add Customer")
@@ -146,8 +155,6 @@ namespace PL
                     switch (errorMessage)
                     {
                         case MessageBoxResult.OK:
-                            Customer = new();//scrathes fields
-                            DataContext = Customer;//updates event
                             break;
                     }
                 }
@@ -213,18 +220,28 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Function that doesnt allow to insert the alphabet, only numbers
+        /// </summary>
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        /// <summary>
+        /// Closing window
+        /// </summary>
         private void CloseWindowButtonAdd_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
-        private void window_closeing(object sender, CancelEventArgs e)
+
+        /// <summary>
+        /// Cant press closing icon 
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -233,12 +250,18 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Closes window
+        /// </summary>
         private void CancelButtonUD_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
+        /// <summary>
+        /// If customer has Parcels To Customer, shows them
+        /// </summary>
         private void ShowParcelsToCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (ViewParcelsToCustomer.Visibility == Visibility.Collapsed)
@@ -247,6 +270,9 @@ namespace PL
                 ViewParcelsToCustomer.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// If customer has Parcels From Customer, shows them
+        /// </summary>
         private void ShowParcelsFromCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (ViewParcelsFromCustomer.Visibility == Visibility.Collapsed)
@@ -255,6 +281,9 @@ namespace PL
                 ViewParcelsFromCustomer.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Double Click on a parcel and you can update it
+        /// </summary>
         private void ViewParcelsFromCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ParcelAtCustomer parcelAtCustomer;
@@ -262,6 +291,10 @@ namespace PL
             new ParcelWindow(bl, this, parcelAtCustomer.Id, ViewParcelsFromCustomer.SelectedIndex).Show();
         }
 
+
+        /// <summary>
+        /// Double Click on a parcel and you can update it
+        /// </summary>
         private void ViewParcelsToCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ParcelAtCustomer parcelAtCustomer;
