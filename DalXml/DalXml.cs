@@ -184,7 +184,7 @@ namespace Dal
         {
             List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
             return from itemDrone in drones
-                   where (predicate == null ? true : predicate(itemDrone))
+                   where predicate == null ? true : predicate(itemDrone)
                    select itemDrone;
         }
 
@@ -461,6 +461,7 @@ namespace Dal
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDroneCharge(int id)
         {
             List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);

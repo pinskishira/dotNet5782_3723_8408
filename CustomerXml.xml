@@ -62,7 +62,7 @@
     <Phone>0503782099</Phone>
     <Longitude>32.986321935889464</Longitude>
     <Latitude>34.70122416350116</Latitude>
-    <DeletedCustomer>false</DeletedCustomer>
+    <DeletedCustomer>True</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>195437411</Id>
@@ -98,7 +98,7 @@
   </Customer>
   <Customer>
     <Id>123456789</Id>
-    <Name>rut</Name>
+    <Name>ruti</Name>
     <Phone>4444444444</Phone>
     <Longitude>31</Longitude>
     <Latitude>34</Latitude>

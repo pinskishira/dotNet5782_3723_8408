@@ -5,7 +5,7 @@
     <Name>Bayit Vegan</Name>
     <Longitude>32.3398479127045</Longitude>
     <Latitude>33.56638749528974</Latitude>
-    <AvailableChargeSlots>43</AvailableChargeSlots>
+    <AvailableChargeSlots>46</AvailableChargeSlots>
     <DeletedStation>false</DeletedStation>
   </Station>
   <Station>
@@ -17,11 +17,11 @@
     <DeletedStation>true</DeletedStation>
   </Station>
   <Station>
-    <Id>1234</Id>
-    <Name>Pisgat Zeev</Name>
+    <Id>2569</Id>
+    <Name>netivot</Name>
     <Longitude>0</Longitude>
     <Latitude>0</Latitude>
-    <AvailableChargeSlots>8</AvailableChargeSlots>
-    <DeletedStation>true</DeletedStation>
+    <AvailableChargeSlots>25</AvailableChargeSlots>
+    <DeletedStation>false</DeletedStation>
   </Station>
 </ArrayOfStation>
