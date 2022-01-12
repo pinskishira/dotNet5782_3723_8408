@@ -178,6 +178,13 @@ namespace BlApi
         void DeleteDrone(int idDrone);
 
         /// <summary>
+        ///  Delete station
+        /// </summary>
+        /// <param name="idStation">station to delete</param>
+        void DeleteStation(int idStation);
+
+
+        /// <summary>
         /// Fution that starts simulation
         /// </summary>
         /// <param name="droneId">drone to start simulation on</param>

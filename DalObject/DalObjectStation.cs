@@ -12,7 +12,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station newStation)
         {
-            if (DataSource.Stations.Exists(item => item.Id == newStation.Id))//checks if station exists
+            if (DataSource.Stations.Exists(item => item.Id == newStation.Id && !newStation.DeletedStation))//checks if station exists
                 throw new ItemExistsException("The station already exists.\n");
             DataSource.Stations.Add(newStation);
         }
@@ -20,21 +20,15 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station FindStation(int id)
         {
-            try
-            {
-                return DataSource.Stations.First(item => item.Id == id);//checks if station exists
-            }
-            catch (InvalidOperationException)
-            {
-                throw new ItemExistsException("The station does not exist.\n");
-            }
+            int indexStation = CheckExistingStation(id);//checks if station exists
+            return DataSource.Stations[indexStation];//finding station
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetAllStations(Predicate<Station> predicate = null)
         {
             return from itemStation in DataSource.Stations
-                   where predicate == null ? true : predicate(itemStation)
+                   where predicate == null ? true : predicate(itemStation) && (!itemStation.DeletedStation)
                    select itemStation;
         }
 
@@ -55,15 +49,31 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int idStation, string newName, int chargeSlots)
         {
-            int indexOfStation = DataSource.Stations.FindIndex(item => item.Id == idStation);
-            if(indexOfStation==-1)//checks if station exists
-                throw new ItemDoesNotExistException("The station does not exist.\n");
+            int indexOfStation = CheckExistingStation(idStation);
             Station station = DataSource.Stations[indexOfStation];
             if (newName != "")//if enter wasnt inputted
                 station.Name = newName;
             if (chargeSlots != 0)//if 0 wasnt inputted
                 station.AvailableChargeSlots = chargeSlots - ChargeSlotsInUse(idStation);
             DataSource.Stations[indexOfStation] = station;//placing updated station in list of stations
+        }
+
+        private int CheckExistingStation(int id)
+        {
+            int index = DataSource.Stations.FindIndex(customer => customer.Id == id);
+            if (index == -1)
+                throw new ItemDoesNotExistException("No station found with this id");
+            if (DataSource.Stations[index].DeletedStation)
+                throw new ItemDoesNotExistException("This station is deleted");
+            return index;
+        }
+
+        public void DeleteStation(int id)
+        {
+            int indexOfStations = CheckExistingStation(id);//checks if parcel exists
+            Station station = DataSource.Stations[indexOfStations];
+            station.DeletedStation = true;
+            DataSource.Stations[indexOfStations] = station;
         }
     }
 }

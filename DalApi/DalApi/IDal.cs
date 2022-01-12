@@ -192,5 +192,11 @@ namespace DalApi
         /// <param name="id">The id of the drone to delete</param>
         void DeleteDrone(int id);
 
+        /// <summary>
+        /// Deletes a station
+        /// </summary>
+        /// <param name="id">The id of the station to delete</param>
+        void DeleteStation(int id);
+
     }
 }
