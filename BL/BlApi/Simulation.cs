@@ -59,9 +59,11 @@ namespace BL.BlApi
                         }
                         break;
                     case DroneStatuses.Maintenance: //
-
-                        while (droneToList.Battery < 100)
+                        bool flag = true;
+                        while (droneToList.Battery < 100 && flag)
                         {
+                            if (stopSim())
+                                flag = false;
                             if (droneToList.Battery + 10 > 100)//בדיקה אם כבר עברנו את ה100%
                                 bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery = 100;
                             else
@@ -69,17 +71,21 @@ namespace BL.BlApi
                             Progress();
                             Thread.Sleep(1500);
                         }
-
-                        bl.DroneReleaseFromChargingStation(droneID); //שחרור מטעינה ברגע שהרחפן מגיע ל100
-                        Progress();
+                        if (flag == true)
+                        {
+                            bl.DroneReleaseFromChargingStation(droneID); //שחרור מטעינה ברגע שהרחפן מגיע ל100
+                            Progress();
+                        }
                         break;
                     case DroneStatuses.Delivery:
                         Drone MyDrone = bl.GetDrone(droneID);
-                        if (bl.GetParcel(MyDrone.ParcelInTransfer.Id).PickedUp == null)
+                        Parcel parcel = bl.GetParcel(MyDrone.ParcelInTransfer.Id);
+                        if (parcel.PickedUp == null)
                         {
+                            Customer sender = bl.GetCustomer(parcel.Sender.Id);
                             tempBattery = droneToList.Battery;
                             Location droneLocation = new Location { Longitude = droneToList.CurrentLocation.Longitude, Latitude = droneToList.CurrentLocation.Latitude };
-                            distance = MyDrone.ParcelInTransfer.TransportDistance;
+                            distance = Distance.Haversine(droneLocation.Longitude, droneLocation.Latitude, sender.CustomerLocation.Longitude, sender.CustomerLocation.Latitude);
                             while (distance > 1)
                             {
                                 droneToList.Battery -= (int)bl.PowerUsageEmpty;

@@ -52,13 +52,13 @@ namespace PL
             InitializeComponent();
             bl = ibl;
             CustomerListWindow = customerListWindow;//access to station list
-            CustomerButton.Content = "Update Customer";
-            GridCustomerBoth.Visibility = Visibility.Visible;
-            GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
             if (id == 0)
                 Customer = bl.GetCustomer(customerListWindow.CurrentCustomer.Id);
             else
                 Customer = bl.GetCustomer(id);//getting station with this id
+            CustomerButton.Content = "Update Customer";
+            GridCustomerBoth.Visibility = Visibility.Visible;
+            GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
             DataContext = Customer;//updating event
             if (Customer.ParcelsFromCustomers.Any())
                 ShowParcelsFromCustomer.Visibility = Visibility.Visible;

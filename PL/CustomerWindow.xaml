@@ -14,7 +14,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="Pictures\customerPic.jpeg" Opacity="0.7"/>
         </Grid.Background>
-        <Grid x:Name="GridCustomerBoth" Visibility="Collapsed">
+        <Grid x:Name="GridCustomerBoth" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="12*"/>
                 <RowDefinition Height="*"/>
@@ -74,7 +74,7 @@
                     <TextBox x:Name="LongituteTxtADD" ToolTip="Enter longitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 </Grid>
 
-                <Grid x:Name="GridCustomerUP" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerUP" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>

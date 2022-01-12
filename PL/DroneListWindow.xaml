@@ -61,7 +61,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="100"/>
-                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="150"/>
+                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" Width="150" />
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="auto"/>
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="auto"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="auto"/>

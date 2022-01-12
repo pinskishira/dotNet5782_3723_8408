@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B0972624-4
 		StationXml.xml = StationXml.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{F02B43B1-12DB-48E0-8634-01BDA7919F32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,18 @@ Global
 		{602A9AB3-8F39-4A21-8580-758724341C33}.Release|x64.Build.0 = Release|Any CPU
 		{602A9AB3-8F39-4A21-8580-758724341C33}.Release|x86.ActiveCfg = Release|Any CPU
 		{602A9AB3-8F39-4A21-8580-758724341C33}.Release|x86.Build.0 = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|x64.Build.0 = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Debug|x86.Build.0 = Debug|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|x64.ActiveCfg = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|x64.Build.0 = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|x86.ActiveCfg = Release|Any CPU
+		{F02B43B1-12DB-48E0-8634-01BDA7919F32}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

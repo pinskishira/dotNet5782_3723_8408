@@ -76,5 +76,24 @@ namespace PL
             if (CurrentStation != null)
                 new StationWindow(bl, this).Show();
         }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var result1 = MessageBox.Show($"Are you sure you would like to delete this station? \n", "Request Review",
+           MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            switch (result1)
+            {
+                case MessageBoxResult.OK:
+                    FrameworkElement framework = sender as FrameworkElement;
+                    CurrentStation = framework.DataContext as StationToList;
+                    bl.DeleteStation(CurrentStation.Id);
+                    int AvailableChargeSlotsSort = CurrentStation.AvailableChargeSlots;
+                    stationToLists[AvailableChargeSlotsSort].RemoveAll(i => i.Id == CurrentStation.Id);
+                    RefreshStations();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
     }
 }
