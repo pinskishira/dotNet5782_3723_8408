@@ -62,7 +62,7 @@
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="100"/>
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="100"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="150"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="100"/>
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="180"/>
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="150"/>
 
                     <GridViewColumn Header="" >
@@ -87,8 +87,8 @@
                                         <Expander IsExpanded="True">
                                             <Expander.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                    <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Red" FontSize="22" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Red" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
                                                     <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
                                                 </StackPanel>
                                             </Expander.Header>
@@ -102,16 +102,6 @@
                 </GroupStyle>
             </ListView.GroupStyle>
 
-            <!--<ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Id}"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>-->
-            
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>

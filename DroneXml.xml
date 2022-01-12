@@ -8,7 +8,7 @@
   </Drone>
   <Drone>
     <Id>36856</Id>
-    <Model>234EST</Model>
+    <Model>238EST</Model>
     <Weight>Heavy</Weight>
     <DeletedDrone>false</DeletedDrone>
   </Drone>
@@ -20,7 +20,7 @@
   </Drone>
   <Drone>
     <Id>39959</Id>
-    <Model>456EST</Model>
+    <Model>450EST</Model>
     <Weight>Medium</Weight>
     <DeletedDrone>false</DeletedDrone>
   </Drone>

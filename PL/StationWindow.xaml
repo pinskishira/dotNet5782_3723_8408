@@ -54,8 +54,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBox x:Name="IdTxtAdd" ToolTip="Enter ID" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="1" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
-                    <TextBox x:Name="LatitudeTxtAdd"  ToolTip="Enter Latitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2" Margin="0,36,0,0"/>
-                    <TextBox x:Name="LongituteTxtAdd" ToolTip="Enter Longitude" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
+                    <TextBox x:Name="LatitudeTxtAdd"  ToolTip="Enter Latitude" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Latitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2" Margin="0,36,0,0"/>
+                    <TextBox x:Name="LongituteTxtAdd" ToolTip="Enter Longitude" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding StationLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="3" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
                     <TextBox x:Name="ChargeSlotsTxtAdd" ToolTip="Enter Amount of Charge Slots" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding AvailableChargeSlots, Mode=TwoWay}" Width="90" Height="25" Grid.Column="3" Grid.Row="4" BorderBrush="#FFFA0C4D" BorderThickness="2,2,2,2"/>
                 </Grid>
                 <Grid x:Name="GridStationUp" Visibility="Collapsed" Grid.Column="2"  Grid.RowSpan="6">

@@ -55,7 +55,7 @@ namespace BL
                             }
                         }
                         break;
-                    case DroneStatuses.Maintenance:
+                    case DroneStatuses.Maintenance: 
                         bool flag = true;
                         while (droneToList.Battery < 100 && flag)
                         {

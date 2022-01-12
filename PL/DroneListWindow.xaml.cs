@@ -17,7 +17,7 @@ using BO;
 using static BO.Enum;
 
 namespace PL
-{ 
+{
     public enum DroneStatuses { Available, Maintenance, Delivery, All };
     public enum WeightCategories { Easy, Medium, Heavy, All };
     /// <summary>
@@ -69,10 +69,10 @@ namespace PL
             DronesListView.ItemsSource = null;
             if (droneStatuses == DroneStatuses.All)//if presses for all
                 DronesListView.ItemsSource = droneToLists;
-           //sorts list by chosen status
-            if (droneStatuses != DroneStatuses.All )
+            //sorts list by chosen status
+            if (droneStatuses != DroneStatuses.All)
                 DronesListView.ItemsSource = droneToLists.Where(item => item.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses);
-           
+
         }
         /// <summary>
         /// sends to add constructor, which adds drone
@@ -112,29 +112,26 @@ namespace PL
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var result1 = MessageBox.Show($"Are you sure you would like to delete this drone? \n", "Request Review",
-            MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            switch (result1)
+            if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
             {
-                case MessageBoxResult.OK:
-                    FrameworkElement framework = sender as FrameworkElement;
-                    CurrentDrone = framework.DataContext as DroneToList;
-                    if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
-                    {
+                var result1 = MessageBox.Show($"Are you sure you would like to delete this drone? \n", "Request Review",
+            MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                switch (result1)
+                {
+                    case MessageBoxResult.OK:
+                        FrameworkElement framework = sender as FrameworkElement;
+                        CurrentDrone = framework.DataContext as DroneToList;
+
                         bl.DeleteDrone(CurrentDrone.Id);
-                        //DroneStatusesAndWeightCategories dStatusAWeight = new();
-                        //dStatusAWeight.DroneStatus = CurrentDrone.DroneStatus;
-                        //dStatusAWeight.Weight = CurrentDrone.Weight;
-                        //droneToLists[dStatusAWeight].RemoveAll(i => i.Id == CurrentDrone.Id);
                         droneToLists.Remove(CurrentDrone);
                         Selection();
-                    }
-                    else
-                        MessageBox.Show("Cannot delete drone because it is in the middle of performing a delivery.\n", "CANNOT DELETE", MessageBoxButton.OK);
-                    break;
-                case MessageBoxResult.Cancel:
-                    break;
-            } 
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                }
+            }
+            else
+                MessageBox.Show("Cannot delete drone because it is in the middle of performing a delivery.\n", "CANNOT DELETE", MessageBoxButton.OK);
         }
     }
 }
