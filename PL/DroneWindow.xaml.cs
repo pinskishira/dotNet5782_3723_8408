@@ -260,11 +260,18 @@ namespace PL
                 {
                     var request = MessageBox.Show($"Are you sure you would like to send drone to collect a parcel? \n", "Request Review",
                     MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                    bl.UpdateAssignParcelToDrone(int.Parse(IDTxtUD.Text));//assign parcel to drone - updating in bl 
-                    ChargeDroneUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
-                    DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
-                    MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-                    GridParcelInTransfer.Visibility = Visibility.Visible;
+                    switch (request)
+                    {
+                        case MessageBoxResult.OK:
+                            bl.UpdateAssignParcelToDrone(int.Parse(IDTxtUD.Text));//assign parcel to drone - updating in bl 
+                            ChargeDroneUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
+                            DroneStatusChangeUD.Content = "Drone Collects Parcel";//changing to button content to fit past update
+                            MessageBox.Show($"SUCCESSFULY ASIGNED DRONE TO A PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                            GridParcelInTransfer.Visibility = Visibility.Visible;
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                    }
                 }
                 else
                 {
@@ -272,23 +279,38 @@ namespace PL
                     {
                         var request = MessageBox.Show($"Are you sure you would like to drone to collect parcel? \n", "Request Review",
                         MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                        bl.UpdateParcelCollectionByDrone(int.Parse(IDTxtUD.Text));//drone collects parcel - updating in bl
-                        ChargeDroneUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
-                        DroneStatusChangeUD.Content = "Drone Delivers Parcel";//changing to button content to fit past update
-                        MessageBox.Show($"DRONE SUCCESSFULY COLLECTED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                        switch (request)
+                        {
+                            case MessageBoxResult.OK:
+                                bl.UpdateParcelCollectionByDrone(int.Parse(IDTxtUD.Text));//drone collects parcel - updating in bl
+                                ChargeDroneUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
+                                DroneStatusChangeUD.Content = "Drone Delivers Parcel";//changing to button content to fit past update
+                                MessageBox.Show($"DRONE SUCCESSFULY COLLECTED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                                break;
+                            case MessageBoxResult.Cancel:
+                                break;
+                        }
                     }
                     else
                     {
                         if ((string)DroneStatusChangeUD.Content == "Drone Delivers Parcel")
                         {
+
                             var request = MessageBox.Show($"Are you sure you would like to drone to deliver parcel? \n", "Request Review",
                            MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                            bl.UpdateParcelDeliveryToCustomer(int.Parse(IDTxtUD.Text));//drone delivers parcel - updating in bl
-                            ChargeDroneUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
-                            ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
-                            DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
-                            MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
-                            GridParcelInTransfer.Visibility = Visibility.Collapsed;
+                            switch (request)
+                            {
+                                case MessageBoxResult.OK:
+                                    bl.UpdateParcelDeliveryToCustomer(int.Parse(IDTxtUD.Text));//drone delivers parcel - updating in bl
+                                    ChargeDroneUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
+                                    ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
+                                    DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
+                                    MessageBox.Show($"DRONE SUCCESSFULY DELICVERED PARCEL! \n", "Successfuly Updated", MessageBoxButton.OK);
+                                    GridParcelInTransfer.Visibility = Visibility.Collapsed;
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    break;
+                            }
                         }
                     }
                 }
@@ -333,12 +355,20 @@ namespace PL
             {
                 if (ChargeDroneUD.Content.ToString() == "Send Drone to Charging")
                 {
+
                     var request = MessageBox.Show($"Are you sure you would like to send drone to charge? \n", "Request Review",
                    MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                    bl.SendDroneToChargingStation(int.Parse(IDTxtUD.Text));//send drone to charging - updating in bl
-                    DroneStatusChangeUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
-                    ChargeDroneUD.Content = "Release Drone from Charging";//changing to button content to fit past update
-                    MessageBox.Show($"SUCCESSFULY SENT DRONE TO CHARGE! \n", "Successfuly Updated", MessageBoxButton.OK);
+                    switch (request)
+                    {
+                        case MessageBoxResult.OK:
+                            bl.SendDroneToChargingStation(int.Parse(IDTxtUD.Text));//send drone to charging - updating in bl
+                            DroneStatusChangeUD.Visibility = Visibility.Hidden;//hiding uneccessary buttons after update
+                            ChargeDroneUD.Content = "Release Drone from Charging";//changing to button content to fit past update
+                            MessageBox.Show($"SUCCESSFULY SENT DRONE TO CHARGE! \n", "Successfuly Updated", MessageBoxButton.OK);
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                    }
                 }
                 else
                 {
@@ -346,18 +376,25 @@ namespace PL
                     {
                         var request = MessageBox.Show($"Are you sure you would like to release drone from charge? \n", "Request Review",
                         MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                        bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));//release drone from charging - updating in bl
-                        if (Station != null)
-                            Station.dronesInCharging.RemoveAt(Index);
-                        DroneStatusChangeUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
-                        ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
-                        DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
-                        MessageBox.Show($"SUCCESSFULY RELEASED DRONE FROM CHARGE! \n", "Successfuly Updated",
-                        MessageBoxButton.OK);
+                        switch (request)
+                        {
+                            case MessageBoxResult.OK:
+                                bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));//release drone from charging - updating in bl
+                                if (Station != null)
+                                    Station.dronesInCharging.RemoveAt(Index);
+                                DroneStatusChangeUD.Visibility = Visibility.Visible;//showing neccessary buttons after update
+                                ChargeDroneUD.Content = "Send Drone to Charging";//changing to button content to fit past update
+                                DroneStatusChangeUD.Content = "Assign drone to a parcel";//changing to button content to fit past update
+                                MessageBox.Show($"SUCCESSFULY RELEASED DRONE FROM CHARGE! \n", "Successfuly Updated",
+                                MessageBoxButton.OK);
+                                break;
+                            case MessageBoxResult.Cancel:
+                                break;
+                        }
                     }
                 }
                 DataContext = bl.GetDrone(Drone.Id);
-                if(DroneListWindow!=null)
+                if (DroneListWindow != null)
                 {
                     IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;//רשימת תצוגה
                     if (items != null)
@@ -393,6 +430,12 @@ namespace PL
             Drone = bl.GetDrone(Drone.Id);
             DataContext = Drone;
             WindowUp();
+            IEditableCollectionView items = DroneListWindow.DronesListView.Items;
+            if (items != null)
+            {
+                items.EditItem(DroneListWindow.CurrentDrone);
+                items.CommitEdit();
+            }
         }
         private void Automatic_Click(object sender, RoutedEventArgs e)
         {

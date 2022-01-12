@@ -58,15 +58,15 @@
   </Customer>
   <Customer>
     <Id>689598570</Id>
-    <Name>Shir</Name>
-    <Phone>0503782099</Phone>
+    <Name>Shira</Name>
+    <Phone>0505551515</Phone>
     <Longitude>32.986321935889464</Longitude>
     <Latitude>34.70122416350116</Latitude>
     <DeletedCustomer>True</DeletedCustomer>
   </Customer>
   <Customer>
     <Id>195437411</Id>
-    <Name>Yosef</Name>
+    <Name>Yossi</Name>
     <Phone>0504310431</Phone>
     <Longitude>32.217031203777076</Longitude>
     <Latitude>34.99197336053102</Latitude>
@@ -90,7 +90,7 @@
   </Customer>
   <Customer>
     <Id>122222222</Id>
-    <Name>Devora</Name>
+    <Name>Devori</Name>
     <Phone>2222222222</Phone>
     <Longitude>31</Longitude>
     <Latitude>34</Latitude>
@@ -98,7 +98,7 @@
   </Customer>
   <Customer>
     <Id>123456789</Id>
-    <Name>ruti</Name>
+    <Name>rut</Name>
     <Phone>4444444444</Phone>
     <Longitude>31</Longitude>
     <Latitude>34</Latitude>

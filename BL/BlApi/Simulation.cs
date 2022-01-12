@@ -15,14 +15,14 @@ namespace BL.BlApi
     {
         BL bl;
 
-        private const int sleep = 1000;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
+        private const double kmh = 3600;//כל קילומטר זה שנייה כי בשעה יש 3600 שניות
+
+        private const int sleep = 1000;
 
         public Simulation(BL _bl, int droneID, Action Progress, Func<bool> stopSim)
         {
             DalApi.IDal Idal = DalApi.DLFactory.GetDL();
             bl = _bl;
-            var dal = bl;
-            //area for seting puse time
             double distance;
             int tempBattery;
 
@@ -47,13 +47,13 @@ namespace BL.BlApi
                                 distance = Distance.Haversine(droneToList.CurrentLocation.Longitude, droneToList.CurrentLocation.Latitude, station.Longitude, station.Latitude);
                                 while (distance > 0)
                                 {
-                                    droneToList.Battery -= (int)bl.PowerUsageEmpty;
+                                    droneToList.Battery -= (int)bl.PowerUsageEmpty;//the drone is available
                                     Progress();
                                     distance -= 1;
                                     Thread.Sleep(sleep);
                                 }
-                                droneToList.Battery = tempBattery;//הפונקציה שליחה לטעינה בודקת את המרחק ההתחלתי ולפי זה מחשבת את הסוללה ולכן צריך להחזיר למצב ההתחלתי
-                                bl.SendDroneToChargingStation(droneID);
+                                droneToList.Battery = tempBattery;//restarting the battery
+                                bl.SendDroneToChargingStation(droneID);//here it will change it to the correct battery.
                                 Progress();
                             }
                         }
@@ -86,11 +86,13 @@ namespace BL.BlApi
                             tempBattery = droneToList.Battery;
                             Location droneLocation = new Location { Longitude = droneToList.CurrentLocation.Longitude, Latitude = droneToList.CurrentLocation.Latitude };
                             distance = Distance.Haversine(droneLocation.Longitude, droneLocation.Latitude, sender.CustomerLocation.Longitude, sender.CustomerLocation.Latitude);
+                            double latitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Latitude - droneToList.CurrentLocation.Latitude) / distance);
+                            double longitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Longitude - droneToList.CurrentLocation.Longitude) / distance);
                             while (distance > 1)
                             {
                                 droneToList.Battery -= (int)bl.PowerUsageEmpty;
                                 distance -= 1;
-                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone);
+                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone, longitude, latitude);
                                 droneToList.CurrentLocation = MyDrone.CurrentLocation;
                                 Progress();
                                 Thread.Sleep(sleep);
@@ -103,29 +105,33 @@ namespace BL.BlApi
                         else // PickedUp != null
                         {
                             tempBattery = droneToList.Battery;
-                            distance = MyDrone.ParcelInTransfer.TransportDistance;
+                            distance = MyDrone.ParcelInTransfer.TransportDistance;//the distance betwwen the sender and the resever
+                            Location droneLocation = new Location { Longitude = droneToList.CurrentLocation.Longitude, Latitude = droneToList.CurrentLocation.Latitude };
+                            double latitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Latitude - droneToList.CurrentLocation.Latitude) / distance);
+                            double longitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Longitude - droneToList.CurrentLocation.Longitude) / distance);
                             while (distance > 1)
                             {
                                 switch (MyDrone.ParcelInTransfer.Weight)
                                 {
                                     case WeightCategories.Easy:
-                                        droneToList.Battery -= (int)bl.BatteryConsumptionLightWeight;
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionLightWeight;//light
                                         break;
                                     case WeightCategories.Medium:
-                                        droneToList.Battery -= (int)bl.BatteryConsumptionMediumWeight;
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionMediumWeight;//medium
                                         break;
                                     case WeightCategories.Heavy:
-                                        droneToList.Battery -= (int)bl.BatteryConsumptionHeavyWeight;
+                                        droneToList.Battery -= (int)bl.BatteryConsumptionHeavyWeight;//heavy
                                         break;
                                     default:
                                         break;
                                 }
-
+                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone, longitude, latitude);
+                                droneToList.CurrentLocation = MyDrone.CurrentLocation;
                                 Progress();
                                 distance -= 1;
                                 Thread.Sleep(sleep);
                             }
-
+                            droneToList.CurrentLocation = droneLocation;
                             droneToList.Battery = tempBattery;
                             bl.UpdateParcelDeliveryToCustomer(MyDrone.Id);
                             Progress();
@@ -140,36 +146,40 @@ namespace BL.BlApi
 
 
         }
-        private void locationSteps(Location locationOfDrone, Location locationOfNextStep, Drone myDrone)
+        private void locationSteps(Location locationOfDrone, Location locationOfNextStep, Drone myDrone, double lon, double lat)
         {
             double droneLatitude = locationOfDrone.Latitude;
             double droneLongitude = locationOfDrone.Longitude;
 
-            double senderLatitude = locationOfNextStep.Latitude;
-            double senderLongitude = locationOfNextStep.Longitude;
+            double nextStepLatitude = locationOfNextStep.Latitude;
+            double nextStepLongitude = locationOfNextStep.Longitude;
 
-            if (droneLatitude < senderLatitude)// ++++++
+            //Calculate the latitude of the new location.
+            if (droneLatitude < nextStepLatitude)// ++++++
             {
-                double step = (senderLatitude - droneLatitude) / myDrone.ParcelInTransfer.TransportDistance;
-                myDrone.CurrentLocation.Latitude += step;
+                //double step = (nextStepLatitude - droneLatitude) / myDrone.Delivery.TransportDistance;
+                //myDrone.CurrentLocation.latitude += (nextStepLatitude - droneLatitude) / myDrone.Delivery.TransportDistance;
+                myDrone.CurrentLocation.Latitude += lat;
             }
             else
             {
-                double step = (droneLatitude - senderLatitude) / myDrone.ParcelInTransfer.TransportDistance;
-                myDrone.CurrentLocation.Latitude -= step;
-
+                //double step = (  droneLatitude - nextStepLatitude) / myDrone.Delivery.TransportDistance;
+                //myDrone.CurrentLocation.latitude -= (droneLatitude - nextStepLatitude) / myDrone.Delivery.TransportDistance;
+                myDrone.CurrentLocation.Latitude -= lat;
             }
 
-            if (droneLongitude < senderLongitude)//+++++++
+            //Calculate the Longitude of the new location.
+            if (droneLongitude < nextStepLongitude)//+++++++
             {
-                double step = (senderLongitude - droneLongitude) / myDrone.ParcelInTransfer.TransportDistance;
-                myDrone.CurrentLocation.Longitude += step;
+                // double step = (nextStepLongitude - droneLongitude) / myDrone.Delivery.TransportDistance;
+                //myDrone.CurrentLocation.longitude += (nextStepLongitude - droneLongitude) / myDrone.Delivery.TransportDistance;
+                myDrone.CurrentLocation.Longitude += lon;
             }
             else
             {
-                double step = (droneLongitude - senderLongitude) / myDrone.ParcelInTransfer.TransportDistance;
-                myDrone.CurrentLocation.Longitude -= step;
-
+                //double step = (droneLongitude - nextStepLongitude) / myDrone.Delivery.TransportDistance;
+                //myDrone.CurrentLocation.longitude -= (droneLongitude - nextStepLongitude) / myDrone.Delivery.TransportDistance;
+                myDrone.CurrentLocation.Longitude -= lon;
             }
         }
     }

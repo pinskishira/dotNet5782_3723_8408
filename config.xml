@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfInt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <runNum>10020</runNum>
+  <runNum>10024</runNum>
   <BatteryConsumptionPowerUsageEmpty>1</BatteryConsumptionPowerUsageEmpty>
   <BatteryConsumptionLightWeight>3</BatteryConsumptionLightWeight>
   <BatteryConsumptionMediumWeight>5</BatteryConsumptionMediumWeight>
