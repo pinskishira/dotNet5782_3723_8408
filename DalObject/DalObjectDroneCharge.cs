@@ -41,7 +41,15 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDroneCharge(int id)
         {
-           
+            try
+            {
+                DroneCharge droneCharge = GetAllDroneCharges(item => item.DroneId == id).First();
+                DataSource.DroneCharges.Remove(droneCharge);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ItemDoesNotExistException("The drone does not exists.\n");
+            }
         }
     }
 }

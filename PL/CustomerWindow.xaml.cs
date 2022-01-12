@@ -29,7 +29,12 @@ namespace PL
         private bool _close { get; set; } = false;
         public ObservableCollection<ParcelAtCustomer> parcelsFromCustomers { get; set; } = new();
         public ObservableCollection<ParcelAtCustomer> parcelsToCustomers { get; set; } = new();
+        public ParcelWindow parcelWindow { get; set; }
 
+        public CustomerWindow(BlApi.Ibl ibl, ParcelWindow _parcelWindow, int id, int temp) : this(ibl, null, id)
+        {
+            parcelWindow = _parcelWindow;
+        }
 
         /// <summary>
         /// Constructor to add a customer
@@ -166,17 +171,22 @@ namespace PL
                     switch (result1)
                     {
                         case MessageBoxResult.OK:
-                            int i = CustomerListWindow.CustomerListView.SelectedIndex;
                             bl.UpdateCustomer(int.Parse(IdTxtUP.Text), NameTxt.Text, PhoneTxt.Text);//udating chosen station
-                            CustomerListWindow.CurrentCustomer.Name = NameTxt.Text;//updating drone name
-                            CustomerListWindow.CurrentCustomer.Phone = PhoneTxt.Text;
-                            if (i == -1)
-                                CustomerListWindow.MyRefresh();
-                            else
+                            if (CustomerListWindow != null)
                             {
-                                CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
-                                CustomerListWindow.CustomerListView.SelectedIndex = i;
+                                int i = CustomerListWindow.CustomerListView.SelectedIndex;
+                                if (i == -1)
+                                    CustomerListWindow.MyRefresh();
+                                else
+                                {
+                                    CustomerListWindow.CurrentCustomer.Name = NameTxt.Text;//updating drone name
+                                    CustomerListWindow.CurrentCustomer.Phone = PhoneTxt.Text;
+                                    CustomerListWindow.customerToLists[i] = CustomerListWindow.CurrentCustomer;//updating event
+                                    CustomerListWindow.CustomerListView.SelectedIndex = i;
+                                }
                             }
+                            else
+                                parcelWindow.MyRefresh();
                             var result2 = MessageBox.Show($"SUCCESSFULY UPDATED CUSTOMER! \n The customers new name is {NameTxt.Text}, and new phone is {PhoneTxt.Text}", "Successfuly Updated",
                                MessageBoxButton.OK);
                             switch (result2)

@@ -164,6 +164,22 @@ namespace PL
             Close();
         }
 
+        public void MyRefresh()
+        {
+            Parcels = new Dictionary<StatusWeightAndPriorities, List<ParcelToList>>();
+            Parcels = (from item in bl.GetAllParcels()
+                       group item by
+                       new StatusWeightAndPriorities()
+                       {
+                           status = item.StateOfParcel,
+                           weight = item.Weight,
+                           priorities = item.Priority,
+                       }).ToDictionary(item => item.Key, item => item.ToList());
+            ParcelsListView.ItemsSource = from item in Parcels.Values.SelectMany(x => x)
+                                          orderby item.Weight, item.StateOfParcel, item.Priority
+                                          select item;
+        }
+
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to delete this parcel? \n", "Request Review",

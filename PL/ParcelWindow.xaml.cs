@@ -115,18 +115,12 @@ namespace PL
 
         private void SenderButton_click(object sender, RoutedEventArgs e)
         {
-            customer = bl.GetCustomer(int.Parse(SenderIDBlockA.Text));
-            CustomerListWindow windowCustomers = new CustomerListWindow(bl);
-            windowCustomers.CurrentCustomer.Id = customer.Id;
-            new CustomerWindow(bl, windowCustomers, 0).Show();
+            new CustomerWindow(bl, this,Parcel.Sender.Id, 0).Show();
         }
 
         private void TargetButton_Click(object sender, RoutedEventArgs e)
         {
-            customer = bl.GetCustomer(int.Parse(TargetIDBlockA.Text));
-            CustomerListWindow windowCustomers = new CustomerListWindow(bl);
-            windowCustomers.CurrentCustomer.Id = customer.Id;
-            new CustomerWindow(bl, windowCustomers, 0).Show();
+            new CustomerWindow(bl, this, Parcel.Target.Id, 0).Show();
         }
 
         private void ParcelButton_Click(object sender, RoutedEventArgs e)
@@ -241,6 +235,13 @@ namespace PL
                 e.Cancel = true;
                 MessageBox.Show("You can't force the window to close");
             }
+        }
+
+        public void MyRefresh()
+        {
+            Parcel = bl.GetParcel(Parcel.Id);
+            DataContext = Parcel;
+            ParcelListWindow.MyRefresh();
         }
     }
 }
