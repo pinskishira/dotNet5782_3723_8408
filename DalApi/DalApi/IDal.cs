@@ -90,6 +90,7 @@ namespace DalApi
         /// </summary>
         /// <returns>List of drones</returns>
         IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null);
+        IEnumerable<Drone> GetAllDronesToBlDrones(Predicate<Drone> predicate = null);
 
         /// <summary>
         /// Gives a view of the list of parcels

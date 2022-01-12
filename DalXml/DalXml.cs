@@ -180,6 +180,15 @@ namespace Dal
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> GetAllDronesToBlDrones(Predicate<Drone> predicate = null)
+        {
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DroneXml);
+            return from itemDrone in drones
+                   where (predicate == null ? true : predicate(itemDrone))
+                   select itemDrone;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateAssignParcelToDrone(int idParcel, int idDrone)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(ParcelXml);
@@ -269,12 +278,12 @@ namespace Dal
             int indexDrone = drones.FindIndex(drone => drone.Id == id);//finding parcel that was collected by drone
             if (indexDrone == -1)
                 throw new ItemDoesNotExistException("No parcel found with this id");
-            if (drones[indexDrone].DeletedDrone)
-                throw new ItemDoesNotExistException("This parcel is deleted");
+            //if (drones[indexDrone].DeletedDrone)
+            //    throw new ItemDoesNotExistException("This parcel is deleted");
             Drone drone = drones[indexDrone];
             drone.DeletedDrone = true;
             drones[indexDrone] = drone;
-            XMLTools.SaveListToXMLSerializer(drones, ParcelXml);
+            XMLTools.SaveListToXMLSerializer(drones, DroneXml);
         }
         #endregion Drones
 

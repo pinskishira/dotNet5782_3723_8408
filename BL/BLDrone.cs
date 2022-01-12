@@ -244,6 +244,7 @@ namespace BL
                 try
                 {
                     dal.DeleteDrone(idDrone);//delete parcel
+                    BlDrones.Find(item => item.Id == idDrone).DeletedDrone=true;
                 }
                 catch (DO.ItemDoesNotExistException ex)
                 {

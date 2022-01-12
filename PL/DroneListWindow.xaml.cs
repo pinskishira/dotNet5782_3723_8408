@@ -144,7 +144,7 @@ namespace PL
         {
             FrameworkElement framework = sender as FrameworkElement;
             CurrentDrone = framework.DataContext as DroneToList;
-            if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
+            if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Maintenance)
             {
                 bl.DeleteDrone(CurrentDrone.Id);
                 DroneStatusesAndWeightCategories dStatusAWeight = new();

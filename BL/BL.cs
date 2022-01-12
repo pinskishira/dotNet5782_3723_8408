@@ -31,7 +31,7 @@ namespace BL
             BatteryConsumptionMediumWeight = dal.electricityUse()[2];//amount of battery used per km for medium weight
             BatteryConsumptionHeavyWeight = dal.electricityUse()[3];//amount of battery used per km for heavy weight
             DroneChargingRatePH = dal.electricityUse()[4];//Charging per minutes
-            dal.GetAllDrones().CopyPropertiesToIEnumerable(BlDrones);//converting list of dal to BL
+            dal.GetAllDronesToBlDrones().CopyPropertiesToIEnumerable(BlDrones);//converting list of dal to BL
             foreach (var indexOfDrones in BlDrones)//going through converted list of drones in the BL
             {
                 try
