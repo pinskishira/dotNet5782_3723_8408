@@ -29,18 +29,7 @@ namespace PL
         private Customer customer { get; set; } = new();
         private bool _close { get; set; } = false;
         StatusWeightAndPriorities _StatusWeightAndPriorities;
-        private CustomerWindow Customer;
-        private int Index { get; set; }
-        public ParcelWindow(BlApi.Ibl ibl, CustomerWindow customer, int id, int index) : this(ibl, null, id)
-        {
-            Customer = customer;
-            Index = index;
-            if (ibl.GetAllParcels(x => x.Id == id).First().StateOfParcel == BO.Enum.ParcelState.Created)
-            {
-                ParcelButton.Visibility = Visibility.Visible;
-                ParcelButton.Content = "Delete Parcel";
-            }
-        }
+        public ParcelWindow(BlApi.Ibl ibl, int id) : this(ibl, null, id) { }
 
         /// <summary>
         /// constructer-adds a new Parcel   
@@ -203,27 +192,6 @@ namespace PL
                             break;
                     }
                 }
-            }
-            else
-            {
-                bl.DeleteParcel(Parcel.Id);
-                StatusWeightAndPriorities sAndWAndP = new();
-                sAndWAndP.priorities = Parcel.Priority;
-                sAndWAndP.weight = Parcel.Weight;
-                if (Parcel.Scheduled != null)//if parcel is assigned a drones
-                {
-                    if (Parcel.PickedUp != null)//if parcel is picked up by drone
-                    {
-                        if (Parcel.Delivered != null)//parcel is delivered
-                            sAndWAndP.status = BO.Enum.ParcelState.Provided;
-                        else
-                            sAndWAndP.status = BO.Enum.ParcelState.PickedUp;
-                    }
-                    else
-                        sAndWAndP.status = BO.Enum.ParcelState.Paired;
-                }
-                sAndWAndP.status = BO.Enum.ParcelState.Created;
-                Customer.Close();
             }
         }
 

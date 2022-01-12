@@ -46,7 +46,6 @@ namespace PL
                 droneToLists.Add(drones);
             }
 
-
             DronesListView.ItemsSource = droneToLists;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
@@ -92,7 +91,7 @@ namespace PL
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -132,7 +131,6 @@ namespace PL
                     case MessageBoxResult.OK:
                         FrameworkElement framework = sender as FrameworkElement;
                         CurrentDrone = framework.DataContext as DroneToList;
-
                         bl.DeleteDrone(CurrentDrone.Id);
                         droneToLists.Remove(CurrentDrone);
                         Selection();

@@ -288,7 +288,7 @@ namespace PL
         {
             ParcelAtCustomer parcelAtCustomer;
             parcelAtCustomer = (ParcelAtCustomer)ViewParcelsFromCustomer.SelectedItem;
-            new ParcelWindow(bl, this, parcelAtCustomer.Id, ViewParcelsFromCustomer.SelectedIndex).Show();
+            new ParcelWindow(bl, parcelAtCustomer.Id).Show();
         }
 
 
@@ -299,7 +299,7 @@ namespace PL
         {
             ParcelAtCustomer parcelAtCustomer;
             parcelAtCustomer = (ParcelAtCustomer)ViewParcelsToCustomer.SelectedItem;
-            new ParcelWindow(bl, this, parcelAtCustomer.Id, ViewParcelsToCustomer.SelectedIndex).Show();
+            new ParcelWindow(bl, parcelAtCustomer.Id).Show();
         }
     }
 

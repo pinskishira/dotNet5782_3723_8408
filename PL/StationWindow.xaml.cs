@@ -145,7 +145,7 @@ namespace PL
                             {
                                 case MessageBoxResult.OK:
                                     _close = true;
-                                    this.Close();//closes current window after station was added
+                                    Close();//closes current window after station was added
                                     break;
                             }
                             break;

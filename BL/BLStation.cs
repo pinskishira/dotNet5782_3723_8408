@@ -31,6 +31,8 @@ namespace BL
                     newStation.CopyPropertiesTo(obj);
                     tempStation = (DO.Station)obj;
                     newStation.CopyPropertiesTo(tempStation);
+                    tempStation.Longitude = newStation.StationLocation.Longitude;
+                    tempStation.Latitude = newStation.StationLocation.Latitude;
                     dal.AddStation(tempStation);//adding to station list in dal
                 }
                 catch (DO.ItemExistsException ex)
