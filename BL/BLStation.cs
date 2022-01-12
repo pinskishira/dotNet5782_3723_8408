@@ -57,12 +57,12 @@ namespace BL
                                                  {
                                                      Id = item.DroneId,
                                                      Battery = temp != default ? temp.Battery :
-                                                  throw new FailedGetException("The Id number does not exist. \n")
+                                                         throw new FailedGetException("The Id number does not exist. \n")
                                                  };
                 }
                 catch (DO.ItemDoesNotExistException ex)
                 {
-                    throw new FailedGetException("ERRORS.\n", ex);
+                    throw new FailedGetException("ERROR.\n", ex);
                 }
                 catch (InvalidOperationException)
                 {

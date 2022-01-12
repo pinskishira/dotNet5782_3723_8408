@@ -17,13 +17,7 @@ using BO;
 using static BO.Enum;
 
 namespace PL
-{
-    public struct DroneStatusesAndWeightCategories
-    {
-        public BO.Enum.WeightCategories Weight { get; set; }
-        public BO.Enum.DroneStatuses DroneStatus { get; set; }
-    }
-
+{ 
     public enum DroneStatuses { Available, Maintenance, Delivery, All };
     public enum WeightCategories { Easy, Medium, Heavy, All };
     /// <summary>
@@ -32,7 +26,7 @@ namespace PL
     public partial class DroneListWindow : Window
     {
         BlApi.Ibl bl;
-        public Dictionary<DroneStatusesAndWeightCategories, List<DroneToList>> droneToLists;
+        public ObservableCollection<DroneToList> droneToLists;
         public DroneToList CurrentDrone { get; set; } = new();
         private bool _close { get; set; } = false;
 
@@ -44,18 +38,21 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            droneToLists = new Dictionary<DroneStatusesAndWeightCategories, List<DroneToList>>();
 
-            droneToLists = (from item in bl.GetAllDrones()
-                            group item by
-                            new DroneStatusesAndWeightCategories()
-                            {
-                                Weight = item.Weight,
-                                DroneStatus = item.DroneStatus
-                            }).ToDictionary(x => x.Key, x => x.ToList());
-            DronesListView.ItemsSource = droneToLists.Values.SelectMany(x => x);
+            IEnumerable<DroneToList> tempDroneToList = bl.GetAllDrones();
+            droneToLists = new();
+            foreach (var drones in tempDroneToList)
+            {
+                droneToLists.Add(drones);
+            }
+
+
+            DronesListView.ItemsSource = droneToLists;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DronesListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("DroneStatus");
+            view.GroupDescriptions.Add(groupDescription);
+
             StatusSelection.ItemsSource = System.Enum.GetValues(typeof(DroneStatuses));//enum values of drone status
-            WeightSelection.ItemsSource = System.Enum.GetValues(typeof(WeightCategories));//enum values of weight
             StatusSelection.SelectedIndex = 3;//prints full list
         }
 
@@ -67,42 +64,16 @@ namespace PL
             Selection();
         }
 
-
-        ///// <summary>
-        ///// sorts list by drone weight
-        ///// </summary>
-        ///
-        private void WeightSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Selection();
-        }
-
         public void Selection()
         {
             DroneStatuses droneStatuses = (DroneStatuses)StatusSelection.SelectedItem;//gets what the user chose to sort by
-            if (WeightSelection.SelectedIndex == -1)//if weigh wasnt chosen 
-            {
-                WeightSelection.SelectedIndex = 3;//show all list 
-            }
-
-            WeightCategories weightCategories = (WeightCategories)WeightSelection.SelectedItem;//gets what the user chose to sort by
             DronesListView.ItemsSource = null;
-            if (droneStatuses == DroneStatuses.All && weightCategories == WeightCategories.All)//if all was presses for both status and weight
-                DronesListView.ItemsSource = from item in droneToLists.Values.SelectMany(x => x)
-                                             orderby item.Weight, item.DroneStatus
-                                             select item;
-            //sorts list by chosen weight
-            if (droneStatuses == DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories)
-            .SelectMany(x => x.Value);
-            //sorts list by chosen status
-            if (droneStatuses != DroneStatuses.All && weightCategories == WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses)
-            .SelectMany(x => x.Value);
-            //sorts list by chosen status and weight
-            if (droneStatuses != DroneStatuses.All && weightCategories != WeightCategories.All)
-                DronesListView.ItemsSource = droneToLists.Where(item => item.Key.Weight == (BO.Enum.WeightCategories)weightCategories && item.Key.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses)
-            .SelectMany(x => x.Value);
+            if (droneStatuses == DroneStatuses.All)//if presses for all
+                DronesListView.ItemsSource = droneToLists;
+           //sorts list by chosen status
+            if (droneStatuses != DroneStatuses.All )
+                DronesListView.ItemsSource = droneToLists.Where(item => item.DroneStatus == (BO.Enum.DroneStatuses)droneStatuses);
+           
         }
         /// <summary>
         /// sends to add constructor, which adds drone
@@ -152,10 +123,11 @@ namespace PL
                     if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)
                     {
                         bl.DeleteDrone(CurrentDrone.Id);
-                        DroneStatusesAndWeightCategories dStatusAWeight = new();
-                        dStatusAWeight.DroneStatus = CurrentDrone.DroneStatus;
-                        dStatusAWeight.Weight = CurrentDrone.Weight;
-                        droneToLists[dStatusAWeight].RemoveAll(i => i.Id == CurrentDrone.Id);
+                        //DroneStatusesAndWeightCategories dStatusAWeight = new();
+                        //dStatusAWeight.DroneStatus = CurrentDrone.DroneStatus;
+                        //dStatusAWeight.Weight = CurrentDrone.Weight;
+                        //droneToLists[dStatusAWeight].RemoveAll(i => i.Id == CurrentDrone.Id);
+                        droneToLists.Remove(CurrentDrone);
                         Selection();
                     }
                     else

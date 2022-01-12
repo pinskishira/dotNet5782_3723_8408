@@ -14,11 +14,9 @@ namespace PL
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
     public partial class DroneWindow : Window
-    {
-        DroneStatusesAndWeightCategories SAndW;
+    { 
         BlApi.Ibl bl;
         private DroneListWindow DroneListWindow { get; }
-
         private Parcel parcel { get; set; } = new();
         private Drone Drone { get; set; } = new();
         private bool _close { get; set; } = false;
@@ -39,7 +37,6 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            SAndW = new();
             DroneListWindow = droneListWindow;//access to drone list
             DataContext = Drone;//updating event 
             WeightCmbxAdd.ItemsSource = System.Enum.GetValues(typeof(BO.Enum.WeightCategories));//getting chosen weight
@@ -120,15 +117,9 @@ namespace PL
                             throw new MissingInfoException("No Model entered for this drone");
                         if (NumOfStationTxtAdd.SelectedItem == null)
                             throw new MissingInfoException("No station ID was entered for this drone");
-                        bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));//adding new drone to list
-                        //adding drone to list in the window of drones
-                        SAndW.DroneStatus = Drone.DroneStatus;
-                        SAndW.Weight = Drone.Weight;
-                        if (DroneListWindow.droneToLists.ContainsKey(SAndW))
-                            DroneListWindow.droneToLists[SAndW].Add(bl.GetAllDrones().First(x => x.Id == Drone.Id));
-                        else
-                            DroneListWindow.droneToLists.Add(SAndW, bl.GetAllDrones().Where(x => x.Id == Drone.Id).ToList());
-                        DroneListWindow.Selection();
+                        bl.AddDrone(Drone, int.Parse(NumOfStationTxtAdd.Text));               
+                        DroneListWindow.droneToLists.Add(bl.GetAllDrones().First(x => x.Id == Drone.Id));
+                        DroneListWindow.Selection();                        
                         MessageBox.Show($"SUCCESSFULY ADDED DRONE! \nThe new drone is:\n" + Drone.ToString(), "Successfuly Added",
                           MessageBoxButton.OK);
                         _close = true;
@@ -210,8 +201,14 @@ namespace PL
                 switch (result1)
                 {
                     case MessageBoxResult.OK:
-                        bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);//udating chosen drone
+                        bl.UpdateDrone(int.Parse(IDTxtUD.Text), ModelTxtUD.Text);//updating chosen drone
                         DroneListWindow.Selection();
+                        IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                        if (items != null)
+                        {
+                            items.EditItem(DroneListWindow.droneToLists);
+                            items.CommitEdit();
+                        }
                         MessageBox.Show($"SUCCESSFULY UPDATED DRONE! \n The drones new model name is {ModelTxtUD.Text}", "Successfuly Updated",
                            MessageBoxButton.OK);
                         break;
@@ -295,6 +292,12 @@ namespace PL
                     }
                 }
                 DataContext = bl.GetDrone(Drone.Id);
+                IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                if (items != null)
+                {
+                    items.EditItem(DroneListWindow.droneToLists);
+                    items.CommitEdit();
+                }
                 DroneListWindow.Selection();
             }
             catch (ParcelDeliveryException ex)
@@ -338,7 +341,7 @@ namespace PL
                     if (ChargeDroneUD.Content.ToString() == "Release Drone from Charging")
                     {
                         var request = MessageBox.Show($"Are you sure you would like to release drone from charge? \n", "Request Review",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                        MessageBoxButton.OKCancel, MessageBoxImage.Question);
                         bl.DroneReleaseFromChargingStation(int.Parse(IDTxtUD.Text));//release drone from charging - updating in bl
                         if (Station != null)
                             Station.dronesInCharging.RemoveAt(Index);
@@ -350,6 +353,12 @@ namespace PL
                     }
                 }
                 DataContext = bl.GetDrone(Drone.Id);
+                IEditableCollectionView items = DroneListWindow.DronesListView.Items as IEditableCollectionView;
+                if (items != null)
+                {
+                    items.EditItem(DroneListWindow.droneToLists);
+                    items.CommitEdit();
+                }
                 if (DroneListWindow != null)
                     DroneListWindow.Selection();
             }
@@ -371,10 +380,8 @@ namespace PL
             windowParcels.CurrentParcel.Id = parcel.Id;
             new ParcelWindow(bl, windowParcels, 0).Show();
         }
-        //bool Auto;
+
         BackgroundWorker worker;
-        private void updateDrone() => worker.ReportProgress(0);//מדווח על שינויים
-        private bool checkStop() => worker.CancellationPending;
         private void UpdateWidowDrone()
         {
             Drone = bl.GetDrone(Drone.Id);
@@ -383,12 +390,11 @@ namespace PL
         }
         private void Automatic_Click(object sender, RoutedEventArgs e)
         {
-            //Auto = true;
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
-            worker.DoWork += (sender, args) => bl.StartSimulator((int)args.Argument, updateDrone, checkStop);//2
-            //worker.RunWorkerCompleted += (sender, args) => Auto = false;
+            //report progress reports changes made in the display
+            worker.DoWork += (sender, args) => bl.StartSimulator((int)args.Argument, ()=> worker.ReportProgress(0), ()=> worker.CancellationPending);
             worker.ProgressChanged += (sender, args) => UpdateWidowDrone();
-            worker.RunWorkerAsync(Drone.Id);//מריץ את התהילכון1
+            worker.RunWorkerAsync(Drone.Id);//runs the process
         }
         private void Regular_Click(object sender, RoutedEventArgs e)
         {
