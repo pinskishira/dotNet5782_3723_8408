@@ -2,10 +2,10 @@
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
     <Id>2475</Id>
-    <Name>Bayit Vegan</Name>
+    <Name>Bayit Vagan</Name>
     <Longitude>32.3398479127045</Longitude>
     <Latitude>33.56638749528974</Latitude>
-    <AvailableChargeSlots>45</AvailableChargeSlots>
+    <AvailableChargeSlots>42</AvailableChargeSlots>
     <DeletedStation>false</DeletedStation>
   </Station>
   <Station>
@@ -22,6 +22,22 @@
     <Longitude>0</Longitude>
     <Latitude>0</Latitude>
     <AvailableChargeSlots>25</AvailableChargeSlots>
+    <DeletedStation>true</DeletedStation>
+  </Station>
+  <Station>
+    <Id>2398</Id>
+    <Name>netivot</Name>
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>30</AvailableChargeSlots>
+    <DeletedStation>true</DeletedStation>
+  </Station>
+  <Station>
+    <Id>1298</Id>
+    <Name>Netivot</Name>
+    <Longitude>31</Longitude>
+    <Latitude>34</Latitude>
+    <AvailableChargeSlots>35</AvailableChargeSlots>
     <DeletedStation>false</DeletedStation>
   </Station>
 </ArrayOfStation>

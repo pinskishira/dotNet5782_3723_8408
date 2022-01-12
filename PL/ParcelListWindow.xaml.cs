@@ -191,7 +191,6 @@ namespace PL
                     case MessageBoxResult.OK:
                         FrameworkElement framework = sender as FrameworkElement;
                         CurrentParcel = framework.DataContext as ParcelToList;
-
                         bl.DeleteParcel(CurrentParcel.Id);
                         StatusWeightAndPriorities sAndWAndP = new();
                         sAndWAndP.priorities = CurrentParcel.Priority;
@@ -211,4 +210,4 @@ namespace PL
 
     }
 }
-}
+

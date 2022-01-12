@@ -94,7 +94,7 @@ namespace PL
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
         private void StationButton_Click(object sender, RoutedEventArgs e)
@@ -129,7 +129,7 @@ namespace PL
                             {
                                 case MessageBoxResult.OK:
                                     _close = true;
-                                    this.Close();//closes current window after station was added
+                                    Close();//closes current window after station was added
                                     break;
                             }
                             break;

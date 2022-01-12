@@ -405,14 +405,9 @@ namespace PL
                     DroneListWindow.Selection();
                 }
             }
-            catch (DroneMaintananceException ex)
+            catch (BO.DroneMaintananceException ex)
             {
                 var errorMessage = MessageBox.Show($"ERROR! {ex.ToString()}", "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
-                switch (errorMessage)
-                {
-                    case MessageBoxResult.OK:
-                        break;
-                }
             }
         }
 
@@ -430,11 +425,14 @@ namespace PL
             Drone = bl.GetDrone(Drone.Id);
             DataContext = Drone;
             WindowUp();
-            IEditableCollectionView items = DroneListWindow.DronesListView.Items;
-            if (items != null)
+            if(DroneListWindow!=null)
             {
-                items.EditItem(DroneListWindow.CurrentDrone);
-                items.CommitEdit();
+                IEditableCollectionView items = DroneListWindow.DronesListView.Items;
+                if (items != null)
+                {
+                    items.EditItem(DroneListWindow.CurrentDrone);
+                    items.CommitEdit();
+                }
             }
         }
         private void Automatic_Click(object sender, RoutedEventArgs e)

@@ -321,8 +321,7 @@ namespace Dal
         public void UpdateStation(int idStation, string newName, int chargingSlots)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(StationXml);
-            XElement DroneCharge = XMLTools.LoadListFromXMLElement(DroneChargeXml);
-            List<DroneCharge> droneCharges = (List<DroneCharge>)DroneCharge.Elements(DroneChargeXml);
+            List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DroneChargeXml);
             int chargeSlotsInUse = 0;
             foreach (var indexOfDroneCharge in droneCharges)//goes through list of drones in charging
                 if (indexOfDroneCharge.StationId == idStation)//If the loaded drone ID number is equal to the station ID number
