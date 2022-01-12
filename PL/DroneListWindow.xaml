@@ -62,7 +62,7 @@
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Battery}" Width="100"/>
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding  Weight}" Width="100"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DroneStatus}" Width="150"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="100"/>
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding CurrentLocation}" Width="180"/>
                     <GridViewColumn Header="Id of Parcel In Transfer" DisplayMemberBinding="{Binding ParcelIdInTransfer}" Width="150"/>
 
                     <GridViewColumn Header="" >

@@ -166,15 +166,16 @@ namespace PL
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var result1 = MessageBox.Show($"Are you sure you would like to delete this parcel? \n", "Request Review",
-          MessageBoxButton.OKCancel, MessageBoxImage.Question);
-            switch (result1)
+            if (CurrentParcel.StateOfParcel == BO.Enum.ParcelState.Created)
             {
-                case MessageBoxResult.OK:
-                    FrameworkElement framework = sender as FrameworkElement;
-                    CurrentParcel = framework.DataContext as ParcelToList;
-                    if (CurrentParcel.StateOfParcel == BO.Enum.ParcelState.Created)
-                    {
+                var result1 = MessageBox.Show($"Are you sure you would like to delete this parcel? \n", "Request Review",
+                 MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                switch (result1)
+                {
+                    case MessageBoxResult.OK:
+                        FrameworkElement framework = sender as FrameworkElement;
+                        CurrentParcel = framework.DataContext as ParcelToList;
+
                         bl.DeleteParcel(CurrentParcel.Id);
                         StatusWeightAndPriorities sAndWAndP = new();
                         sAndWAndP.priorities = CurrentParcel.Priority;
@@ -182,14 +183,16 @@ namespace PL
                         sAndWAndP.status = CurrentParcel.StateOfParcel;
                         Parcels[sAndWAndP].RemoveAll(i => i.Id == CurrentParcel.Id);
                         Selection();
-                    }
-                    else
-                        MessageBox.Show("Cannot delete parcel because it has already been assigned to a drone to be delivered.\n", "CANNOT DELETE", MessageBoxButton.OK);
-                  break;                  
-                case MessageBoxResult.Cancel:
-                    break;
+                        break;
+                    case MessageBoxResult.Cancel:
+                        break;
+                }
             }
 
+            else
+                MessageBox.Show("Cannot delete parcel because it has already been assigned to a drone to be delivered.\n", "CANNOT DELETE", MessageBoxButton.OK);
         }
+
     }
+}
 }
