@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationWindow" Height="450" Width="800"  Closing="window_closeing">
+        Title="StationWindow" Height="450" Width="800"  Closing="Window_closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

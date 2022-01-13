@@ -112,4 +112,12 @@
     <Latitude>34</Latitude>
     <DeletedCustomer>false</DeletedCustomer>
   </Customer>
+  <Customer>
+    <Id>123456789</Id>
+    <Name>Shira</Name>
+    <Phone>0552454745</Phone>
+    <Longitude>31.01</Longitude>
+    <Latitude>34.09</Latitude>
+    <DeletedCustomer>false</DeletedCustomer>
+  </Customer>
 </ArrayOfCustomer>

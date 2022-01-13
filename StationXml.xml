@@ -40,4 +40,28 @@
     <AvailableChargeSlots>35</AvailableChargeSlots>
     <DeletedStation>false</DeletedStation>
   </Station>
+  <Station>
+    <Id>1234</Id>
+    <Name>Ramat Eshkol</Name>
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>4</AvailableChargeSlots>
+    <DeletedStation>false</DeletedStation>
+  </Station>
+  <Station>
+    <Id>1235</Id>
+    <Name />
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>5</AvailableChargeSlots>
+    <DeletedStation>true</DeletedStation>
+  </Station>
+  <Station>
+    <Id>1235</Id>
+    <Name>Ramot</Name>
+    <Longitude>0</Longitude>
+    <Latitude>0</Latitude>
+    <AvailableChargeSlots>7</AvailableChargeSlots>
+    <DeletedStation>false</DeletedStation>
+  </Station>
 </ArrayOfStation>

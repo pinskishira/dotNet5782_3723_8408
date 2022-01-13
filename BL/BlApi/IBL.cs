@@ -75,7 +75,7 @@ namespace BlApi
         Station GetStation(int stationId);
 
         /// <summary>
-        /// Converting BL list to dal and updating the parcel state, and amount of packages sent and delivered
+        /// Converting dal list to bl and updating the parcel state, and amount of packages sent and delivered
         /// to customer, then adding to custonerToList.
         /// </summary>
         /// <returns>List of customers</returns>
@@ -88,13 +88,13 @@ namespace BlApi
         IEnumerable<DroneToList> GetAllDrones(Predicate<DroneToList> predicate = null);
 
         /// <summary>
-        /// Converting BL list to dal and updating the parcel state, then adding to parcelToList.
+        /// Converting dal list to bl and updating the parcel state, then adding to parcelToList.
         /// </summary>
         /// <returns>List of parcels</returns>
         IEnumerable<ParcelToList> GetAllParcels(Predicate<ParcelToList> predicate = null);
 
         /// <summary>
-        /// Converting BL list to dal and updating amount of unavailable charge slots, then adding to stationToList.
+        /// Converting dal list to bl and updating amount of unavailable charge slots, then adding to stationToList.
         /// </summary>
         /// <returns>List of stations</returns>
         IEnumerable<StationToList> GetAllStations(Predicate<StationToList> predicate = null);

@@ -30,12 +30,6 @@ namespace PL
             InitializeComponent();
         }
 
-        private void SignUpPicButtonMain_Click(object sender, RoutedEventArgs e)
-        {
-            CustomerListWindow c = new CustomerListWindow(bl);
-            new CustomerWindow(bl, c).Show();   
-        }
-
         /// <summary>
         /// to only allow to enter int in a text box
         /// </summary>
@@ -47,6 +41,19 @@ namespace PL
             e.Handled = regex.IsMatch(e.Text);
         }
 
+
+        /// <summary>
+        /// User presses to sign up and gives him information to sign in to the system 
+        /// </summary>
+        private void SignUpPicButtonMain_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerListWindow c = new CustomerListWindow(bl);
+            new CustomerWindow(bl, c).Show();
+        }
+
+        /// <summary>
+        /// User enters his Id inorder to sign in to the system
+        /// </summary>
         private void SignInButton_click(object sender, RoutedEventArgs e)
         {
             try
@@ -82,6 +89,10 @@ namespace PL
             }
         }
 
+
+        /// <summary>
+        /// Manger or worker press button which gives them an option to sign in with a special password
+        /// </summary>
         private void ManagerOrWorkerButton_Click(object sender, RoutedEventArgs e)
         {
             if (CompanySecretPassword.Visibility == Visibility.Collapsed)
@@ -98,6 +109,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Manager or worker enter password to get into main system 
+        /// </summary>
         private void ManagerOrWorkerSignInButton_Click(object sender, RoutedEventArgs e)
         {
             try

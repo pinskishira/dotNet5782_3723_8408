@@ -26,6 +26,11 @@ namespace PL
         public Dictionary<int, List<StationToList>> stationToLists;
         public StationToList CurrentStation { get; set; } = new();
         private bool _close { get; set; } = false;
+
+        /// <summary>
+        /// Initializes the list of all the stations
+        /// </summary>
+        /// <param name="ibl">From type bl</param>
         public StationListWindow(BlApi.Ibl ibl)
         {
             InitializeComponent();
@@ -35,6 +40,9 @@ namespace PL
             RefreshStations();
         }
 
+        /// <summary>
+        /// Refreshes page
+        /// </summary>
         public void RefreshStations()
         {
             StationListView.ItemsSource = from item in stationToLists.Values.SelectMany(x => x)
@@ -42,7 +50,10 @@ namespace PL
                                           select item;
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Can't force the window to close
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -51,18 +62,25 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Closes current window
+        /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             _close = true;
-            this.Close();
+            Close();
         }
 
-
+        /// <summary>
+        /// Goes to constructor to add a station
+        /// </summary>
         private void AddStationButton_Click(object sender, RoutedEventArgs e)
         {
             new StationWindow(bl, this, 5).Show();
         }
 
+        /// <summary>
+        /// Refreshes list
         private void refersh_Click(object sender, RoutedEventArgs e)
         {
             stationToLists = (from item in bl.GetAllStations()
@@ -70,6 +88,9 @@ namespace PL
             RefreshStations();
         }
 
+        /// <summary>
+        /// Goes to constructor to update a station
+        /// </summary>
         private void MouseDoubleClick_SelectionChanged(object sender, MouseButtonEventArgs e)
         {
             CurrentStation = (StationToList)StationListView.SelectedItem;
@@ -77,6 +98,9 @@ namespace PL
                 new StationWindow(bl, this).Show();
         }
 
+        /// <summary>
+        /// Allows user to delete station using an icon 
+        /// </summary>
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var result1 = MessageBox.Show($"Are you sure you would like to delete this station? \n", "Request Review",

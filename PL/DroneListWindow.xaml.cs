@@ -63,6 +63,9 @@ namespace PL
             Selection();
         }
 
+        /// <summary>
+        /// Sorts list by status
+        /// </summary>
         public void Selection()
         {
             DroneStatuses droneStatuses = (DroneStatuses)StatusSelection.SelectedItem;//gets what the user chose to sort by
@@ -101,7 +104,10 @@ namespace PL
                 new DroneWindow(bl, this, 0).Show();
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Cant press closing icon
+        /// </summary>
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {
@@ -110,6 +116,10 @@ namespace PL
             }
         }
 
+
+        /// <summary>
+        /// Allows user to delete drone using an icon 
+        /// </summary>
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (CurrentDrone.DroneStatus != BO.Enum.DroneStatuses.Delivery)

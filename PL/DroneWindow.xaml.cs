@@ -63,6 +63,9 @@ namespace PL
             WindowUp();
         }
 
+        /// <summary>
+        /// Shows changes in display
+        /// </summary>
         private void WindowUp()
         {
             if (Drone.ParcelInTransfer == null)//if its got no parcel assigned to it
@@ -176,7 +179,7 @@ namespace PL
             }
         }
 
-        private void window_closeing(object sender, CancelEventArgs e)
+        private void Window_closing(object sender, CancelEventArgs e)
         {
             if (!_close)
             {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CustomerWindow" Height="600" Width="850"  Closing="window_closeing">
+        Title="CustomerWindow" Height="600" Width="850"  Closing="Window_closing">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -74,7 +74,7 @@
                     <TextBox x:Name="LongituteTxtADD" ToolTip="Enter longitude" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding CustomerLocation.Longitude, Mode=TwoWay}" Width="90" Height="25" Grid.Row="4" BorderBrush="#FFB64DE6" BorderThickness="2,2,2,2"/>
                 </Grid>
 
-                <Grid x:Name="GridCustomerUP" Visibility="Visible" Grid.Column="2" Grid.RowSpan="6">
+                <Grid x:Name="GridCustomerUP" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
