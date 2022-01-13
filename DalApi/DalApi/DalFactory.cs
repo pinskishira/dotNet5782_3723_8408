@@ -33,7 +33,7 @@ namespace DalApi
 
             try // Load into CLR the dal implementation assembly according to dll file name (taken above)
             {
-                var temp = Assembly.Load(dlPackageName);
+                var temp = Assembly.Load(dlPackageName);//check if is exists
             }
             catch (Exception ex)
             {

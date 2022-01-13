@@ -104,8 +104,8 @@ namespace BL
                             tempBattery = droneToList.Battery;
                             distance = MyDrone.ParcelInTransfer.TransportDistance;//the distance betwwen the sender and the resever
                             Location droneLocation = new Location { Longitude = droneToList.CurrentLocation.Longitude, Latitude = droneToList.CurrentLocation.Latitude };
-                            double latitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Latitude - droneToList.CurrentLocation.Latitude) / distance);
-                            double longitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation.Longitude - droneToList.CurrentLocation.Longitude) / distance);
+                            double latitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Target.Id).CustomerLocation.Latitude - droneToList.CurrentLocation.Latitude) / distance);
+                            double longitude = Math.Abs((bl.GetCustomer(MyDrone.ParcelInTransfer.Target.Id).CustomerLocation.Longitude - droneToList.CurrentLocation.Longitude) / distance);
                             while (distance > 1)
                             {
                                 switch (MyDrone.ParcelInTransfer.Weight)
@@ -122,7 +122,7 @@ namespace BL
                                     default:
                                         break;
                                 }
-                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Sender.Id).CustomerLocation, MyDrone, longitude, latitude);
+                                locationSteps(MyDrone.CurrentLocation, bl.GetCustomer(MyDrone.ParcelInTransfer.Target.Id).CustomerLocation, MyDrone, longitude, latitude);
                                 droneToList.CurrentLocation = MyDrone.CurrentLocation;
                                 Progress();
                                 distance -= 1;
