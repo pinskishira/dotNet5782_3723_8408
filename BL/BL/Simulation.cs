@@ -61,16 +61,16 @@ namespace BL
                         {
                             if (stopSim())
                                 flag = false;
-                            if (droneToList.Battery + 10 > 100)//בדיקה אם כבר עברנו את ה100%
+                            if (droneToList.Battery + (int)(bl.DroneChargingRatePH / 100) > 100)
                                 bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery = 100;
                             else
-                                bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery += 10;
+                                bl.GetAllDrones().First(item => item.Id == droneToList.Id).Battery += (int)(bl.DroneChargingRatePH/100);
                             Progress();
                             Thread.Sleep(sleep);
                         }
                         if (flag == true)
                         {
-                            bl.DroneReleaseFromChargingStation(droneID); //שחרור מטעינה ברגע שהרחפן מגיע ל100
+                            bl.DroneReleaseFromChargingStation(droneID);
                             Progress();
                         }
                         break;
@@ -152,30 +152,22 @@ namespace BL
             double nextStepLongitude = locationOfNextStep.Longitude;
 
             //Calculate the latitude of the new location.
-            if (droneLatitude < nextStepLatitude)// ++++++
+            if (droneLatitude < nextStepLatitude)
             {
-                //double step = (nextStepLatitude - droneLatitude) / myDrone.Delivery.TransportDistance;
-                //myDrone.CurrentLocation.latitude += (nextStepLatitude - droneLatitude) / myDrone.Delivery.TransportDistance;
                 myDrone.CurrentLocation.Latitude += lat;
             }
             else
             {
-                //double step = (  droneLatitude - nextStepLatitude) / myDrone.Delivery.TransportDistance;
-                //myDrone.CurrentLocation.latitude -= (droneLatitude - nextStepLatitude) / myDrone.Delivery.TransportDistance;
                 myDrone.CurrentLocation.Latitude -= lat;
             }
 
             //Calculate the Longitude of the new location.
-            if (droneLongitude < nextStepLongitude)//+++++++
+            if (droneLongitude < nextStepLongitude)
             {
-                // double step = (nextStepLongitude - droneLongitude) / myDrone.Delivery.TransportDistance;
-                //myDrone.CurrentLocation.longitude += (nextStepLongitude - droneLongitude) / myDrone.Delivery.TransportDistance;
                 myDrone.CurrentLocation.Longitude += lon;
             }
             else
             {
-                //double step = (droneLongitude - nextStepLongitude) / myDrone.Delivery.TransportDistance;
-                //myDrone.CurrentLocation.longitude -= (droneLongitude - nextStepLongitude) / myDrone.Delivery.TransportDistance;
                 myDrone.CurrentLocation.Longitude -= lon;
             }
         }

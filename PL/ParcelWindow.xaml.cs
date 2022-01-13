@@ -103,7 +103,10 @@ namespace PL
         /// </summary>
         private void SenderButton_click(object sender, RoutedEventArgs e)
         {
-            new CustomerWindow(bl, this,Parcel.Sender.Id, 0).Show();
+            if(bl.IsActive(Parcel.Sender.Id))
+                new CustomerWindow(bl, this, Parcel.Sender.Id, Parcel).Show();
+            else
+                MessageBox.Show("THe customer is deleted!");
         }
 
         /// <summary>
@@ -111,7 +114,10 @@ namespace PL
         /// </summary>
         private void TargetButton_Click(object sender, RoutedEventArgs e)
         {
-            new CustomerWindow(bl, this, Parcel.Target.Id, 0).Show();
+            if (bl.IsActive(Parcel.Target.Id))
+                new CustomerWindow(bl, this, Parcel.Target.Id, Parcel).Show();
+            else
+                MessageBox.Show("THe customer is deleted!");
         }
 
         /// <summary>

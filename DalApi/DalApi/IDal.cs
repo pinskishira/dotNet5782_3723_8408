@@ -204,5 +204,12 @@ namespace DalApi
         /// <param name="id">The id of the drone</param>
         void DeleteDroneCharge(int id);
 
+        /// <summary>
+        /// checks if customer is deleted
+        /// </summary>
+        /// <param name="id">The id of customer</param>
+        /// <returns>bool</returns>
+        bool IsActive(int id);
+
     }
 }

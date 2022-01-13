@@ -390,4 +390,17 @@
     <Delivered xsi:nil="true" />
     <DeletedParcel>true</DeletedParcel>
   </Parcel>
+  <Parcel>
+    <Id>10030</Id>
+    <SenderId>123456789</SenderId>
+    <TargetId>195437411</TargetId>
+    <Weight>Easy</Weight>
+    <Priority>Normal</Priority>
+    <DroneId>0</DroneId>
+    <Requested>2022-01-13T03:58:51.9899994+02:00</Requested>
+    <Scheduled>2022-01-13T04:06:41.2662747+02:00</Scheduled>
+    <PickedUp>2022-01-13T04:06:44.308039+02:00</PickedUp>
+    <Delivered>2022-01-13T04:06:46.3343581+02:00</Delivered>
+    <DeletedParcel>false</DeletedParcel>
+  </Parcel>
 </ArrayOfParcel>

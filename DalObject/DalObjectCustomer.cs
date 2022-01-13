@@ -65,5 +65,14 @@ namespace Dal
             customer.DeletedCustomer = true;
             DataSource.Customers[indexOfCustomer] = customer;
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsActive(int id)
+        {
+            Customer customer = FindCustomer(id);
+            if (customer.DeletedCustomer)
+                return false;
+            return true;
+        }
     }
 }

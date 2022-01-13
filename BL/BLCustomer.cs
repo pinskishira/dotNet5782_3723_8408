@@ -165,5 +165,13 @@ namespace BL
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsActive(int id)
+        {
+            if (dal.IsActive(id))
+                return true;
+            return false;
+        }
+
     }
 }

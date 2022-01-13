@@ -214,5 +214,13 @@ namespace BlApi
         /// <param name="CurrentLocation">Location of drone</param>
         /// <returns></returns>
         DO.Station smallestDistanceFromDrone(Location CurrentLocation);
+
+
+        /// <summary>
+        /// checks if customer is deleted
+        /// </summary>
+        /// <param name="id">The id of customer</param>
+        /// <returns></returns>
+        bool IsActive(int id);
     }
 }

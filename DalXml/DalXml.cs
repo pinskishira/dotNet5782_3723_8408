@@ -144,6 +144,17 @@ namespace Dal
             XMLTools.SaveListToXMLElement(customerXml, CustomerXml);
         }
 
+        public bool IsActive(int id)
+        {
+            XElement customerXml = XMLTools.LoadListFromXMLElement(CustomerXml);
+            XElement customer = (from cus in customerXml.Elements()
+                                 where cus.Element("Id").Value == id.ToString()
+                                 select cus).FirstOrDefault();
+            if (customer.Element("DeletedCustomer").Value == "True")
+                return false;
+            return true;
+        }
+
         #endregion Customers
 
         #region Drones

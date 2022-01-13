@@ -82,7 +82,7 @@ namespace PL
         {
             CurrentCustomer = (CustomerToList)CustomerListView.SelectedItem;
             if (CurrentCustomer != null)
-                new CustomerWindow(bl, this, 0).Show();
+                new CustomerWindow(bl, this, 0, false).Show();
         }
 
         /// <summary>

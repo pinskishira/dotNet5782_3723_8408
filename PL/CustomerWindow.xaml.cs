@@ -31,7 +31,7 @@ namespace PL
         public ObservableCollection<ParcelAtCustomer> parcelsToCustomers { get; set; } = new();
         public ParcelWindow parcelWindow { get; set; }
 
-        public CustomerWindow(BlApi.Ibl ibl, ParcelWindow _parcelWindow, int id, int temp) : this(ibl, null, id)
+        public CustomerWindow(BlApi.Ibl ibl, ParcelWindow _parcelWindow, int id,Parcel parcel) : this(ibl, null, id, false)
         {
             parcelWindow = _parcelWindow;
         }
@@ -58,8 +58,9 @@ namespace PL
         /// <param name="ibl">Access to BL</param>
         /// <param name="customerListWindow">Access to Customer List Window</param>
         /// <param name="id">temp</param>
-        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow, int id = 0)
+        public CustomerWindow(BlApi.Ibl ibl, CustomerListWindow customerListWindow, int id = 0, bool flagt=false)
         {
+            
             InitializeComponent();
             bl = ibl;
             CustomerListWindow = customerListWindow;//access to station list
@@ -70,6 +71,8 @@ namespace PL
             CustomerButton.Content = "Update Customer";
             GridCustomerBoth.Visibility = Visibility.Visible;
             GridCustomerUP.Visibility = Visibility.Visible;//showing grid of fields needed for updating a staion
+            if (flagt == true)
+                sighparcel.Visibility = Visibility.Visible;
             DataContext = Customer;//updating event
             if (Customer.ParcelsFromCustomers.Any())
                 ShowParcelsFromCustomer.Visibility = Visibility.Visible;
@@ -300,6 +303,12 @@ namespace PL
             ParcelAtCustomer parcelAtCustomer;
             parcelAtCustomer = (ParcelAtCustomer)ViewParcelsToCustomer.SelectedItem;
             new ParcelWindow(bl, parcelAtCustomer.Id).Show();
+        }
+
+        private void sighparcel_Click(object sender, RoutedEventArgs e)
+        {
+            ParcelListWindow parcelListWindow = new ParcelListWindow(bl);
+            new ParcelWindow(bl, parcelListWindow).Show();
         }
     }
 

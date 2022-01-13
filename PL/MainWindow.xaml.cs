@@ -62,7 +62,7 @@ namespace PL
                     throw new MissingInfoException("No Id Entered");
                 Customer customer = bl.GetCustomer(int.Parse(IdOfNewUser.Text));
                 CustomerListWindow c = new CustomerListWindow(bl);
-                new CustomerWindow(bl, c, customer.Id).Show();
+                new CustomerWindow(bl, c, customer.Id,true).Show();
             }
             catch (MissingInfoException ex)
             {
