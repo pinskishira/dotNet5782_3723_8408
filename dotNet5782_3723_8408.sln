@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADA4AF6A-04AB-4221-B8F6-C8B5267FDC0E}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		..\..\..\..\Desktop\Computers 20-21\2021-2022\semester 1\פרויקט במיני חלונות\בונוסים.docx = ..\..\..\..\Desktop\Computers 20-21\2021-2022\semester 1\פרויקט במיני חלונות\בונוסים.docx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{19932270-7A13-49E0-A85D-5D4C7F14FE27}"
